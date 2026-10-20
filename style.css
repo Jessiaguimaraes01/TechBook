@@ -63,6 +63,21 @@ nav a:hover { color: var(--bordo); }
 .botao-dourado { background: var(--dourado); color: var(--vinho); }
 .botao-vinho { background: var(--bordo); color: #fff9f1; }
 .botao-claro { background: transparent; border-color: var(--borda); color: var(--vinho); }
+
+/* Estilo especial do botão Quiz Literário */
+.botao-quiz {
+  border: 1px solid var(--dourado);
+  padding: 13px 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+}
+
+.botao-quiz:hover {
+  background: var(--vinho);
+  transform: translateY(-3px);
+  box-shadow: 0 7px 16px rgba(0, 0, 0, 0.18);
+}
+
 .hero {
   position: relative; display: grid; grid-template-columns: 1.08fr .92fr; align-items: center; gap: 30px;
   padding: 68px 9%; min-height: 440px; overflow: hidden; background: var(--vinho); color: var(--creme);
