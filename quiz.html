@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quiz Literário — Descubra seu próximo livro</title>
+  <style>
+    :root {
+  --roxo: #7B263D;
+  --roxo-escuro: #4B1424;
+  --rosa: #C98291;
+  --fundo: #F4EBDD;
+  --texto: #2B1720;
+  --cartao: #FFFCF7;
+
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      color: var(--texto);
+      background: radial-gradient(circle at top left, #fce7f3, transparent 35%),
+                  linear-gradient(135deg, #f7f3ff, #e9e2ff);
+      min-height: 100vh;
+      padding: 24px 14px;
+    }
+    .app { max-width: 760px; margin: 0 auto; }
+    header { text-align: center; margin: 8px 0 22px; }
+    .logo { font-size: 2.6rem; }
+    h1 { color: var(--roxo-escuro); margin: 8px 0; font-size: clamp(1.7rem, 5vw, 2.4rem); }
+    header p { margin: 0 auto; max-width: 540px; line-height: 1.5; }
+    .card {
+      background: var(--cartao);
+      border: 1px solid #e3d9fa;
+      border-radius: 22px;
+      padding: clamp(18px, 4vw, 30px);
+      box-shadow: 0 12px 35px rgba(66, 32, 128, .10);
+    }
+    .hidden { display: none !important; }
+    .topline { display: flex; justify-content: space-between; gap: 12px; color: hsl(3, 96%, 47%); font-size: .95rem; }
+    .track { height: 9px; background: #eee8fb; border-radius: 20px; overflow: hidden; margin: 14px 0 24px; }
+    .bar { height: 100%; width: 0; background: linear-gradient(90deg, var(--roxo), #e879b9); transition: width .25s; }
+    h2 { color: var(--roxo-escuro); margin: 0 0 10px; line-height: 1.3; }
+    .subtitle { color: hwb(0 6% 94%); line-height: 1.5; margin: 0 0 20px; }
+    .options { display: grid; gap: 11px; margin: 22px 0; }
+    .option {
+      width: 100%; text-align: left; padding: 15px 16px; border-radius: 13px;
+      border: 2px solid #e6def6; background: #fff; color: var(--texto);
+      cursor: pointer; font-size: 1rem; line-height: 1.4; transition: .15s;
+    }
+    .option:hover { border-color: hsl(26, 86%, 63%); background: #faf7ff; }
+    .option.selected { border-color: var(--roxo); background: #f1eaff; box-shadow: 0 0 0 2px #6d42c71c; }
+    .option:focus-visible, button:focus-visible { outline: 3px solid #e879b9; outline-offset: 3px; }
+    .actions { display: flex; justify-content: space-between; gap: 10px; margin-top: 22px; }
+    button.primary, button.secondary {
+      border: 0; border-radius: 12px; padding: 13px 19px; font-size: 1rem; font-weight: 700; cursor: pointer;
+    }
+    .primary { background: var(--roxo); color: white; }
+    .primary:hover { background: var(--roxo-escuro); }
+    .primary:disabled { opacity: .45; cursor: not-allowed; }
+    .secondary { background: #eee8fb; color: var(--roxo-escuro); }
+    .intro-list { line-height: 1.8; padding-left: 22px; }
+    .notice { background: #fff5fb; border-left: 4px solid #e879b9; padding: 12px 14px; border-radius: 8px; line-height: 1.5; }
+    .result-heading { text-align: center; }
+    .result-emoji { font-size: 3rem; }
+    .profile-pill { display: inline-block; border-radius: 999px; padding: 7px 13px; background: #f1eaff; color: var(--roxo-escuro); font-weight: 700; margin: 6px 0 12px; }
+    .book-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 14px; margin: 20px 0; }
+    .book { border: 1px solid #e8e0f6; border-radius: 15px; padding: 16px; background: #fdfbff; }
+    .book .cover { font-size: 2rem; }
+    .book h3 { margin: 8px 0 6px; color: var(--roxo-escuro); font-size: 1.05rem; }
+    .book p { margin: 0; line-height: 1.45; color: hwb(36 7% 25%); font-size: .95rem; }
+    .secondary-profiles { margin-top: 22px; }
+    .secondary-profiles h3 { color: var(--roxo-escuro); }
+    footer { text-align: center; font-size: .85rem; color: hsl(50, 96%, 28%); margin: 18px 0 6px; }
+    @media (max-width: 480px) {
+      body { padding: 14px 10px; }
+      .actions { flex-direction: column-reverse; }
+      .actions button { width: 100%; }
+      .topline { font-size: .88rem; }
+    }
+  </style>
+</head>
+<body>
+  <main class="app">
+    <header>
+      <div class="logo" aria-hidden="true">📚</div>
+      <h1>Quiz Literário</h1>
+      <p>Responda a 5 perguntinhas e descubra livros que combinam com o seu jeito de gostar de histórias.</p>
+    </header>
+
+    <section id="start" class="card">
+      <h2>Encontre sua próxima leitura!</h2>
+      <p class="subtitle">Não existe resposta certa ou errada. Escolha o que mais combina com você e, no final, o jogo recomendará livros com base nas suas respostas.</p>
+      <ul class="intro-list">
+        <li>Leva cerca de 1 minuto.</li>
+        <li>São 5 perguntas com 3 alternativas.</li>
+        <li>Você receberá um perfil literário e sugestões de livros.</li>
+      </ul>
+      <div class="notice">Este quiz pode ser usado por várias pessoas. Cada vez que alguém clicar em “Jogar novamente”, as respostas anteriores serão apagadas.</div>
+      <div class="actions">
+        <span></span>
+        <button class="primary" id="startBtn">Começar o quiz →</button>
+      </div>
+    </section>
+
+    <section id="quiz" class="card hidden" aria-live="polite">
+      <div class="topline"><span id="questionCounter">Pergunta 1 de 5</span><span id="progressText">20%</span></div>
+      <div class="track" aria-hidden="true"><div class="bar" id="progressBar"></div></div>
+      <h2 id="questionTitle"></h2>
+      <p class="subtitle" id="questionDescription">Escolha apenas uma alternativa.</p>
+      <div class="options" id="options"></div>
+      <div class="actions">
+        <button class="secondary" id="backBtn">← Voltar</button>
+        <button class="primary" id="nextBtn" disabled>Próxima →</button>
+      </div>
+    </section>
+
+    <section id="result" class="card hidden" aria-live="polite">
+      <div class="result-heading">
+        <div class="result-emoji" id="resultEmoji">🧭</div>
+        <h2 id="resultTitle">Seu perfil literário</h2>
+        <div class="profile-pill" id="profilePill"></div>
+        <p class="subtitle" id="resultDescription"></p>
+      </div>
+      <h3>Livros que você pode gostar</h3>
+      <div class="book-grid" id="bookGrid"></div>
+      <div class="secondary-profiles" id="otherProfiles"></div>
+      <div class="actions">
+        <button class="secondary" id="restartBtn">↻ Jogar novamente</button>
+        <button class="primary" id="changeBtn">Rever respostas</button>
+      </div>
+      <p class="subtitle" style="text-align:center; margin-top:16px; margin-bottom:0;">As sugestões são ideias para explorar; você pode gostar de livros de vários perfis!</p>
+    </section>
+    <footer>Quiz Literário • Feito com HTML, CSS e JavaScript</footer>
+  </main>
+
+  <script>
+    // Cada alternativa soma um ponto para um perfil literário.
+    const profiles = {
+      aventureiro: {
+        name: "Aventureiro",
+        emoji: "🧭",
+        description: "Você parece gostar de ação, descobertas, viagens e personagens que enfrentam desafios.",
+        books: [
+          { title: "A Ilha do Tesouro", author: "Robert Louis Stevenson", reason: "Uma aventura cheia de viagens, perigos e busca por um tesouro." },
+          { title: "As Aventuras de Tom Sawyer", author: "Mark Twain", reason: "Travessuras, exploração e descobertas na vida de um garoto." },
+          { title: "Viagem ao Centro da Terra", author: "Júlio Verne", reason: "Uma expedição extraordinária a lugares desconhecidos." }
+        ]
+      },
+      investigador: {
+        name: "Investigador",
+        emoji: "🔎",
+        description: "Você parece gostar de pistas, enigmas, segredos e histórias que desafiam sua curiosidade.",
+        books: [
+          { title: "O Cão dos Baskerville", author: "Arthur Conan Doyle", reason: "Sherlock Holmes investiga um caso cheio de pistas e mistério." },
+          { title: "Assassinato no Expresso do Oriente", author: "Agatha Christie", reason: "Uma investigação em que cada detalhe pode ser importante." },
+          { title: "Os Cinco e o Tesouro da Ilha", author: "Enid Blyton", reason: "Um grupo de amigos encontra aventuras e mistérios para resolver." }
+        ]
+      },
+      sonhador: {
+        name: "Sonhador",
+        emoji: "🌙",
+        description: "Você parece gostar de imaginação, fantasia, magia e mundos que vão além do cotidiano.",
+        books: [
+          { title: "O Pequeno Príncipe", author: "Antoine de Saint-Exupéry", reason: "Uma viagem poética sobre amizade, afeto e como vemos o mundo." },
+          { title: "Alice no País das Maravilhas", author: "Lewis Carroll", reason: "Um mundo fantástico cheio de personagens e situações inesperadas." },
+          { title: "O Mágico de Oz", author: "L. Frank Baum", reason: "Uma jornada por uma terra imaginária com amizades e descobertas." }
+        ]
+      }
+    };
+
+    const questions = [
+      {
+        text: "Qual tipo de história mais prende sua atenção?",
+        options: [
+          { label: "Aventuras emocionantes e desafios", profile: "aventureiro" },
+          { label: "Mistérios, enigmas e investigações", profile: "investigador" },
+          { label: "Sonhos, magia e mundos imaginários", profile: "sonhador" }
+        ]
+      },
+      {
+        text: "O que você mais gostaria de encontrar em um livro?",
+        options: [
+          { label: "Viagens, ação e descobertas", profile: "aventureiro" },
+          { label: "Segredos e pistas para desvendar", profile: "investigador" },
+          { label: "Fantasia, criaturas mágicas e sonhos", profile: "sonhador" }
+        ]
+      },
+      {
+        text: "Qual atividade você escolheria para um dia livre?",
+        options: [
+          { label: "Explorar um lugar desconhecido", profile: "aventureiro" },
+          { label: "Resolver um mistério ou quebra-cabeça", profile: "investigador" },
+          { label: "Inventar histórias e imaginar outros mundos", profile: "sonhador" }
+        ]
+      },
+      {
+        text: "Qual personagem você mais gostaria de acompanhar?",
+        options: [
+          { label: "Um explorador corajoso", profile: "aventureiro" },
+          { label: "Um detetive inteligente", profile: "investigador" },
+          { label: "Um sonhador em um mundo mágico", profile: "sonhador" }
+        ]
+      },
+      {
+        text: "Qual tipo de final deixa você mais feliz?",
+        options: [
+          { label: "Uma grande conquista depois de uma aventura", profile: "aventureiro" },
+          { label: "Todos os mistérios finalmente revelados", profile: "investigador" },
+          { label: "Um final mágico e surpreendente", profile: "sonhador" }
+        ]
+      }
+    ];
+
+    let currentQuestion = 0;
+    let answers = Array(questions.length).fill(null);
+
+    const startSection = document.getElementById("start");
+    const quizSection = document.getElementById("quiz");
+    const resultSection = document.getElementById("result");
+    const optionsElement = document.getElementById("options");
+    const nextBtn = document.getElementById("nextBtn");
+    const backBtn = document.getElementById("backBtn");
+
+    document.getElementById("startBtn").addEventListener("click", () => {
+      currentQuestion = 0;
+      answers = Array(questions.length).fill(null);
+      showSection("quiz");
+      renderQuestion();
+    });
+
+    function showSection(section) {
+      startSection.classList.toggle("hidden", section !== "start");
+      quizSection.classList.toggle("hidden", section !== "quiz");
+      resultSection.classList.toggle("hidden", section !== "result");
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    function renderQuestion() {
+      const question = questions[currentQuestion];
+      const number = currentQuestion + 1;
+      const percent = Math.round((number / questions.length) * 100);
+      document.getElementById("questionCounter").textContent = `Pergunta ${number} de ${questions.length}`;
+      document.getElementById("progressText").textContent = `${percent}%`;
+      document.getElementById("progressBar").style.width = `${percent}%`;
+      document.getElementById("questionTitle").textContent = question.text;
+      optionsElement.innerHTML = "";
+
+      question.options.forEach((option, index) => {
+        const button = document.createElement("button");
+        button.type = "button";
+        button.className = "option" + (answers[currentQuestion] === option.profile ? " selected" : "");
+        button.textContent = `${String.fromCharCode(65 + index)}) ${option.label}`;
+        button.setAttribute("aria-pressed", answers[currentQuestion] === option.profile ? "true" : "false");
+        button.addEventListener("click", () => {
+          answers[currentQuestion] = option.profile;
+          renderQuestion();
+        });
+        optionsElement.appendChild(button);
+      });
+
+      backBtn.disabled = currentQuestion === 0;
+      backBtn.style.opacity = currentQuestion === 0 ? ".45" : "1";
+      nextBtn.disabled = answers[currentQuestion] === null;
+      nextBtn.textContent = currentQuestion === questions.length - 1 ? "Ver meus livros ✨" : "Próxima →";
+    }
+
+    nextBtn.addEventListener("click", () => {
+      if (answers[currentQuestion] === null) return;
+      if (currentQuestion < questions.length - 1) {
+        currentQuestion++;
+        renderQuestion();
+      } else {
+        showResults();
+      }
+    });
+
+    backBtn.addEventListener("click", () => {
+      if (currentQuestion > 0) {
+        currentQuestion--;
+        renderQuestion();
+      }
+    });
+
+    function showResults() {
+      const scores = { aventureiro: 0, investigador: 0, sonhador: 0 };
+      answers.forEach(profile => { if (profile) scores[profile]++; });
+      const highestScore = Math.max(...Object.values(scores));
+      // Se houver empate, mostra todos os perfis empatados como resultados principais.
+      const winners = Object.keys(scores).filter(profile => scores[profile] === highestScore);
+      const main = profiles[winners[0]];
+
+      document.getElementById("resultEmoji").textContent = winners.length > 1 ? "📚✨" : main.emoji;
+      document.getElementById("resultTitle").textContent = winners.length > 1 ? "Você combina com mais de um perfil!" : "Este é seu perfil literário!";
+      document.getElementById("profilePill").textContent = winners.map(key => profiles[key].name).join(" + ");
+      document.getElementById("resultDescription").textContent = winners.length > 1
+        ? `Você empatou entre ${winners.map(key => profiles[key].name).join(" e ")}. Veja sugestões de cada perfil e escolha a que mais desperta sua curiosidade.`
+        : main.description;
+
+      const books = winners.flatMap(key => profiles[key].books.slice(0, winners.length > 1 ? 2 : 3));
+      const bookGrid = document.getElementById("bookGrid");
+      bookGrid.innerHTML = "";
+      books.forEach(book => {
+        const article = document.createElement("article");
+        article.className = "book";
+        article.innerHTML = `<h3>${escapeHTML(book.title)}</h3><p><strong>Autor:</strong> ${escapeHTML(book.author)}</p><p style="margin-top:8px;">${escapeHTML(book.reason)}</p>`;
+        bookGrid.appendChild(article);
+      });
+
+      const otherProfiles = document.getElementById("otherProfiles");
+      const others = Object.keys(profiles).filter(key => !winners.includes(key));
+      otherProfiles.innerHTML = others.length
+        ? `<h3>Quer explorar outros estilos?</h3><p class="subtitle">Você também pode gostar destes perfis:</p>` +
+          others.map(key => `<div class="book" style="margin:10px 0;"><strong>${profiles[key].emoji} ${profiles[key].name}</strong> — ${escapeHTML(profiles[key].description)}<br><span style="color:#655b75;">Sugestão: ${escapeHTML(profiles[key].books[0].title)}, de ${escapeHTML(profiles[key].books[0].author)}.</span></div>`).join("")
+        : "";
+      showSection("result");
+    }
+
+    function escapeHTML(value) {
+      return String(value).replace(/[&<>"']/g, char => ({
+        "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#039;"
+      }[char]));
+    }
+
+    document.getElementById("restartBtn").addEventListener("click", () => {
+      currentQuestion = 0;
+      answers = Array(questions.length).fill(null);
+      showSection("start");
+    });
+
+    document.getElementById("changeBtn").addEventListener("click", () => {
+      currentQuestion = 0;
+      showSection("quiz");
+      renderQuestion();
+    });
+  </script>
+</body>
+</html>
