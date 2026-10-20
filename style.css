@@ -146,6 +146,7 @@ h2 { margin: 8px 0 10px; color: var(--vinho); font-size: clamp(2rem, 4vw, 3rem);
 .painel { padding: 25px; border: 1px solid var(--borda); border-radius: 9px; background: var(--papel); box-shadow: 0 5px 20px #481B2706; }
 .painel label, #form-emprestimo label { display: block; margin: 12px 0 6px; font-weight: 700; font-size: .86rem; }
 .painel input, .painel select { display: block; width: 100%; padding: 12px; border: 1px solid var(--borda); border-radius: 5px; background: var(--papel); color: var(--texto); }
+#form-emprestimo button { margin-top: 12px; }
 .painel-recomendador { position: relative; overflow: hidden; border-color: #D9BFC7; }
 .painel-selo { position: absolute; top: -28px; right: 20px; color: #F0E2E4; font-size: 8rem; pointer-events: none; }
 .campos-recomendacao, .campos-form { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 18px; }
