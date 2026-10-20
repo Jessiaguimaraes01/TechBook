@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="TecBook: uma biblioteca inteligente para descobrir livros e acompanhar sua leitura.">
+  <title>TecBook — Biblioteca Inteligente</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <a class="pular-conteudo" href="#conteudo">Pular para o conteúdo</a>
+
+  <header class="topo">
+    <a class="marca" href="#inicio" aria-label="TecBook, página inicial">
+      <span class="marca-simbolo" aria-hidden="true">TB</span>
+      <span class="marca-texto">TecBook<small>BIBLIOTECA INTELIGENTE</small></span>
+    </a>
+    <button id="menu-btn" class="menu-btn" aria-label="Abrir menu" aria-expanded="false">☰</button>
+    <nav id="menu" aria-label="Navegação principal">
+      <a href="#inicio">Início</a>
+      <a href="#catalogo">Catálogo</a>
+      <a href="#recomendador">Recomendações</a>
+      <a href="#emprestimos">Empréstimos</a>
+      <a href="#estatisticas">Estatísticas</a>
+      <a href="#desafios">Desafios</a>
+    </nav>
+    <button id="acessibilidade-btn" class="botao botao-claro">Acessibilidade</button>
+  </header>
+
+  <main id="conteudo">
+    <section class="hero" id="inicio">
+      <div class="hero-texto">
+        <span class="etiqueta">DESCUBRA SEU PRÓXIMO UNIVERSO</span>
+        <h1>Cada livro abre uma <em>nova porta.</em></h1>
+        <p>Explore histórias, encontre novos autores e transforme sua jornada de leitura com a tecnologia.</p>
+        <div class="hero-acoes">
+          <a class="botao botao-dourado" href="#catalogo">Explorar catálogo <span aria-hidden="true">↗</span></a>
+          <a class="link-claro" href="#recomendador">Encontrar meu próximo livro</a>
+        </div>
+        <div class="hero-nota"><span aria-hidden="true">✦</span> Conhecimento, criatividade e descobertas.</div>
+      </div>
+      <div class="hero-arte" aria-label="Ilustração decorativa de livros">
+        <div class="halo halo-um"></div><div class="halo halo-dois"></div>
+        <div class="livros-arte" aria-hidden="true">
+          <span class="livro livro-um">LEITURA</span>
+          <span class="livro livro-dois">IDEIAS</span>
+          <span class="livro livro-tres">MUNDOS</span>
+          <span class="livro-aberto">✦</span>
+        </div>
+        <div class="selo-arte"><span>UMA PÁGINA</span><strong>novas<br>possibilidades</strong></div>
+      </div>
+    </section>
+
+    <section class="resumo" aria-label="Resumo da biblioteca">
+      <article class="indicador"><span class="indicador-icone">▤</span><div><strong id="total-livros">0</strong><small>Exemplares no acervo</small></div></article>
+      <article class="indicador"><span class="indicador-icone">↗</span><div><strong id="total-emprestimos">0</strong><small>Empréstimos ativos</small></div></article>
+      <article class="indicador"><span class="indicador-icone">✧</span><div><strong id="total-generos">0</strong><small>Gêneros disponíveis</small></div></article>
+      <article class="indicador"><span class="indicador-icone">♛</span><div><strong id="total-desafios">0</strong><small>Desafios concluídos</small></div></article>
+    </section>
+
+    <section class="secao" id="catalogo">
+      <div class="cabecalho-secao cabecalho-linha">
+        <div><span class="etiqueta">EXPLORE A COLEÇÃO</span><h2>Catálogo <em>inteligente</em></h2><p>Pesquise por título, autor, gênero ou palavra-chave.</p></div>
+        <span class="nota-secao">Sua próxima história está aqui <span aria-hidden="true">↘</span></span>
+      </div>
+      <label class="pesquisa"><span aria-hidden="true">⌕</span><input id="busca" type="search" placeholder="Buscar livro, autor ou gênero..." aria-label="Pesquisar livros"></label>
+      <div id="filtros" class="filtros" aria-label="Filtrar por gênero">
+        <button class="filtro ativo" data-genero="Todos" aria-pressed="true">Todos os livros</button>
+        <button class="filtro" data-genero="Fantasia" aria-pressed="false">Fantasia</button>
+        <button class="filtro" data-genero="Mistério" aria-pressed="false">Mistério</button>
+        <button class="filtro" data-genero="Aventura" aria-pressed="false">Aventura</button>
+        <button class="filtro" data-genero="Ficção científica" aria-pressed="false">Ficção científica</button>
+        <button class="filtro" data-genero="Romance" aria-pressed="false">Romance</button>
+      </div>
+      <p id="resultado-busca" class="texto-suave" aria-live="polite"></p>
+      <div id="grade-livros" class="grade-livros"></div>
+      <p id="vazio" class="vazio" hidden>Nenhum livro encontrado. Tente outra pesquisa.</p>
+    </section>
+
+    <section class="secao secao-vinho-claro" id="recomendador">
+      <div class="cabecalho-secao"><span class="etiqueta">UMA SUGESTÃO FEITA PARA VOCÊ</span><h2>Qual será sua próxima <em>leitura?</em></h2><p>Conte um pouco do que você gosta e encontre novas possibilidades.</p></div>
+      <div class="painel painel-recomendador">
+        <div class="painel-selo" aria-hidden="true">✦</div>
+        <div class="campos-recomendacao">
+          <div><label for="genero-preferido">Gênero favorito</label><select id="genero-preferido"><option value="Todos">Quero explorar de tudo</option><option>Fantasia</option><option>Mistério</option><option>Aventura</option><option>Ficção científica</option><option>Romance</option></select></div>
+          <div><label for="estilo-preferido">Que tipo de leitura procura?</label><select id="estilo-preferido"><option value="qualquer">Qualquer tipo</option><option value="curta">Uma leitura mais curta</option><option value="aventura">Uma aventura emocionante</option><option value="reflexao">Uma história para refletir</option></select></div>
+        </div>
+        <button id="recomendar-btn" class="botao botao-vinho">Recomendar livros <span aria-hidden="true">↗</span></button>
+        <div id="resultado-recomendacao" class="resultado-recomendacao" aria-live="polite"></div>
+      </div>
+    </section>
+
+    <section class="secao" id="emprestimos">
+      <div class="cabecalho-secao"><span class="etiqueta">ORGANIZE SUA LEITURA</span><h2>Empréstimos e <em>devoluções</em></h2><p>Registre operações de demonstração e acompanhe os exemplares.</p></div>
+      <div class="painel">
+        <form id="form-emprestimo">
+          <div class="campos-form">
+            <div><label for="leitor">Nome de demonstração</label><input id="leitor" required maxlength="80" placeholder="Ex.: Leitor 01"></div>
+            <div><label for="livro-emprestimo">Livro</label><select id="livro-emprestimo" required></select></div>
+            <div><label for="data-devolucao">Data prevista para devolução</label><input id="data-devolucao" type="date" required></div>
+          </div>
+          <button class="botao botao-vinho" type="submit">Registrar empréstimo</button>
+        </form>
+        <p class="aviso">Protótipo escolar: use apenas nomes fictícios. Os registros ficam neste navegador; ainda não é um sistema oficial de biblioteca.</p>
+      </div>
+      <h3 class="subtitulo">Registros de empréstimos</h3>
+      <div id="lista-emprestimos" class="lista-registros"></div>
+    </section>
+
+    <section class="secao secao-creme" id="estatisticas">
+      <div class="cabecalho-secao"><span class="etiqueta">A BIBLIOTECA EM NÚMEROS</span><h2>Conhecimento em <em>dados</em></h2><p>Indicadores atualizados a partir dos registros deste protótipo.</p></div>
+      <div class="grade-estatisticas">
+        <article class="painel painel-grafico"><h3>Livros por gênero</h3><div id="grafico-generos" class="grafico"></div></article>
+        <article class="painel painel-grafico"><h3>Disponibilidade do acervo</h3><div id="grafico-disponibilidade" class="grafico"></div></article>
+      </div>
+      <p class="texto-suave">Os números são dados de demonstração, não estatísticas de uma biblioteca real.</p>
+    </section>
+
+    <section class="secao" id="desafios">
+      <div class="cabecalho-secao"><span class="etiqueta">CADA PÁGINA É UMA CONQUISTA</span><h2>Metas e desafios de <em>leitura</em></h2><p>Complete atividades e acompanhe seu progresso.</p></div>
+      <div id="lista-desafios" class="grade-desafios"></div>
+      <div class="progresso-painel"><div class="linha-progresso"><strong>Sua jornada literária</strong><span id="texto-progresso">0 de 4 concluídos</span></div><div class="barra"><div id="barra-progresso"></div></div></div>
+    </section>
+
+    <section class="secao secao-vinho" id="medidor">
+      <div class="medidor-card">
+        <div><span class="etiqueta">NOSSA EXPERIÊNCIA ARTÍSTICA</span><h2>Medidor de Descobertas Literárias</h2><p>Cada desafio concluído acende uma nova etapa da jornada. O medidor representa o progresso nas atividades — não mede a inteligência de ninguém.</p><strong id="valor-medidor" class="valor-medidor">0%</strong><div class="barra barra-escura"><div id="barra-medidor"></div></div><small id="legenda-medidor">Toda grande descoberta começa pela primeira página.</small></div>
+        <div class="cerebro-arte" aria-hidden="true"><span class="brilho brilho-um">✦</span><span class="brilho brilho-dois">✧</span><span class="cerebro">🧠</span><span class="brilho brilho-tres">✦</span><div class="anel-cerebro"></div></div>
+      </div>
+    </section>
+
+    <section class="secao secao-creme" id="acessibilidade">
+      <div class="cabecalho-secao"><span class="etiqueta">LEITURA PARA TODOS</span><h2>Acessibilidade <em>digital</em></h2><p>Personalize a página para uma leitura mais confortável.</p></div>
+      <div class="painel acessibilidade-painel">
+        <div><strong>Tamanho do texto</strong><div class="grupo-botoes"><button class="botao botao-claro" id="fonte-diminuir" aria-label="Diminuir tamanho da fonte">A−</button><button class="botao botao-claro" id="fonte-normal">A normal</button><button class="botao botao-claro" id="fonte-aumentar" aria-label="Aumentar tamanho da fonte">A+</button></div></div>
+        <div><strong>Contraste</strong><p class="texto-suave">Ative uma combinação de alto contraste.</p><button id="contraste-btn" class="botao botao-vinho" aria-pressed="false">Alternar alto contraste</button></div>
+      </div>
+    </section>
+
+    <section class="sobre">
+      <span class="etiqueta">NOSSA MISSÃO</span><h2>Tecnologia que conecta pessoas ao conhecimento.</h2><p>O TecBook é um projeto estudantil que une programação, organização de bibliotecas, acessibilidade e incentivo à leitura.</p>
+      <a href="#inicio" class="link-claro">Voltar ao início ↑</a>
+    </section>
+  </main>
+
+  <footer><a class="marca marca-rodape" href="#inicio"><span class="marca-simbolo">TB</span><span class="marca-texto">TecBook<small>BIBLIOTECA INTELIGENTE</small></span></a><p>Projeto desenvolvido para a feira de ciências.</p><span class="rodape-detalhe">Ler · Descobrir · Imaginar</span></footer>
+</body>
+</html>
