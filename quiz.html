@@ -78,10 +78,44 @@
       .actions button { width: 100%; }
       .topline { font-size: .88rem; }
     }
+    /* Botão para voltar à página principal */
+.botao-voltar {
+  display: inline-flex;
+  margin-top: 8px;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 20px;
+  padding: 10px 16px;
+
+  background: #762F3B;
+  color: #FFFCF7;
+  border: 1px solid #D6AE70;
+  border-radius: 8px;
+
+  font-family: 'DM Sans', Arial, sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  text-decoration: none;
+
+  transition: background 0.2s, transform 0.2s;
+}
+
+.botao-voltar:hover {
+  background: #481B27;
+  transform: translateX(-3px);
+}
+
+.botao-voltar:focus-visible {
+  outline: 3px solid #D6AE70;
+  outline-offset: 3px;
+}
   </style>
 </head>
 <body>
   <main class="app">
+    <a href="index.html" class="botao-voltar">
+  ← Voltar ao TecBook
+</a>
     <header>
       <div class="logo" aria-hidden="true">📚</div>
       <h1>Quiz Literário</h1>
