@@ -7,17 +7,6 @@
   <title>TechBook — Biblioteca Inteligente</title>
   <link rel="stylesheet" href="style.css">
   <script src="script.js" defer></script>
-
-<script>
-  if ("serviceWorker" in navigator) {
-    window.addEventListener("load", () => {
-      navigator.serviceWorker.register("/service-worker.js")
-        .then(() => console.log("TecBook preparado para modo offline!"))
-        .catch((erro) => console.error("Erro no modo offline:", erro));
-    });
-  }
-</script>
-
 </head>
 
 <body>
@@ -164,5 +153,14 @@
   </main>
 
   <footer><a class="marca marca-rodape" href="#inicio"><span class="marca-simbolo">TB</span><span class="marca-texto">TechBook<small>BIBLIOTECA INTELIGENTE</small></span></a><p>Projeto desenvolvido para a feira de ciências.</p><span class="rodape-detalhe">Ler · Descobrir · Imaginar</span></footer>
+  <script>
+  if ("serviceWorker" in navigator) {
+    window.addEventListener("load", () => {
+      navigator.serviceWorker.register("/service-worker.js")
+        .then(() => console.log("TecBook preparado para modo offline!"))
+        .catch((erro) => console.error("Erro no modo offline:", erro));
+    });
+  }
+</script>
 </body>
 </html>
