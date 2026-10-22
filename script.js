@@ -40,6 +40,7 @@ function carregarDados() {
 let dados = carregarDados();
 
 async function carregarLivrosDoBanco() {
+  console.log("A função de carregar livros foi iniciada!");
   try {
     const resposta = await fetch("/api/livros");
 
