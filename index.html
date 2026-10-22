@@ -7,6 +7,17 @@
   <title>TechBook — Biblioteca Inteligente</title>
   <link rel="stylesheet" href="style.css">
   <script src="script.js" defer></script>
+
+<script>
+  if ("serviceWorker" in navigator) {
+    window.addEventListener("load", () => {
+      navigator.serviceWorker.register("/service-worker.js")
+        .then(() => console.log("TecBook preparado para modo offline!"))
+        .catch((erro) => console.error("Erro no modo offline:", erro));
+    });
+  }
+</script>
+
 </head>
 
 <body>
