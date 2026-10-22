@@ -38,6 +38,42 @@ function carregarDados() {
 }
 
 let dados = carregarDados();
+
+async function carregarLivrosDoBanco() {
+  try {
+    const resposta = await fetch("/api/livros");
+
+    if (!resposta.ok) {
+      throw new Error("Não foi possível carregar os livros.");
+    }
+
+    const livrosBanco = await resposta.json();
+
+    if (!Array.isArray(livrosBanco)) {
+      throw new Error("A API não retornou uma lista de livros.");
+    }
+
+    dados.livros = livrosBanco.map(livro => ({
+      id: livro.id_livro,
+      titulo: livro.titulo || "Título não informado",
+      autor: livro.autor || "Autor não informado",
+      genero: livro.genero || "Outros",
+      isbn: livro.isbn || "",
+      emoji: "📚",
+      cor: "#E9DCE5",
+      sinopse: "",
+      quantidade: 1,
+      duracao: "longa"
+    }));
+
+    renderizarTudo();
+    console.log("Livros carregados do banco:", dados.livros);
+  } catch (erro) {
+    console.error("Erro ao conectar com o banco:", erro);
+    alert("Não foi possível carregar os livros do banco. Verifique se o servidor está funcionando.");
+  }
+}
+
 let generoSelecionado = "Todos";
 let fonte = 100;
 
@@ -375,3 +411,4 @@ const dataMinima = `${hoje.getFullYear()}-${String(hoje.getMonth() + 1).padStart
 document.querySelector("#data-devolucao").min = dataMinima;
 
 renderizarTudo();
+carregarLivrosDoBanco();
