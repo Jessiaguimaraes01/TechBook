@@ -1,5 +1,6 @@
 
-const CACHE_NAME = "tecbook-offline-v1";
+
+const CACHE_NAME = "tecbook-offline-v2";
 
 const ARQUIVOS = [
   "/",
@@ -9,75 +10,113 @@ const ARQUIVOS = [
   "/quiz.html"
 ];
 
+// 1. Instala o modo offline e guarda os arquivos principais.
 self.addEventListener("install", (evento) => {
   evento.waitUntil(
-    caches.open(CACHE_NAME).then(async (cache) => {
-      await Promise.all(
-        ARQUIVOS.map(async (arquivo) => {
-          try {
-            const resposta = await fetch(arquivo);
-            if (resposta.ok) {
-              await cache.put(arquivo, resposta);
-            }
-          } catch (erro) {
-            console.log("Arquivo ainda não disponível:", arquivo);
-          }
-        })
-      );
-    })
-  );
+    (async () => {
+      const cache = await caches.open(CACHE_NAME);
 
-  self.skipWaiting();
+      for (const arquivo of ARQUIVOS) {
+        try {
+          const resposta = await fetch(arquivo);
+
+          if (resposta.ok) {
+            await cache.put(arquivo, resposta);
+          }
+        } catch (erro) {
+          console.log(
+            "Não foi possível guardar o arquivo:",
+            arquivo
+          );
+        }
+      }
+
+      await self.skipWaiting();
+    })()
+  );
 });
 
+// 2. Ativa a nova versão e limpa caches antigos do TecBook.
 self.addEventListener("activate", (evento) => {
   evento.waitUntil(
-    caches.keys().then((nomes) =>
-      Promise.all(
-        nomes
-          .filter((nome) => nome.startsWith("tecbook-offline-") && nome !== CACHE_NAME)
-          .map((nome) => caches.delete(nome))
-      )
-    )
-  );
+    (async () => {
+      const nomes = await caches.keys();
 
-  self.clients.claim();
+      await Promise.all(
+        nomes
+          .filter(
+            (nome) =>
+              nome.startsWith("tecbook-offline-") &&
+              nome !== CACHE_NAME
+          )
+          .map((nome) => caches.delete(nome))
+      );
+
+      await self.clients.claim();
+    })()
+  );
 });
 
+// 3. Tenta carregar os arquivos e usa o cache se a conexão falhar.
 self.addEventListener("fetch", (evento) => {
-  const url = new URL(evento.request.url);
+  const requisicao = evento.request;
+  const url = new URL(requisicao.url);
 
-  if (evento.request.method !== "GET" || url.origin !== self.location.origin) {
+  // Só trata pedidos GET do próprio TecBook.
+  if (
+    requisicao.method !== "GET" ||
+    url.origin !== self.location.origin
+  ) {
     return;
   }
 
-  // Não guardar respostas da API nem dados do banco no cache do site.
+  // Não guarda nem substitui respostas da API do banco de dados.
   if (url.pathname.startsWith("/api/")) {
     return;
   }
 
   evento.respondWith(
-    fetch(evento.request)
-      .then((resposta) => {
+    (async () => {
+      try {
+        // Primeiro tenta buscar a versão atual no servidor.
+        const resposta = await fetch(requisicao);
+
+        // Guarda uma cópia das respostas válidas.
         if (resposta.ok) {
-          const copia = resposta.clone();
-          caches.open(CACHE_NAME).then((cache) => {
-            cache.put(evento.request, copia);
-          });
+          const cache = await caches.open(CACHE_NAME);
+
+          await cache.put(requisicao, resposta.clone());
         }
 
         return resposta;
-      })
-      .catch(async () => {
-        const guardado = await caches.match(evento.request);
-        if (guardado) return guardado;
+      } catch (erro) {
+        // Sem conexão, tenta encontrar o arquivo guardado.
+        const arquivoGuardado = await caches.match(requisicao);
 
-        if (evento.request.mode === "navigate") {
-          return (await caches.match("/index.html")) ||
-            Response.error();
+        if (arquivoGuardado) {
+          return arquivoGuardado;
         }
 
-        return Response.error();
-      })
+        // Se uma página não estiver no cache, tenta abrir o início.
+        if (requisicao.mode === "navigate") {
+          const paginaInicial = await caches.match("/index.html");
+
+          if (paginaInicial) {
+            return paginaInicial;
+          }
+        }
+
+        // Se não houver cópia, informa que não foi possível carregar.
+        return new Response(
+          "Este conteúdo ainda não foi salvo para uso offline.",
+          {
+            status: 503,
+            headers: {
+              "Content-Type": "text/plain; charset=utf-8"
+            }
+          }
+        );
+      }
+    })()
   );
 });
