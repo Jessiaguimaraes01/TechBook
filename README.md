@@ -2,8 +2,8 @@
 
 ## Desenvolvedores
 
-**Nome do grupo:** Jessia, Esther, Yasmin, Fernanda, Giovanna, Ana Maria, Emilly, Álvaro
-**Turma:** 2º Ano TEC — Desenvolvimento de Sistemas  
+**Nome do grupo:** Jessia, Esther, Yasmin, Fernanda, Giovanna, Ana Maria, Emilly, Álvaro             
+**Turma:** 2º Ano TEC_Desenvolvimento de Sistemas  
 **Instituição:** SENAI  
 **Ano:** 2026
 
@@ -12,6 +12,10 @@
 O **TechBook** é uma plataforma de biblioteca inteligente desenvolvida para facilitar a organização do acervo literário, incentivar o hábito da leitura e tornar a experiência dos leitores mais interativa e acessível.
 
 O sistema reúne funcionalidades para explorar livros, acompanhar o progresso de leitura, participar de desafios literários e descobrir novas obras por meio de recomendações. Além disso, o projeto busca demonstrar como a tecnologia pode contribuir para a educação e para o desenvolvimento do interesse pela leitura.
+
+### Contexto do projeto
+
+O TecBook foi desenvolvido como um projeto para a **Feira de Ciências**, na área de tecnologia, pelos estudantes do 2º ano do curso técnico em Desenvolvimento de Sistemas. A proposta é demonstrar como a programação pode ser aplicada à realidade escolar, unindo inovação, educação e incentivo à leitura por meio de uma biblioteca digital inteligente.
 
 ### Objetivo do projeto
 
@@ -63,6 +67,6 @@ O TechBook pretende contribuir para a modernização da biblioteca escolar, ince
 
 ## Status do projeto
 
-**Em desenvolvimento.**
+**Em desenvolvimento!**
 
 Novas funcionalidades, integrações e testes estão sendo realizados para aprimorar a experiência dos usuários e a confiabilidade do sistema.
