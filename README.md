@@ -1,5 +1,6 @@
-# TechBook — Biblioteca Inteligente
-
+# TechBook — Biblioteca Inteligente 
+*OBS: Site ainda está em desenvolvimento...*
+#
 ## Desenvolvedores
 
 **Nome do grupo:** Jessia, Esther, Yasmin, Fernanda, Giovanna, Ana Maria, Emilly, Álvaro             
