@@ -1,11 +1,25 @@
 
 import json
 import sqlite3
+import hashlib
+import secrets
 from pathlib import Path
 from http.server import ThreadingHTTPServer, SimpleHTTPRequestHandler
 
 BASE_DIR = Path(__file__).resolve().parent
 BANCO = BASE_DIR / "Dados" / "TechBok_Final.db"
+def gerar_hash_senha(senha, salt=None):
+    if salt is None:
+        salt = secrets.token_hex(16)
+
+    hash_senha = hashlib.pbkdf2_hmac(
+        "sha256",
+        senha.encode("utf-8"),
+        salt.encode("utf-8"),
+        200000
+    ).hex()
+
+    return f"{salt}${hash_senha}"
 
 
 class TechBookHandler(SimpleHTTPRequestHandler):
