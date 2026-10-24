@@ -412,4 +412,4 @@ const dataMinima = `${hoje.getFullYear()}-${String(hoje.getMonth() + 1).padStart
 document.querySelector("#data-devolucao").min = dataMinima;
 
 renderizarTudo();
-// carregarLivrosDoBanco(); // Banco desativado temporariamente
+ carregarLivrosDoBanco(); // Banco desativado temporariamente
