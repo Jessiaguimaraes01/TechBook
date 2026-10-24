@@ -63,7 +63,8 @@ async function carregarLivrosDoBanco() {
       emoji: "📚",
       cor: "#E9DCE5",
       sinopse: "",
-      quantidade: 1,
+      quantidade: Number(livro.quantidade) || 0,
+      disponiveisBanco: Number(livro.disponiveis) || 0,
       duracao: "longa"
     }));
 

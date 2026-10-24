@@ -100,3 +100,6 @@ if __name__ == "__main__":
     print("TechBook iniciado na porta 8000!")
     print("Abra /api/livros no navegador para testar.")
     servidor.serve_forever()
+
+
+      //python server.py 
