@@ -3,12 +3,29 @@ import json
 import sqlite3
 import hashlib
 import secrets
+import hmac
 from pathlib import Path
 from http.server import ThreadingHTTPServer, SimpleHTTPRequestHandler
 
 BASE_DIR = Path(__file__).resolve().parent
 BANCO = BASE_DIR / "Dados" / "TechBok_Final.db"
 def gerar_hash_senha(senha, salt=None):
+    def verificar_senha(senha, hash_salvo):
+    try:
+        salt, hash_original = hash_salvo.split("$", 1)
+
+        hash_teste = hashlib.pbkdf2_hmac(
+            "sha256",
+            senha.encode("utf-8"),
+            salt.encode("utf-8"),
+            200000
+        ).hex()
+
+        return hmac.compare_digest(hash_teste, hash_original)
+
+    except (AttributeError, ValueError):
+        return False
+    
     if salt is None:
         salt = secrets.token_hex(16)
 
@@ -122,7 +139,7 @@ class TechBookHandler(SimpleHTTPRequestHandler):
 
 
     def do_POST(self):
-        if self.path != "/api/cadastro":
+        if self.path not in ("/api/cadastro", "/api/login"):
             responder_json(self, 404, {
                 "erro": "Rota não encontrada."
             })
@@ -141,6 +158,61 @@ class TechBookHandler(SimpleHTTPRequestHandler):
                 self.rfile.read(tamanho).decode("utf-8")
             )
 
+            if not isinstance(recebido, dict):
+                responder_json(self, 400, {
+                    "erro": "Dados inválidos."
+                })
+                return
+
+            # LOGIN DO ALUNO
+            if self.path == "/api/login":
+                matricula = recebido.get("matricula", "")
+                senha = recebido.get("senha", "")
+
+                if not isinstance(matricula, str) or not isinstance(senha, str):
+                    responder_json(self, 400, {
+                        "erro": "Dados inválidos."
+                    })
+                    return
+
+                matricula = matricula.strip()
+
+                if not matricula or not senha:
+                    responder_json(self, 400, {
+                        "erro": "Informe a matrícula e a senha."
+                    })
+                    return
+
+                with sqlite3.connect(BANCO) as conexao:
+                    conexao.row_factory = sqlite3.Row
+                    aluno = conexao.execute("""
+                        SELECT id_aluno, nome, matricula, turma, senha_hash
+                        FROM aluno
+                        WHERE matricula = ?
+                    """, (matricula,)).fetchone()
+
+                if (
+                    aluno is None
+                    or not aluno["senha_hash"]
+                    or not verificar_senha(senha, aluno["senha_hash"])
+                ):
+                    responder_json(self, 401, {
+                        "erro": "Matrícula ou senha incorreta."
+                    })
+                    return
+
+                responder_json(self, 200, {
+                    "mensagem": "Login realizado com sucesso!",
+                    "aluno": {
+                        "id": aluno["id_aluno"],
+                        "nome": aluno["nome"],
+                        "matricula": aluno["matricula"],
+                        "turma": aluno["turma"]
+                    }
+                })
+                return
+
+            # CADASTRO DO ALUNO — mantido
             nome = str(recebido.get("nome", "")).strip()
             matricula = str(recebido.get("matricula", "")).strip()
             turma = str(recebido.get("turma", "")).strip()
@@ -203,8 +275,9 @@ class TechBookHandler(SimpleHTTPRequestHandler):
 
         except sqlite3.Error:
             responder_json(self, 500, {
-                "erro": "Erro ao salvar o cadastro."
+                "erro": "Erro ao consultar ou salvar os dados."
             })
+
 
 if __name__ == "__main__":
     servidor = ThreadingHTTPServer(
