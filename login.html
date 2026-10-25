@@ -1,0 +1,180 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login do aluno — TechBook</title>
+  <link rel="stylesheet" href="style.css">
+
+  <style>
+    .login-pagina {
+      min-height: 75vh;
+      display: grid;
+      place-items: center;
+      padding: 40px 20px;
+    }
+
+    .login-cartao {
+      width: 100%;
+      max-width: 460px;
+      padding: 32px;
+      background: var(--papel, #FFFCF7);
+      color: var(--texto, #38272C);
+      border: 1px solid var(--borda, #E6D8CB);
+      border-radius: 20px;
+      box-shadow: 0 12px 35px #481B2715;
+    }
+
+    .login-cartao h1 {
+      color: var(--vinho, #481B27);
+      margin-bottom: 10px;
+    }
+
+    .campo-login {
+      display: grid;
+      gap: 7px;
+      margin: 20px 0;
+    }
+
+    .campo-login label {
+      font-weight: 600;
+    }
+
+    .campo-login input {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid var(--borda, #E6D8CB);
+      border-radius: 9px;
+      background: white;
+      color: #38272C;
+      font: inherit;
+    }
+
+    .campo-login input:focus {
+      outline: 3px solid var(--rosa, #C58CA5);
+      outline-offset: 2px;
+    }
+
+    .login-botao {
+      width: 100%;
+      padding: 13px;
+      border: 0;
+      border-radius: 9px;
+      background: var(--vinho, #481B27);
+      color: white;
+      font: inherit;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .login-botao:disabled {
+      opacity: 0.6;
+      cursor: wait;
+    }
+
+    #mensagem-login {
+      margin-top: 18px;
+      font-weight: 600;
+    }
+
+    .login-links {
+      display: grid;
+      gap: 14px;
+      margin-top: 22px;
+      text-align: center;
+    }
+  </style>
+</head>
+
+<body>
+  <main class="login-pagina">
+    <section class="login-cartao">
+      <p class="genero-livro">TECHBOOK · ÁREA DO ALUNO</p>
+      <h1>Bem-vindo de volta!</h1>
+      <p>Entre com sua matrícula para continuar sua jornada de leitura.</p>
+
+      <form id="form-login">
+        <div class="campo-login">
+          <label for="matricula">Matrícula escolar</label>
+          <input
+            id="matricula"
+            name="matricula"
+            type="text"
+            maxlength="30"
+            autocomplete="username"
+            required
+          >
+        </div>
+
+        <div class="campo-login">
+          <label for="senha">Senha</label>
+          <input
+            id="senha"
+            name="senha"
+            type="password"
+            autocomplete="current-password"
+            required
+          >
+        </div>
+
+        <button class="login-botao" id="botao-login" type="submit">
+          Entrar
+        </button>
+
+        <p id="mensagem-login" role="status" aria-live="polite"></p>
+      </form>
+
+      <div class="login-links">
+        <a href="cadastro.html">Ainda não tem conta? Cadastre-se</a>
+        <a href="index.html">← Voltar para a biblioteca</a>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const formulario = document.querySelector("#form-login");
+    const mensagem = document.querySelector("#mensagem-login");
+    const botao = document.querySelector("#botao-login");
+
+    formulario.addEventListener("submit", async (evento) => {
+      evento.preventDefault();
+
+      mensagem.textContent = "";
+      botao.disabled = true;
+      botao.textContent = "Verificando...";
+
+      try {
+        const resposta = await fetch("/api/login", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            matricula: document.querySelector("#matricula").value.trim(),
+            senha: document.querySelector("#senha").value
+          })
+        });
+
+        const resultado = await resposta.json();
+
+        if (!resposta.ok) {
+          throw new Error(
+            resultado.erro || "Não foi possível entrar."
+          );
+        }
+
+        mensagem.textContent = "Login realizado com sucesso!";
+      } catch (erro) {
+        mensagem.textContent =
+          erro.message === "Failed to fetch"
+            ? "Não foi possível conectar ao servidor."
+            : erro.message;
+      } finally {
+        botao.disabled = false;
+        botao.textContent = "Entrar";
+      }
+    });
+  </script>
+</body>
+</html>
