@@ -235,3 +235,55 @@ footer p, .rodape-detalhe { color: #D5BFC1; font-size: .78rem; }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { scroll-behavior: auto !important; transition: none !important; }
 }
+
+/* ==============================
+   BOTÕES DE LOGIN E CADASTRO
+   ============================== */
+
+.acesso-aluno {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.acesso-aluno a {
+  display: inline-block;
+  padding: 10px 16px;
+  border-radius: 10px;
+  text-decoration: none;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 700;
+  text-align: center;
+  transition: background-color 0.2s ease,
+              color 0.2s ease,
+              transform 0.2s ease;
+}
+
+.acesso-aluno a:hover {
+  transform: translateY(-2px);
+}
+
+.botao-entrar {
+  color: var(--vinho, #481B27);
+  background: transparent;
+  border: 2px solid var(--vinho, #481B27);
+}
+
+.botao-entrar:hover {
+  color: white;
+  background: var(--vinho, #481B27);
+}
+
+.botao-cadastrar {
+  color: white;
+  background: var(--vinho, #481B27);
+  border: 2px solid var(--vinho, #481B27);
+}
+
+.botao-cadastrar:hover {
+  background: var(--bordo, #762F3B);
+  border-color: var(--bordo, #762F3B);
+}
