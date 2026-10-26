@@ -287,3 +287,17 @@ footer p, .rodape-detalhe { color: #D5BFC1; font-size: .78rem; }
   background: var(--bordo, #762F3B);
   border-color: var(--bordo, #762F3B);
 }
+
+/* Borda aprimorada dos botões de acesso */
+
+.botao-entrar,
+.botao-cadastrar {
+  border: 2px solid var(--dourado, #D6AE70);
+  box-shadow: 0 3px 8px rgba(72, 27, 39, 0.12);
+}
+
+.botao-entrar:hover,
+.botao-cadastrar:hover {
+  border-color: var(--dourado, #D6AE70);
+  box-shadow: 0 5px 12px rgba(72, 27, 39, 0.22);
+}
