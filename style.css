@@ -288,16 +288,102 @@ footer p, .rodape-detalhe { color: #D5BFC1; font-size: .78rem; }
   border-color: var(--bordo, #762F3B);
 }
 
-/* Borda aprimorada dos botões de acesso */
 
-.botao-entrar,
-.botao-cadastrar {
-  border: 2px solid var(--dourado, #D6AE70);
-  box-shadow: 0 3px 8px rgba(72, 27, 39, 0.12);
+/* Borda dourada dos botões do TechBook */
+.acesso-aluno .botao-entrar,
+.acesso-aluno .botao-cadastrar {
+  border: 2px solid #D6AE70 !important;
+  border-radius: 12px;
+  box-shadow: 0 0 0 2px rgba(214, 174, 112, 0.18);
 }
 
-.botao-entrar:hover,
-.botao-cadastrar:hover {
-  border-color: var(--dourado, #D6AE70);
-  box-shadow: 0 5px 12px rgba(72, 27, 39, 0.22);
+.acesso-aluno .botao-entrar:hover,
+.acesso-aluno .botao-cadastrar:hover {
+  border-color: #D6AE70 !important;
+  box-shadow: 0 4px 12px rgba(72, 27, 39, 0.22);
+}
+ 
+/* ===== ORGANIZAÇÃO DO CABEÇALHO TECHBOOK ===== */
+
+.topo {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto auto;
+  align-items: center;
+  gap: 20px;
+  padding: 16px 4%;
+}
+
+/* Menu de navegação */
+.topo nav {
+  min-width: 0;
+}
+
+.topo nav a {
+  white-space: nowrap;
+}
+
+/* Links do menu */
+.topo nav,
+.topo #menu {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 12px 20px;
+}
+
+/* Botões Entrar e Cadastrar-se */
+.acesso-aluno {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  flex-wrap: nowrap;
+}
+
+.acesso-aluno a {
+  white-space: nowrap;
+  padding: 10px 13px;
+  font-size: 13px;
+}
+
+/* Evita que o botão de acessibilidade fique espremido */
+.topo > .botao {
+  white-space: nowrap;
+  margin: 0;
+}
+
+/* Ajuste para telas menores */
+@media (max-width: 1100px) {
+  .topo {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 14px;
+  }
+
+  .topo nav,
+  .topo #menu {
+    flex-wrap: wrap;
+    justify-content: flex-start;
+  }
+
+  .acesso-aluno {
+    flex-wrap: wrap;
+  }
+}
+
+@media (max-width: 600px) {
+  .topo {
+    padding: 14px 5%;
+  }
+
+  .acesso-aluno {
+    width: 100%;
+  }
+
+  .acesso-aluno a {
+    flex: 1;
+    text-align: center;
+  }
 }
