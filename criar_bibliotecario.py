@@ -33,8 +33,8 @@ def main():
         print("Nome e usuário são obrigatórios.")
         return
 
-    senha = getpass.getpass("Crie uma senha (mínimo 10 caracteres): ")
-    confirmar = getpass.getpass("Digite a senha novamente: ")
+    senha = input("Crie uma senha (mínimo 10 caracteres): ")
+    confirmar = input("Digite a senha novamente: ")
 
     if len(senha) < 10:
         print("A senha precisa ter pelo menos 10 caracteres.")

@@ -99,7 +99,11 @@ class TechBookHandler(SimpleHTTPRequestHandler):
             super().do_GET()
 
     def do_POST(self):
-        if self.path not in ("/api/cadastro", "/api/login"):
+        if self.path not in (
+    "/api/cadastro",
+    "/api/login",
+    "/api/login-bibliotecario"
+):
             responder_json(self, 404, {"erro": "Rota não encontrada."})
             return
 
@@ -114,6 +118,49 @@ class TechBookHandler(SimpleHTTPRequestHandler):
                 responder_json(self, 400, {"erro": "Dados inválidos."})
                 return
 
+                        if self.path == "/api/login-bibliotecario":
+                usuario = recebido.get("usuario", "")
+                senha = recebido.get("senha", "")
+
+                if not isinstance(usuario, str) or not isinstance(senha, str):
+                    responder_json(self, 400, {"erro": "Dados inválidos."})
+                    return
+
+                usuario = usuario.strip()
+
+                if not usuario or not senha:
+                    responder_json(self, 400, {
+                        "erro": "Informe o usuário e a senha."
+                    })
+                    return
+
+                with sqlite3.connect(BANCO) as conexao:
+                    conexao.row_factory = sqlite3.Row
+                    bibliotecario = conexao.execute("""
+                        SELECT id_bibliotecario, nome, usuario, senha_hash
+                        FROM bibliotecario
+                        WHERE usuario = ? AND ativo = 1
+                    """, (usuario,)).fetchone()
+
+                if (
+                    bibliotecario is None
+                    or not verificar_senha(senha, bibliotecario["senha_hash"])
+                ):
+                    responder_json(self, 401, {
+                        "erro": "Usuário ou senha incorretos."
+                    })
+                    return
+
+                responder_json(self, 200, {
+                    "mensagem": "Login do bibliotecário validado!",
+                    "bibliotecario": {
+                        "id": bibliotecario["id_bibliotecario"],
+                        "nome": bibliotecario["nome"],
+                        "usuario": bibliotecario["usuario"]
+                    }
+                })
+                return
+            
             if self.path == "/api/login":
                 matricula = recebido.get("matricula", "")
                 senha = recebido.get("senha", "")
