@@ -391,6 +391,7 @@ footer p, .rodape-detalhe { color: #D5BFC1; font-size: .78rem; }
 /* Botões do início lado a lado */
 .hero-acoes {
   display: flex;
+  flex-direction: row;
   flex-wrap: wrap;
   align-items: center;
   gap: 12px;
