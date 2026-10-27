@@ -9,8 +9,7 @@ const ARQUIVOS = [
   "/quiz.html",
   "/login.html",
   "/cadastro.html",
-  "/login-bibliotecario.html",
-  "/bibliotecario.html"
+  "/login-bibliotecario.html"
 ];
 
 // Instala a nova versão e guarda as páginas para uso offline.
@@ -92,16 +91,51 @@ self.addEventListener("fetch", (evento) => {
     return;
   }
 
-  // Não guarda páginas de login nem outras páginas com dados de acesso.
-  // Elas só podem ser abertas quando o servidor estiver disponível.
-  const paginasDeAcesso = [
+
+  // Telas de login: tenta a rede primeiro e usa o cache offline
+  // somente para exibir o formulário estático.
+  const paginasDeLogin = [
     "/login.html",
-    "/cadastro.html",
-    "/login-bibliotecario.html",
-    "/bibliotecario.html"
+    "/login-bibliotecario.html"
   ];
 
-  if (paginasDeAcesso.includes(url.pathname)) {
+  if (paginasDeLogin.includes(url.pathname)) {
+    evento.respondWith(
+      (async () => {
+        try {
+          const resposta = await fetch(requisicao);
+
+          if (resposta.ok && resposta.type === "basic") {
+            const cache = await caches.open(CACHE_NAME);
+            await cache.put(requisicao, resposta.clone());
+          }
+
+          return resposta;
+        } catch (erro) {
+          const paginaGuardada = await caches.match(requisicao);
+
+          if (paginaGuardada) {
+            return paginaGuardada;
+          }
+
+          return new Response(
+            "A tela de login não está disponível offline. Conecte-se à internet e tente novamente.",
+            {
+              status: 503,
+              headers: {
+                "Content-Type": "text/plain; charset=utf-8"
+              }
+            }
+          );
+        }
+      })()
+    );
+
+    return;
+  }
+
+  // O painel do bibliotecário não deve ser disponibilizado pelo cache.
+  if (url.pathname === "/bibliotecario.html") {
     evento.respondWith(fetch(requisicao));
     return;
   }
