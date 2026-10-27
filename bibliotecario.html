@@ -1,0 +1,900 @@
+
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Painel do Bibliotecário | TecBook</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --vinho: #481B27;
+      --bordo: #762F3B;
+      --creme: #F5EBDD;
+      --rosa: #C58CA5;
+      --dourado: #D6AE70;
+      --papel: #FFFCF7;
+      --texto: #38272C;
+      --suave: #78666B;
+      --borda: #E6D8CB;
+      --verde: #52776B;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: "DM Sans", sans-serif;
+      background: var(--papel);
+      color: var(--texto);
+      min-height: 100vh;
+    }
+
+    button, input, select {
+      font: inherit;
+    }
+
+    button, a {
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    button {
+      cursor: pointer;
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: 250px minmax(0, 1fr);
+      min-height: 100vh;
+    }
+
+    .menu {
+      background: var(--vinho);
+      color: var(--creme);
+      padding: 28px 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 30px;
+    }
+
+    .marca {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 0 8px;
+    }
+
+    .simbolo {
+      width: 45px;
+      height: 45px;
+      display: grid;
+      place-items: center;
+      background: var(--dourado);
+      color: var(--vinho);
+      border-radius: 13px;
+      font-family: "Playfair Display", serif;
+      font-size: 22px;
+      font-weight: 700;
+    }
+
+    .marca h1 {
+      font-family: "Playfair Display", serif;
+      font-size: 25px;
+    }
+
+    .marca p {
+      color: #D9C3C5;
+      font-size: 10px;
+      letter-spacing: 2px;
+      margin-top: 3px;
+    }
+
+    .rotulo-menu {
+      color: #CDAEB5;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      padding: 0 12px;
+      margin-bottom: 8px;
+    }
+
+    .navegacao {
+      display: grid;
+      gap: 7px;
+    }
+
+    .navegacao button {
+      border: 0;
+      background: transparent;
+      color: #F5EBDD;
+      padding: 13px 12px;
+      text-align: left;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      transition: background .2s;
+    }
+
+    .navegacao button:hover,
+    .navegacao button.ativo {
+      background: var(--bordo);
+    }
+
+    .icone {
+      width: 24px;
+      text-align: center;
+      font-size: 18px;
+    }
+
+    .nota-menu {
+      margin-top: auto;
+      border: 1px solid #80515A;
+      border-radius: 14px;
+      padding: 15px;
+      font-size: 12px;
+      line-height: 1.6;
+      color: #E8D7D8;
+    }
+
+    .nota-menu strong {
+      display: block;
+      color: var(--dourado);
+      margin-bottom: 5px;
+    }
+
+    main {
+      min-width: 0;
+      padding: 30px clamp(18px, 4vw, 48px);
+    }
+
+    .topo {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding-bottom: 25px;
+      border-bottom: 1px solid var(--borda);
+    }
+
+    .topo p {
+      color: var(--suave);
+      font-size: 13px;
+      margin-bottom: 6px;
+    }
+
+    .topo h2,
+    .titulo-secao {
+      font-family: "Playfair Display", serif;
+      font-weight: 600;
+    }
+
+    .topo h2 {
+      font-size: clamp(25px, 3vw, 34px);
+    }
+
+    .perfil {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: white;
+      border: 1px solid var(--borda);
+      padding: 9px 13px;
+      border-radius: 12px;
+    }
+
+    .avatar {
+      width: 38px;
+      height: 38px;
+      background: var(--creme);
+      color: var(--bordo);
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      font-size: 19px;
+    }
+
+    .perfil strong {
+      display: block;
+      font-size: 12px;
+    }
+
+    .perfil small {
+      display: block;
+      color: var(--suave);
+      font-size: 11px;
+      margin-top: 3px;
+    }
+
+    .boas-vindas {
+      padding: 30px 0 24px;
+    }
+
+    .boas-vindas .etiqueta {
+      color: var(--bordo);
+      font-weight: 700;
+      font-size: 11px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-bottom: 9px;
+    }
+
+    .boas-vindas h3 {
+      font-family: "Playfair Display", serif;
+      font-size: clamp(25px, 3vw, 34px);
+      margin-bottom: 9px;
+    }
+
+    .boas-vindas p {
+      color: var(--suave);
+      line-height: 1.7;
+      max-width: 650px;
+      font-size: 14px;
+    }
+
+    .resumo {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+      margin-bottom: 30px;
+    }
+
+    .cartao-resumo {
+      background: white;
+      border: 1px solid var(--borda);
+      border-radius: 16px;
+      padding: 20px;
+      min-width: 0;
+    }
+
+    .cartao-resumo .mini-icone {
+      width: 42px;
+      height: 42px;
+      display: grid;
+      place-items: center;
+      background: var(--creme);
+      border-radius: 12px;
+      font-size: 20px;
+      margin-bottom: 18px;
+    }
+
+    .cartao-resumo p {
+      color: var(--suave);
+      font-size: 12px;
+      margin-bottom: 7px;
+    }
+
+    .cartao-resumo strong {
+      font-family: "Playfair Display", serif;
+      font-size: 29px;
+      overflow-wrap: anywhere;
+    }
+
+    .cartao-resumo small {
+      display: block;
+      margin-top: 8px;
+      color: var(--suave);
+      font-size: 11px;
+    }
+
+    .painel {
+      background: white;
+      border: 1px solid var(--borda);
+      border-radius: 16px;
+      padding: 23px;
+      margin-bottom: 22px;
+    }
+
+    .cabecalho-painel {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 20px;
+    }
+
+    .titulo-secao {
+      font-size: 23px;
+    }
+
+    .subtitulo {
+      font-size: 13px;
+      color: var(--suave);
+      line-height: 1.6;
+      margin-top: 6px;
+    }
+
+    .botao {
+      border: 0;
+      border-radius: 10px;
+      background: var(--vinho);
+      color: white;
+      padding: 11px 16px;
+      font-weight: 600;
+      font-size: 12px;
+      transition: background .2s;
+    }
+
+    .botao:hover {
+      background: var(--bordo);
+    }
+
+    .botao-secundario {
+      background: var(--creme);
+      color: var(--vinho);
+    }
+
+    .botao-secundario:hover {
+      background: #EBDCC9;
+    }
+
+    .ferramentas {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 18px;
+    }
+
+    .campo {
+      width: 100%;
+      padding: 12px 13px;
+      border: 1px solid var(--borda);
+      border-radius: 10px;
+      background: var(--papel);
+      color: var(--texto);
+      outline: none;
+    }
+
+    .campo:focus {
+      border-color: var(--bordo);
+      box-shadow: 0 0 0 3px #762F3B20;
+    }
+
+    .ferramentas .campo {
+      flex: 1;
+      min-width: 170px;
+    }
+
+    .grade-livros {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .livro {
+      border: 1px solid var(--borda);
+      border-radius: 13px;
+      padding: 14px;
+      min-width: 0;
+    }
+
+    .capa {
+      min-height: 115px;
+      display: grid;
+      place-items: center;
+      border-radius: 10px;
+      background: var(--creme);
+      font-size: 42px;
+      margin-bottom: 13px;
+    }
+
+    .livro h4 {
+      font-size: 14px;
+      margin-bottom: 6px;
+      overflow-wrap: anywhere;
+    }
+
+    .livro p {
+      font-size: 12px;
+      color: var(--suave);
+      line-height: 1.5;
+      overflow-wrap: anywhere;
+    }
+
+    .status {
+      display: inline-block;
+      padding: 5px 8px;
+      margin-top: 12px;
+      border-radius: 20px;
+      background: #E8F1EB;
+      color: #35604B;
+      font-size: 10px;
+      font-weight: 700;
+    }
+
+    .estado-vazio {
+      padding: 28px 10px;
+      text-align: center;
+      color: var(--suave);
+      font-size: 13px;
+      line-height: 1.7;
+      grid-column: 1 / -1;
+    }
+
+    .secao {
+      display: none;
+    }
+
+    .secao.visivel {
+      display: block;
+    }
+
+    .formulario {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 15px;
+    }
+
+    .grupo {
+      display: grid;
+      gap: 7px;
+      min-width: 0;
+    }
+
+    .grupo label {
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .grupo.completo {
+      grid-column: 1 / -1;
+    }
+
+    .mensagem {
+      margin-top: 15px;
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    .aviso {
+      border-radius: 10px;
+      padding: 13px;
+      background: #F8F0DF;
+      color: #72531F;
+      font-size: 12px;
+      line-height: 1.7;
+      margin-bottom: 18px;
+    }
+
+    .rodape {
+      padding: 24px 0 10px;
+      text-align: center;
+      color: var(--suave);
+      font-size: 11px;
+    }
+
+    @media (max-width: 900px) {
+      .layout {
+        grid-template-columns: 200px minmax(0, 1fr);
+      }
+
+      .resumo {
+        grid-template-columns: 1fr;
+      }
+
+      .grade-livros {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 620px) {
+      .layout {
+        grid-template-columns: 1fr;
+      }
+
+      .menu {
+        padding: 17px;
+        gap: 18px;
+      }
+
+      .navegacao {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .navegacao button {
+        font-size: 12px;
+        padding: 11px 8px;
+      }
+
+      .nota-menu {
+        display: none;
+      }
+
+      main {
+        padding: 22px 16px;
+      }
+
+      .perfil {
+        padding: 7px;
+      }
+
+      .perfil div:last-child {
+        display: none;
+      }
+
+      .grade-livros {
+        grid-template-columns: 1fr;
+      }
+
+      .formulario {
+        grid-template-columns: 1fr;
+      }
+
+      .grupo.completo {
+        grid-column: auto;
+      }
+
+      .painel {
+        padding: 17px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="layout">
+    <aside class="menu">
+      <div class="marca">
+        <div class="simbolo">TB</div>
+        <div>
+          <h1>TecBook</h1>
+          <p>BIBLIOTECA INTELIGENTE</p>
+        </div>
+      </div>
+
+      <div>
+        <p class="rotulo-menu">Área administrativa</p>
+        <nav class="navegacao" aria-label="Menu do bibliotecário">
+          <button class="ativo" data-secao="inicio">
+            <span class="icone">⌂</span> Visão geral
+          </button>
+          <button data-secao="catalogo">
+            <span class="icone">▤</span> Catálogo
+          </button>
+          <button data-secao="cadastro">
+            <span class="icone">＋</span> Cadastrar livro
+          </button>
+          <button data-secao="emprestimos">
+            <span class="icone">⇄</span> Empréstimos
+          </button>
+          <button data-secao="alunos">
+            <span class="icone">♙</span> Alunos
+          </button>
+        </nav>
+      </div>
+
+      <div class="nota-menu">
+        <strong>📚 Espaço de leitura</strong>
+        Organize o acervo, acompanhe os empréstimos e facilite o acesso aos livros.
+      </div>
+    </aside>
+
+    <main>
+      <header class="topo">
+        <div>
+          <p>TECBOOK / ADMINISTRAÇÃO</p>
+          <h2 id="titulo-pagina">Visão geral</h2>
+        </div>
+        <div class="perfil">
+          <div class="avatar">♙</div>
+          <div>
+            <strong>Bibliotecário</strong>
+            <small>Área administrativa</small>
+          </div>
+        </div>
+      </header>
+
+      <section id="inicio" class="secao visivel">
+        <div class="boas-vindas">
+          <p class="etiqueta">BEM-VINDO AO TECBOOK</p>
+          <h3>A biblioteca começa por aqui.</h3>
+          <p>
+            Este é o espaço de gerenciamento da biblioteca.
+            Consulte o catálogo, cadastre livros e organize os empréstimos
+            em um só lugar.
+          </p>
+        </div>
+
+        <div class="resumo">
+          <article class="cartao-resumo">
+            <div class="mini-icone">📚</div>
+            <p>Livros no catálogo</p>
+            <strong id="total-livros">—</strong>
+            <small>Dados carregados do sistema</small>
+          </article>
+
+          <article class="cartao-resumo">
+            <div class="mini-icone">🔄</div>
+            <p>Empréstimos registrados</p>
+            <strong id="total-emprestimos">—</strong>
+            <small>Consulta ainda não conectada</small>
+          </article>
+
+          <article class="cartao-resumo">
+            <div class="mini-icone">👩‍🎓</div>
+            <p>Alunos cadastrados</p>
+            <strong id="total-alunos">—</strong>
+            <small>Consulta ainda não conectada</small>
+          </article>
+        </div>
+
+        <div class="painel">
+          <div class="cabecalho-painel">
+            <div>
+              <h3 class="titulo-secao">Seu acervo</h3>
+              <p class="subtitulo">Veja os livros disponíveis no catálogo.</p>
+            </div>
+            <button class="botao" data-ir="catalogo">Ver catálogo →</button>
+          </div>
+          <div id="resumo-livros" class="grade-livros">
+            <p class="estado-vazio">Carregando catálogo...</p>
+          </div>
+        </div>
+      </section>
+
+      <section id="catalogo" class="secao">
+        <div class="painel">
+          <div class="cabecalho-painel">
+            <div>
+              <h3 class="titulo-secao">Catálogo de livros</h3>
+              <p class="subtitulo">Consulte os títulos registrados no TecBook.</p>
+            </div>
+            <button class="botao" data-ir="cadastro">＋ Novo livro</button>
+          </div>
+
+          <div class="ferramentas">
+            <input id="busca-livro" class="campo"
+              type="search" placeholder="Buscar por título ou autor..."
+              aria-label="Buscar livro">
+            <button id="atualizar-livros" class="botao botao-secundario">
+              Atualizar
+            </button>
+          </div>
+
+          <div id="lista-livros" class="grade-livros">
+            <p class="estado-vazio">Carregando catálogo...</p>
+          </div>
+          <p id="mensagem-catalogo" class="mensagem" role="status"></p>
+        </div>
+      </section>
+
+      <section id="cadastro" class="secao">
+        <div class="painel">
+          <h3 class="titulo-secao">Cadastrar um livro</h3>
+          <p class="subtitulo">
+            Preencha os dados para preparar um novo registro no acervo.
+          </p>
+
+          <div class="aviso" style="margin-top:18px">
+            Este formulário é a interface inicial. O botão de salvar só
+            ficará funcional quando conectarmos a rota de cadastro ao banco
+            de dados.
+          </div>
+
+          <form id="form-livro" class="formulario">
+            <div class="grupo completo">
+              <label for="titulo-livro">Título do livro *</label>
+              <input class="campo" id="titulo-livro" name="titulo"
+                required maxlength="200" placeholder="Ex.: O Pequeno Príncipe">
+            </div>
+
+            <div class="grupo">
+              <label for="autor-livro">Autor *</label>
+              <input class="campo" id="autor-livro" name="autor"
+                required maxlength="150" placeholder="Nome do autor">
+            </div>
+
+            <div class="grupo">
+              <label for="categoria-livro">Categoria</label>
+              <input class="campo" id="categoria-livro" name="categoria"
+                maxlength="100" placeholder="Ex.: Fantasia">
+            </div>
+
+            <div class="grupo completo">
+              <label for="imagem-livro">Endereço da imagem da capa</label>
+              <input class="campo" id="imagem-livro" name="imagem"
+                type="url" placeholder="https://...">
+            </div>
+
+            <div class="grupo completo">
+              <label for="descricao-livro">Descrição</label>
+              <input class="campo" id="descricao-livro" name="descricao"
+                maxlength="1000" placeholder="Sobre o que é este livro?">
+            </div>
+
+            <div class="grupo completo">
+              <button class="botao" type="submit">Preparar cadastro</button>
+            </div>
+          </form>
+          <p id="mensagem-cadastro" class="mensagem" role="status"></p>
+        </div>
+      </section>
+
+      <section id="emprestimos" class="secao">
+        <div class="painel">
+          <h3 class="titulo-secao">Empréstimos e devoluções</h3>
+          <p class="subtitulo">
+            Área destinada ao controle dos livros emprestados e devolvidos.
+          </p>
+          <div class="aviso" style="margin-top:18px">
+            A interface está preparada. Na próxima etapa, conectaremos esta
+            área à tabela de empréstimos do banco de dados para listar registros,
+            registrar empréstimos e confirmar devoluções.
+          </div>
+        </div>
+      </section>
+
+      <section id="alunos" class="secao">
+        <div class="painel">
+          <h3 class="titulo-secao">Alunos cadastrados</h3>
+          <p class="subtitulo">
+            Área destinada à consulta dos alunos registrados na biblioteca.
+          </p>
+          <div class="aviso" style="margin-top:18px">
+            A consulta será conectada à tabela de alunos do banco de dados.
+            Por enquanto, nenhum dado de aluno é exibido nesta tela.
+          </div>
+        </div>
+      </section>
+
+      <footer class="rodape">
+        TecBook · Biblioteca inteligente · Área do bibliotecário
+      </footer>
+    </main>
+  </div>
+
+  <script>
+    const secoes = document.querySelectorAll(".secao");
+    const botoesMenu = document.querySelectorAll("[data-secao]");
+    const tituloPagina = document.getElementById("titulo-pagina");
+
+    const titulos = {
+      inicio: "Visão geral",
+      catalogo: "Catálogo de livros",
+      cadastro: "Cadastrar livro",
+      emprestimos: "Empréstimos e devoluções",
+      alunos: "Alunos cadastrados"
+    };
+
+    function abrirSecao(nome) {
+      secoes.forEach(secao => {
+        secao.classList.toggle("visivel", secao.id === nome);
+      });
+
+      botoesMenu.forEach(botao => {
+        botao.classList.toggle("ativo", botao.dataset.secao === nome);
+      });
+
+      tituloPagina.textContent = titulos[nome] || "Painel do bibliotecário";
+    }
+
+    botoesMenu.forEach(botao => {
+      botao.addEventListener("click", () => {
+        abrirSecao(botao.dataset.secao);
+      });
+    });
+
+    document.querySelectorAll("[data-ir]").forEach(botao => {
+      botao.addEventListener("click", () => {
+        abrirSecao(botao.dataset.ir);
+      });
+    });
+
+    let livros = [];
+
+    function escaparHTML(valor) {
+      return String(valor ?? "").replace(/[&<>"']/g, caractere => ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#39;"
+      })[caractere]);
+    }
+
+    function criarCartaoLivro(livro) {
+      const titulo = livro.titulo || livro.nome || "Livro sem título";
+      const autor = livro.autor || "Autor não informado";
+      const imagem = livro.imagem || livro.capa || livro.imagem_url || "";
+
+      const visual = imagem
+        ? `<img src="${escaparHTML(imagem)}" alt="Capa de ${escaparHTML(titulo)}" style="width:100%;height:115px;object-fit:contain;border-radius:10px;background:#F5EBDD;margin-bottom:13px" onerror="this.outerHTML='<div class=&quot;capa&quot;>📖</div>'">`
+        : '<div class="capa">📖</div>';
+
+      return `
+        <article class="livro">
+          ${visual}
+          <h4>${escaparHTML(titulo)}</h4>
+          <p>${escaparHTML(autor)}</p>
+          <span class="status">Registrado no catálogo</span>
+        </article>
+      `;
+    }
+
+    function renderizarLivros() {
+      const busca = document.getElementById("busca-livro").value
+        .trim().toLocaleLowerCase("pt-BR");
+
+      const filtrados = livros.filter(livro => {
+        const titulo = String(livro.titulo || livro.nome || "");
+        const autor = String(livro.autor || "");
+        return `${titulo} ${autor}`.toLocaleLowerCase("pt-BR").includes(busca);
+      });
+
+      const lista = document.getElementById("lista-livros");
+      const resumo = document.getElementById("resumo-livros");
+
+      lista.innerHTML = filtrados.length
+        ? filtrados.map(criarCartaoLivro).join("")
+        : '<p class="estado-vazio">Nenhum livro encontrado para essa busca.</p>';
+
+      resumo.innerHTML = livros.length
+        ? livros.slice(0, 3).map(criarCartaoLivro).join("")
+        : '<p class="estado-vazio">Nenhum livro retornado pelo catálogo ainda.</p>';
+
+      document.getElementById("total-livros").textContent = livros.length;
+    }
+
+    async function carregarLivros() {
+      const lista = document.getElementById("lista-livros");
+      const mensagem = document.getElementById("mensagem-catalogo");
+      mensagem.textContent = "";
+
+      try {
+        const resposta = await fetch("/api/livros", {
+          headers: { "Accept": "application/json" },
+          credentials: "same-origin"
+        });
+
+        if (!resposta.ok) {
+          throw new Error(`O servidor respondeu com status ${resposta.status}.`);
+        }
+
+        const dados = await resposta.json();
+
+        livros = Array.isArray(dados)
+          ? dados
+          : Array.isArray(dados.livros) ? dados.livros : [];
+
+        renderizarLivros();
+      } catch (erro) {
+        lista.innerHTML =
+          '<p class="estado-vazio">Não foi possível carregar os livros. Verifique se o servidor está funcionando.</p>';
+
+        document.getElementById("resumo-livros").innerHTML =
+          '<p class="estado-vazio">O catálogo não pôde ser carregado.</p>';
+
+        document.getElementById("total-livros").textContent = "—";
+        mensagem.textContent = erro.message;
+      }
+    }
+
+    document.getElementById("busca-livro")
+      .addEventListener("input", renderizarLivros);
+
+    document.getElementById("atualizar-livros")
+      .addEventListener("click", carregarLivros);
+
+    document.getElementById("form-livro").addEventListener("submit", evento => {
+      evento.preventDefault();
+      document.getElementById("mensagem-cadastro").textContent =
+        "O formulário está pronto visualmente. Ainda precisamos conectar o salvamento ao banco de dados.";
+    });
+
+    carregarLivros();
+
+    // Estes dados só serão preenchidos quando criarmos as consultas no servidor.
+    document.getElementById("total-emprestimos").textContent = "—";
+    document.getElementById("total-alunos").textContent = "—";
+  </script>
+</body>
+</html>
