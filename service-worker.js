@@ -9,7 +9,8 @@ const ARQUIVOS = [
   "/quiz.html",
   "/login.html",
   "/cadastro.html",
-  "/login-bibliotecario.html"
+  "/login-bibliotecario.html",
+  "/bibliotecario.html"
 ];
 
 // Instala a nova versão e guarda as páginas para uso offline.
@@ -134,11 +135,44 @@ self.addEventListener("fetch", (evento) => {
     return;
   }
 
-  // O painel do bibliotecário não deve ser disponibilizado pelo cache.
+
+  // Permite abrir o painel do bibliotecário offline
+  // usando a cópia salva no cache.
   if (url.pathname === "/bibliotecario.html") {
-    evento.respondWith(fetch(requisicao));
+    evento.respondWith(
+      (async () => {
+        try {
+          const resposta = await fetch(requisicao);
+
+          if (resposta.ok && resposta.type === "basic") {
+            const cache = await caches.open(CACHE_NAME);
+            await cache.put(requisicao, resposta.clone());
+          }
+
+          return resposta;
+        } catch (erro) {
+          const paginaGuardada = await caches.match(requisicao);
+
+          if (paginaGuardada) {
+            return paginaGuardada;
+          }
+
+          return new Response(
+            "O painel ainda não foi salvo para uso offline. Conecte-se à internet e abra-o primeiro.",
+            {
+              status: 503,
+              headers: {
+                "Content-Type": "text/plain; charset=utf-8"
+              }
+            }
+          );
+        }
+      })()
+    );
+
     return;
   }
+
 
   evento.respondWith(
     (async () => {
