@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Login do aluno — TechBook</title>
+  <title>Login — TechBook</title>
   <link rel="stylesheet" href="style.css">
 
   <style>
@@ -66,6 +66,14 @@
       font: inherit;
       font-weight: 700;
       cursor: pointer;
+      text-align: center;
+      text-decoration: none;
+      display: block;
+      transition: background 0.2s, transform 0.2s;
+    }
+
+    .login-botao:hover {
+      background: var(--bordo, #762F3B);
     }
 
     .login-botao:disabled {
@@ -84,6 +92,70 @@
       margin-top: 22px;
       text-align: center;
     }
+
+    .separador-login {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin: 24px 0 18px;
+      color: var(--suave, #78666B);
+      font-size: 12px;
+    }
+
+    .separador-login::before,
+    .separador-login::after {
+      content: "";
+      height: 1px;
+      background: var(--borda, #E6D8CB);
+      flex: 1;
+    }
+
+    .acesso-bibliotecario {
+      display: grid;
+      gap: 8px;
+      padding: 16px;
+      border: 1px solid var(--borda, #E6D8CB);
+      border-radius: 13px;
+      background: var(--creme, #F5EBDD);
+    }
+
+    .acesso-bibliotecario strong {
+      color: var(--vinho, #481B27);
+      font-size: 14px;
+    }
+
+    .acesso-bibliotecario p {
+      color: var(--suave, #78666B);
+      font-size: 12px;
+      line-height: 1.6;
+    }
+
+    .botao-bibliotecario {
+      display: block;
+      width: 100%;
+      padding: 12px;
+      border: 1px solid var(--vinho, #481B27);
+      border-radius: 9px;
+      color: var(--vinho, #481B27);
+      background: transparent;
+      font: inherit;
+      font-size: 13px;
+      font-weight: 700;
+      text-align: center;
+      text-decoration: none;
+      transition: background 0.2s, color 0.2s;
+    }
+
+    .botao-bibliotecario:hover {
+      background: var(--vinho, #481B27);
+      color: white;
+    }
+
+    @media (max-width: 480px) {
+      .login-cartao {
+        padding: 24px 20px;
+      }
+    }
   </style>
 </head>
 
@@ -91,7 +163,9 @@
   <main class="login-pagina">
     <section class="login-cartao">
       <p class="genero-livro">TECHBOOK · ÁREA DO ALUNO</p>
+
       <h1>Bem-vindo de volta!</h1>
+
       <p>Entre com sua matrícula para continuar sua jornada de leitura.</p>
 
       <form id="form-login">
@@ -119,7 +193,7 @@
         </div>
 
         <button class="login-botao" id="botao-login" type="submit">
-          Entrar
+          Entrar como aluno
         </button>
 
         <p id="mensagem-login" role="status" aria-live="polite"></p>
@@ -129,6 +203,24 @@
         <a href="cadastro.html">Ainda não tem conta? Cadastre-se</a>
         <a href="index.html">← Voltar para a biblioteca</a>
       </div>
+
+      <div class="separador-login">OU</div>
+
+      <section class="acesso-bibliotecario">
+        <strong>É bibliotecário?</strong>
+
+        <p>
+          Acesse a área administrativa para gerenciar o catálogo
+          e os serviços da biblioteca.
+        </p>
+
+        <a
+          class="botao-bibliotecario"
+          href="login-bibliotecario.html"
+        >
+          Entrar como bibliotecário →
+        </a>
+      </section>
     </section>
   </main>
 
@@ -172,7 +264,7 @@
             : erro.message;
       } finally {
         botao.disabled = false;
-        botao.textContent = "Entrar";
+        botao.textContent = "Entrar como aluno";
       }
     });
   </script>

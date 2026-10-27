@@ -1,16 +1,19 @@
 
-
-const CACHE_NAME = "tecbook-offline-v2";
+const CACHE_NAME = "tecbook-offline-v3";
 
 const ARQUIVOS = [
   "/",
   "/index.html",
   "/style.css",
   "/script.js",
-  "/quiz.html"
+  "/quiz.html",
+  "/login.html",
+  "/cadastro.html",
+  "/login-bibliotecario.html",
+  "/bibliotecario.html"
 ];
 
-// 1. Instala o modo offline e guarda os arquivos principais.
+// Instala a nova versão e guarda as páginas para uso offline.
 self.addEventListener("install", (evento) => {
   evento.waitUntil(
     (async () => {
@@ -18,25 +21,39 @@ self.addEventListener("install", (evento) => {
 
       for (const arquivo of ARQUIVOS) {
         try {
-          const resposta = await fetch(arquivo);
+          const resposta = await fetch(arquivo, {
+            cache: "no-store"
+          });
 
-          if (resposta.ok) {
+          // Só guarda páginas e arquivos válidos.
+          if (
+            resposta.ok &&
+            resposta.type === "basic"
+          ) {
             await cache.put(arquivo, resposta);
+          } else {
+            console.warn(
+              "Arquivo não foi guardado:",
+              arquivo,
+              resposta.status
+            );
           }
         } catch (erro) {
-          console.log(
-            "Não foi possível guardar o arquivo:",
-            arquivo
+          console.warn(
+            "Não foi possível guardar:",
+            arquivo,
+            erro
           );
         }
       }
 
+      // Ativa a nova versão sem esperar todas as abas fecharem.
       await self.skipWaiting();
     })()
   );
 });
 
-// 2. Ativa a nova versão e limpa caches antigos do TecBook.
+// Ativa a versão nova e remove caches antigos do TecBook.
 self.addEventListener("activate", (evento) => {
   evento.waitUntil(
     (async () => {
@@ -57,12 +74,12 @@ self.addEventListener("activate", (evento) => {
   );
 });
 
-// 3. Tenta carregar os arquivos e usa o cache se a conexão falhar.
+// Busca primeiro na rede e usa o cache se estiver offline.
 self.addEventListener("fetch", (evento) => {
   const requisicao = evento.request;
   const url = new URL(requisicao.url);
 
-  // Só trata pedidos GET do próprio TecBook.
+  // Só trata pedidos GET do próprio site.
   if (
     requisicao.method !== "GET" ||
     url.origin !== self.location.origin
@@ -70,19 +87,31 @@ self.addEventListener("fetch", (evento) => {
     return;
   }
 
-  // Não guarda nem substitui respostas da API do banco de dados.
+  // Não intercepta nem guarda respostas da API.
   if (url.pathname.startsWith("/api/")) {
+    return;
+  }
+
+  // Não guarda páginas de login nem outras páginas com dados de acesso.
+  // Elas só podem ser abertas quando o servidor estiver disponível.
+  const paginasDeAcesso = [
+    "/login.html",
+    "/cadastro.html",
+    "/login-bibliotecario.html",
+    "/bibliotecario.html"
+  ];
+
+  if (paginasDeAcesso.includes(url.pathname)) {
+    evento.respondWith(fetch(requisicao));
     return;
   }
 
   evento.respondWith(
     (async () => {
       try {
-        // Primeiro tenta buscar a versão atual no servidor.
         const resposta = await fetch(requisicao);
 
-        // Guarda uma cópia das respostas válidas.
-        if (resposta.ok) {
+        if (resposta.ok && resposta.type === "basic") {
           const cache = await caches.open(CACHE_NAME);
 
           await cache.put(requisicao, resposta.clone());
@@ -90,14 +119,13 @@ self.addEventListener("fetch", (evento) => {
 
         return resposta;
       } catch (erro) {
-        // Sem conexão, tenta encontrar o arquivo guardado.
         const arquivoGuardado = await caches.match(requisicao);
 
         if (arquivoGuardado) {
           return arquivoGuardado;
         }
 
-        // Se uma página não estiver no cache, tenta abrir o início.
+        // Se uma página não estiver no cache, tenta a página inicial.
         if (requisicao.mode === "navigate") {
           const paginaInicial = await caches.match("/index.html");
 
@@ -106,7 +134,6 @@ self.addEventListener("fetch", (evento) => {
           }
         }
 
-        // Se não houver cópia, informa que não foi possível carregar.
         return new Response(
           "Este conteúdo ainda não foi salvo para uso offline.",
           {
