@@ -2,320 +2,317 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Ranking | TecBook</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ranking | TechBook</title>
 
+    <link rel="stylesheet" href="style.css">
 
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+    <style>
+        * {
+            box-sizing: border-box;
+        }
 
+        body {
+            font-family: Arial, sans-serif;
+            background: var(--papel, #FFFCF7);
+            color: var(--texto, #38272C);
+            padding: 25px 16px;
+        }
 
-    body {
-      font-family: Arial, sans-serif;
-      background: #f5f1eb;
-      color: #302b35;
-      padding: 25px 16px;
-    }
+        .container {
+            width: 100%;
+            max-width: 850px;
+            margin: 0 auto;
+        }
 
+        .botao-voltar {
+            display: inline-flex;
+            align-items: center;
+            padding: 11px 18px;
+            margin-bottom: 15px;
+            color: var(--vinho, #481B27);
+            background: var(--papel, #FFFCF7);
+            border: 2px solid var(--dourado, #D6AE70);
+            border-radius: 10px;
+            font-weight: bold;
+            text-decoration: none;
+            transition: 0.25s ease;
+        }
 
-    .container {
-      max-width: 850px;
-      margin: auto;
-    }
+        .botao-voltar:hover {
+            background: var(--vinho, #481B27);
+            color: var(--creme, #F5EBDD);
+            transform: translateY(-2px);
+        }
 
+        .ranking-header {
+            width: 100%;
+            text-align: center;
+            margin: 25px 0 35px;
+        }
 
-    header {
-      text-align: center;
-      margin: 20px 0 35px;
-    }
+        .ranking-header h1 {
+            max-width: none;
+            width: 100%;
+            margin: 0 auto 10px;
+            color: var(--vinho, #481B27);
+            font-size: clamp(28px, 5vw, 38px);
+            line-height: 1.2;
+            text-align: center;
+        }
 
+        .ranking-header p {
+            color: var(--suave, #78666B);
+        }
 
-    header h1 {
-      color: #704b70;
-      font-size: 30px;
-      margin-bottom: 10px;
-    }
+        .aviso {
+            background: var(--creme, #F5EBDD);
+            color: var(--vinho, #481B27);
+            padding: 14px;
+            border-radius: 10px;
+            text-align: center;
+            font-size: 13px;
+            margin-bottom: 30px;
+            border: 1px solid var(--borda, #E6D8CB);
+        }
 
+        .podio {
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            gap: 12px;
+            margin: 35px 0;
+        }
 
-    header p {
-      color: #746b76;
-    }
+        .posicao {
+            background: white;
+            border-radius: 15px;
+            padding: 20px 10px;
+            text-align: center;
+            flex: 1;
+            max-width: 210px;
+            box-shadow: 0 4px 15px #0000000d;
+            border: 2px solid var(--borda, #E6D8CB);
+        }
 
+        .primeiro {
+            padding-top: 35px;
+            padding-bottom: 35px;
+            border-color: var(--dourado, #D6AE70);
+        }
 
-    .aviso {
-      background: #eee4f0;
-      color: #704b70;
-      padding: 12px;
-      border-radius: 10px;
-      text-align: center;
-      font-size: 13px;
-      margin-bottom: 30px;
-    }
+        .segundo {
+            border-color: #B7B7B7;
+        }
 
+        .terceiro {
+            border-color: #BD8967;
+        }
 
-    .podio {
-      display: flex;
-      align-items: end;
-      justify-content: center;
-      gap: 12px;
-      margin: 35px 0;
-    }
+        .medalha {
+            font-size: 30px;
+            margin-bottom: 10px;
+        }
 
+        .avatar {
+            font-size: 35px;
+            margin-bottom: 12px;
+        }
 
-    .posicao {
-      background: white;
-      border-radius: 15px;
-      padding: 20px 10px;
-      text-align: center;
-      flex: 1;
-      max-width: 210px;
-      box-shadow: 0 4px 15px #0000000d;
-    }
+        .posicao h2 {
+            color: var(--vinho, #481B27);
+            font-size: 16px;
+            margin-bottom: 8px;
+        }
 
+        .posicao p {
+            color: var(--suave, #78666B);
+            font-size: 13px;
+        }
 
-    .primeiro {
-      padding-top: 35px;
-      padding-bottom: 35px;
-      border: 2px solid #d5ad52;
-    }
+        .pontos {
+            color: var(--vinho, #481B27);
+            font-weight: bold;
+            margin-top: 10px;
+        }
 
+        .lista {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            margin-top: 35px;
+            box-shadow: 0 4px 15px #0000000d;
+            border: 1px solid var(--borda, #E6D8CB);
+        }
 
-    .segundo {
-      border: 2px solid #b7b7b7;
-    }
+        .lista h2 {
+            color: var(--vinho, #481B27);
+            margin-bottom: 20px;
+            font-size: 20px;
+        }
 
+        .participante {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px 5px;
+            border-bottom: 1px solid #eee;
+            gap: 10px;
+        }
 
-    .terceiro {
-      border: 2px solid #bd8967;
-    }
+        .participante:last-child {
+            border-bottom: none;
+        }
 
+        .nome {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
 
-    .avatar {
-      font-size: 35px;
-      margin-bottom: 12px;
-    }
+        .numero {
+            font-weight: bold;
+            color: var(--bordo, #762F3B);
+            width: 25px;
+        }
 
+        .pontuacao {
+            font-weight: bold;
+            color: var(--vinho, #481B27);
+            white-space: nowrap;
+        }
 
-    .posicao h2 {
-      font-size: 15px;
-      margin-bottom: 8px;
-    }
+        .rodape {
+            text-align: center;
+            color: var(--suave, #78666B);
+            font-size: 12px;
+            margin-top: 30px;
+        }
 
+        @media (max-width: 480px) {
+            .podio {
+                gap: 6px;
+            }
 
-    .medalha {
-      font-size: 27px;
-      margin-bottom: 10px;
-    }
+            .posicao {
+                padding: 15px 5px;
+            }
 
+            .primeiro {
+                padding-top: 25px;
+                padding-bottom: 25px;
+            }
 
-    .pontos {
-      color: #704b70;
-      font-weight: bold;
-      margin-top: 10px;
-    }
+            .posicao h2 {
+                font-size: 12px;
+            }
 
+            .avatar {
+                font-size: 27px;
+            }
 
-    .lista {
-      background: white;
-      border-radius: 15px;
-      padding: 20px;
-      margin-top: 35px;
-      box-shadow: 0 4px 15px #0000000d;
-    }
+            .medalha {
+                font-size: 24px;
+            }
 
-
-    .lista h2 {
-      color: #704b70;
-      margin-bottom: 20px;
-      font-size: 20px;
-    }
-
-
-    .participante {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 15px 5px;
-      border-bottom: 1px solid #eee;
-      gap: 10px;
-    }
-
-
-    .participante:last-child {
-      border-bottom: none;
-    }
-
-
-    .nome {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-
-
-    .numero {
-      font-weight: bold;
-      color: #8c758e;
-      width: 25px;
-    }
-
-
-    .pontuacao {
-      font-weight: bold;
-      color: #704b70;
-      white-space: nowrap;
-    }
-
-
-    .rodape {
-      text-align: center;
-      color: #827985;
-      font-size: 12px;
-      margin-top: 30px;
-    }
-
-
-    @media (max-width: 480px) {
-      .podio {
-        gap: 6px;
-      }
-
-
-      .posicao {
-        padding: 15px 5px;
-      }
-
-
-      .posicao h2 {
-        font-size: 12px;
-      }
-
-
-      .avatar {
-        font-size: 27px;
-      }
-
-
-      .pontos {
-        font-size: 12px;
-      }
-    }
-  </style>
+            .pontos {
+                font-size: 12px;
+            }
+        }
+    </style>
 </head>
-
 
 <body>
 
+    <main class="container">
 
-  <main class="container">
+        <a href="index.html" class="botao-voltar">
+            ← Voltar para a página inicial
+        </a>
 
+        <header class="ranking-header">
+            <h1>Ranking TecBook</h1>
+            <p>Descubra quem está se destacando nas leituras!</p>
+        </header>
 
-    <header>
-      <h1> Ranking TecBook</h1>
-      <p>Descubra quem está se destacando nas leituras!</p>
-    </header>
-
-
-    <div class="aviso">
-       Protótipo demonstrativo — pontuações fictícias.
-    </div>
-
-
-    <section class="podio">
-
-
-      <article class="posicao segundo">
-        <div class="medalha"></div>
-        <div class="avatar"></div>
-        <h2>Marina</h2>
-        <p>2º lugar</p>
-        <div class="pontos">850 pontos</div>
-      </article>
-
-
-      <article class="posicao primeiro">
-        <div class="medalha"></div>
-        <div class="avatar"></div>
-        <h2>Gabriel</h2>
-        <p>1º lugar</p>
-        <div class="pontos">1.200 pontos</div>
-      </article>
-
-
-      <article class="posicao terceiro">
-        <div class="medalha"></div>
-        <div class="avatar"></div>
-        <h2>Lucas</h2>
-        <p>3º lugar</p>
-        <div class="pontos">720 pontos</div>
-      </article>
-
-
-    </section>
-
-
-    <section class="lista">
-
-
-      <h2> Classificação geral</h2>
-
-
-      <div class="participante">
-        <div class="nome">
-          <span class="numero">4º</span>
-          <span> Ana Clara</span>
+        <div class="aviso">
+            Protótipo demonstrativo — pontuações fictícias.
         </div>
-        <span class="pontuacao">650 pts</span>
-      </div>
 
+        <section class="podio">
 
-      <div class="participante">
-        <div class="nome">
-          <span class="numero">5º</span>
-          <span> Rafael</span>
-        </div>
-        <span class="pontuacao">580 pts</span>
-      </div>
+            <article class="posicao segundo">
+                <div class="medalha">🥈</div>
+                <div class="avatar">👩🏻‍🎓</div>
+                <h2>Marina</h2>
+                <p>2º lugar</p>
+                <div class="pontos">850 pontos</div>
+            </article>
 
+            <article class="posicao primeiro">
+                <div class="medalha">🥇</div>
+                <div class="avatar">👨🏻‍🎓</div>
+                <h2>Gabriel</h2>
+                <p>1º lugar</p>
+                <div class="pontos">1.200 pontos</div>
+            </article>
 
-      <div class="participante">
-        <div class="nome">
-          <span class="numero">6º</span>
-          <span> Beatriz</span>
-        </div>
-        <span class="pontuacao">450 pts</span>
-      </div>
+            <article class="posicao terceiro">
+                <div class="medalha">🥉</div>
+                <div class="avatar">👨🏽‍🎓</div>
+                <h2>Lucas</h2>
+                <p>3º lugar</p>
+                <div class="pontos">720 pontos</div>
+            </article>
 
+        </section>
 
-      <div class="participante">
-        <div class="nome">
-          <span class="numero">7º</span>
-          <span> Pedro</span>
-        </div>
-        <span class="pontuacao">320 pts</span>
-      </div>
+        <section class="lista">
 
+            <h2>Classificação geral</h2>
 
-    </section>
+            <div class="participante">
+                <div class="nome">
+                    <span class="numero">4º</span>
+                    <span>Ana Clara</span>
+                </div>
+                <span class="pontuacao">650 pts</span>
+            </div>
 
+            <div class="participante">
+                <div class="nome">
+                    <span class="numero">5º</span>
+                    <span>Rafael</span>
+                </div>
+                <span class="pontuacao">580 pts</span>
+            </div>
 
-    <footer class="rodape">
-      TecBook — Incentivando a leitura e novas descobertas.
-      <br><br>
-      Classificação ilustrativa para apresentação escolar.
-    </footer>
+            <div class="participante">
+                <div class="nome">
+                    <span class="numero">6º</span>
+                    <span>Beatriz</span>
+                </div>
+                <span class="pontuacao">450 pts</span>
+            </div>
 
+            <div class="participante">
+                <div class="nome">
+                    <span class="numero">7º</span>
+                    <span>Pedro</span>
+                </div>
+                <span class="pontuacao">320 pts</span>
+            </div>
 
-  </main>
+        </section>
 
+        <footer class="rodape">
+            TecBook — Incentivando a leitura e novas descobertas.
+            <br><br>
+            Classificação ilustrativa para apresentação escolar.
+        </footer>
+
+    </main>
 
 </body>
 </html>
-
-
-
