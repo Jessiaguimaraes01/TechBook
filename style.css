@@ -402,3 +402,45 @@ footer p, .rodape-detalhe { color: #D5BFC1; font-size: .78rem; }
   align-items: center;
   justify-content: center;
 }
+
+
+/* ===== BOTÃO ACESSAR RANKING ===== */
+
+.botao-ranking {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 20px;
+
+    background: var(--vinho);
+    color: var(--creme);
+
+    border: 2px solid var(--dourado);
+    border-radius: 10px;
+
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    text-decoration: none;
+
+    box-shadow: 0 4px 12px rgba(72, 27, 39, 0.15);
+    transition: all 0.25s ease;
+}
+
+.botao-ranking:hover {
+    background: var(--bordo);
+    border-color: var(--dourado);
+    color: white;
+    transform: translateY(-3px);
+    box-shadow: 0 7px 16px rgba(72, 27, 39, 0.22);
+}
+
+/* Alinhamento do botão */
+.botao-ranking-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 18px 0;
+}
+
+
