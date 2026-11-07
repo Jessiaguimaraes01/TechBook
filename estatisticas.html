@@ -6,204 +6,237 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>TechBook | Estatísticas</title>
 
+
 <style>
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+   margin: 0;
+   padding: 0;
+   box-sizing: border-box;
 }
+
 
 body {
-    font-family: Arial, sans-serif;
-    background: #F5EBDD;
-    color: #38272C;
+   font-family: Arial, sans-serif;
+   background: #F5EBDD;
+   color: #38272C;
 }
+
 
 header {
-    background: #481B27;
-    color: white;
-    padding: 28px 7%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 15px;
+   background: #481B27;
+   color: white;
+   padding: 28px 7%;
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+   flex-wrap: wrap;
+   gap: 15px;
 }
+
 
 .logo {
-    font-size: 30px;
-    font-weight: bold;
+   font-size: 30px;
+   font-weight: bold;
 }
+
 
 .logo span {
-    color: #D6AE70;
+   color: #D6AE70;
 }
+
 
 header p {
-    color: #F5EBDD;
-    margin-top: 7px;
+   color: #F5EBDD;
+   margin-top: 7px;
 }
+
 
 header a {
-    background: #762F3B;
-    color: white;
-    padding: 12px 18px;
-    border-radius: 9px;
-    text-decoration: none;
+   background: #762F3B;
+   color: white;
+   padding: 12px 18px;
+   border-radius: 9px;
+   text-decoration: none;
 }
+
 
 nav {
-    background: #FFFCF7;
-    padding: 18px 7%;
-    display: flex;
-    gap: 25px;
-    flex-wrap: wrap;
+   background: #FFFCF7;
+   padding: 18px 7%;
+   display: flex;
+   gap: 25px;
+   flex-wrap: wrap;
 }
+
 
 nav a {
-    color: #78666B;
-    text-decoration: none;
-    font-size: 14px;
+   color: #78666B;
+   text-decoration: none;
+   font-size: 14px;
 }
+
 
 main {
-    max-width: 1200px;
-    margin: 35px auto;
-    padding: 0 20px;
+   max-width: 1200px;
+   margin: 35px auto;
+   padding: 0 20px;
 }
+
 
 .intro {
-    margin-bottom: 25px;
+   margin-bottom: 25px;
 }
+
 
 .intro h1 {
-    font-size: 30px;
-    margin-bottom: 12px;
+   font-size: 30px;
+   margin-bottom: 12px;
 }
+
 
 .intro p {
-    color: #78666B;
-    line-height: 1.7;
+   color: #78666B;
+   line-height: 1.7;
 }
+
 
 .notice {
-    background: #FFF7EA;
-    border-left: 4px solid #D6AE70;
-    padding: 15px;
-    border-radius: 8px;
-    margin-bottom: 25px;
-    color: #481B27;
-    font-size: 13px;
-    line-height: 1.6;
+   background: #FFF7EA;
+   border-left: 4px solid #D6AE70;
+   padding: 15px;
+   border-radius: 8px;
+   margin-bottom: 25px;
+   color: #481B27;
+   font-size: 13px;
+   line-height: 1.6;
 }
+
 
 .stats {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 18px;
-    margin-bottom: 35px;
+   display: grid;
+   grid-template-columns: repeat(3, 1fr);
+   gap: 18px;
+   margin-bottom: 35px;
 }
+
 
 .card {
-    background: #FFFCF7;
-    padding: 24px;
-    border-radius: 15px;
-    box-shadow: 0 5px 20px #26345b0a;
+   background: #FFFCF7;
+   padding: 24px;
+   border-radius: 15px;
+   box-shadow: 0 5px 20px #26345b0a;
 }
+
 
 .stat-label {
-    color: #78666B;
-    font-size: 14px;
-    margin-bottom: 15px;
+   color: #78666B;
+   font-size: 14px;
+   margin-bottom: 15px;
 }
+
 
 .stat-number {
-    font-size: 28px;
-    font-weight: bold;
-    color: #481B27;
+   font-size: 28px;
+   font-weight: bold;
+   color: #481B27;
 }
+
 
 .section-title {
-    font-size: 23px;
-    margin-bottom: 20px;
+   font-size: 23px;
+   margin-bottom: 20px;
 }
+
 
 .questions {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 22px;
+   display: grid;
+   grid-template-columns: repeat(2, minmax(0, 1fr));
+   gap: 22px;
 }
+
 
 .question {
-    min-width: 0;
+   min-width: 0;
 }
+
 
 .question h3 {
-    font-size: 17px;
-    line-height: 1.5;
-    margin-bottom: 8px;
+   font-size: 17px;
+   line-height: 1.5;
+   margin-bottom: 8px;
 }
+
 
 .description {
-    color: #78666B;
-    font-size: 12px;
-    line-height: 1.6;
-    margin-bottom: 24px;
+   color: #78666B;
+   font-size: 12px;
+   line-height: 1.6;
+   margin-bottom: 24px;
 }
+
 
 .tag {
-    display: inline-block;
-    background: #F5EBDD;
-    color: #762F3B;
-    padding: 6px 10px;
-    border-radius: 20px;
-    font-size: 11px;
-    margin-bottom: 12px;
+   display: inline-block;
+   background: #F5EBDD;
+   color: #762F3B;
+   padding: 6px 10px;
+   border-radius: 20px;
+   font-size: 11px;
+   margin-bottom: 12px;
 }
 
+
 .total {
-    font-size: 12px;
-    color: #78666B;
-    margin-bottom: 20px;
+   font-size: 12px;
+   color: #78666B;
+   margin-bottom: 20px;
 }
+
 
 /* GRÁFICOS DE BARRAS */
 
+
 .bar-item {
-    margin-bottom: 19px;
+   margin-bottom: 19px;
 }
+
 
 .bar-info {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    gap: 12px;
-    font-size: 13px;
-    margin-bottom: 8px;
+   display: flex;
+   justify-content: space-between;
+   align-items: flex-start;
+   gap: 12px;
+   font-size: 13px;
+   margin-bottom: 8px;
 }
+
 
 .bar-info span:first-child {
-    line-height: 1.5;
+   line-height: 1.5;
 }
+
 
 .bar-info strong {
-    white-space: nowrap;
-    color: #34436c;
+   white-space: nowrap;
+   color: #34436c;
 }
+
 
 .bar-bg {
-    width: 100%;
-    height: 10px;
-    background: #E6D8CB;
-    border-radius: 20px;
-    overflow: hidden;
+   width: 100%;
+   height: 10px;
+   background: #E6D8CB;
+   border-radius: 20px;
+   overflow: hidden;
 }
 
+
 .bar {
-    height: 100%;
-    background: #762F3B;
-    border-radius: 20px;
+   height: 100%;
+   background: #762F3B;
+   border-radius: 20px;
 }
+
 
 .blue { background: #762F3B; }
 .orange { background: #D6AE70; }
@@ -214,417 +247,427 @@ main {
 .teal { background: #C58CA5; }
 .pink { background: #C58CA5; }
 
+
 /* GRÁFICO DE PIZZA */
 
+
 .pie-area {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 28px;
-    flex-wrap: wrap;
-    padding: 10px 0;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   gap: 28px;
+   flex-wrap: wrap;
+   padding: 10px 0;
 }
+
 
 .pie {
-    width: 175px;
-    height: 175px;
-    min-width: 175px;
-    border-radius: 50%;
-    position: relative;
+   width: 175px;
+   height: 175px;
+   min-width: 175px;
+   border-radius: 50%;
+   position: relative;
 }
+
 
 .pie::after {
-    content: "";
-    position: absolute;
-    inset: 35%;
-    background: #FFFCF7;
-    border-radius: 50%;
+   content: "";
+   position: absolute;
+   inset: 35%;
+   background: #FFFCF7;
+   border-radius: 50%;
 }
+
 
 .legend {
-    flex: 1;
-    min-width: 150px;
+   flex: 1;
+   min-width: 150px;
 }
+
 
 .legend-item {
-    display: flex;
-    align-items: flex-start;
-    gap: 9px;
-    margin: 13px 0;
-    font-size: 12px;
-    color: #586582;
-    line-height: 1.5;
+   display: flex;
+   align-items: flex-start;
+   gap: 9px;
+   margin: 13px 0;
+   font-size: 12px;
+   color: #586582;
+   line-height: 1.5;
 }
+
 
 .dot {
-    width: 11px;
-    height: 11px;
-    min-width: 11px;
-    border-radius: 50%;
-    margin-top: 2px;
+   width: 11px;
+   height: 11px;
+   min-width: 11px;
+   border-radius: 50%;
+   margin-top: 2px;
 }
 
+
 .legend-item strong {
-    color: #481B27;
+   color: #481B27;
 }
+
 
 /* SUGESTÕES */
 
+
 .suggestions {
-    grid-column: 1 / -1;
+   grid-column: 1 / -1;
 }
+
 
 .suggestion-list {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 15px;
+   display: grid;
+   grid-template-columns: repeat(3, 1fr);
+   gap: 15px;
 }
+
 
 .suggestion {
-    background: #FBF5ED;
-    padding: 18px;
-    border-radius: 12px;
-    border: 1px solid #E6D8CB;
+   background: #FBF5ED;
+   padding: 18px;
+   border-radius: 12px;
+   border: 1px solid #E6D8CB;
 }
+
 
 .suggestion strong {
-    display: block;
-    margin-bottom: 9px;
-    color: #34436c;
+   display: block;
+   margin-bottom: 9px;
+   color: #34436c;
 }
+
 
 .suggestion p {
-    color: #78666B;
-    font-size: 13px;
-    line-height: 1.6;
+   color: #78666B;
+   font-size: 13px;
+   line-height: 1.6;
 }
+
 
 .conclusion {
-    margin-top: 28px;
-    background: #481B27;
-    color: white;
-    padding: 28px;
-    border-radius: 16px;
+   margin-top: 28px;
+   background: #481B27;
+   color: white;
+   padding: 28px;
+   border-radius: 16px;
 }
+
 
 .conclusion h2 {
-    margin-bottom: 12px;
+   margin-bottom: 12px;
 }
+
 
 .conclusion p {
-    color: #F5EBDD;
-    line-height: 1.8;
-    font-size: 14px;
+   color: #F5EBDD;
+   line-height: 1.8;
+   font-size: 14px;
 }
+
 
 footer {
-    text-align: center;
-    padding: 25px;
-    color: #78666B;
-    font-size: 13px;
+   text-align: center;
+   padding: 25px;
+   color: #78666B;
+   font-size: 13px;
 }
 
+
 @media (max-width: 750px) {
-    .stats,
-    .questions {
-        grid-template-columns: 1fr;
-    }
+   .stats,
+   .questions {
+       grid-template-columns: 1fr;
+   }
 
-    .suggestions {
-        grid-column: auto;
-    }
 
-    .suggestion-list {
-        grid-template-columns: 1fr;
-    }
+   .suggestions {
+       grid-column: auto;
+   }
 
-    .intro h1 {
-        font-size: 25px;
-    }
+
+   .suggestion-list {
+       grid-template-columns: 1fr;
+   }
+
+
+   .intro h1 {
+       font-size: 25px;
+   }
 }
 </style>
 </head>
 
+
 <body>
 
+
 <header>
-    <div>
-        <div class="logo">Tech<span>Book</span></div>
-        <p>Sua biblioteca, seu conhecimento.</p>
-    </div>
-    <a href="index.html">← Voltar ao TechBook</a>
+   <div>
+       <div class="logo">Tech<span>Book</span></div>
+       <p>Sua biblioteca, seu conhecimento.</p>
+   </div>
+   <a href="index.html">← Voltar ao TechBook</a>
 </header>
 
+
 <nav>
-    <a href="#inicio">Visão geral</a>
-    <a href="#pesquisa">Gráficos</a>
-    <a href="#sugestoes">Sugestões</a>
-    <a href="#conclusao">Conclusão</a>
+   <a href="#inicio">Visão geral</a>
+   <a href="#pesquisa">Gráficos</a>
+   <a href="#sugestoes">Sugestões</a>
+   <a href="#conclusao">Conclusão</a>
 </nav>
+
 
 <main id="inicio">
 
-    <section class="intro">
-        <h1>Estatísticas da pesquisa 📊</h1>
-        <p>
-            Descubra os hábitos de leitura dos estudantes, suas preferências
-            literárias e suas opiniões sobre a biblioteca escolar e o TechBook.
-        </p>
-    </section>
 
-    <div class="notice">
-        <strong>Atenção:</strong> os resultados das perguntas 2 e 3 foram
-        retirados da captura de tela enviada. Os valores das perguntas
-        1, 4, 5 e 6 são exemplos. As sugestões da pergunta 7 também são
-        ilustrativas. Substitua esses dados pelos resultados reais.
-    </div>
+   <section class="intro">
+       <h1>Estatísticas da pesquisa 📊</h1>
+       <p>
+           Descubra os hábitos de leitura dos estudantes, suas preferências
+           literárias e suas opiniões sobre a biblioteca escolar e o TechBook.
+       </p>
+   </section>
 
-    <section class="stats">
-        <div class="card">
-            <p class="stat-label">Perguntas da pesquisa</p>
-            <div class="stat-number">07</div>
-        </div>
 
-        <div class="card">
-            <p class="stat-label">Respostas nas perguntas 2 e 3</p>
-            <div class="stat-number">21</div>
-        </div>
+   <section class="stats">
+       <div class="card">
+           <p class="stat-label">Perguntas da pesquisa</p>
+           <div class="stat-number">07</div>
+       </div>
 
-        <div class="card">
-            <p class="stat-label">Tema principal</p>
-            <div class="stat-number">Leitura 📚</div>
-        </div>
-    </section>
 
-    <h2 class="section-title" id="pesquisa">Resultados por pergunta</h2>
+       <div class="card">
+           <p class="stat-label">Participantes da pesquisa</p>
+           <div class="stat-number">21</div>
+       </div>
 
-    <section class="questions">
 
-        <!-- PERGUNTA 1 -->
-        <article class="card question">
+       <div class="card">
+           <p class="stat-label">Tema principal</p>
+           <div class="stat-number">Leitura 📚</div>
+       </div>
+   </section>
+
+
+   <h2 class="section-title" id="pesquisa">Resultados por pergunta</h2>
+
+
+   <section class="questions">
+
+
+       <!-- PERGUNTA 1 -->
+       <article class="card question">
             <span class="tag">Pergunta 01</span>
             <h3>Qual é a sua frequência de leitura?</h3>
-            <p class="description">
-                Frequência com que os participantes costumam ler.
-            </p>
-            <p class="total">Exemplo ilustrativo · 20 respostas</p>
-
-            <div class="bar-item">
-                <div class="bar-info"><span>Todos os dias</span><strong>6 (30%)</strong></div>
-                <div class="bar-bg"><div class="bar blue" style="width:30%"></div></div>
-            </div>
-            <div class="bar-item">
-                <div class="bar-info"><span>Algumas vezes por semana</span><strong>7 (35%)</strong></div>
-                <div class="bar-bg"><div class="bar orange" style="width:35%"></div></div>
-            </div>
-            <div class="bar-item">
-                <div class="bar-info"><span>Raramente</span><strong>5 (25%)</strong></div>
-                <div class="bar-bg"><div class="bar green" style="width:25%"></div></div>
-            </div>
-            <div class="bar-item">
-                <div class="bar-info"><span>Nunca</span><strong>2 (10%)</strong></div>
-                <div class="bar-bg"><div class="bar red" style="width:10%"></div></div>
-            </div>
-        </article>
-
-        <!-- PERGUNTA 2: DADOS DA CAPTURA -->
-        <article class="card question">
-            <span class="tag">Pergunta 02 · Dados reais da imagem</span>
-            <h3>Você costuma visitar a biblioteca da escola?</h3>
-            <p class="description">
-                Frequência de visitas à biblioteca escolar.
-            </p>
+            <p class="description">Frequência com que os participantes costumam ler.</p>
             <p class="total">Total: 21 respostas</p>
-
-            <div class="pie-area">
-                <div class="pie" role="img"
-                    aria-label="Gráfico de pizza: Sim, sempre 2; Às vezes 9; Raramente 6; Nunca visitei 4."
-                    style="background:conic-gradient(
-                        #762F3B 0% 9.5238%,
-                        #D6AE70 9.5238% 52.3810%,
-                        #52776B 52.3810% 80.9524%,
-                        #C58CA5 80.9524% 100%
-                    )">
-                </div>
-
-                <div class="legend">
-                    <div class="legend-item">
-                        <span class="dot blue"></span>
-                        <span>Sim, sempre!<br><strong>2 (9,5%)</strong></span>
-                    </div>
-                    <div class="legend-item">
-                        <span class="dot orange"></span>
-                        <span>Às vezes<br><strong>9 (42,9%)</strong></span>
-                    </div>
-                    <div class="legend-item">
-                        <span class="dot green"></span>
-                        <span>Raramente<br><strong>6 (28,6%)</strong></span>
-                    </div>
-                    <div class="legend-item">
-                        <span class="dot red"></span>
-                        <span>Nunca visitei<br><strong>4 (19,0%)</strong></span>
-                    </div>
-                </div>
+            <div class="bar-item">
+                <div class="bar-info"><span>Todos os dias</span><strong>7 (33,3%)</strong></div>
+                <div class="bar-bg"><div class="bar blue" style="width:33.3333%"></div></div>
+            </div>
+            <div class="bar-item">
+                <div class="bar-info"><span>Algumas vezes por semana</span><strong>7 (33,3%)</strong></div>
+                <div class="bar-bg"><div class="bar orange" style="width:33.3333%"></div></div>
+            </div>
+            <div class="bar-item">
+                <div class="bar-info"><span>De vez em quando</span><strong>5 (23,8%)</strong></div>
+                <div class="bar-bg"><div class="bar green" style="width:23.8095%"></div></div>
+            </div>
+            <div class="bar-item">
+                <div class="bar-info"><span>Quase não leio</span><strong>2 (9,5%)</strong></div>
+                <div class="bar-bg"><div class="bar red" style="width:9.5238%"></div></div>
             </div>
         </article>
 
-        <!-- PERGUNTA 3: DADOS DA CAPTURA -->
-        <article class="card question">
-            <span class="tag">Pergunta 03 · Dados reais da imagem</span>
-            <h3>Qual tipo de livro mais combina com você?</h3>
-            <p class="description">
-                Preferências de gêneros literários dos participantes.
-            </p>
-            <p class="total">Total: 21 respostas</p>
 
-            <div class="bar-item">
-                <div class="bar-info"><span>Romance e histórias de amor</span><strong>8 (38,1%)</strong></div>
-                <div class="bar-bg"><div class="bar blue" style="width:100%"></div></div>
-            </div>
-            <div class="bar-item">
-                <div class="bar-info"><span>Fantasia e aventura</span><strong>8 (38,1%)</strong></div>
-                <div class="bar-bg"><div class="bar orange" style="width:100%"></div></div>
-            </div>
-            <div class="bar-item">
-                <div class="bar-info"><span>Terror e suspense</span><strong>2 (9,5%)</strong></div>
-                <div class="bar-bg"><div class="bar green" style="width:25%"></div></div>
-            </div>
-            <div class="bar-item">
-                <div class="bar-info"><span>Mistério e investigação</span><strong>1 (4,8%)</strong></div>
-                <div class="bar-bg"><div class="bar red" style="width:12.5%"></div></div>
-            </div>
-            <div class="bar-item">
-                <div class="bar-info"><span>Comédia e humor</span><strong>0 (0%)</strong></div>
-                <div class="bar-bg"><div class="bar purple" style="width:0%"></div></div>
-            </div>
-            <div class="bar-item">
-                <div class="bar-info"><span>Outros gêneros</span><strong>2 (9,5%)</strong></div>
-                <div class="bar-bg"><div class="bar brown" style="width:25%"></div></div>
-            </div>
-        </article>
+       <!-- PERGUNTA 2: DADOS DA CAPTURA -->
+       <article class="card question">
+           <span class="tag">Pergunta 02 · Resultados da pesquisa</span>
+           <h3>Você costuma visitar a biblioteca da escola?</h3>
+           <p class="description">
+               Frequência de visitas à biblioteca escolar.
+           </p>
+           <p class="total">Total: 21 respostas</p>
 
-        <!-- PERGUNTA 4 -->
-        <article class="card question">
+
+           <div class="pie-area">
+               <div class="pie" role="img"
+                   aria-label="Gráfico de pizza: Sim, sempre 2; Às vezes 9; Raramente 6; Nunca visitei 4."
+                   style="background:conic-gradient(
+                       #762F3B 0% 9.5238%,
+                       #D6AE70 9.5238% 52.3810%,
+                       #52776B 52.3810% 80.9524%,
+                       #C58CA5 80.9524% 100%
+                   )">
+               </div>
+
+
+               <div class="legend">
+                   <div class="legend-item">
+                       <span class="dot blue"></span>
+                       <span>Sim, sempre!<br><strong>2 (9,5%)</strong></span>
+                   </div>
+                   <div class="legend-item">
+                       <span class="dot orange"></span>
+                       <span>Às vezes<br><strong>9 (42,9%)</strong></span>
+                   </div>
+                   <div class="legend-item">
+                       <span class="dot green"></span>
+                       <span>Raramente<br><strong>6 (28,6%)</strong></span>
+                   </div>
+                   <div class="legend-item">
+                       <span class="dot red"></span>
+                       <span>Nunca visitei<br><strong>4 (19,0%)</strong></span>
+                   </div>
+               </div>
+           </div>
+       </article>
+
+
+       <!-- PERGUNTA 3: DADOS DA CAPTURA -->
+       <article class="card question">
+           <span class="tag">Pergunta 03 · Resultados da pesquisa</span>
+           <h3>Qual tipo de livro mais combina com você?</h3>
+           <p class="description">
+               Preferências de gêneros literários dos participantes.
+           </p>
+           <p class="total">Total: 21 respostas</p>
+
+
+           <div class="bar-item">
+               <div class="bar-info"><span>Romance e histórias de amor</span><strong>8 (38,1%)</strong></div>
+               <div class="bar-bg"><div class="bar blue" style="width:100%"></div></div>
+           </div>
+           <div class="bar-item">
+               <div class="bar-info"><span>Fantasia e aventura</span><strong>8 (38,1%)</strong></div>
+               <div class="bar-bg"><div class="bar orange" style="width:100%"></div></div>
+           </div>
+           <div class="bar-item">
+               <div class="bar-info"><span>Terror e suspense</span><strong>2 (9,5%)</strong></div>
+               <div class="bar-bg"><div class="bar green" style="width:25%"></div></div>
+           </div>
+           <div class="bar-item">
+               <div class="bar-info"><span>Mistério e investigação</span><strong>1 (4,8%)</strong></div>
+               <div class="bar-bg"><div class="bar red" style="width:12.5%"></div></div>
+           </div>
+           <div class="bar-item">
+               <div class="bar-info"><span>Comédia e humor</span><strong>0 (0%)</strong></div>
+               <div class="bar-bg"><div class="bar purple" style="width:0%"></div></div>
+           </div>
+           <div class="bar-item">
+               <div class="bar-info"><span>Outros gêneros</span><strong>2 (9,5%)</strong></div>
+               <div class="bar-bg"><div class="bar brown" style="width:25%"></div></div>
+           </div>
+       </article>
+
+
+       <!-- PERGUNTA 4 -->
+       <article class="card question">
             <span class="tag">Pergunta 04</span>
             <h3>Você tem dificuldade para escolher um livro?</h3>
-            <p class="description">
-                Identifica se os leitores precisam de ajuda para encontrar livros.
-            </p>
-            <p class="total">Exemplo ilustrativo · 20 respostas</p>
-
+            <p class="description">Identifica se os leitores precisam de ajuda para encontrar livros.</p>
+            <p class="total">Total: 20 respostas registradas nesta pergunta</p>
             <div class="bar-item">
-                <div class="bar-info"><span>Sim</span><strong>7 (35%)</strong></div>
-                <div class="bar-bg"><div class="bar orange" style="width:35%"></div></div>
+                <div class="bar-info"><span>Sim, não sei qual escolher</span><strong>9 (45%)</strong></div>
+                <div class="bar-bg"><div class="bar orange" style="width:45.0000%"></div></div>
             </div>
             <div class="bar-item">
-                <div class="bar-info"><span>Às vezes</span><strong>8 (40%)</strong></div>
-                <div class="bar-bg"><div class="bar blue" style="width:40%"></div></div>
+                <div class="bar-info"><span>Não, escolho facilmente</span><strong>10 (50%)</strong></div>
+                <div class="bar-bg"><div class="bar blue" style="width:50.0000%"></div></div>
             </div>
             <div class="bar-item">
-                <div class="bar-info"><span>Não</span><strong>5 (25%)</strong></div>
-                <div class="bar-bg"><div class="bar green" style="width:25%"></div></div>
+                <div class="bar-info"><span>Não costumo procurar livros</span><strong>1 (5%)</strong></div>
+                <div class="bar-bg"><div class="bar green" style="width:5.0000%"></div></div>
             </div>
         </article>
 
-        <!-- PERGUNTA 5 -->
-        <article class="card question">
+
+       <!-- PERGUNTA 5 -->
+       <article class="card question">
             <span class="tag">Pergunta 05</span>
             <h3>O que faria você frequentar mais a biblioteca?</h3>
-            <p class="description">
-                O que poderia tornar a biblioteca mais atrativa.
-            </p>
-            <p class="total">Exemplo ilustrativo · 20 respostas</p>
-
+            <p class="description">O que poderia tornar a biblioteca mais atrativa.</p>
+            <p class="total">Total: 21 respostas</p>
             <div class="bar-item">
-                <div class="bar-info"><span>Mais variedade de livros</span><strong>7 (35%)</strong></div>
-                <div class="bar-bg"><div class="bar blue" style="width:35%"></div></div>
+                <div class="bar-info"><span>Mais livros do meu interesse</span><strong>13 (61,9%)</strong></div>
+                <div class="bar-bg"><div class="bar blue" style="width:61.9048%"></div></div>
             </div>
             <div class="bar-item">
-                <div class="bar-info"><span>Espaço confortável</span><strong>5 (25%)</strong></div>
-                <div class="bar-bg"><div class="bar green" style="width:25%"></div></div>
+                <div class="bar-info"><span>Indicações de livros</span><strong>2 (9,5%)</strong></div>
+                <div class="bar-bg"><div class="bar orange" style="width:9.5238%"></div></div>
             </div>
             <div class="bar-item">
-                <div class="bar-info"><span>Atividades e eventos</span><strong>4 (20%)</strong></div>
-                <div class="bar-bg"><div class="bar purple" style="width:20%"></div></div>
+                <div class="bar-info"><span>Um espaço mais confortável</span><strong>6 (28,6%)</strong></div>
+                <div class="bar-bg"><div class="bar green" style="width:28.5714%"></div></div>
             </div>
             <div class="bar-item">
-                <div class="bar-info"><span>Indicações de livros</span><strong>4 (20%)</strong></div>
-                <div class="bar-bg"><div class="bar orange" style="width:20%"></div></div>
+                <div class="bar-info"><span>Clubes de leitura e desafios</span><strong>0 (0%)</strong></div>
+                <div class="bar-bg"><div class="bar purple" style="width:0.0000%"></div></div>
             </div>
         </article>
 
-        <!-- PERGUNTA 6 -->
-        <article class="card question">
+
+       <!-- PERGUNTA 6 -->
+       <article class="card question">
             <span class="tag">Pergunta 06</span>
             <h3>Você conhece o TechBook ou teria interesse em utilizá-lo?</h3>
-            <p class="description">
-                Interesse dos participantes pela plataforma.
-            </p>
-            <p class="total">Exemplo ilustrativo · 20 respostas</p>
-
+            <p class="description">Interesse dos participantes pela plataforma.</p>
+            <p class="total">Total: 21 respostas</p>
             <div class="bar-item">
-                <div class="bar-info"><span>Conhece e tem interesse</span><strong>5 (25%)</strong></div>
-                <div class="bar-bg"><div class="bar green" style="width:25%"></div></div>
+                <div class="bar-info"><span>Conheço e gostaria de usar</span><strong>2 (9,5%)</strong></div>
+                <div class="bar-bg"><div class="bar green" style="width:9.5238%"></div></div>
             </div>
             <div class="bar-item">
-                <div class="bar-info"><span>Não conhece, mas tem interesse</span><strong>9 (45%)</strong></div>
-                <div class="bar-bg"><div class="bar blue" style="width:45%"></div></div>
+                <div class="bar-info"><span>Conheço, mas não tenho interesse</span><strong>3 (14,3%)</strong></div>
+                <div class="bar-bg"><div class="bar purple" style="width:14.2857%"></div></div>
             </div>
             <div class="bar-item">
-                <div class="bar-info"><span>Conhece, mas não tem interesse</span><strong>2 (10%)</strong></div>
-                <div class="bar-bg"><div class="bar purple" style="width:10%"></div></div>
-            </div>
-            <div class="bar-item">
-                <div class="bar-info"><span>Não tem interesse</span><strong>4 (20%)</strong></div>
-                <div class="bar-bg"><div class="bar orange" style="width:20%"></div></div>
+                <div class="bar-info"><span>Ainda não conheço, mas gostaria</span><strong>16 (76,2%)</strong></div>
+                <div class="bar-bg"><div class="bar blue" style="width:76.1905%"></div></div>
             </div>
         </article>
 
-        <!-- PERGUNTA 7 -->
-        <article class="card question suggestions" id="sugestoes">
+
+       <!-- PERGUNTA 7 -->
+       <article class="card question suggestions" id="sugestoes">
             <span class="tag">Pergunta 07</span>
             <h3>Qual é a sua sugestão para melhorar a biblioteca?</h3>
-            <p class="description">
-                Exemplos de ideias para melhorar o espaço e incentivar a leitura.
-                Não são respostas confirmadas dos participantes.
-            </p>
-
+            <p class="description">Pergunta aberta com 13 respostas registradas no Microsoft Forms. Abaixo está uma resposta visível na captura enviada.</p>
             <div class="suggestion-list">
                 <div class="suggestion">
-                    <strong>📚 Mais livros</strong>
-                    <p>Ampliar os títulos e incluir mais gêneros literários.</p>
+                    <strong>📚 Sugestão de participante</strong>
+                    <p>“Ter mais livros legal, e livros com imagens.”</p>
                 </div>
                 <div class="suggestion">
-                    <strong>🪑 Mais conforto</strong>
-                    <p>Ter um ambiente agradável, organizado e acolhedor.</p>
-                </div>
-                <div class="suggestion">
-                    <strong>💻 Tecnologia</strong>
-                    <p>Utilizar o TechBook para facilitar a escolha de livros.</p>
+                    <strong>📝 Respostas abertas</strong>
+                    <p>13 respostas recebidas. As demais sugestões ainda precisam ser conferidas no formulário original.</p>
                 </div>
             </div>
         </article>
 
-    </section>
 
-    <section class="conclusion" id="conclusao">
-        <h2>Conclusão da pesquisa</h2>
-        <p>
-            Nas perguntas 2 e 3, que possuem dados disponíveis, 42,9% dos
-            participantes disseram visitar a biblioteca às vezes. Em relação
-            aos gêneros literários, romance e histórias de amor e fantasia
-            e aventura empataram como as opções mais escolhidas, com 8
-            respostas cada. Esses resultados podem ajudar o TechBook a
-            oferecer indicações de leitura mais alinhadas aos interesses
-            dos estudantes. A conclusão completa depende das demais respostas.
+   </section>
+
+
+   <section class="conclusion" id="conclusao">
+       <h2>Conclusão da pesquisa</h2>
+       <p>
+            A pesquisa reuniu 21 participantes. Entre eles, 16 (76,2%) ainda não conheciam o TechBook, mas gostariam de utilizá-lo. Além disso, 13 (61,9%) disseram que ter mais livros do seu interesse os faria frequentar mais a biblioteca. Romance e histórias de amor e fantasia e aventura foram os gêneros mais escolhidos, com 8 respostas cada. Os resultados ajudam a orientar melhorias no acervo e a apresentação do TechBook à comunidade escolar.
         </p>
-    </section>
+   </section>
+
 
 </main>
 
+
 <footer>
-    © 2026 TechBook — Incentivando a leitura por meio da tecnologia.
+   © 2026 TechBook — Incentivando a leitura por meio da tecnologia.
 </footer>
+
 
 </body>
 </html>
