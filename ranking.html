@@ -2,317 +2,590 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ranking | TechBook</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ranking de Leitores — TECHBOOK</title>
 
-    <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
 
-    <style>
-        * {
-            box-sizing: border-box;
-        }
+  <style>
+    :root {
+      --vinho: #481B27;
+      --bordo: #762F3B;
+      --creme: #F5EBDD;
+      --rosa: #C58CA5;
+      --dourado: #D6AE70;
+      --papel: #FFFCF7;
+      --texto: #38272C;
+      --suave: #78666B;
+      --borda: #E6D8CB;
+      --verde: #52776B;
+    }
 
-        body {
-            font-family: Arial, sans-serif;
-            background: var(--papel, #FFFCF7);
-            color: var(--texto, #38272C);
-            padding: 25px 16px;
-        }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-        .container {
-            width: 100%;
-            max-width: 850px;
-            margin: 0 auto;
-        }
+    body {
+      font-family: "DM Sans", sans-serif;
+      background: var(--creme);
+      color: var(--texto);
+      min-height: 100vh;
+    }
 
-        .botao-voltar {
-            display: inline-flex;
-            align-items: center;
-            padding: 11px 18px;
-            margin-bottom: 15px;
-            color: var(--vinho, #481B27);
-            background: var(--papel, #FFFCF7);
-            border: 2px solid var(--dourado, #D6AE70);
-            border-radius: 10px;
-            font-weight: bold;
-            text-decoration: none;
-            transition: 0.25s ease;
-        }
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
 
-        .botao-voltar:hover {
-            background: var(--vinho, #481B27);
-            color: var(--creme, #F5EBDD);
-            transform: translateY(-2px);
-        }
+    .topo {
+      background: var(--vinho);
+      color: var(--papel);
+      padding: 22px 7%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
 
-        .ranking-header {
-            width: 100%;
-            text-align: center;
-            margin: 25px 0 35px;
-        }
+    .marca {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
 
-        .ranking-header h1 {
-            max-width: none;
-            width: 100%;
-            margin: 0 auto 10px;
-            color: var(--vinho, #481B27);
-            font-size: clamp(28px, 5vw, 38px);
-            line-height: 1.2;
-            text-align: center;
-        }
+    .marca-simbolo {
+      width: 43px;
+      height: 43px;
+      border: 1px solid var(--dourado);
+      border-radius: 12px;
+      display: grid;
+      place-items: center;
+      color: var(--dourado);
+      font-family: "Playfair Display", serif;
+      font-size: 22px;
+      font-weight: 700;
+    }
 
-        .ranking-header p {
-            color: var(--suave, #78666B);
-        }
+    .marca-nome {
+      font-family: "Playfair Display", serif;
+      font-size: 25px;
+      font-weight: 700;
+      letter-spacing: 1px;
+    }
 
-        .aviso {
-            background: var(--creme, #F5EBDD);
-            color: var(--vinho, #481B27);
-            padding: 14px;
-            border-radius: 10px;
-            text-align: center;
-            font-size: 13px;
-            margin-bottom: 30px;
-            border: 1px solid var(--borda, #E6D8CB);
-        }
+    .marca-legenda {
+      display: block;
+      color: #DCC8C5;
+      font-size: 9px;
+      letter-spacing: 2px;
+      margin-top: 2px;
+    }
 
-        .podio {
-            display: flex;
-            align-items: flex-end;
-            justify-content: center;
-            gap: 12px;
-            margin: 35px 0;
-        }
+    .voltar {
+      border: 1px solid rgba(255,255,255,.35);
+      border-radius: 30px;
+      padding: 10px 17px;
+      font-size: 13px;
+      transition: .2s;
+    }
 
-        .posicao {
-            background: white;
-            border-radius: 15px;
-            padding: 20px 10px;
-            text-align: center;
-            flex: 1;
-            max-width: 210px;
-            box-shadow: 0 4px 15px #0000000d;
-            border: 2px solid var(--borda, #E6D8CB);
-        }
+    .voltar:hover {
+      background: rgba(255,255,255,.12);
+    }
 
-        .primeiro {
-            padding-top: 35px;
-            padding-bottom: 35px;
-            border-color: var(--dourado, #D6AE70);
-        }
+    main {
+      width: min(1100px, 88%);
+      margin: 0 auto;
+      padding: 48px 0 65px;
+    }
 
-        .segundo {
-            border-color: #B7B7B7;
-        }
+    .apresentacao {
+      text-align: center;
+      margin-bottom: 35px;
+    }
 
-        .terceiro {
-            border-color: #BD8967;
-        }
+    .etiqueta {
+      color: var(--bordo);
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+    }
 
-        .medalha {
-            font-size: 30px;
-            margin-bottom: 10px;
-        }
+    h1 {
+      font-family: "Playfair Display", serif;
+      color: var(--vinho);
+      font-size: clamp(34px, 5vw, 48px);
+      margin: 10px 0;
+    }
 
-        .avatar {
-            font-size: 35px;
-            margin-bottom: 12px;
-        }
+    .apresentacao p {
+      color: var(--suave);
+      font-size: 15px;
+      line-height: 1.7;
+    }
 
-        .posicao h2 {
-            color: var(--vinho, #481B27);
-            font-size: 16px;
-            margin-bottom: 8px;
-        }
+    .resumos {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-bottom: 42px;
+    }
 
-        .posicao p {
-            color: var(--suave, #78666B);
-            font-size: 13px;
-        }
+    .resumo {
+      background: var(--papel);
+      border: 1px solid var(--borda);
+      border-radius: 17px;
+      padding: 20px;
+      text-align: center;
+      box-shadow: 0 5px 18px rgba(72,27,39,.04);
+    }
 
-        .pontos {
-            color: var(--vinho, #481B27);
-            font-weight: bold;
-            margin-top: 10px;
-        }
+    .resumo-icone {
+      font-size: 23px;
+      margin-bottom: 8px;
+    }
 
-        .lista {
-            background: white;
-            border-radius: 15px;
-            padding: 20px;
-            margin-top: 35px;
-            box-shadow: 0 4px 15px #0000000d;
-            border: 1px solid var(--borda, #E6D8CB);
-        }
+    .resumo-numero {
+      color: var(--vinho);
+      font-family: "Playfair Display", serif;
+      font-size: 28px;
+      font-weight: 700;
+    }
 
-        .lista h2 {
-            color: var(--vinho, #481B27);
-            margin-bottom: 20px;
-            font-size: 20px;
-        }
+    .resumo-legenda {
+      color: var(--suave);
+      font-size: 12px;
+      margin-top: 4px;
+    }
 
-        .participante {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 15px 5px;
-            border-bottom: 1px solid #eee;
-            gap: 10px;
-        }
+    .titulo-secao {
+      color: var(--vinho);
+      font-family: "Playfair Display", serif;
+      font-size: 27px;
+      text-align: center;
+      margin-bottom: 8px;
+    }
 
-        .participante:last-child {
-            border-bottom: none;
-        }
+    .subtitulo-secao {
+      color: var(--suave);
+      text-align: center;
+      font-size: 13px;
+      margin-bottom: 28px;
+    }
 
-        .nome {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
+    .podio {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      align-items: end;
+      gap: 17px;
+      margin: 0 auto 48px;
+      max-width: 800px;
+    }
 
-        .numero {
-            font-weight: bold;
-            color: var(--bordo, #762F3B);
-            width: 25px;
-        }
+    .participante {
+      background: var(--papel);
+      border: 1px solid var(--borda);
+      border-radius: 20px;
+      padding: 25px 15px 22px;
+      text-align: center;
+      position: relative;
+      box-shadow: 0 7px 22px rgba(72,27,39,.06);
+    }
 
-        .pontuacao {
-            font-weight: bold;
-            color: var(--vinho, #481B27);
-            white-space: nowrap;
-        }
+    .participante.primeiro {
+      border: 2px solid var(--dourado);
+      padding-top: 35px;
+      transform: translateY(-12px);
+      box-shadow: 0 12px 28px rgba(118,47,59,.12);
+    }
 
-        .rodape {
-            text-align: center;
-            color: var(--suave, #78666B);
-            font-size: 12px;
-            margin-top: 30px;
-        }
+    .medalha {
+      font-size: 29px;
+      margin-bottom: 10px;
+    }
 
-        @media (max-width: 480px) {
-            .podio {
-                gap: 6px;
-            }
+    .avatar {
+      width: 76px;
+      height: 76px;
+      margin: 0 auto 12px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      color: white;
+      font-family: "Playfair Display", serif;
+      font-size: 25px;
+      font-weight: 700;
+      border: 4px solid var(--creme);
+      background: linear-gradient(135deg, var(--bordo), var(--rosa));
+    }
 
-            .posicao {
-                padding: 15px 5px;
-            }
+    .primeiro .avatar {
+      width: 88px;
+      height: 88px;
+      font-size: 29px;
+      border-color: #F2DEB7;
+      background: linear-gradient(135deg, #9A632E, var(--dourado));
+    }
 
-            .primeiro {
-                padding-top: 25px;
-                padding-bottom: 25px;
-            }
+    .nome-participante {
+      color: var(--vinho);
+      font-weight: 800;
+      font-size: 15px;
+      margin-bottom: 5px;
+    }
 
-            .posicao h2 {
-                font-size: 12px;
-            }
+    .pontos {
+      color: var(--suave);
+      font-size: 12px;
+    }
 
-            .avatar {
-                font-size: 27px;
-            }
+    .pontos strong {
+      color: var(--bordo);
+      font-size: 18px;
+    }
 
-            .medalha {
-                font-size: 24px;
-            }
+    .posicao {
+      display: inline-block;
+      background: var(--creme);
+      color: var(--bordo);
+      border-radius: 20px;
+      padding: 6px 13px;
+      font-size: 11px;
+      font-weight: 800;
+      margin-top: 13px;
+    }
 
-            .pontos {
-                font-size: 12px;
-            }
-        }
-    </style>
+    .primeiro .posicao {
+      background: #F4E4C7;
+      color: #805522;
+    }
+
+    .classificacao {
+      background: var(--papel);
+      border: 1px solid var(--borda);
+      border-radius: 19px;
+      padding: 25px;
+      box-shadow: 0 5px 18px rgba(72,27,39,.04);
+    }
+
+    .classificacao h2 {
+      font-family: "Playfair Display", serif;
+      color: var(--vinho);
+      font-size: 23px;
+      margin-bottom: 18px;
+    }
+
+    .linha-leitor {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 15px 5px;
+      border-bottom: 1px solid var(--borda);
+    }
+
+    .linha-leitor:last-child {
+      border-bottom: none;
+    }
+
+    .numero-posicao {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: var(--creme);
+      color: var(--bordo);
+      display: grid;
+      place-items: center;
+      font-weight: 800;
+      font-size: 13px;
+      flex-shrink: 0;
+    }
+
+    .avatar-pequeno {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--vinho), var(--rosa));
+      color: white;
+      display: grid;
+      place-items: center;
+      font-weight: 700;
+      font-size: 13px;
+      flex-shrink: 0;
+    }
+
+    .dados-leitor {
+      flex: 1;
+    }
+
+    .dados-leitor strong {
+      display: block;
+      color: var(--vinho);
+      font-size: 14px;
+    }
+
+    .dados-leitor span {
+      color: var(--suave);
+      font-size: 11px;
+    }
+
+    .pontuacao-final {
+      color: var(--bordo);
+      font-weight: 800;
+      font-size: 14px;
+      white-space: nowrap;
+    }
+
+    .aviso {
+      text-align: center;
+      color: var(--suave);
+      font-size: 11px;
+      margin-top: 22px;
+      line-height: 1.6;
+    }
+
+    footer {
+      background: var(--vinho);
+      color: #E8D8D3;
+      text-align: center;
+      padding: 22px;
+      font-size: 12px;
+    }
+
+    footer strong {
+      color: var(--dourado);
+    }
+
+    @media (max-width: 650px) {
+      .topo {
+        padding: 17px 5%;
+      }
+
+      .marca-nome {
+        font-size: 21px;
+      }
+
+      .voltar {
+        font-size: 11px;
+        padding: 9px 12px;
+      }
+
+      main {
+        width: 92%;
+        padding-top: 35px;
+      }
+
+      .resumos {
+        gap: 9px;
+      }
+
+      .resumo {
+        padding: 15px 7px;
+      }
+
+      .resumo-numero {
+        font-size: 23px;
+      }
+
+      .resumo-legenda {
+        font-size: 10px;
+      }
+
+      .podio {
+        gap: 8px;
+      }
+
+      .participante {
+        padding: 18px 7px;
+      }
+
+      .participante.primeiro {
+        padding-top: 25px;
+      }
+
+      .avatar {
+        width: 57px;
+        height: 57px;
+        font-size: 19px;
+      }
+
+      .primeiro .avatar {
+        width: 67px;
+        height: 67px;
+        font-size: 22px;
+      }
+
+      .nome-participante {
+        font-size: 12px;
+      }
+
+      .pontos {
+        font-size: 10px;
+      }
+
+      .pontos strong {
+        font-size: 15px;
+      }
+
+      .medalha {
+        font-size: 23px;
+      }
+
+      .classificacao {
+        padding: 17px;
+      }
+    }
+
+    @media (max-width: 390px) {
+      .marca-legenda {
+        font-size: 8px;
+      }
+
+      .voltar {
+        font-size: 10px;
+      }
+
+      .nome-participante {
+        font-size: 11px;
+      }
+    }
+  </style>
 </head>
 
 <body>
 
-    <main class="container">
+  <header class="topo">
+    <div class="marca">
+      <div class="marca-simbolo">TB</div>
+      <div>
+        <div class="marca-nome">TECHBOOK</div>
+        <span class="marca-legenda">BIBLIOTECA INTELIGENTE</span>
+      </div>
+    </div>
 
-        <a href="index.html" class="botao-voltar">
-            ← Voltar para a página inicial
-        </a>
+    <a href="index.html" class="voltar">← Voltar ao início</a>
+  </header>
 
-        <header class="ranking-header">
-            <h1>Ranking TecBook</h1>
-            <p>Descubra quem está se destacando nas leituras!</p>
-        </header>
+  <main>
+    <section class="apresentacao">
+      <span class="etiqueta">LEITURA • CONQUISTAS • EVOLUÇÃO</span>
+      <h1>Ranking de Leitores</h1>
+      <p>
+        Cada página lida é uma nova conquista.<br>
+        Confira quem está se destacando nesta semana!
+      </p>
+    </section>
 
-        <div class="aviso">
-            Protótipo demonstrativo — pontuações fictícias.
+    <section class="resumos">
+      <div class="resumo">
+        <div class="resumo-icone">👥</div>
+        <div class="resumo-numero">7</div>
+        <div class="resumo-legenda">Leitores participantes</div>
+      </div>
+
+      <div class="resumo">
+        <div class="resumo-icone">📚</div>
+        <div class="resumo-numero">42</div>
+        <div class="resumo-legenda">Livros lidos na semana</div>
+      </div>
+
+      <div class="resumo">
+        <div class="resumo-icone">🏆</div>
+        <div class="resumo-numero">1º</div>
+        <div class="resumo-legenda">Lugar de destaque</div>
+      </div>
+    </section>
+
+    <section>
+      <h2 class="titulo-secao">Pódio da semana</h2>
+      <p class="subtitulo-secao">Os leitores que mais acumularam pontos</p>
+
+      <div class="podio">
+
+        <article class="participante">
+          <div class="medalha">🥈</div>
+          <div class="avatar">MA</div>
+          <div class="nome-participante">Marina Alves</div>
+          <div class="pontos"><strong>850</strong> pontos</div>
+          <span class="posicao">2º LUGAR</span>
+        </article>
+
+        <article class="participante primeiro">
+          <div class="medalha">👑</div>
+          <div class="avatar">GS</div>
+          <div class="nome-participante">Gabriel Silva</div>
+          <div class="pontos"><strong>1.200</strong> pontos</div>
+          <span class="posicao">1º LUGAR</span>
+        </article>
+
+        <article class="participante">
+          <div class="medalha">🥉</div>
+          <div class="avatar">LM</div>
+          <div class="nome-participante">Lucas Mendes</div>
+          <div class="pontos"><strong>720</strong> pontos</div>
+          <span class="posicao">3º LUGAR</span>
+        </article>
+
+      </div>
+    </section>
+
+    <section class="classificacao">
+      <h2>Classificação geral</h2>
+
+      <div class="linha-leitor">
+        <div class="numero-posicao">4</div>
+        <div class="avatar-pequeno">AC</div>
+        <div class="dados-leitor">
+          <strong>Ana Clara</strong>
+          <span>Leitora participante</span>
         </div>
+        <div class="pontuacao-final">610 pts</div>
+      </div>
 
-        <section class="podio">
+      <div class="linha-leitor">
+        <div class="numero-posicao">5</div>
+        <div class="avatar-pequeno">RA</div>
+        <div class="dados-leitor">
+          <strong>Rafael Almeida</strong>
+          <span>Leitor participante</span>
+        </div>
+        <div class="pontuacao-final">540 pts</div>
+      </div>
 
-            <article class="posicao segundo">
-                <div class="medalha">🥈</div>
-                <div class="avatar">👩🏻‍🎓</div>
-                <h2>Marina</h2>
-                <p>2º lugar</p>
-                <div class="pontos">850 pontos</div>
-            </article>
+      <div class="linha-leitor">
+        <div class="numero-posicao">6</div>
+        <div class="avatar-pequeno">BC</div>
+        <div class="dados-leitor">
+          <strong>Beatriz Costa</strong>
+          <span>Leitora participante</span>
+        </div>
+        <div class="pontuacao-final">430 pts</div>
+      </div>
 
-            <article class="posicao primeiro">
-                <div class="medalha">🥇</div>
-                <div class="avatar">👨🏻‍🎓</div>
-                <h2>Gabriel</h2>
-                <p>1º lugar</p>
-                <div class="pontos">1.200 pontos</div>
-            </article>
+      <div class="linha-leitor">
+        <div class="numero-posicao">7</div>
+        <div class="avatar-pequeno">PL</div>
+        <div class="dados-leitor">
+          <strong>Pedro Lima</strong>
+          <span>Leitor participante</span>
+        </div>
+        <div class="pontuacao-final">350 pts</div>
+      </div>
+    </section>
 
-            <article class="posicao terceiro">
-                <div class="medalha">🥉</div>
-                <div class="avatar">👨🏽‍🎓</div>
-                <h2>Lucas</h2>
-                <p>3º lugar</p>
-                <div class="pontos">720 pontos</div>
-            </article>
+    <p class="aviso">
+      * Os nomes e as pontuações apresentados são dados ilustrativos para demonstração do ranking.
+    </p>
+  </main>
 
-        </section>
-
-        <section class="lista">
-
-            <h2>Classificação geral</h2>
-
-            <div class="participante">
-                <div class="nome">
-                    <span class="numero">4º</span>
-                    <span>Ana Clara</span>
-                </div>
-                <span class="pontuacao">650 pts</span>
-            </div>
-
-            <div class="participante">
-                <div class="nome">
-                    <span class="numero">5º</span>
-                    <span>Rafael</span>
-                </div>
-                <span class="pontuacao">580 pts</span>
-            </div>
-
-            <div class="participante">
-                <div class="nome">
-                    <span class="numero">6º</span>
-                    <span>Beatriz</span>
-                </div>
-                <span class="pontuacao">450 pts</span>
-            </div>
-
-            <div class="participante">
-                <div class="nome">
-                    <span class="numero">7º</span>
-                    <span>Pedro</span>
-                </div>
-                <span class="pontuacao">320 pts</span>
-            </div>
-
-        </section>
-
-        <footer class="rodape">
-            TecBook — Incentivando a leitura e novas descobertas.
-            <br><br>
-            Classificação ilustrativa para apresentação escolar.
-        </footer>
-
-    </main>
+  <footer>
+    <strong>TECHBOOK</strong> — Uma biblioteca inteligente para transformar sua relação com a leitura.
+  </footer>
 
 </body>
 </html>
