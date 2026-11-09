@@ -1,8 +1,9 @@
-  <div align="center">
+ <div align="center">
 
-<img src="imagens-readme/LogoSite.png" alt="Logo do TechBook" width="190">
+<img src="imagens-readme/LogoSite.png" alt="Logo do TechBook" width="180">
 
-# TECHBOOK — BIBLIOTECA INTELIGENTE
+# TECHBOOK
+### BIBLIOTECA INTELIGENTE
 
 **Tecnologia, conhecimento e leitura em um só lugar.**
 
@@ -16,7 +17,7 @@
 
 ---
 
-> 🚧 **Projeto em desenvolvimento:** algumas funcionalidades e integrações ainda estão sendo aprimoradas.
+> 🚧 **Projeto em desenvolvimento:** novas funcionalidades, integrações e melhorias estão sendo implementadas.
 
 ## 📖 Sobre o projeto
 
@@ -36,32 +37,31 @@ A proposta é demonstrar como a programação pode ser aplicada à realidade esc
 
 ---
 
-## ✨ Funcionalidades
+## 🖥️ Conheça o sistema
 
-| Recurso | Descrição |
-|---|---|
-| 📚 **Catálogo inteligente** | Consulta e exploração dos livros disponíveis. |
-| 🔄 **Empréstimos e devoluções** | Apoio à organização da circulação dos livros. |
-| 💡 **Recomendador de leituras** | Sugestões para descobrir novas obras. |
-| 📊 **Estatísticas** | Acompanhamento de dados e progresso de leitura. |
-| 🏆 **Ranking semanal** | Classificação dos leitores. |
-| 🎯 **Desafios literários** | Atividades para incentivar a leitura. |
-| 🧩 **Quiz literário** | Perguntas interativas relacionadas à literatura. |
-| ♿ **Acessibilidade digital** | Recursos para tornar a navegação mais acessível. |
-| 🧠 **Medidor de leitura** | Recurso visual relacionado à leitura, aprendizagem e desenvolvimento cognitivo. |
-| 🖼️ **Catálogo com imagens** | Apresentação visual das capas dos livros. |
+### 🏠 Página inicial
 
----
+A página inicial apresenta a identidade visual do TechBook e reúne os principais acessos e recursos da plataforma.
 
-## 📸 Conheça o sistema
+<div align="center">
+
+<img src="imagens-readme/paginainicial.png" alt="Página inicial do TechBook" width="90%">
+
+</div>
 
 ### 📚 Catálogo de livros
 
+O catálogo permite explorar os livros disponíveis na biblioteca, com apresentação visual das obras.
+
 <div align="center">
-<img src="imagens-readme/catalogo.png" alt="Catálogo de livros do TechBook" width="850">
+
+<img src="imagens-readme/catalogo.png" alt="Catálogo de livros do TechBook" width="90%">
+
 </div>
 
 ### 🏆 Ranking de leitores
+
+A classificação apresenta os leitores participantes e suas pontuações, incentivando a participação e o hábito da leitura.
 
 <table>
 <tr>
@@ -76,18 +76,22 @@ A proposta é demonstrar como a programação pode ser aplicada à realidade esc
 
 ### 📊 Estatísticas
 
+O painel apresenta informações sobre a leitura e os dados da biblioteca por meio de recursos visuais.
+
 <table>
 <tr>
 <td width="50%">
-<img src="imagens-readme/estatisticas.png" alt="Estatísticas do TechBook" width="100%">
+<img src="imagens-readme/estasticas.png" alt="Estatísticas do TechBook" width="100%">
 </td>
 <td width="50%">
-<img src="imagens-readme/estatisticasparte2.png" alt="Continuação das estatísticas" width="100%">
+<img src="imagens-readme/eastaticasparte2.png" alt="Continuação das estatísticas" width="100%">
 </td>
 </tr>
 </table>
 
 ### 🧩 Quiz literário
+
+O quiz oferece uma experiência interativa com perguntas relacionadas à literatura.
 
 <table>
 <tr>
@@ -101,6 +105,21 @@ A proposta é demonstrar como a programação pode ser aplicada à realidade esc
 </table>
 
 ---
+
+## ✨ Funcionalidades
+
+| Recurso | Descrição |
+|---|---|
+| 📚 **Catálogo inteligente** | Consulta e exploração dos livros disponíveis. |
+| 🔄 **Empréstimos e devoluções** | Apoio à organização da circulação dos livros. |
+| 💡 **Recomendador de leituras** | Sugestões para descobrir novas obras. |
+| 📊 **Estatísticas** | Acompanhamento de dados e progresso de leitura. |
+| 🏆 **Ranking semanal** | Classificação dos leitores. |
+| 🎯 **Desafios literários** | Atividades para incentivar a leitura. |
+| 🧩 **Quiz literário** | Perguntas interativas relacionadas à literatura. |
+| ♿ **Acessibilidade digital** | Recursos para tornar a navegação mais acessível. |
+| 🧠 **Medidor de leitura** | Recurso visual relacionado à leitura, aprendizagem e desenvolvimento cognitivo. |
+| 🖼️ **Catálogo com imagens** | Apresentação visual das capas dos livros. |
 
 ## 🛠️ Tecnologias utilizadas
 
@@ -118,6 +137,8 @@ A proposta é demonstrar como a programação pode ser aplicada à realidade esc
 - **Git e GitHub:** controle de versões e colaboração.
 - **GitHub Codespaces:** ambiente de desenvolvimento.
 - **Visual Studio Code:** editor de código.
+
+---
 
 ## ⚙️ Instalação e uso
 
@@ -160,13 +181,13 @@ Projeto desenvolvido pelos estudantes do **2º Ano TEC — Desenvolvimento de Si
 
 <div align="center">
 
-<img src="imagens-readme/LogoSite.png" alt="TechBook" width="100">
+<img src="imagens-readme/LogoSite.png" alt="Logo TechBook" width="100">
 
 # TECHBOOK
 
 **Uma biblioteca inteligente para transformar sua relação com a leitura.**
 
-*Projeto em desenvolvimento — 2026.*
+*Feira de Ciências • SENAI • 2026*
 
-</div>
+
 </div>
