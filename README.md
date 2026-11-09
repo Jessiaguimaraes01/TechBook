@@ -1,12 +1,12 @@
- <div align="center">
+  <div align="center">
 
-<img src="imagens-readme/logo.png" alt="Logo do TechBook" width="180">
+<img src="imagens-readme/LogoSite.png" alt="Logo do TechBook" width="190">
 
-# TECHBOOK — Biblioteca Inteligente
+# TECHBOOK — BIBLIOTECA INTELIGENTE
 
 **Tecnologia, conhecimento e leitura em um só lugar.**
 
-![Status](https://img.shields.io/badge/Status-Em%20desenvolvimento-762F3B?style=for-the-badge)
+![Status](https://img.shields.io/badge/STATUS-EM%20DESENVOLVIMENTO-762F3B?style=for-the-badge)
 ![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white)
 ![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white)
 ![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)
@@ -16,7 +16,7 @@
 
 ---
 
-> 🚧 **OBSERVAÇÃO:** O site ainda está em desenvolvimento. Algumas funcionalidades e integrações estão sendo aprimoradas.
+> 🚧 **Projeto em desenvolvimento:** algumas funcionalidades e integrações ainda estão sendo aprimoradas.
 
 ## 📖 Sobre o projeto
 
@@ -36,14 +36,6 @@ A proposta é demonstrar como a programação pode ser aplicada à realidade esc
 
 ---
 
-## 🖥️ Apresentação do sistema
-
-<!-- INSIRA AQUI UMA CAPTURA DA PÁGINA INICIAL -->
-<div align="center">
-  <img src="imagens-readme/inicio.png" alt="Página inicial do TechBook" width="850">
-  <p><em>Página inicial da plataforma TechBook.</em></p>
-</div>
-
 ## ✨ Funcionalidades
 
 | Recurso | Descrição |
@@ -51,37 +43,62 @@ A proposta é demonstrar como a programação pode ser aplicada à realidade esc
 | 📚 **Catálogo inteligente** | Consulta e exploração dos livros disponíveis. |
 | 🔄 **Empréstimos e devoluções** | Apoio à organização da circulação dos livros. |
 | 💡 **Recomendador de leituras** | Sugestões para descobrir novas obras. |
-| 📊 **Estatísticas** | Acompanhamento de dados e do progresso de leitura. |
-| 🏆 **Ranking semanal** | Classificação dos leitores com base na leitura registrada. |
+| 📊 **Estatísticas** | Acompanhamento de dados e progresso de leitura. |
+| 🏆 **Ranking semanal** | Classificação dos leitores. |
 | 🎯 **Desafios literários** | Atividades para incentivar a leitura. |
 | 🧩 **Quiz literário** | Perguntas interativas relacionadas à literatura. |
 | ♿ **Acessibilidade digital** | Recursos para tornar a navegação mais acessível. |
-| 🧠 **Medidor de leitura** | Recurso visual que representa a relação entre leitura, aprendizagem e desenvolvimento cognitivo. |
+| 🧠 **Medidor de leitura** | Recurso visual relacionado à leitura, aprendizagem e desenvolvimento cognitivo. |
 | 🖼️ **Catálogo com imagens** | Apresentação visual das capas dos livros. |
 
 ---
 
-## 📸 Telas do projeto
+## 📸 Conheça o sistema
 
-<!-- CAPTURA DA TELA DO CATÁLOGO -->
 ### 📚 Catálogo de livros
 
+<div align="center">
 <img src="imagens-readme/catalogo.png" alt="Catálogo de livros do TechBook" width="850">
+</div>
 
-<!-- CAPTURA DA TELA DO RANKING -->
 ### 🏆 Ranking de leitores
 
-<img src="imagens-readme/ranking.png" alt="Ranking de leitores do TechBook" width="850">
+<table>
+<tr>
+<td width="50%">
+<img src="imagens-readme/ranking.png" alt="Ranking de leitores" width="100%">
+</td>
+<td width="50%">
+<img src="imagens-readme/rankingparte2.png" alt="Continuação do ranking" width="100%">
+</td>
+</tr>
+</table>
 
-<!-- CAPTURA DA TELA DE ESTATÍSTICAS -->
 ### 📊 Estatísticas
 
-<img src="imagens-readme/estatisticas.png" alt="Estatísticas do TechBook" width="850">
+<table>
+<tr>
+<td width="50%">
+<img src="imagens-readme/estatisticas.png" alt="Estatísticas do TechBook" width="100%">
+</td>
+<td width="50%">
+<img src="imagens-readme/estatisticasparte2.png" alt="Continuação das estatísticas" width="100%">
+</td>
+</tr>
+</table>
 
-<!-- CAPTURA DA TELA DO QUIZ -->
 ### 🧩 Quiz literário
 
-<img src="imagens-readme/quiz.png" alt="Quiz literário do TechBook" width="850">
+<table>
+<tr>
+<td width="50%">
+<img src="imagens-readme/quiz.png" alt="Quiz literário" width="100%">
+</td>
+<td width="50%">
+<img src="imagens-readme/quizparte2.png" alt="Continuação do quiz literário" width="100%">
+</td>
+</tr>
+</table>
 
 ---
 
@@ -143,10 +160,13 @@ Projeto desenvolvido pelos estudantes do **2º Ano TEC — Desenvolvimento de Si
 
 <div align="center">
 
-# 📚 TECHBOOK
+<img src="imagens-readme/LogoSite.png" alt="TechBook" width="100">
+
+# TECHBOOK
 
 **Uma biblioteca inteligente para transformar sua relação com a leitura.**
 
 *Projeto em desenvolvimento — 2026.*
 
+</div>
 </div>
