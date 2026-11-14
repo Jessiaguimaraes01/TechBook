@@ -1,0 +1,813 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Meu Perfil | TECHBOOK</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        /* ÁREA DO ALUNO */
+
+        .perfil-page {
+            min-height: 100vh;
+            background: var(--creme, #F5EBDD);
+            color: var(--texto, #38272C);
+            font-family: 'DM Sans', sans-serif;
+        }
+
+        .perfil-page * {
+            box-sizing: border-box;
+        }
+
+        .perfil-header {
+            background: var(--papel, #FFFCF7);
+            border-bottom: 1px solid var(--borda, #E6D8CB);
+            padding: 17px 6%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+        }
+
+        .perfil-logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 27px;
+            font-weight: bold;
+            color: var(--vinho, #481B27);
+            text-decoration: none;
+        }
+
+        .perfil-logo span {
+            color: var(--dourado, #D6AE70);
+        }
+
+        .perfil-nav {
+            display: flex;
+            align-items: center;
+            gap: 28px;
+        }
+
+        .perfil-nav a {
+            text-decoration: none;
+            color: var(--suave, #78666B);
+            font-size: 14px;
+            font-weight: 600;
+            transition: .2s;
+        }
+
+        .perfil-nav a:hover,
+        .perfil-nav a.ativo {
+            color: var(--bordo, #762F3B);
+        }
+
+        .perfil-conteudo {
+            max-width: 1150px;
+            margin: 42px auto;
+            padding: 0 25px 60px;
+        }
+
+        .perfil-titulo {
+            margin-bottom: 25px;
+        }
+
+        .perfil-titulo small {
+            color: var(--bordo, #762F3B);
+            font-weight: bold;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            font-size: 11px;
+        }
+
+        .perfil-titulo h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 35px;
+            color: var(--vinho, #481B27);
+            margin: 7px 0;
+        }
+
+        .perfil-titulo p {
+            color: var(--suave, #78666B);
+            margin: 0;
+            font-size: 14px;
+        }
+
+        /* CARTÃO PRINCIPAL */
+
+        .perfil-card {
+            background: var(--papel, #FFFCF7);
+            border: 1px solid var(--borda, #E6D8CB);
+            border-radius: 20px;
+            padding: 30px;
+            display: flex;
+            align-items: center;
+            gap: 28px;
+            box-shadow: 0 8px 25px rgba(72, 27, 39, .05);
+        }
+
+        .perfil-foto-area {
+            position: relative;
+            flex-shrink: 0;
+        }
+
+        .perfil-foto {
+            width: 125px;
+            height: 125px;
+            border-radius: 50%;
+            background: #EAD9D3;
+            border: 4px solid var(--creme, #F5EBDD);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            color: var(--bordo, #762F3B);
+            font-family: 'Playfair Display', serif;
+            font-size: 40px;
+        }
+
+        .perfil-foto img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .perfil-foto-botao {
+            position: absolute;
+            bottom: 2px;
+            right: 0;
+            background: var(--vinho, #481B27);
+            color: white;
+            border: 3px solid var(--papel, #FFFCF7);
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .perfil-info {
+            flex: 1;
+        }
+
+        .perfil-info h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 29px;
+            color: var(--vinho, #481B27);
+            margin: 0 0 4px;
+        }
+
+        .perfil-usuario {
+            color: var(--bordo, #762F3B);
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .perfil-bio {
+            color: var(--suave, #78666B);
+            font-size: 14px;
+            line-height: 1.6;
+            margin: 13px 0;
+            max-width: 600px;
+        }
+
+        .perfil-botoes {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .btn-perfil {
+            border: none;
+            padding: 10px 17px;
+            border-radius: 9px;
+            cursor: pointer;
+            font-family: inherit;
+            font-weight: 600;
+            font-size: 13px;
+            transition: .2s;
+        }
+
+        .btn-editar {
+            background: var(--vinho, #481B27);
+            color: white;
+        }
+
+        .btn-editar:hover {
+            background: var(--bordo, #762F3B);
+        }
+
+        .btn-voltar {
+            background: var(--creme, #F5EBDD);
+            color: var(--vinho, #481B27);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+        }
+
+        /* ESTATÍSTICAS */
+
+        .perfil-secao {
+            margin-top: 38px;
+        }
+
+        .perfil-secao-titulo {
+            font-family: 'Playfair Display', serif;
+            color: var(--vinho, #481B27);
+            font-size: 24px;
+            margin: 0 0 17px;
+        }
+
+        .perfil-estatisticas {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 17px;
+        }
+
+        .perfil-stat {
+            background: var(--papel, #FFFCF7);
+            border: 1px solid var(--borda, #E6D8CB);
+            border-radius: 15px;
+            padding: 22px;
+        }
+
+        .perfil-stat-icon {
+            font-size: 23px;
+            margin-bottom: 12px;
+        }
+
+        .perfil-stat strong {
+            display: block;
+            font-family: 'Playfair Display', serif;
+            font-size: 29px;
+            color: var(--vinho, #481B27);
+        }
+
+        .perfil-stat span {
+            font-size: 13px;
+            color: var(--suave, #78666B);
+        }
+
+        /* CONTEÚDO INFERIOR */
+
+        .perfil-colunas {
+            display: grid;
+            grid-template-columns: 1.3fr 1fr;
+            gap: 20px;
+            align-items: start;
+        }
+
+        .perfil-painel {
+            background: var(--papel, #FFFCF7);
+            border: 1px solid var(--borda, #E6D8CB);
+            border-radius: 17px;
+            padding: 23px;
+        }
+
+        .perfil-painel h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 21px;
+            color: var(--vinho, #481B27);
+            margin: 0 0 18px;
+        }
+
+        .perfil-vazio {
+            padding: 25px 15px;
+            text-align: center;
+            border: 1px dashed var(--borda, #E6D8CB);
+            border-radius: 12px;
+        }
+
+        .perfil-vazio .icone {
+            font-size: 30px;
+            margin-bottom: 10px;
+        }
+
+        .perfil-vazio p {
+            color: var(--suave, #78666B);
+            font-size: 13px;
+            line-height: 1.6;
+            margin: 0;
+        }
+
+        .perfil-favorito {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            background: var(--creme, #F5EBDD);
+            padding: 14px;
+            border-radius: 12px;
+        }
+
+        .perfil-capa {
+            width: 60px;
+            height: 83px;
+            flex-shrink: 0;
+            background: #762F3B;
+            border-radius: 6px;
+            color: #F5EBDD;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 25px;
+        }
+
+        .perfil-favorito strong {
+            display: block;
+            font-family: 'Playfair Display', serif;
+            color: var(--vinho, #481B27);
+            font-size: 16px;
+        }
+
+        .perfil-favorito span {
+            color: var(--suave, #78666B);
+            font-size: 12px;
+        }
+
+        .perfil-generos {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .perfil-generos span {
+            background: var(--creme, #F5EBDD);
+            color: var(--bordo, #762F3B);
+            padding: 8px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .perfil-rodape {
+            text-align: center;
+            padding: 25px;
+            color: var(--suave, #78666B);
+            font-size: 12px;
+        }
+
+        /* MODAL DE EDIÇÃO */
+
+        .perfil-modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(35, 17, 23, .55);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .perfil-modal.aberto {
+            display: flex;
+        }
+
+        .perfil-modal-conteudo {
+            width: 100%;
+            max-width: 450px;
+            background: var(--papel, #FFFCF7);
+            border-radius: 18px;
+            padding: 27px;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .perfil-modal-conteudo h2 {
+            font-family: 'Playfair Display', serif;
+            color: var(--vinho, #481B27);
+            margin-top: 0;
+        }
+
+        .perfil-campo {
+            margin-bottom: 15px;
+        }
+
+        .perfil-campo label {
+            display: block;
+            margin-bottom: 6px;
+            color: var(--texto, #38272C);
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .perfil-campo input,
+        .perfil-campo textarea {
+            width: 100%;
+            padding: 11px;
+            border: 1px solid var(--borda, #E6D8CB);
+            border-radius: 9px;
+            background: white;
+            color: var(--texto, #38272C);
+            font: inherit;
+            font-size: 14px;
+        }
+
+        .perfil-campo textarea {
+            resize: vertical;
+            min-height: 85px;
+        }
+
+        .perfil-modal-acoes {
+            display: flex;
+            justify-content: flex-end;
+            gap: 9px;
+            margin-top: 20px;
+        }
+
+        /* RESPONSIVIDADE */
+
+        @media (max-width: 700px) {
+            .perfil-header {
+                flex-direction: column;
+                gap: 13px;
+            }
+
+            .perfil-nav {
+                gap: 17px;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .perfil-conteudo {
+                margin-top: 27px;
+                padding: 0 16px 40px;
+            }
+
+            .perfil-titulo h1 {
+                font-size: 29px;
+            }
+
+            .perfil-card {
+                flex-direction: column;
+                text-align: center;
+                padding: 25px 18px;
+            }
+
+            .perfil-bio {
+                margin-left: auto;
+                margin-right: auto;
+            }
+
+            .perfil-botoes {
+                justify-content: center;
+            }
+
+            .perfil-estatisticas {
+                grid-template-columns: 1fr;
+            }
+
+            .perfil-colunas {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="perfil-page">
+
+    <!-- MENU SUPERIOR -->
+    <header class="perfil-header">
+
+        <a href="index.html" class="perfil-logo">
+            TECH<span>BOOK</span>
+        </a>
+
+        <nav class="perfil-nav">
+            <a href="index.html">Início</a>
+            <a href="index.html#catalogo">Catálogo</a>
+            <a href="#minha-biblioteca">Minha biblioteca</a>
+            <a href="#meu-perfil" class="ativo">Meu perfil</a>
+        </nav>
+
+    </header>
+
+    <main class="perfil-conteudo">
+
+        <!-- TÍTULO -->
+        <section class="perfil-titulo">
+            <small>ESPAÇO DO LEITOR</small>
+            <h1>Minha área</h1>
+            <p>Seu cantinho para acompanhar sua jornada literária.</p>
+        </section>
+
+        <!-- PERFIL DO ALUNO -->
+        <section class="perfil-card" id="meu-perfil">
+
+            <div class="perfil-foto-area">
+
+                <div class="perfil-foto" id="foto-perfil">
+                    <span id="iniciais">TB</span>
+                </div>
+
+                <button class="perfil-foto-botao"
+                    type="button"
+                    onclick="document.getElementById('arquivo-foto').click()"
+                    aria-label="Escolher foto de perfil">
+                    +
+                </button>
+
+                <input
+                    type="file"
+                    id="arquivo-foto"
+                    accept="image/*"
+                    hidden
+                >
+
+            </div>
+
+            <div class="perfil-info">
+
+                <h2 id="nome-exibido">Nome do Aluno</h2>
+
+                <div class="perfil-usuario" id="usuario-exibido">
+                    @seu_usuario
+                </div>
+
+                <p class="perfil-bio" id="bio-exibida">
+                    Conte um pouquinho sobre você e sobre sua paixão pela leitura.
+                </p>
+
+                <div class="perfil-botoes">
+
+                    <button class="btn-perfil btn-editar"
+                        type="button"
+                        onclick="abrirEdicao()">
+                        ✎ Editar perfil
+                    </button>
+
+                    <a href="index.html" class="btn-perfil btn-voltar">
+                        Voltar ao início
+                    </a>
+
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- ESTATÍSTICAS -->
+        <section class="perfil-secao">
+
+            <h2 class="perfil-secao-titulo">
+                Minha jornada literária
+            </h2>
+
+            <div class="perfil-estatisticas">
+
+                <article class="perfil-stat">
+                    <div class="perfil-stat-icon">📚</div>
+                    <strong>0</strong>
+                    <span>Livros lidos</span>
+                </article>
+
+                <article class="perfil-stat">
+                    <div class="perfil-stat-icon">📖</div>
+                    <strong>0</strong>
+                    <span>Empréstimos ativos</span>
+                </article>
+
+                <article class="perfil-stat">
+                    <div class="perfil-stat-icon">🏆</div>
+                    <strong>0</strong>
+                    <span>Desafios concluídos</span>
+                </article>
+
+            </div>
+
+        </section>
+
+        <!-- BIBLIOTECA E INFORMAÇÕES -->
+        <section class="perfil-secao" id="minha-biblioteca">
+
+            <h2 class="perfil-secao-titulo">
+                Minha biblioteca
+            </h2>
+
+            <div class="perfil-colunas">
+
+                <article class="perfil-painel">
+
+                    <h3>📚 Meus empréstimos</h3>
+
+                    <div class="perfil-vazio">
+
+                        <div class="icone">📖</div>
+
+                        <p>
+                            Você ainda não possui empréstimos registrados.
+                            Quando pegar um livro emprestado, ele aparecerá aqui.
+                        </p>
+
+                    </div>
+
+                    <h3 style="margin-top: 25px;">Histórico de leitura</h3>
+
+                    <div class="perfil-vazio">
+
+                        <div class="icone">📜</div>
+
+                        <p>
+                            Seus livros devolvidos e leituras anteriores
+                            aparecerão nesta seção.
+                        </p>
+
+                    </div>
+
+                </article>
+
+                <div>
+
+                    <article class="perfil-painel">
+
+                        <h3>⭐ Livro favorito</h3>
+
+                        <div class="perfil-favorito">
+
+                            <div class="perfil-capa">📕</div>
+
+                            <div>
+                                <strong id="livro-exibido">
+                                    Ainda não informado
+                                </strong>
+
+                                <span>Seu livro favorito</span>
+                            </div>
+
+                        </div>
+
+                    </article>
+
+                    <article class="perfil-painel" style="margin-top: 20px;">
+
+                        <h3>♡ Gêneros favoritos</h3>
+
+                        <div class="perfil-generos">
+                            <span>Fantasia</span>
+                            <span>Romance</span>
+                            <span>Ficção</span>
+                        </div>
+
+                    </article>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+    <footer class="perfil-rodape">
+        TECHBOOK · Uma biblioteca, infinitas histórias.
+    </footer>
+
+</div>
+
+
+<!-- JANELA DE EDIÇÃO -->
+<div class="perfil-modal" id="modal-edicao">
+
+    <div class="perfil-modal-conteudo">
+
+        <h2>Editar meu perfil</h2>
+
+        <div class="perfil-campo">
+            <label for="campo-nome">Nome completo</label>
+            <input type="text" id="campo-nome" placeholder="Seu nome">
+        </div>
+
+        <div class="perfil-campo">
+            <label for="campo-usuario">Nome de usuário</label>
+            <input type="text" id="campo-usuario" placeholder="seu_usuario">
+        </div>
+
+        <div class="perfil-campo">
+            <label for="campo-bio">Biografia</label>
+            <textarea id="campo-bio"
+                placeholder="Conte um pouquinho sobre você..."></textarea>
+        </div>
+
+        <div class="perfil-campo">
+            <label for="campo-livro">Livro favorito</label>
+            <input type="text" id="campo-livro"
+                placeholder="Qual é seu livro favorito?">
+        </div>
+
+        <div class="perfil-modal-acoes">
+
+            <button class="btn-perfil btn-voltar"
+                type="button"
+                onclick="fecharEdicao()">
+                Cancelar
+            </button>
+
+            <button class="btn-perfil btn-editar"
+                type="button"
+                onclick="salvarPerfil()">
+                Salvar alterações
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script>
+    // ABRIR E FECHAR A EDIÇÃO
+
+    function abrirEdicao() {
+        document.getElementById('campo-nome').value =
+            document.getElementById('nome-exibido').textContent;
+
+        document.getElementById('campo-usuario').value =
+            document.getElementById('usuario-exibido').textContent.replace('@', '');
+
+        document.getElementById('campo-bio').value =
+            document.getElementById('bio-exibida').textContent;
+
+        document.getElementById('campo-livro').value =
+            document.getElementById('livro-exibido').textContent === 'Ainda não informado'
+            ? ''
+            : document.getElementById('livro-exibido').textContent;
+
+        document.getElementById('modal-edicao').classList.add('aberto');
+    }
+
+    function fecharEdicao() {
+        document.getElementById('modal-edicao').classList.remove('aberto');
+    }
+
+    // SALVAR ALTERAÇÕES NA TELA
+
+    function salvarPerfil() {
+
+        const nome = document.getElementById('campo-nome').value.trim();
+        const usuario = document.getElementById('campo-usuario').value.trim();
+        const bio = document.getElementById('campo-bio').value.trim();
+        const livro = document.getElementById('campo-livro').value.trim();
+
+        if (!nome || !usuario) {
+            alert('Preencha seu nome e seu nome de usuário.');
+            return;
+        }
+
+        document.getElementById('nome-exibido').textContent = nome;
+        document.getElementById('usuario-exibido').textContent =
+            '@' + usuario.replace(/^@+/, '');
+
+        document.getElementById('bio-exibida').textContent =
+            bio || 'Este aluno ainda não adicionou uma biografia.';
+
+        document.getElementById('livro-exibido').textContent =
+            livro || 'Ainda não informado';
+
+        const partes = nome.trim().split(/\s+/);
+        document.getElementById('iniciais').textContent =
+            partes.length > 1
+                ? partes[0][0] + partes[partes.length - 1][0]
+                : partes[0].slice(0, 2);
+
+        fecharEdicao();
+    }
+
+    // ESCOLHER FOTO DO COMPUTADOR
+
+    document.getElementById('arquivo-foto').addEventListener('change', function(event) {
+
+        const arquivo = event.target.files[0];
+
+        if (!arquivo) return;
+
+        if (!arquivo.type.startsWith('image/')) {
+            alert('Escolha um arquivo de imagem.');
+            return;
+        }
+
+        const leitor = new FileReader();
+
+        leitor.onload = function(e) {
+
+            const foto = document.getElementById('foto-perfil');
+
+            foto.innerHTML = '';
+
+            const imagem = document.createElement('img');
+            imagem.src = e.target.result;
+            imagem.alt = 'Foto de perfil';
+
+            foto.appendChild(imagem);
+        };
+
+        leitor.readAsDataURL(arquivo);
+    });
+
+</script>
+
+</body>
+</html>
