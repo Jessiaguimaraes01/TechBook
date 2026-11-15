@@ -1,26 +1,64 @@
-
 import json
 import sqlite3
 import hashlib
 import secrets
 import hmac
+
 from pathlib import Path
+from datetime import datetime, date
 from http.cookies import SimpleCookie
-from urllib.parse import urlsplit
 from http.server import ThreadingHTTPServer, SimpleHTTPRequestHandler
+from urllib.parse import urlsplit
+
+
+# =========================================================
+# CONFIGURAÇÕES
+# =========================================================
 
 BASE_DIR = Path(__file__).resolve().parent
 BANCO = BASE_DIR / "Dados" / "TechBok_Final.db"
 
-# Sessões ativas dos bibliotecários.
-# As sessões são encerradas quando o servidor é reiniciado.
 SESSOES_BIBLIOTECARIOS = {}
-DURACAO_SESSAO = 8 * 60 * 60  # 8 horas
+DURACAO_SESSAO = 8 * 60 * 60
+
+HOST = "0.0.0.0"
+PORTA = 8000
 
 
-def gerar_hash_senha(senha, salt=None):
-    if salt is None:
-        salt = secrets.token_hex(16)
+# =========================================================
+# BANCO DE DADOS
+# =========================================================
+
+def conectar_banco():
+    conexao = sqlite3.connect(BANCO)
+    conexao.row_factory = sqlite3.Row
+    conexao.execute("PRAGMA foreign_keys = ON")
+    return conexao
+
+
+def executar_consulta(sql, parametros=(), obter_um=False):
+    conexao = conectar_banco()
+
+    try:
+        cursor = conexao.execute(sql, parametros)
+
+        if obter_um:
+            resultado = cursor.fetchone()
+        else:
+            resultado = cursor.fetchall()
+
+        return resultado
+
+    finally:
+        conexao.close()
+
+
+# =========================================================
+# SENHAS
+# =========================================================
+
+def gerar_senha_hash(senha):
+    salt = secrets.token_hex(16)
 
     hash_senha = hashlib.pbkdf2_hmac(
         "sha256",
@@ -32,9 +70,10 @@ def gerar_hash_senha(senha, salt=None):
     return f"{salt}${hash_senha}"
 
 
-def verificar_senha(senha, hash_salvo):
+def verificar_senha(senha, senha_hash):
     try:
-        salt, hash_original = hash_salvo.split("$", 1)
+        salt, hash_original = senha_hash.split("$")
+
         hash_teste = hashlib.pbkdf2_hmac(
             "sha256",
             senha.encode("utf-8"),
@@ -44,476 +83,1108 @@ def verificar_senha(senha, hash_salvo):
 
         return hmac.compare_digest(hash_teste, hash_original)
 
-    except (AttributeError, ValueError):
+    except (ValueError, AttributeError):
         return False
 
 
-def responder_json(handler, status, dados, cabecalhos=None):
-    conteudo = json.dumps(
-        dados, ensure_ascii=False
+# =========================================================
+# RESPOSTAS HTTP
+# =========================================================
+
+def responder_json(handler, dados, status=200, headers_extra=None):
+    corpo = json.dumps(
+        dados,
+        ensure_ascii=False,
+        default=str
     ).encode("utf-8")
 
     handler.send_response(status)
-    handler.send_header(
-        "Content-Type", "application/json; charset=utf-8"
-    )
-    handler.send_header("Content-Length", str(len(conteudo)))
+    handler.send_header("Content-Type", "application/json; charset=utf-8")
+    handler.send_header("Content-Length", str(len(corpo)))
     handler.send_header("Cache-Control", "no-store")
 
-    if cabecalhos:
-        for nome, valor in cabecalhos.items():
+    if headers_extra:
+        for nome, valor in headers_extra.items():
             handler.send_header(nome, valor)
 
     handler.end_headers()
-    handler.wfile.write(conteudo)
+    handler.wfile.write(corpo)
 
 
-def cookie_seguro(handler):
-    # No Codespaces com HTTPS, ativa a proteção Secure.
-    return (
-        handler.headers.get("X-Forwarded-Proto", "").lower()
-        == "https"
-    )
+def responder_erro(handler, mensagem, status=400):
+    responder_json(handler, {"erro": mensagem}, status)
 
+
+def data_hoje():
+    return date.today().isoformat()
+
+
+def data_esta_atrasada(data_prevista):
+    if not data_prevista:
+        return False
+
+    try:
+        return date.fromisoformat(str(data_prevista)[:10]) < date.today()
+    except ValueError:
+        return False
+
+
+# =========================================================
+# SERVIDOR
+# =========================================================
 
 class TechBookHandler(SimpleHTTPRequestHandler):
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(
-            *args, directory=str(BASE_DIR), **kwargs
-        )
+    # -----------------------------------------------------
+    # CONFIGURAÇÃO DE ARQUIVOS
+    # -----------------------------------------------------
 
-    def caminho_requisicao(self):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, directory=str(BASE_DIR), **kwargs)
+
+    def log_message(self, formato, *args):
+        print("[TechBook]", formato % args)
+
+    def caminho(self):
         return urlsplit(self.path).path
 
-    def obter_sessao_bibliotecario(self):
-        cookies = SimpleCookie()
-
+    def ler_json(self):
         try:
-            cookies.load(self.headers.get("Cookie", ""))
-        except Exception:
+            tamanho = int(self.headers.get("Content-Length", 0))
+
+            if tamanho <= 0:
+                return {}
+
+            corpo = self.rfile.read(tamanho)
+            return json.loads(corpo.decode("utf-8"))
+
+        except (ValueError, json.JSONDecodeError):
             return None
 
-        item = cookies.get("techbook_bibliotecario")
-        if item is None:
+    def cookie_seguro(self):
+        protocolo = self.headers.get("X-Forwarded-Proto", "")
+        return protocolo.lower() == "https"
+
+    # -----------------------------------------------------
+    # SESSÃO DO BIBLIOTECÁRIO
+    # -----------------------------------------------------
+
+    def obter_token(self):
+        cookie = SimpleCookie()
+        cookie.load(self.headers.get("Cookie", ""))
+
+        if "techbook_bibliotecario" not in cookie:
             return None
 
-        token = item.value
+        return cookie["techbook_bibliotecario"].value
+
+    def obter_bibliotecario(self):
+        token = self.obter_token()
 
         if not token:
             return None
 
-        return SESSOES_BIBLIOTECARIOS.get(token)
+        sessao = SESSOES_BIBLIOTECARIOS.get(token)
 
-    def bibliotecario_autenticado(self):
-        return self.obter_sessao_bibliotecario() is not None
+        if not sessao:
+            return None
 
-    def enviar_cookie_sessao(self, token):
-        partes = [
-            f"techbook_bibliotecario={token}",
-            "Path=/",
-            f"Max-Age={DURACAO_SESSAO}",
-            "HttpOnly",
-            "SameSite=Strict"
-        ]
+        if datetime.now().timestamp() > sessao["expira_em"]:
+            SESSOES_BIBLIOTECARIOS.pop(token, None)
+            return None
 
-        if cookie_seguro(self):
-            partes.append("Secure")
+        return sessao
 
-        return "; ".join(partes)
+    def exige_bibliotecario(self):
+        return self.obter_bibliotecario() is not None
 
-    def apagar_cookie_sessao(self):
-        partes = [
-            "techbook_bibliotecario=",
-            "Path=/",
-            "Max-Age=0",
-            "HttpOnly",
-            "SameSite=Strict"
-        ]
-
-        if cookie_seguro(self):
-            partes.append("Secure")
-
-        return "; ".join(partes)
-
-    def do_GET(self):
-        caminho = self.caminho_requisicao()
-
-        # A página administrativa exige login.
-        if caminho == "/bibliotecario.html":
-            if not self.bibliotecario_autenticado():
-                mensagem = (
-                    "Acesso restrito. Entre como bibliotecário "
-                    "para acessar esta página."
-                ).encode("utf-8")
-
-                self.send_response(401)
-                self.send_header(
-                    "Content-Type", "text/plain; charset=utf-8"
-                )
-                self.send_header(
-                    "Content-Length", str(len(mensagem))
-                )
-                self.send_header("Cache-Control", "no-store")
-                self.end_headers()
-                self.wfile.write(mensagem)
-                return
-
-        # Proteção para futuras rotas administrativas.
-        if caminho.startswith("/api/admin/"):
-            if not self.bibliotecario_autenticado():
-                responder_json(
-                    self, 401,
-                    {"erro": "Faça login como bibliotecário."}
-                )
-                return
-
-        # Verifica se o bibliotecário continua autenticado.
-        if caminho == "/api/sessao-bibliotecario":
-            bibliotecario = self.obter_sessao_bibliotecario()
-
-            if bibliotecario is None:
-                responder_json(
-                    self, 401,
-                    {"autenticado": False}
-                )
-                return
-
-            responder_json(self, 200, {
-                "autenticado": True,
-                "bibliotecario": bibliotecario
-            })
-            return
-
-        # Catálogo público, preservando a consulta existente.
-        if caminho == "/api/livros":
-            try:
-                with sqlite3.connect(BANCO) as conexao:
-                    conexao.row_factory = sqlite3.Row
-
-                    livros = conexao.execute("""
-                        SELECT
-                            l.id_livro, l.isbn, l.titulo, l.genero,
-                            l.editora, l.autor, l.ano_publicacao,
-                            COUNT(
-                                CASE WHEN e.estado = 'Bom'
-                                THEN e.id_exemplar END
-                            ) AS quantidade,
-                            COUNT(
-                                CASE WHEN e.estado = 'Bom'
-                                AND em.id_emprestimo IS NULL
-                                THEN e.id_exemplar END
-                            ) AS disponiveis
-                        FROM livro l
-                        LEFT JOIN exemplar e
-                            ON e.id_livro = l.id_livro
-                        LEFT JOIN emprestimo em
-                            ON em.id_exemplar = e.id_exemplar
-                            AND em.data_devolucao IS NULL
-                        GROUP BY
-                            l.id_livro, l.isbn, l.titulo, l.genero,
-                            l.editora, l.autor, l.ano_publicacao
-                        ORDER BY l.titulo
-                    """).fetchall()
-
-                responder_json(
-                    self, 200,
-                    [dict(livro) for livro in livros]
-                )
-
-            except sqlite3.Error:
-                responder_json(self, 500, {
-                    "erro": "Não foi possível consultar os livros."
-                })
-
-            return
-
-        super().do_GET()
-
-    def do_POST(self):
-        caminho = self.caminho_requisicao()
-
-        # Todas as futuras operações administrativas exigirão sessão.
-        if caminho.startswith("/api/admin/"):
-            if not self.bibliotecario_autenticado():
-                responder_json(self, 401, {
-                    "erro": "Faça login como bibliotecário."
-                })
-                return
-
-            responder_json(self, 404, {
-                "erro": "Função administrativa ainda não implementada."
-            })
-            return
-
-        rotas_permitidas = (
-            "/api/cadastro",
-            "/api/login",
-            "/api/login-bibliotecario",
-            "/api/logout-bibliotecario"
+    def cookie_sessao(self, token):
+        cookie = (
+            f"techbook_bibliotecario={token}; "
+            f"HttpOnly; Path=/; SameSite=Strict; "
+            f"Max-Age={DURACAO_SESSAO}"
         )
 
-        if caminho not in rotas_permitidas:
-            responder_json(self, 404, {
-                "erro": "Rota não encontrada."
-            })
-            return
+        if self.cookie_seguro():
+            cookie += "; Secure"
 
-        # Encerrar a sessão do bibliotecário.
-        if caminho == "/api/logout-bibliotecario":
-            cookies = SimpleCookie()
+        return cookie
 
-            try:
-                cookies.load(self.headers.get("Cookie", ""))
-            except Exception:
-                pass
+    def cookie_encerrar(self):
+        cookie = (
+            "techbook_bibliotecario=; "
+            "HttpOnly; Path=/; SameSite=Strict; Max-Age=0"
+        )
 
-            item = cookies.get("techbook_bibliotecario")
+        if self.cookie_seguro():
+            cookie += "; Secure"
 
-            if item is not None:
-                SESSOES_BIBLIOTECARIOS.pop(item.value, None)
+        return cookie
 
-            responder_json(
-                self, 200,
-                {"mensagem": "Sessão encerrada."},
-                {
-                    "Set-Cookie": self.apagar_cookie_sessao()
-                }
-            )
-            return
+    # -----------------------------------------------------
+    # GET
+    # -----------------------------------------------------
 
-        try:
-            tamanho = int(
-                self.headers.get("Content-Length", "0")
-            )
+    def do_GET(self):
+        caminho = self.caminho()
 
-            if tamanho <= 0 or tamanho > 10000:
-                responder_json(self, 400, {
-                    "erro": "Dados inválidos."
-                })
+        # Página administrativa protegida
+        if caminho == "/bibliotecario.html":
+            if not self.exige_bibliotecario():
+                self.send_response(302)
+                self.send_header("Location", "/login-bibliotecario.html")
+                self.end_headers()
                 return
 
-            recebido = json.loads(
-                self.rfile.read(tamanho).decode("utf-8")
-            )
+            return super().do_GET()
 
-            if not isinstance(recebido, dict):
-                responder_json(self, 400, {
-                    "erro": "Dados inválidos."
-                })
-                return
+        # Sessão atual do bibliotecário
+        if caminho == "/api/sessao-bibliotecario":
+            bibliotecario = self.obter_bibliotecario()
 
-            # LOGIN DO BIBLIOTECÁRIO
-            if caminho == "/api/login-bibliotecario":
-                usuario = recebido.get("usuario", "")
-                senha = recebido.get("senha", "")
+            if not bibliotecario:
+                return responder_erro(
+                    self,
+                    "Sessão não encontrada. Entre novamente.",
+                    401
+                )
 
-                if (
-                    not isinstance(usuario, str)
-                    or not isinstance(senha, str)
-                ):
-                    responder_json(self, 400, {
-                        "erro": "Dados inválidos."
-                    })
-                    return
-
-                usuario = usuario.strip()
-
-                if not usuario or not senha:
-                    responder_json(self, 400, {
-                        "erro": "Informe o usuário e a senha."
-                    })
-                    return
-
-                with sqlite3.connect(BANCO) as conexao:
-                    conexao.row_factory = sqlite3.Row
-
-                    bibliotecario = conexao.execute("""
-                        SELECT
-                            id_bibliotecario, nome, usuario, senha_hash
-                        FROM bibliotecario
-                        WHERE usuario = ? AND ativo = 1
-                    """, (usuario,)).fetchone()
-
-                if (
-                    bibliotecario is None
-                    or not verificar_senha(
-                        senha, bibliotecario["senha_hash"]
-                    )
-                ):
-                    responder_json(self, 401, {
-                        "erro": "Usuário ou senha incorretos."
-                    })
-                    return
-
-                # Gera um token aleatório para a sessão.
-                token = secrets.token_urlsafe(32)
-
-                dados_bibliotecario = {
-                    "id": bibliotecario["id_bibliotecario"],
+            return responder_json(self, {
+                "bibliotecario": {
+                    "id": bibliotecario["id"],
                     "nome": bibliotecario["nome"],
                     "usuario": bibliotecario["usuario"]
                 }
+            })
 
-                SESSOES_BIBLIOTECARIOS[token] = dados_bibliotecario
+        # Catálogo de livros
+        if caminho == "/api/livros":
+            return self.api_livros()
 
-                responder_json(
-                    self, 200,
-                    {
-                        "mensagem": "Login realizado com sucesso!",
-                        "bibliotecario": dados_bibliotecario
-                    },
-                    {
-                        "Set-Cookie": self.enviar_cookie_sessao(token)
-                    }
+        # Rotas administrativas protegidas
+        if caminho.startswith("/api/admin/"):
+            if not self.exige_bibliotecario():
+                return responder_erro(
+                    self,
+                    "Acesso não autorizado.",
+                    401
                 )
-                return
 
-            # LOGIN DO ALUNO
-            if caminho == "/api/login":
-                matricula = recebido.get("matricula", "")
-                senha = recebido.get("senha", "")
+            if caminho == "/api/admin/resumo":
+                return self.api_admin_resumo()
 
-                if (
-                    not isinstance(matricula, str)
-                    or not isinstance(senha, str)
-                ):
-                    responder_json(self, 400, {
-                        "erro": "Dados inválidos."
-                    })
-                    return
+            if caminho == "/api/admin/alunos":
+                return self.api_admin_alunos()
 
-                matricula = matricula.strip()
+            if caminho == "/api/admin/emprestimos":
+                return self.api_admin_emprestimos()
 
-                if not matricula or not senha:
-                    responder_json(self, 400, {
-                        "erro": "Informe a matrícula e a senha."
-                    })
-                    return
+            if caminho == "/api/admin/exemplares-disponiveis":
+                return self.api_exemplares_disponiveis()
 
-                with sqlite3.connect(BANCO) as conexao:
-                    conexao.row_factory = sqlite3.Row
+            return responder_erro(self, "Rota não encontrada.", 404)
 
-                    aluno = conexao.execute("""
-                        SELECT
-                            id_aluno, nome, matricula, turma, senha_hash
-                        FROM aluno
-                        WHERE matricula = ?
-                    """, (matricula,)).fetchone()
+        return super().do_GET()
 
-                if (
-                    aluno is None
-                    or not aluno["senha_hash"]
-                    or not verificar_senha(
-                        senha, aluno["senha_hash"]
-                    )
-                ):
-                    responder_json(self, 401, {
-                        "erro": "Matrícula ou senha incorreta."
-                    })
-                    return
+    # -----------------------------------------------------
+    # POST
+    # -----------------------------------------------------
 
-                responder_json(self, 200, {
-                    "mensagem": "Login realizado com sucesso!",
-                    "aluno": {
-                        "id": aluno["id_aluno"],
-                        "nome": aluno["nome"],
-                        "matricula": aluno["matricula"],
-                        "turma": aluno["turma"]
-                    }
-                })
-                return
+    def do_POST(self):
+        caminho = self.caminho()
+        dados = self.ler_json()
 
-            # CADASTRO DO ALUNO
-            nome = recebido.get("nome", "")
-            matricula = recebido.get("matricula", "")
-            turma = recebido.get("turma", "")
-            senha = recebido.get("senha", "")
+        if dados is None:
+            return responder_erro(self, "Dados enviados em formato inválido.")
 
-            if not all(
-                isinstance(campo, str)
-                for campo in (nome, matricula, turma, senha)
+        # Cadastro de aluno
+        if caminho == "/api/cadastro":
+            return self.api_cadastro_aluno(dados)
+
+        # Login de aluno
+        if caminho == "/api/login":
+            return self.api_login_aluno(dados)
+
+        # Login do bibliotecário
+        if caminho == "/api/login-bibliotecario":
+            return self.api_login_bibliotecario(dados)
+
+        # Logout do bibliotecário
+        if caminho == "/api/logout-bibliotecario":
+            return self.api_logout_bibliotecario()
+
+        # Rotas administrativas protegidas
+        if caminho.startswith("/api/admin/"):
+            if not self.exige_bibliotecario():
+                return responder_erro(
+                    self,
+                    "Acesso não autorizado.",
+                    401
+                )
+
+            if caminho == "/api/admin/livros":
+                return self.api_cadastrar_livro(dados)
+
+            if caminho == "/api/admin/emprestimos":
+                return self.api_cadastrar_emprestimo(dados)
+
+            if caminho == "/api/admin/devolucoes":
+                return self.api_registrar_devolucao(dados)
+
+            return responder_erro(self, "Rota não encontrada.", 404)
+
+        responder_erro(self, "Rota não encontrada.", 404)
+
+    # =====================================================
+    # API: LIVROS
+    # =====================================================
+
+    def api_livros(self):
+        try:
+            livros = executar_consulta("""
+                SELECT
+                    l.id_livro,
+                    l.ISBN AS isbn,
+                    l.titulo,
+                    l.genero,
+                    l.editora,
+                    l.autor,
+                    l.ano_publicacao,
+
+                    COUNT(
+                        CASE
+                            WHEN e.estado = 'Bom'
+                            THEN e.id_exemplar
+                        END
+                    ) AS quantidade,
+
+                    COUNT(
+                        CASE
+                            WHEN e.estado = 'Bom'
+                            AND em.id_emprestimo IS NULL
+                            THEN e.id_exemplar
+                        END
+                    ) AS disponiveis
+
+                FROM livro l
+
+                LEFT JOIN exemplar e
+                    ON e.id_livro = l.id_livro
+
+                LEFT JOIN emprestimo em
+                    ON em.id_exemplar = e.id_exemplar
+                    AND em.data_devolucao IS NULL
+
+                GROUP BY
+                    l.id_livro,
+                    l.ISBN,
+                    l.titulo,
+                    l.genero,
+                    l.editora,
+                    l.autor,
+                    l.ano_publicacao
+
+                ORDER BY l.titulo
+            """)
+
+            return responder_json(
+                self,
+                [dict(livro) for livro in livros]
+            )
+
+        except sqlite3.Error as erro:
+            print("Erro ao consultar livros:", erro)
+            return responder_erro(
+                self,
+                "Não foi possível carregar o catálogo.",
+                500
+            )
+
+    # =====================================================
+    # API: CADASTRO DE ALUNO
+    # =====================================================
+
+    def api_cadastro_aluno(self, dados):
+        nome = str(dados.get("nome", "")).strip()
+        matricula = str(dados.get("matricula", "")).strip()
+        turma = str(dados.get("turma", "")).strip()
+        senha = str(dados.get("senha", ""))
+
+        if not nome or not matricula or not turma or not senha:
+            return responder_erro(
+                self,
+                "Preencha todos os campos obrigatórios."
+            )
+
+        if len(senha) < 6:
+            return responder_erro(
+                self,
+                "A senha precisa ter pelo menos 6 caracteres."
+            )
+
+        senha_hash = gerar_senha_hash(senha)
+
+        conexao = conectar_banco()
+
+        try:
+            conexao.execute("""
+                INSERT INTO aluno (
+                    matricula,
+                    nome,
+                    turma,
+                    data_cadastro,
+                    senha_hash
+                )
+                VALUES (?, ?, ?, ?, ?)
+            """, (
+                matricula,
+                nome,
+                turma,
+                data_hoje(),
+                senha_hash
+            ))
+
+            conexao.commit()
+
+            return responder_json(
+                self,
+                {"mensagem": "Cadastro realizado com sucesso!"},
+                201
+            )
+
+        except sqlite3.IntegrityError:
+            return responder_erro(
+                self,
+                "Essa matrícula já está cadastrada."
+            )
+
+        except sqlite3.Error as erro:
+            print("Erro no cadastro de aluno:", erro)
+            return responder_erro(
+                self,
+                "Não foi possível realizar o cadastro.",
+                500
+            )
+
+        finally:
+            conexao.close()
+
+    # =====================================================
+    # API: LOGIN DE ALUNO
+    # =====================================================
+
+    def api_login_aluno(self, dados):
+        matricula = str(dados.get("matricula", "")).strip()
+        senha = str(dados.get("senha", ""))
+
+        if not matricula or not senha:
+            return responder_erro(
+                self,
+                "Informe a matrícula e a senha."
+            )
+
+        try:
+            aluno = executar_consulta("""
+                SELECT
+                    id_aluno,
+                    matricula,
+                    nome,
+                    turma,
+                    senha_hash
+                FROM aluno
+                WHERE matricula = ?
+            """, (matricula,), obter_um=True)
+
+            if not aluno or not verificar_senha(
+                senha,
+                aluno["senha_hash"]
             ):
-                responder_json(self, 400, {
-                    "erro": "Dados inválidos."
-                })
-                return
+                return responder_erro(
+                    self,
+                    "Matrícula ou senha incorreta.",
+                    401
+                )
 
-            nome = nome.strip()
-            matricula = matricula.strip()
-            turma = turma.strip()
-
-            if not nome or not matricula or not turma:
-                responder_json(self, 400, {
-                    "erro": "Preencha todos os campos."
-                })
-                return
-
-            if len(senha) < 8:
-                responder_json(self, 400, {
-                    "erro": "A senha precisa ter pelo menos 8 caracteres."
-                })
-                return
-
-            if (
-                len(nome) > 100
-                or len(matricula) > 30
-                or len(turma) > 30
-            ):
-                responder_json(self, 400, {
-                    "erro": "Confira o tamanho dos campos."
-                })
-                return
-
-            senha_hash = gerar_hash_senha(senha)
-
-            with sqlite3.connect(BANCO) as conexao:
-                existente = conexao.execute(
-                    "SELECT 1 FROM aluno WHERE matricula = ?",
-                    (matricula,)
-                ).fetchone()
-
-                if existente:
-                    responder_json(self, 409, {
-                        "erro": "Matrícula já cadastrada."
-                    })
-                    return
-
-                cursor = conexao.execute("""
-                    INSERT INTO aluno
-                    (matricula, nome, turma, data_cadastro, senha_hash)
-                    VALUES (?, ?, ?, date('now'), ?)
-                """, (matricula, nome, turma, senha_hash))
-
-                id_aluno = cursor.lastrowid
-
-            responder_json(self, 201, {
-                "mensagem": "Cadastro realizado com sucesso!",
+            return responder_json(self, {
+                "mensagem": "Login realizado com sucesso!",
                 "aluno": {
-                    "id": id_aluno,
-                    "nome": nome,
-                    "matricula": matricula,
-                    "turma": turma
+                    "id": aluno["id_aluno"],
+                    "matricula": aluno["matricula"],
+                    "nome": aluno["nome"],
+                    "turma": aluno["turma"]
                 }
             })
 
-        except (ValueError, json.JSONDecodeError, UnicodeDecodeError):
-            responder_json(self, 400, {
-                "erro": "Dados inválidos."
-            })
+        except sqlite3.Error as erro:
+            print("Erro no login do aluno:", erro)
+            return responder_erro(
+                self,
+                "Não foi possível realizar o login.",
+                500
+            )
 
-        except sqlite3.Error:
-            responder_json(self, 500, {
-                "erro": "Erro ao consultar ou salvar os dados."
-            })
+    # =====================================================
+    # API: LOGIN DO BIBLIOTECÁRIO
+    # =====================================================
 
+    def api_login_bibliotecario(self, dados):
+        usuario = str(dados.get("usuario", "")).strip()
+        senha = str(dados.get("senha", ""))
+
+        if not usuario or not senha:
+            return responder_erro(
+                self,
+                "Informe o usuário e a senha."
+            )
+
+        try:
+            bibliotecario = executar_consulta("""
+                SELECT
+                    id_bibliotecario,
+                    nome,
+                    usuario,
+                    senha_hash
+                FROM bibliotecario
+                WHERE usuario = ?
+                AND ativo = 1
+            """, (usuario,), obter_um=True)
+
+            if not bibliotecario or not verificar_senha(
+                senha,
+                bibliotecario["senha_hash"]
+            ):
+                return responder_erro(
+                    self,
+                    "Usuário ou senha incorretos.",
+                    401
+                )
+
+            token = secrets.token_urlsafe(32)
+
+            SESSOES_BIBLIOTECARIOS[token] = {
+                "id": bibliotecario["id_bibliotecario"],
+                "nome": bibliotecario["nome"],
+                "usuario": bibliotecario["usuario"],
+                "expira_em": (
+                    datetime.now().timestamp() + DURACAO_SESSAO
+                )
+            }
+
+            return responder_json(
+                self,
+                {
+                    "mensagem": "Login realizado com sucesso!",
+                    "bibliotecario": {
+                        "id": bibliotecario["id_bibliotecario"],
+                        "nome": bibliotecario["nome"],
+                        "usuario": bibliotecario["usuario"]
+                    }
+                },
+                headers_extra={
+                    "Set-Cookie": self.cookie_sessao(token)
+                }
+            )
+
+        except sqlite3.Error as erro:
+            print("Erro no login do bibliotecário:", erro)
+            return responder_erro(
+                self,
+                "Não foi possível realizar o login.",
+                500
+            )
+
+    # =====================================================
+    # API: LOGOUT DO BIBLIOTECÁRIO
+    # =====================================================
+
+    def api_logout_bibliotecario(self):
+        token = self.obter_token()
+
+        if token:
+            SESSOES_BIBLIOTECARIOS.pop(token, None)
+
+        return responder_json(
+            self,
+            {"mensagem": "Sessão encerrada."},
+            headers_extra={
+                "Set-Cookie": self.cookie_encerrar()
+            }
+        )
+
+    # =====================================================
+    # API ADMINISTRATIVA: RESUMO
+    # =====================================================
+
+    def api_admin_resumo(self):
+        try:
+            conexao = conectar_banco()
+
+            try:
+                total_livros = conexao.execute("""
+                    SELECT COUNT(*) AS total FROM livro
+                """).fetchone()["total"]
+
+                total_alunos = conexao.execute("""
+                    SELECT COUNT(*) AS total FROM aluno
+                """).fetchone()["total"]
+
+                ativos = conexao.execute("""
+                    SELECT COUNT(*) AS total
+                    FROM emprestimo
+                    WHERE data_devolucao IS NULL
+                """).fetchone()["total"]
+
+                atrasados = conexao.execute("""
+                    SELECT COUNT(*) AS total
+                    FROM emprestimo
+                    WHERE data_devolucao IS NULL
+                    AND date(data_prevista_devolucao) < date('now', 'localtime')
+                """).fetchone()["total"]
+
+                recentes = conexao.execute("""
+                    SELECT
+                        em.id_emprestimo,
+                        a.nome AS aluno,
+                        l.titulo,
+                        em.data_emprestimo,
+                        em.data_prevista_devolucao
+
+                    FROM emprestimo em
+
+                    JOIN aluno a
+                        ON a.id_aluno = em.id_aluno
+
+                    JOIN exemplar e
+                        ON e.id_exemplar = em.id_exemplar
+
+                    JOIN livro l
+                        ON l.id_livro = e.id_livro
+
+                    WHERE em.data_devolucao IS NULL
+
+                    ORDER BY em.id_emprestimo DESC
+                    LIMIT 5
+                """).fetchall()
+
+                lista_recentes = []
+
+                for item in recentes:
+                    registro = dict(item)
+                    registro["atrasado"] = data_esta_atrasada(
+                        registro["data_prevista_devolucao"]
+                    )
+                    lista_recentes.append(registro)
+
+                return responder_json(self, {
+                    "livros": total_livros,
+                    "alunos": total_alunos,
+                    "emprestimos_ativos": ativos,
+                    "atrasados": atrasados,
+                    "recentes": lista_recentes
+                })
+
+            finally:
+                conexao.close()
+
+        except sqlite3.Error as erro:
+            print("Erro no resumo administrativo:", erro)
+            return responder_erro(
+                self,
+                "Não foi possível carregar o resumo.",
+                500
+            )
+
+    # =====================================================
+    # API ADMINISTRATIVA: ALUNOS
+    # =====================================================
+
+    def api_admin_alunos(self):
+        try:
+            alunos = executar_consulta("""
+                SELECT
+                    a.id_aluno,
+                    a.matricula,
+                    a.nome,
+                    a.turma,
+                    a.data_cadastro,
+
+                    COUNT(
+                        CASE
+                            WHEN em.data_devolucao IS NULL
+                            THEN em.id_emprestimo
+                        END
+                    ) AS emprestimos_ativos
+
+                FROM aluno a
+
+                LEFT JOIN emprestimo em
+                    ON em.id_aluno = a.id_aluno
+
+                GROUP BY
+                    a.id_aluno,
+                    a.matricula,
+                    a.nome,
+                    a.turma,
+                    a.data_cadastro
+
+                ORDER BY a.nome
+            """)
+
+            return responder_json(
+                self,
+                [dict(aluno) for aluno in alunos]
+            )
+
+        except sqlite3.Error as erro:
+            print("Erro ao consultar alunos:", erro)
+            return responder_erro(
+                self,
+                "Não foi possível carregar os alunos.",
+                500
+            )
+
+    # =====================================================
+    # API ADMINISTRATIVA: EMPRÉSTIMOS
+    # =====================================================
+
+    def api_admin_emprestimos(self):
+        try:
+            emprestimos = executar_consulta("""
+                SELECT
+                    em.id_emprestimo,
+                    em.data_emprestimo,
+                    em.data_prevista_devolucao,
+                    em.data_devolucao,
+
+                    a.nome AS aluno,
+                    a.matricula,
+
+                    l.titulo,
+                    e.codigo AS codigo_exemplar
+
+                FROM emprestimo em
+
+                JOIN aluno a
+                    ON a.id_aluno = em.id_aluno
+
+                JOIN exemplar e
+                    ON e.id_exemplar = em.id_exemplar
+
+                JOIN livro l
+                    ON l.id_livro = e.id_livro
+
+                ORDER BY
+                    CASE
+                        WHEN em.data_devolucao IS NULL THEN 0
+                        ELSE 1
+                    END,
+                    em.id_emprestimo DESC
+            """)
+
+            resultado = []
+
+            for emprestimo in emprestimos:
+                item = dict(emprestimo)
+
+                item["atrasado"] = (
+                    item["data_devolucao"] is None
+                    and data_esta_atrasada(
+                        item["data_prevista_devolucao"]
+                    )
+                )
+
+                resultado.append(item)
+
+            return responder_json(self, resultado)
+
+        except sqlite3.Error as erro:
+            print("Erro ao consultar empréstimos:", erro)
+            return responder_erro(
+                self,
+                "Não foi possível carregar os empréstimos.",
+                500
+            )
+
+    # =====================================================
+    # API ADMINISTRATIVA: EXEMPLARES DISPONÍVEIS
+    # =====================================================
+
+    def api_exemplares_disponiveis(self):
+        try:
+            exemplares = executar_consulta("""
+                SELECT
+                    e.id_exemplar,
+                    e.codigo,
+                    e.localizacao,
+                    l.titulo
+
+                FROM exemplar e
+
+                JOIN livro l
+                    ON l.id_livro = e.id_livro
+
+                WHERE e.estado = 'Bom'
+
+                AND NOT EXISTS (
+                    SELECT 1
+                    FROM emprestimo em
+                    WHERE em.id_exemplar = e.id_exemplar
+                    AND em.data_devolucao IS NULL
+                )
+
+                ORDER BY l.titulo
+            """)
+
+            return responder_json(
+                self,
+                [dict(exemplar) for exemplar in exemplares]
+            )
+
+        except sqlite3.Error as erro:
+            print("Erro ao consultar exemplares:", erro)
+            return responder_erro(
+                self,
+                "Não foi possível carregar os exemplares disponíveis.",
+                500
+            )
+
+    # =====================================================
+    # API ADMINISTRATIVA: CADASTRAR LIVRO
+    # =====================================================
+
+    def api_cadastrar_livro(self, dados):
+        titulo = str(dados.get("titulo", "")).strip()
+        autor = str(dados.get("autor", "")).strip()
+        genero = str(dados.get("genero", "")).strip()
+        isbn = str(dados.get("isbn", "")).strip()
+        editora = str(dados.get("editora", "")).strip()
+        codigo = str(dados.get("codigo", "")).strip()
+        localizacao = str(dados.get("localizacao", "")).strip()
+
+        ano = dados.get("ano_publicacao")
+
+        if not titulo or not autor:
+            return responder_erro(
+                self,
+                "Informe o título e o autor do livro."
+            )
+
+        if not codigo or not localizacao:
+            return responder_erro(
+                self,
+                "Informe o código e a localização do exemplar."
+            )
+
+        if ano in ("", None):
+            ano = None
+        else:
+            try:
+                ano = int(ano)
+            except (ValueError, TypeError):
+                return responder_erro(
+                    self,
+                    "O ano de publicação precisa ser um número."
+                )
+
+            if ano < 0 or ano > 2100:
+                return responder_erro(
+                    self,
+                    "Informe um ano de publicação válido."
+                )
+
+        conexao = conectar_banco()
+
+        try:
+            cursor = conexao.execute("""
+                INSERT INTO livro (
+                    ISBN,
+                    titulo,
+                    genero,
+                    editora,
+                    autor,
+                    ano_publicacao
+                )
+                VALUES (?, ?, ?, ?, ?, ?)
+            """, (
+                isbn or None,
+                titulo,
+                genero or None,
+                editora or None,
+                autor,
+                ano
+            ))
+
+            id_livro = cursor.lastrowid
+
+            conexao.execute("""
+                INSERT INTO exemplar (
+                    codigo,
+                    id_livro,
+                    localizacao,
+                    estado
+                )
+                VALUES (?, ?, ?, ?)
+            """, (
+                codigo,
+                id_livro,
+                localizacao,
+                "Bom"
+            ))
+
+            conexao.commit()
+
+            return responder_json(
+                self,
+                {
+                    "mensagem": "Livro e primeiro exemplar cadastrados com sucesso!",
+                    "id_livro": id_livro
+                },
+                201
+            )
+
+        except sqlite3.IntegrityError as erro:
+            conexao.rollback()
+            print("Erro de integridade ao cadastrar livro:", erro)
+
+            return responder_erro(
+                self,
+                "Não foi possível cadastrar. Verifique se o código do exemplar ou ISBN já está em uso."
+            )
+
+        except sqlite3.Error as erro:
+            conexao.rollback()
+            print("Erro ao cadastrar livro:", erro)
+
+            return responder_erro(
+                self,
+                "Ocorreu um erro ao cadastrar o livro.",
+                500
+            )
+
+        finally:
+            conexao.close()
+
+    # =====================================================
+    # API ADMINISTRATIVA: REGISTRAR EMPRÉSTIMO
+    # =====================================================
+
+    def api_cadastrar_emprestimo(self, dados):
+        try:
+            id_aluno = int(dados.get("id_aluno"))
+            id_exemplar = int(dados.get("id_exemplar"))
+        except (ValueError, TypeError):
+            return responder_erro(
+                self,
+                "Selecione um aluno e um exemplar válidos."
+            )
+
+        data_prevista = str(
+            dados.get("data_prevista_devolucao", "")
+        ).strip()
+
+        if not data_prevista:
+            return responder_erro(
+                self,
+                "Informe a data prevista para devolução."
+            )
+
+        try:
+            data_obj = date.fromisoformat(data_prevista)
+
+            if data_obj < date.today():
+                return responder_erro(
+                    self,
+                    "A data de devolução não pode estar no passado."
+                )
+
+        except ValueError:
+            return responder_erro(
+                self,
+                "A data de devolução é inválida."
+            )
+
+        conexao = conectar_banco()
+
+        try:
+            aluno = conexao.execute("""
+                SELECT id_aluno
+                FROM aluno
+                WHERE id_aluno = ?
+            """, (id_aluno,)).fetchone()
+
+            if not aluno:
+                return responder_erro(
+                    self,
+                    "Aluno não encontrado."
+                )
+
+            exemplar = conexao.execute("""
+                SELECT id_exemplar
+                FROM exemplar
+                WHERE id_exemplar = ?
+                AND estado = 'Bom'
+            """, (id_exemplar,)).fetchone()
+
+            if not exemplar:
+                return responder_erro(
+                    self,
+                    "Exemplar não encontrado ou não está em boas condições."
+                )
+
+            emprestimo_ativo = conexao.execute("""
+                SELECT id_emprestimo
+                FROM emprestimo
+                WHERE id_exemplar = ?
+                AND data_devolucao IS NULL
+            """, (id_exemplar,)).fetchone()
+
+            if emprestimo_ativo:
+                return responder_erro(
+                    self,
+                    "Esse exemplar já está emprestado."
+                )
+
+            conexao.execute("""
+                INSERT INTO emprestimo (
+                    id_aluno,
+                    id_exemplar,
+                    data_emprestimo,
+                    data_prevista_devolucao,
+                    data_devolucao
+                )
+                VALUES (?, ?, ?, ?, NULL)
+            """, (
+                id_aluno,
+                id_exemplar,
+                data_hoje(),
+                data_prevista
+            ))
+
+            conexao.commit()
+
+            return responder_json(
+                self,
+                {"mensagem": "Empréstimo registrado com sucesso!"},
+                201
+            )
+
+        except sqlite3.IntegrityError as erro:
+            conexao.rollback()
+            print("Erro de integridade no empréstimo:", erro)
+
+            return responder_erro(
+                self,
+                "Não foi possível registrar esse empréstimo."
+            )
+
+        except sqlite3.Error as erro:
+            conexao.rollback()
+            print("Erro ao registrar empréstimo:", erro)
+
+            return responder_erro(
+                self,
+                "Ocorreu um erro ao registrar o empréstimo.",
+                500
+            )
+
+        finally:
+            conexao.close()
+
+    # =====================================================
+    # API ADMINISTRATIVA: DEVOLUÇÃO
+    # =====================================================
+
+    def api_registrar_devolucao(self, dados):
+        try:
+            id_emprestimo = int(dados.get("id_emprestimo"))
+        except (ValueError, TypeError):
+            return responder_erro(
+                self,
+                "Empréstimo inválido."
+            )
+
+        conexao = conectar_banco()
+
+        try:
+            emprestimo = conexao.execute("""
+                SELECT id_emprestimo, data_devolucao
+                FROM emprestimo
+                WHERE id_emprestimo = ?
+            """, (id_emprestimo,)).fetchone()
+
+            if not emprestimo:
+                return responder_erro(
+                    self,
+                    "Empréstimo não encontrado.",
+                    404
+                )
+
+            if emprestimo["data_devolucao"] is not None:
+                return responder_erro(
+                    self,
+                    "Esse empréstimo já foi devolvido."
+                )
+
+            conexao.execute("""
+                UPDATE emprestimo
+                SET data_devolucao = ?
+                WHERE id_emprestimo = ?
+            """, (
+                data_hoje(),
+                id_emprestimo
+            ))
+
+            conexao.commit()
+
+            return responder_json(
+                self,
+                {"mensagem": "Devolução registrada com sucesso!"}
+            )
+
+        except sqlite3.Error as erro:
+            conexao.rollback()
+            print("Erro ao registrar devolução:", erro)
+
+            return responder_erro(
+                self,
+                "Não foi possível registrar a devolução.",
+                500
+            )
+
+        finally:
+            conexao.close()
+
+
+# =========================================================
+# INICIAR SERVIDOR
+# =========================================================
 
 if __name__ == "__main__":
+    if not BANCO.exists():
+        print("ERRO: Banco de dados não encontrado!")
+        print("Caminho esperado:", BANCO)
+        raise SystemExit(1)
+
     servidor = ThreadingHTTPServer(
-        ("0.0.0.0", 8000),
+        (HOST, PORTA),
         TechBookHandler
     )
 
-    print("TechBook iniciado na porta 8000!")
-    print("Catálogo: /api/livros")
-    servidor.serve_forever()
+    print("=" * 50)
+    print("TECHBOOK - SERVIDOR INICIADO")
+    print("=" * 50)
+    print(f"Banco de dados: {BANCO}")
+    print(f"Porta: {PORTA}")
+    print("Servidor aguardando conexões...")
+    print("Use a porta 8000 no ambiente de desenvolvimento.")
+    print("=" * 50)
+
+    try:
+        servidor.serve_forever()
+
+    except KeyboardInterrupt:
+        print("\nEncerrando servidor...")
+
+    finally:
+        servidor.server_close()
+        print("Servidor encerrado.")
