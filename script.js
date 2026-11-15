@@ -1,3 +1,4 @@
+
 const CHAVE = "tecbook-demo-v2";
 
 const livrosIniciais = [
@@ -21,28 +22,46 @@ const desafiosIniciais = [
 function carregarDados() {
   try {
     const salvo = localStorage.getItem(CHAVE);
+
     if (salvo) {
       const dadosSalvos = JSON.parse(salvo);
-      if (Array.isArray(dadosSalvos.livros) &&
-          Array.isArray(dadosSalvos.emprestimos) &&
-          Array.isArray(dadosSalvos.desafios)) return dadosSalvos;
+
+      if (
+        Array.isArray(dadosSalvos.livros) &&
+        Array.isArray(dadosSalvos.emprestimos) &&
+        Array.isArray(dadosSalvos.desafios)
+      ) {
+        return dadosSalvos;
+      }
     }
   } catch (erro) {
     console.warn("Não foi possível carregar os dados locais.", erro);
   }
+
   return {
     livros: livrosIniciais.map(livro => ({ ...livro })),
     emprestimos: [],
-    desafios: desafiosIniciais.map(desafio => ({ ...desafio, concluido: false }))
+    desafios: desafiosIniciais.map(desafio => ({
+      ...desafio,
+      concluido: false
+    }))
   };
 }
 
 let dados = carregarDados();
+let generoSelecionado = "Todos";
+let fonte = 100;
+let bancoCarregado = false;
+
+// ========================================
+// CARREGAMENTO DOS LIVROS DO BANCO SQLITE
+// ========================================
 
 async function carregarLivrosDoBanco() {
-  console.log("A função de carregar livros foi iniciada!");
   try {
-    const resposta = await fetch("/api/livros");
+    const resposta = await fetch("/api/livros", {
+      cache: "no-store"
+    });
 
     if (!resposta.ok) {
       throw new Error("Não foi possível carregar os livros.");
@@ -55,11 +74,11 @@ async function carregarLivrosDoBanco() {
     }
 
     dados.livros = livrosBanco.map(livro => ({
-      id: livro.id_livro,
+      id: Number(livro.id_livro),
       titulo: livro.titulo || "Título não informado",
       autor: livro.autor || "Autor não informado",
       genero: livro.genero || "Outros",
-      isbn: livro.isbn || "",
+      isbn: livro.isbn || livro.ISBN || "",
       emoji: "📚",
       cor: "#E9DCE5",
       sinopse: "",
@@ -68,16 +87,26 @@ async function carregarLivrosDoBanco() {
       duracao: "longa"
     }));
 
+    bancoCarregado = true;
+
     renderizarTudo();
+
     console.log("Livros carregados do banco:", dados.livros);
+
   } catch (erro) {
     console.error("Erro ao conectar com o banco:", erro);
-    alert("Não foi possível carregar os livros do banco. Verifique se o servidor está funcionando.");
+
+    console.warn(
+      "O catálogo está utilizando os livros de demonstração."
+    );
+
+    renderizarTudo();
   }
 }
 
-let generoSelecionado = "Todos";
-let fonte = 100;
+// ========================================
+// ARMAZENAMENTO E FUNÇÕES AUXILIARES
+// ========================================
 
 function salvarDados() {
   try {
@@ -92,157 +121,295 @@ function salvarDados() {
 
 function escapar(texto) {
   return String(texto).replace(/[&<>"']/g, caractere => ({
-    "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    '"': "&quot;",
+    "'": "&#39;"
   })[caractere]);
 }
 
 function formatarData(data) {
   if (!data) return "Não informada";
+
   const partes = data.split("-");
-  return partes.length === 3 ? `${partes[2]}/${partes[1]}/${partes[0]}` : data;
+
+  return partes.length === 3
+    ? `${partes[2]}/${partes[1]}/${partes[0]}`
+    : data;
 }
 
-function exemplaresEmprestados(idLivro) {
-  return dados.emprestimos.filter(item => item.livroId === idLivro && !item.devolvido).length;
-}
+// A disponibilidade agora vem do banco.
+// Não utilizamos mais os empréstimos fictícios do navegador.
 
 function disponiveis(livro) {
-  return Math.max(0, livro.quantidade - exemplaresEmprestados(livro.id));
+  if (bancoCarregado) {
+    return Math.max(0, Number(livro.disponiveisBanco) || 0);
+  }
+
+  return Math.max(0, Number(livro.quantidade) || 0);
 }
+
+// ========================================
+// CAPAS DOS LIVROS
+// ========================================
 
 function capaHTML(livro) {
   const isbn = escapar(livro.isbn);
   const titulo = escapar(livro.titulo);
   const emoji = escapar(livro.emoji);
+
+  if (!isbn) {
+    return `
+      <div class="capa-livro" style="--cor-capa:${livro.cor}">
+        <span class="capa-emoji" aria-hidden="true">${emoji}</span>
+      </div>`;
+  }
+
   return `
     <div class="capa-livro" style="--cor-capa:${livro.cor}">
-      <img src="https://covers.openlibrary.org/b/isbn/${isbn}-M.jpg"
-           alt="Capa de ${titulo}" loading="lazy"
-           onerror="this.hidden=true;this.nextElementSibling.hidden=false">
+      <img
+        src="https://covers.openlibrary.org/b/isbn/${isbn}-M.jpg"
+        alt="Capa de ${titulo}"
+        loading="lazy"
+        onerror="this.hidden=true;this.nextElementSibling.hidden=false"
+      >
       <span class="capa-emoji" hidden aria-hidden="true">${emoji}</span>
     </div>`;
 }
 
+// ========================================
+// CATÁLOGO INTELIGENTE
+// ========================================
+
 function renderizarCatalogo() {
-  const busca = document.querySelector("#busca").value.trim().toLocaleLowerCase("pt-BR");
+  const campoBusca = document.querySelector("#busca");
+  const grade = document.querySelector("#grade-livros");
+
+  const busca = campoBusca.value
+    .trim()
+    .toLocaleLowerCase("pt-BR");
+
   const encontrados = dados.livros.filter(livro => {
-    const texto = `${livro.titulo} ${livro.autor} ${livro.genero} ${livro.sinopse}`.toLocaleLowerCase("pt-BR");
-    return texto.includes(busca) && (generoSelecionado === "Todos" || livro.genero === generoSelecionado);
+    const texto = `
+      ${livro.titulo}
+      ${livro.autor}
+      ${livro.genero}
+      ${livro.sinopse}
+    `.toLocaleLowerCase("pt-BR");
+
+    return (
+      texto.includes(busca) &&
+      (
+        generoSelecionado === "Todos" ||
+        livro.genero === generoSelecionado
+      )
+    );
   });
 
-  document.querySelector("#resultado-busca").textContent = `${encontrados.length} livro(s) encontrado(s).`;
-  document.querySelector("#vazio").hidden = encontrados.length > 0;
+  document.querySelector("#resultado-busca").textContent =
+    `${encontrados.length} livro(s) encontrado(s).`;
 
-  document.querySelector("#grade-livros").innerHTML = encontrados.map(livro => {
+  document.querySelector("#vazio").hidden =
+    encontrados.length > 0;
+
+  grade.innerHTML = encontrados.map(livro => {
     const quantidade = disponiveis(livro);
+
     return `
       <article class="cartao-livro">
         ${capaHTML(livro)}
+
         <div class="info-livro">
-          <span class="genero-livro">${escapar(livro.genero)}</span>
+          <span class="genero-livro">
+            ${escapar(livro.genero)}
+          </span>
+
           <h3>${escapar(livro.titulo)}</h3>
+
           <p class="autor">${escapar(livro.autor)}</p>
+
           <p class="sinopse">${escapar(livro.sinopse)}</p>
-          <span class="disponibilidade ${quantidade ? "" : "esgotado"}">${quantidade ? `${quantidade} disponível(is)` : "Indisponível"}</span>
-          <button class="botao acao-cartao" data-acao="recomendar-livro" data-id="${livro.id}">Ver recomendação</button>
+
+          <span class="disponibilidade ${quantidade ? "" : "esgotado"}">
+            ${quantidade ? `${quantidade} disponível(is)` : "Indisponível"}
+          </span>
+
+          <button
+            class="botao acao-cartao"
+            data-acao="recomendar-livro"
+            data-id="${livro.id}"
+          >
+            Ver recomendação
+          </button>
         </div>
-      </article>`;
+      </article>
+    `;
   }).join("");
 
   document.querySelectorAll(".filtro").forEach(botao => {
     const ativo = botao.dataset.genero === generoSelecionado;
+
     botao.classList.toggle("ativo", ativo);
     botao.setAttribute("aria-pressed", String(ativo));
   });
 }
 
-function renderizarOpcoesEmprestimo() {
-  const select = document.querySelector("#livro-emprestimo");
-  const disponiveisLivros = dados.livros.filter(livro => disponiveis(livro) > 0);
-  select.innerHTML = `<option value="">Selecione um livro</option>${disponiveisLivros.map(livro =>
-    `<option value="${livro.id}">${escapar(livro.titulo)} — ${disponiveis(livro)} disponível(is)</option>`
-  ).join("")}`;
-}
-
-function renderizarEmprestimos() {
-  const lista = document.querySelector("#lista-emprestimos");
-  if (!dados.emprestimos.length) {
-    lista.innerHTML = "<p class='texto-suave'>Ainda não existem empréstimos registrados.</p>";
-  } else {
-    lista.innerHTML = [...dados.emprestimos].reverse().map(item => {
-      const livro = dados.livros.find(l => l.id === item.livroId);
-      return `<article class="registro">
-        <div><strong>${escapar(livro ? livro.titulo : "Livro não encontrado")}</strong>
-          <p>Leitor: ${escapar(item.leitor)}</p>
-          <p>Devolução prevista: ${formatarData(item.dataDevolucao)}</p>
-          <span class="disponibilidade ${item.devolvido ? "" : "esgotado"}">${item.devolvido ? "Devolvido" : "Empréstimo ativo"}</span>
-        </div>
-        ${item.devolvido ? "" : `<button data-acao="devolver" data-id="${item.id}">Registrar devolução</button>`}
-      </article>`;
-    }).join("");
-  }
-  renderizarOpcoesEmprestimo();
-}
+// ========================================
+// ESTATÍSTICAS DA BIBLIOTECA
+// ========================================
 
 function renderizarEstatisticas() {
-  const totalExemplares = dados.livros.reduce((soma, livro) => soma + livro.quantidade, 0);
-  const ativos = dados.emprestimos.filter(item => !item.devolvido).length;
-  const generos = [...new Set(dados.livros.map(livro => livro.genero))];
+  const totalExemplares = dados.livros.reduce(
+    (soma, livro) => soma + livro.quantidade,
+    0
+  );
 
-  document.querySelector("#total-livros").textContent = totalExemplares;
-  document.querySelector("#total-emprestimos").textContent = ativos;
-  document.querySelector("#total-generos").textContent = generos.length;
-  document.querySelector("#total-desafios").textContent = dados.desafios.filter(d => d.concluido).length;
+  const generos = [
+    ...new Set(dados.livros.map(livro => livro.genero))
+  ];
+
+  const emprestados = dados.livros.reduce(
+    (soma, livro) =>
+      soma + Math.max(0, livro.quantidade - disponiveis(livro)),
+    0
+  );
+
+  const livres = Math.max(0, totalExemplares - emprestados);
+
+  document.querySelector("#total-livros").textContent =
+    totalExemplares;
+
+  document.querySelector("#total-emprestimos").textContent =
+    bancoCarregado ? emprestados : "—";
+
+  document.querySelector("#total-generos").textContent =
+    generos.length;
+
+  document.querySelector("#total-desafios").textContent =
+    dados.desafios.filter(d => d.concluido).length;
 
   const contagem = generos.map(genero => ({
     genero,
-    total: dados.livros.filter(livro => livro.genero === genero).length
+    total: dados.livros.filter(
+      livro => livro.genero === genero
+    ).length
   }));
-  const maximo = Math.max(1, ...contagem.map(item => item.total));
 
-  document.querySelector("#grafico-generos").innerHTML = contagem.map(item => `
-    <div class="barra-dado"><span>${escapar(item.genero)}</span>
-      <div class="trilho"><span style="width:${item.total / maximo * 100}%"></span></div><strong>${item.total}</strong>
-    </div>`).join("");
+  const maximo = Math.max(
+    1,
+    ...contagem.map(item => item.total)
+  );
 
-  const emprestados = dados.livros.reduce((soma, livro) => soma + exemplaresEmprestados(livro.id), 0);
-  const livres = Math.max(0, totalExemplares - emprestados);
+  document.querySelector("#grafico-generos").innerHTML =
+    contagem.map(item => `
+      <div class="barra-dado">
+        <span>${escapar(item.genero)}</span>
+
+        <div class="trilho">
+          <span style="width:${item.total / maximo * 100}%"></span>
+        </div>
+
+        <strong>${item.total}</strong>
+      </div>
+    `).join("");
+
   const escala = Math.max(1, totalExemplares);
 
   document.querySelector("#grafico-disponibilidade").innerHTML = `
-    <div class="barra-dado"><span>Disponíveis</span><div class="trilho"><span style="width:${livres / escala * 100}%"></span></div><strong>${livres}</strong></div>
-    <div class="barra-dado"><span>Emprestados</span><div class="trilho"><span style="width:${emprestados / escala * 100}%"></span></div><strong>${emprestados}</strong></div>`;
+    <div class="barra-dado">
+      <span>Disponíveis</span>
+      <div class="trilho">
+        <span style="width:${livres / escala * 100}%"></span>
+      </div>
+      <strong>${livres}</strong>
+    </div>
+
+    <div class="barra-dado">
+      <span>Emprestados</span>
+      <div class="trilho">
+        <span style="width:${emprestados / escala * 100}%"></span>
+      </div>
+      <strong>${emprestados}</strong>
+    </div>
+  `;
 }
+
+// ========================================
+// DESAFIOS DE LEITURA
+// ========================================
 
 function renderizarDesafios() {
-  document.querySelector("#lista-desafios").innerHTML = dados.desafios.map(desafio => `
-    <label class="desafio ${desafio.concluido ? "concluido" : ""}">
-      <input type="checkbox" data-acao="desafio" data-id="${desafio.id}" ${desafio.concluido ? "checked" : ""}>
-      <div><h3>${escapar(desafio.titulo)}</h3><p>${escapar(desafio.descricao)}</p><span class="genero-livro">${desafio.pontos} pontos</span></div>
-    </label>`).join("");
+  document.querySelector("#lista-desafios").innerHTML =
+    dados.desafios.map(desafio => `
+      <label class="desafio ${desafio.concluido ? "concluido" : ""}">
+        <input
+          type="checkbox"
+          data-acao="desafio"
+          data-id="${desafio.id}"
+          ${desafio.concluido ? "checked" : ""}
+        >
 
-  const feitos = dados.desafios.filter(d => d.concluido).length;
+        <div>
+          <h3>${escapar(desafio.titulo)}</h3>
+
+          <p>${escapar(desafio.descricao)}</p>
+
+          <span class="genero-livro">
+            ${desafio.pontos} pontos
+          </span>
+        </div>
+      </label>
+    `).join("");
+
+  const feitos = dados.desafios.filter(
+    d => d.concluido
+  ).length;
+
   const total = dados.desafios.length;
-  const percentual = total ? Math.round(feitos / total * 100) : 0;
 
-  document.querySelector("#texto-progresso").textContent = `${feitos} de ${total} concluídos`;
-  document.querySelector("#barra-progresso").style.width = `${percentual}%`;
-  document.querySelector("#valor-medidor").textContent = `${percentual}%`;
-  document.querySelector("#barra-medidor").style.width = `${percentual}%`;
+  const percentual = total
+    ? Math.round(feitos / total * 100)
+    : 0;
+
+  document.querySelector("#texto-progresso").textContent =
+    `${feitos} de ${total} concluídos`;
+
+  document.querySelector("#barra-progresso").style.width =
+    `${percentual}%`;
+
+  document.querySelector("#valor-medidor").textContent =
+    `${percentual}%`;
+
+  document.querySelector("#barra-medidor").style.width =
+    `${percentual}%`;
+
   document.querySelector("#legenda-medidor").textContent =
-    percentual === 100 ? "Você concluiu todos os desafios. Que jornada!" :
-    percentual > 0 ? "Cada descoberta ilumina o caminho!" :
-    "Toda grande descoberta começa pela primeira página.";
+    percentual === 100
+      ? "Você concluiu todos os desafios. Que jornada!"
+      : percentual > 0
+        ? "Cada descoberta ilumina o caminho!"
+        : "Toda grande descoberta começa pela primeira página.";
 }
+
+// ========================================
+// ATUALIZAR A PÁGINA
+// ========================================
 
 function renderizarTudo() {
   renderizarCatalogo();
-  renderizarEmprestimos();
   renderizarEstatisticas();
   renderizarDesafios();
 }
 
-document.querySelector("#busca").addEventListener("input", renderizarCatalogo);
+// ========================================
+// PESQUISA E FILTROS
+// ========================================
+
+document.querySelector("#busca").addEventListener(
+  "input",
+  renderizarCatalogo
+);
 
 document.querySelectorAll(".filtro").forEach(botao => {
   botao.addEventListener("click", () => {
@@ -251,166 +418,248 @@ document.querySelectorAll(".filtro").forEach(botao => {
   });
 });
 
-document.querySelector("#grade-livros").addEventListener("click", evento => {
-  const botao = evento.target.closest("[data-acao='recomendar-livro']");
-  if (!botao) return;
-  const livro = dados.livros.find(item => item.id === Number(botao.dataset.id));
-  if (!livro) return;
-  document.querySelector("#genero-preferido").value = livro.genero;
-  document.querySelector("#recomendador").scrollIntoView({ behavior: "smooth" });
-  recomendar();
-});
+// ========================================
+// RECOMENDAÇÕES
+// ========================================
+
+document.querySelector("#grade-livros").addEventListener(
+  "click",
+  evento => {
+    const botao = evento.target.closest(
+      "[data-acao='recomendar-livro']"
+    );
+
+    if (!botao) return;
+
+    const livro = dados.livros.find(
+      item => item.id === Number(botao.dataset.id)
+    );
+
+    if (!livro) return;
+
+    const campoGenero = document.querySelector("#genero-preferido");
+
+    if (
+      [...campoGenero.options].some(
+        opcao => opcao.value === livro.genero
+      )
+    ) {
+      campoGenero.value = livro.genero;
+    } else {
+      campoGenero.value = "Todos";
+    }
+
+    document.querySelector("#recomendador").scrollIntoView({
+      behavior: "smooth"
+    });
+
+    recomendar();
+  }
+);
 
 function recomendar() {
   const genero = document.querySelector("#genero-preferido").value;
   const estilo = document.querySelector("#estilo-preferido").value;
-  let resultados = dados.livros.filter(livro => genero === "Todos" || livro.genero === genero);
+
+  let resultados = dados.livros.filter(
+    livro => genero === "Todos" || livro.genero === genero
+  );
 
   if (estilo === "curta") {
-    const curtos = resultados.filter(livro => livro.duracao === "curta");
+    const curtos = resultados.filter(
+      livro => livro.duracao === "curta"
+    );
+
     if (curtos.length) resultados = curtos;
+
   } else if (estilo === "aventura") {
-    const aventuras = resultados.filter(livro => ["Aventura", "Fantasia"].includes(livro.genero));
+    const aventuras = resultados.filter(
+      livro => ["Aventura", "Fantasia"].includes(livro.genero)
+    );
+
     if (aventuras.length) resultados = aventuras;
+
   } else if (estilo === "reflexao") {
-    const reflexivos = resultados.filter(livro => ["Romance", "Ficção científica"].includes(livro.genero));
+    const reflexivos = resultados.filter(
+      livro => ["Romance", "Ficção científica"].includes(livro.genero)
+    );
+
     if (reflexivos.length) resultados = reflexivos;
   }
 
   resultados = resultados.slice(0, 3);
+
   const area = document.querySelector("#resultado-recomendacao");
+
   if (!resultados.length) {
-    area.textContent = "Não encontramos sugestões para essa combinação.";
+    area.textContent =
+      "Não encontramos sugestões para essa combinação.";
     return;
   }
 
   area.innerHTML = resultados.map(livro => `
-    <article class="cartao-livro">${capaHTML(livro)}
-      <div class="info-livro"><span class="genero-livro">${escapar(livro.genero)}</span>
-        <h3>${escapar(livro.titulo)}</h3><p class="autor">${escapar(livro.autor)}</p>
+    <article class="cartao-livro">
+      ${capaHTML(livro)}
+
+      <div class="info-livro">
+        <span class="genero-livro">
+          ${escapar(livro.genero)}
+        </span>
+
+        <h3>${escapar(livro.titulo)}</h3>
+
+        <p class="autor">${escapar(livro.autor)}</p>
+
         <p class="sinopse">${escapar(livro.sinopse)}</p>
       </div>
-    </article>`).join("");
+    </article>
+  `).join("");
 }
 
+// ========================================
+// CONCLUSÃO DOS DESAFIOS
+// ========================================
+
 function concluirDesafio(id) {
-  const desafio = dados.desafios.find(item => item.id === id);
+  const desafio = dados.desafios.find(
+    item => item.id === id
+  );
+
   if (!desafio || desafio.concluido) return;
+
   desafio.concluido = true;
+
   salvarDados();
   renderizarDesafios();
   renderizarEstatisticas();
 }
 
-document.querySelector("#recomendar-btn").addEventListener("click", () => {
-  recomendar();
-  concluirDesafio(4);
-});
-
-document.querySelector("#form-emprestimo").addEventListener("submit", evento => {
-  evento.preventDefault();
-  const leitor = document.querySelector("#leitor").value.trim();
-  const livroId = Number(document.querySelector("#livro-emprestimo").value);
-  const dataDevolucao = document.querySelector("#data-devolucao").value;
-  const livro = dados.livros.find(item => item.id === livroId);
-
-  if (!leitor || !livro || !dataDevolucao) {
-    alert("Preencha todos os campos.");
-    return;
+document.querySelector("#recomendar-btn").addEventListener(
+  "click",
+  () => {
+    recomendar();
+    concluirDesafio(4);
   }
+);
 
-  const hoje = new Date();
-  hoje.setHours(0, 0, 0, 0);
-  const dataEscolhida = new Date(`${dataDevolucao}T00:00:00`);
-  if (Number.isNaN(dataEscolhida.getTime()) || dataEscolhida < hoje) {
-    alert("Escolha uma data de devolução válida, a partir de hoje.");
-    return;
+document.querySelector("#lista-desafios").addEventListener(
+  "change",
+  evento => {
+    const checkbox = evento.target.closest(
+      "[data-acao='desafio']"
+    );
+
+    if (!checkbox) return;
+
+    const desafio = dados.desafios.find(
+      item => item.id === Number(checkbox.dataset.id)
+    );
+
+    if (!desafio) return;
+
+    const anterior = desafio.concluido;
+
+    desafio.concluido = checkbox.checked;
+
+    if (!salvarDados()) {
+      desafio.concluido = anterior;
+      return;
+    }
+
+    renderizarDesafios();
+    renderizarEstatisticas();
   }
-  if (disponiveis(livro) < 1) {
-    alert("Este livro não está disponível.");
-    return;
+);
+
+// ========================================
+// ACESSIBILIDADE
+// ========================================
+
+document.querySelector("#acessibilidade-btn").addEventListener(
+  "click",
+  () => {
+    document.querySelector("#acessibilidade").scrollIntoView({
+      behavior: "smooth"
+    });
   }
-
-  dados.emprestimos.push({ id: Date.now(), leitor, livroId, dataDevolucao, devolvido: false });
-  if (!salvarDados()) {
-    dados.emprestimos.pop();
-    return;
-  }
-  evento.target.reset();
-  renderizarTudo();
-  alert("Empréstimo registrado no protótipo!");
-});
-
-document.querySelector("#lista-emprestimos").addEventListener("click", evento => {
-  const botao = evento.target.closest("[data-acao='devolver']");
-  if (!botao) return;
-  const item = dados.emprestimos.find(registro => registro.id === Number(botao.dataset.id));
-  if (!item || item.devolvido) return;
-
-  item.devolvido = true;
-  if (!salvarDados()) {
-    item.devolvido = false;
-    return;
-  }
-  renderizarTudo();
-});
-
-document.querySelector("#lista-desafios").addEventListener("change", evento => {
-  const checkbox = evento.target.closest("[data-acao='desafio']");
-  if (!checkbox) return;
-  const desafio = dados.desafios.find(item => item.id === Number(checkbox.dataset.id));
-  if (!desafio) return;
-
-  const anterior = desafio.concluido;
-  desafio.concluido = checkbox.checked;
-  if (!salvarDados()) {
-    desafio.concluido = anterior;
-    return;
-  }
-  renderizarDesafios();
-  renderizarEstatisticas();
-});
-
-document.querySelector("#acessibilidade-btn").addEventListener("click", () => {
-  document.querySelector("#acessibilidade").scrollIntoView({ behavior: "smooth" });
-});
+);
 
 function atualizarFonte() {
   document.documentElement.style.fontSize = `${fonte}%`;
 }
-document.querySelector("#fonte-aumentar").addEventListener("click", () => {
-  fonte = Math.min(130, fonte + 10);
-  atualizarFonte();
-});
-document.querySelector("#fonte-diminuir").addEventListener("click", () => {
-  fonte = Math.max(80, fonte - 10);
-  atualizarFonte();
-});
-document.querySelector("#fonte-normal").addEventListener("click", () => {
-  fonte = 100;
-  atualizarFonte();
-});
-document.querySelector("#contraste-btn").addEventListener("click", evento => {
-  document.body.classList.toggle("alto-contraste");
-  evento.currentTarget.setAttribute("aria-pressed", String(document.body.classList.contains("alto-contraste")));
-});
 
-document.querySelector("#menu-btn").addEventListener("click", evento => {
-  const menu = document.querySelector("#menu");
-  const aberto = menu.classList.toggle("aberto");
-  evento.currentTarget.setAttribute("aria-expanded", String(aberto));
-  evento.currentTarget.setAttribute("aria-label", aberto ? "Fechar menu" : "Abrir menu");
-});
+document.querySelector("#fonte-aumentar").addEventListener(
+  "click",
+  () => {
+    fonte = Math.min(130, fonte + 10);
+    atualizarFonte();
+  }
+);
+
+document.querySelector("#fonte-diminuir").addEventListener(
+  "click",
+  () => {
+    fonte = Math.max(80, fonte - 10);
+    atualizarFonte();
+  }
+);
+
+document.querySelector("#fonte-normal").addEventListener(
+  "click",
+  () => {
+    fonte = 100;
+    atualizarFonte();
+  }
+);
+
+document.querySelector("#contraste-btn").addEventListener(
+  "click",
+  evento => {
+    document.body.classList.toggle("alto-contraste");
+
+    evento.currentTarget.setAttribute(
+      "aria-pressed",
+      String(document.body.classList.contains("alto-contraste"))
+    );
+  }
+);
+
+// ========================================
+// MENU RESPONSIVO
+// ========================================
+
+document.querySelector("#menu-btn").addEventListener(
+  "click",
+  evento => {
+    const menu = document.querySelector("#menu");
+    const aberto = menu.classList.toggle("aberto");
+
+    evento.currentTarget.setAttribute(
+      "aria-expanded",
+      String(aberto)
+    );
+
+    evento.currentTarget.setAttribute(
+      "aria-label",
+      aberto ? "Fechar menu" : "Abrir menu"
+    );
+  }
+);
+
 document.querySelectorAll("#menu a").forEach(link => {
   link.addEventListener("click", () => {
     document.querySelector("#menu").classList.remove("aberto");
-    document.querySelector("#menu-btn").setAttribute("aria-expanded", "false");
+
+    document.querySelector("#menu-btn").setAttribute(
+      "aria-expanded",
+      "false"
+    );
   });
 });
 
-const hoje = new Date();
-const dataMinima = `${hoje.getFullYear()}-${String(hoje.getMonth() + 1).padStart(2, "0")}-${String(hoje.getDate()).padStart(2, "0")}`;
-document.querySelector("#data-devolucao").min = dataMinima;
+// ========================================
+// INICIALIZAÇÃO
+// ========================================
 
 renderizarTudo();
-carregarLivrosDoBanco(); // Banco desativado temporariamente
+carregarLivrosDoBanco();

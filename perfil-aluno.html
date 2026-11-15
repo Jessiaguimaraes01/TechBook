@@ -23,7 +23,7 @@
             font-family: "DM Sans", sans-serif;
         }
 
-        button, input, textarea {
+        button, input, textarea, select {
             font: inherit;
         }
 
@@ -82,10 +82,6 @@
             cursor: pointer;
         }
 
-        .sair-btn:hover {
-            background: #ffffff18;
-        }
-
         .conteudo-perfil {
             width: min(1100px, 92%);
             margin: 38px auto 70px;
@@ -95,7 +91,7 @@
             margin-bottom: 25px;
         }
 
-        .introducao .sobretitulo {
+        .sobretitulo {
             color: var(--bordo, #762F3B);
             font-size: 11px;
             letter-spacing: 2px;
@@ -142,8 +138,9 @@
             border-radius: 50%;
             background: var(--vinho, #481B27);
             color: white;
-            display: grid;
-            place-items: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             font-family: "Playfair Display", serif;
             font-size: 35px;
             overflow: hidden;
@@ -151,9 +148,12 @@
         }
 
         .foto-perfil img {
+            display: block;
             width: 100%;
             height: 100%;
             object-fit: cover;
+            object-position: center;
+            border-radius: 50%;
         }
 
         .foto-escolher {
@@ -166,6 +166,8 @@
             border-radius: 50%;
             width: 34px;
             height: 34px;
+            display: grid;
+            place-items: center;
             cursor: pointer;
             font-weight: 700;
         }
@@ -191,6 +193,12 @@
         .perfil-identidade .bio {
             margin-top: 12px;
             line-height: 1.6;
+        }
+
+        .acoes-perfil {
+            display: flex;
+            flex-direction: column;
+            gap: 9px;
         }
 
         .botao {
@@ -220,6 +228,11 @@
 
         .botao-secundario:hover {
             border-color: var(--bordo, #762F3B);
+        }
+
+        .botao:disabled {
+            opacity: .6;
+            cursor: not-allowed;
         }
 
         .estatisticas {
@@ -255,6 +268,13 @@
             color: var(--vinho, #481B27);
             font-family: "Playfair Display", serif;
             font-size: 25px;
+            margin: 0 0 5px;
+        }
+
+        .secao-titulo h3 {
+            color: var(--vinho, #481B27);
+            font-family: "Playfair Display", serif;
+            font-size: 20px;
             margin: 0 0 5px;
         }
 
@@ -369,12 +389,36 @@
         .aviso {
             margin-top: 25px;
             padding: 15px 18px;
-            background: #F5EBDD;
+            background: var(--papel, #FFFCF7);
             border-left: 4px solid var(--dourado, #D6AE70);
             border-radius: 8px;
             color: var(--suave, #78666B);
             font-size: 12px;
             line-height: 1.6;
+        }
+
+        .estante-card {
+            margin-top: 22px;
+            padding: 22px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 18px;
+            flex-wrap: wrap;
+        }
+
+        .estante-card h3 {
+            color: var(--vinho, #481B27);
+            font-family: "Playfair Display", serif;
+            margin: 0 0 6px;
+            font-size: 21px;
+        }
+
+        .estante-card p {
+            color: var(--suave, #78666B);
+            font-size: 13px;
+            line-height: 1.5;
+            margin: 0;
         }
 
         .modal-fundo {
@@ -393,7 +437,7 @@
         }
 
         .modal {
-            width: min(450px, 100%);
+            width: min(480px, 100%);
             max-height: 90vh;
             overflow-y: auto;
             background: var(--papel, #FFFCF7);
@@ -420,7 +464,8 @@
         }
 
         .campo input,
-        .campo textarea {
+        .campo textarea,
+        .campo select {
             width: 100%;
             padding: 11px;
             border: 1px solid var(--borda, #E6D8CB);
@@ -432,6 +477,34 @@
         .campo textarea {
             min-height: 85px;
             resize: vertical;
+        }
+
+        .lista-checkbox-generos {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 9px;
+            padding: 12px;
+            background: var(--creme, #F5EBDD);
+            border-radius: 9px;
+        }
+
+        .opcao-genero {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            font-size: 12px;
+            color: var(--texto, #38272C);
+        }
+
+        .opcao-genero input {
+            width: auto;
+            accent-color: var(--vinho, #481B27);
+        }
+
+        .ajuda {
+            color: var(--suave, #78666B);
+            font-size: 11px;
+            line-height: 1.5;
         }
 
         .modal-acoes {
@@ -474,6 +547,14 @@
 
             .perfil-nav {
                 gap: 12px;
+            }
+
+            .acoes-perfil {
+                width: 100%;
+            }
+
+            .lista-checkbox-generos {
+                grid-template-columns: 1fr;
             }
         }
     </style>
@@ -522,9 +603,11 @@
             <p class="bio" id="bio-aluno">Sua jornada de leitura começa aqui.</p>
         </div>
 
-        <button class="botao botao-principal" id="editar-btn" type="button">
-            Editar perfil
-        </button>
+        <div class="acoes-perfil">
+            <button class="botao botao-principal" id="editar-btn" type="button">
+                Editar perfil
+            </button>
+        </div>
 
     </section>
 
@@ -532,7 +615,7 @@
 
         <article class="estatistica cartao">
             <span class="numero" id="total-devolvidos">—</span>
-            <span class="legenda">Livros devolvidos</span>
+            <span class="legenda">Devoluções registradas</span>
         </article>
 
         <article class="estatistica cartao">
@@ -568,8 +651,8 @@
                 </div>
 
                 <div class="secao-titulo">
-                    <h3>Histórico de leitura</h3>
-                    <p>Livros que já foram devolvidos à biblioteca.</p>
+                    <h3>Histórico de devoluções</h3>
+                    <p>Registros dos livros devolvidos à biblioteca.</p>
                 </div>
 
                 <div id="historico-emprestimos">
@@ -599,6 +682,17 @@
             </aside>
 
         </div>
+
+        <section class="cartao estante-card">
+            <div>
+                <h3>Minha estante virtual</h3>
+                <p>Organize seus livros favoritos, leituras atuais e próximas leituras.</p>
+            </div>
+
+            <button class="botao botao-principal" id="estante-btn" type="button">
+                Acessar minha estante
+            </button>
+        </section>
 
     </section>
 
@@ -630,27 +724,28 @@
 
         <div class="campo">
             <label for="editar-usuario">Nome de usuário</label>
-            <input type="text" id="editar-usuario" maxlength="30">
+            <input type="text" id="editar-usuario" maxlength="30" placeholder="Ex.: leitor123">
         </div>
 
         <div class="campo">
             <label for="editar-bio">Biografia</label>
-            <textarea id="editar-bio" maxlength="250"></textarea>
+            <textarea id="editar-bio" maxlength="250" placeholder="Conte um pouco sobre você..."></textarea>
         </div>
 
         <div class="campo">
             <label for="editar-favorito">Livro favorito</label>
-            <input type="text" id="editar-favorito" maxlength="100">
+            <select id="editar-favorito">
+                <option value="">Nenhum livro selecionado</option>
+            </select>
+            <small class="ajuda">A lista utiliza os livros cadastrados no catálogo da biblioteca.</small>
         </div>
 
         <div class="campo">
-            <label for="editar-generos">Gêneros favoritos</label>
-            <input
-                type="text"
-                id="editar-generos"
-                placeholder="Ex.: Fantasia, Romance, Mistério"
-            >
-            <small>Separe os gêneros por vírgula.</small>
+            <label>Gêneros favoritos</label>
+            <div class="lista-checkbox-generos" id="opcoes-generos">
+                <span class="ajuda">Carregando gêneros do catálogo...</span>
+            </div>
+            <small class="ajuda">Selecione um ou mais gêneros disponíveis.</small>
         </div>
 
         <div class="modal-acoes">
@@ -667,10 +762,11 @@
 </div>
 
 <script>
-    const elemento = (id) => document.getElementById(id);
+    const elemento = id => document.getElementById(id);
 
     let alunoAtual = null;
     let preferencias = {};
+    let livrosCatalogo = [];
 
     function mostrarMensagem(texto) {
         elemento("mensagem-status").textContent = texto;
@@ -711,15 +807,14 @@
 
     function renderizarFoto() {
         const foto = elemento("foto-perfil");
+        foto.innerHTML = "";
 
         if (preferencias.foto) {
-            foto.innerHTML = "";
             const imagem = document.createElement("img");
             imagem.src = preferencias.foto;
             imagem.alt = "Foto de perfil";
             foto.appendChild(imagem);
         } else {
-            foto.innerHTML = "";
             const span = document.createElement("span");
             span.textContent = iniciais(
                 preferencias.nome || alunoAtual.nome
@@ -729,9 +824,12 @@
     }
 
     function renderizarPerfil() {
+        if (!alunoAtual) return;
+
         const nome = preferencias.nome || alunoAtual.nome;
 
         elemento("nome-aluno").textContent = nome;
+
         elemento("identificacao-aluno").textContent =
             preferencias.usuario
                 ? `@${preferencias.usuario} · Matrícula ${alunoAtual.matricula}`
@@ -743,39 +841,49 @@
         elemento("bio-aluno").textContent =
             preferencias.bio || "Sua jornada de leitura começa aqui.";
 
-        elemento("livro-favorito").textContent =
-            preferencias.favorito ||
-            "Você ainda não escolheu seu livro favorito.";
+        const livro = livrosCatalogo.find(
+            item => String(item.id_livro) === String(preferencias.favoritoId)
+        );
+
+        elemento("livro-favorito").textContent = livro
+            ? `${livro.titulo} — ${livro.autor || "Autor não informado"}`
+            : "Você ainda não escolheu seu livro favorito.";
 
         renderizarFoto();
+        renderizarGeneros();
+    }
+
+    function renderizarGeneros() {
+        const lista = elemento("generos-lista");
+        lista.innerHTML = "";
 
         const generos = preferencias.generos || [];
-
-        elemento("generos-lista").innerHTML = "";
 
         if (generos.length === 0) {
             const vazio = document.createElement("span");
             vazio.className = "genero";
             vazio.textContent = "Ainda não definidos";
-            elemento("generos-lista").appendChild(vazio);
-        } else {
-            generos.forEach(genero => {
-                const etiqueta = document.createElement("span");
-                etiqueta.className = "genero";
-                etiqueta.textContent = genero;
-                elemento("generos-lista").appendChild(etiqueta);
-            });
+            lista.appendChild(vazio);
+            return;
         }
+
+        generos.forEach(genero => {
+            const etiqueta = document.createElement("span");
+            etiqueta.className = "genero";
+            etiqueta.textContent = genero;
+            lista.appendChild(etiqueta);
+        });
     }
 
     async function carregarSessao() {
         const resposta = await fetch("/api/sessao-aluno", {
-            credentials: "same-origin"
+            credentials: "same-origin",
+            cache: "no-store"
         });
 
         if (resposta.status === 401 || resposta.status === 403) {
             window.location.href = "login.html";
-            return;
+            throw new Error("Faça login para acessar seu perfil.");
         }
 
         if (!resposta.ok) {
@@ -783,7 +891,6 @@
         }
 
         const dados = await resposta.json();
-
         alunoAtual = dados.aluno || dados;
 
         if (!alunoAtual.id) {
@@ -792,6 +899,88 @@
 
         preferencias = carregarPreferencias(alunoAtual.id);
         renderizarPerfil();
+    }
+
+    async function carregarCatalogo() {
+        const resposta = await fetch("/api/livros", {
+            credentials: "same-origin",
+            cache: "no-store"
+        });
+
+        if (!resposta.ok) {
+            throw new Error("Não foi possível carregar o catálogo de livros.");
+        }
+
+        const dados = await resposta.json();
+
+        livrosCatalogo = Array.isArray(dados) ? dados : [];
+
+        preencherLivrosFavoritos();
+        preencherGenerosDisponiveis();
+        renderizarPerfil();
+    }
+
+    function preencherLivrosFavoritos() {
+        const select = elemento("editar-favorito");
+
+        select.innerHTML = "";
+
+        const opcaoVazia = document.createElement("option");
+        opcaoVazia.value = "";
+        opcaoVazia.textContent = "Nenhum livro selecionado";
+        select.appendChild(opcaoVazia);
+
+        livrosCatalogo.forEach(livro => {
+            const opcao = document.createElement("option");
+            opcao.value = livro.id_livro;
+            opcao.textContent = livro.titulo;
+            select.appendChild(opcao);
+        });
+
+        select.value = preferencias.favoritoId || "";
+    }
+
+    function obterGenerosDisponiveis() {
+        const generos = livrosCatalogo
+            .map(livro => livro.genero)
+            .filter(Boolean)
+            .flatMap(genero => String(genero).split(/[,;]/))
+            .map(genero => genero.trim())
+            .filter(Boolean);
+
+        return [...new Set(generos)].sort((a, b) =>
+            a.localeCompare(b, "pt-BR")
+        );
+    }
+
+    function preencherGenerosDisponiveis() {
+        const container = elemento("opcoes-generos");
+        container.innerHTML = "";
+
+        const generos = obterGenerosDisponiveis();
+
+        if (generos.length === 0) {
+            container.textContent =
+                "Ainda não existem gêneros cadastrados no catálogo.";
+            return;
+        }
+
+        generos.forEach((genero, indice) => {
+            const label = document.createElement("label");
+            label.className = "opcao-genero";
+
+            const checkbox = document.createElement("input");
+            checkbox.type = "checkbox";
+            checkbox.value = genero;
+            checkbox.id = `genero-${indice}`;
+            checkbox.checked = (preferencias.generos || []).includes(genero);
+
+            const texto = document.createElement("span");
+            texto.textContent = genero;
+
+            label.append(checkbox, texto);
+            container.appendChild(label);
+        });
     }
 
     function formatarData(data) {
@@ -847,7 +1036,8 @@
 
     async function carregarEmprestimos() {
         const resposta = await fetch("/api/aluno/emprestimos", {
-            credentials: "same-origin"
+            credentials: "same-origin",
+            cache: "no-store"
         });
 
         if (!resposta.ok) {
@@ -855,7 +1045,11 @@
         }
 
         const dados = await resposta.json();
-        const emprestimos = dados.emprestimos || [];
+
+        // O server.py envia uma lista diretamente, não um objeto.
+        const emprestimos = Array.isArray(dados)
+            ? dados
+            : (dados.emprestimos || []);
 
         const ativos = emprestimos.filter(
             item => !item.data_devolucao
@@ -872,12 +1066,14 @@
         listaHistorico.innerHTML = "";
 
         if (ativos.length === 0) {
-            listaAtivos.innerHTML = `
-                <div class="vazio">
-                    <span class="icone">📖</span>
-                    Você não possui empréstimos ativos no momento.
-                </div>
+            const vazio = document.createElement("div");
+            vazio.className = "vazio";
+            vazio.innerHTML = `
+                <span class="icone">📖</span>
+                Você não possui empréstimos ativos no momento.
+                <br>Quando a biblioteca registrar um empréstimo em seu nome, ele aparecerá aqui.
             `;
+            listaAtivos.appendChild(vazio);
         } else {
             ativos.forEach(item => {
                 listaAtivos.appendChild(criarEmprestimo(item));
@@ -885,11 +1081,11 @@
         }
 
         if (devolvidos.length === 0) {
-            listaHistorico.innerHTML = `
-                <div class="vazio">
-                    Seu histórico de devoluções aparecerá aqui.
-                </div>
-            `;
+            const vazio = document.createElement("div");
+            vazio.className = "vazio";
+            vazio.textContent =
+                "Você ainda não possui devoluções registradas. Seu histórico aparecerá aqui.";
+            listaHistorico.appendChild(vazio);
         } else {
             devolvidos.forEach(item => {
                 listaHistorico.appendChild(
@@ -901,7 +1097,8 @@
 
     async function carregarResumo() {
         const resposta = await fetch("/api/aluno/resumo", {
-            credentials: "same-origin"
+            credentials: "same-origin",
+            cache: "no-store"
         });
 
         if (!resposta.ok) {
@@ -921,6 +1118,8 @@
     }
 
     function abrirModal() {
+        if (!alunoAtual) return;
+
         elemento("editar-nome").value =
             preferencias.nome || alunoAtual.nome || "";
 
@@ -930,11 +1129,8 @@
         elemento("editar-bio").value =
             preferencias.bio || "";
 
-        elemento("editar-favorito").value =
-            preferencias.favorito || "";
-
-        elemento("editar-generos").value =
-            (preferencias.generos || []).join(", ");
+        preencherLivrosFavoritos();
+        preencherGenerosDisponiveis();
 
         elemento("modal-fundo").classList.add("aberto");
         elemento("editar-nome").focus();
@@ -945,32 +1141,48 @@
     }
 
     function salvarPerfil() {
+        if (!alunoAtual) return;
+
         preferencias.nome = elemento("editar-nome").value.trim();
+
         preferencias.usuario = elemento("editar-usuario").value
             .trim()
             .replace(/^@/, "");
 
         preferencias.bio = elemento("editar-bio").value.trim();
-        preferencias.favorito = elemento("editar-favorito").value.trim();
 
-        preferencias.generos = elemento("editar-generos").value
-            .split(",")
-            .map(genero => genero.trim())
-            .filter(Boolean);
+        preferencias.favoritoId =
+            elemento("editar-favorito").value || "";
+
+        preferencias.generos = Array.from(
+            document.querySelectorAll(
+                "#opcoes-generos input[type='checkbox']:checked"
+            )
+        ).map(checkbox => checkbox.value);
 
         salvarPreferencias();
         renderizarPerfil();
         fecharModal();
 
-        mostrarMensagem("Suas preferências foram salvas neste navegador.");
+        mostrarMensagem(
+            "Suas alterações foram salvas neste navegador."
+        );
     }
 
     elemento("editar-btn").addEventListener("click", abrirModal);
+
     elemento("cancelar-btn").addEventListener("click", fecharModal);
+
     elemento("salvar-btn").addEventListener("click", salvarPerfil);
 
     elemento("modal-fundo").addEventListener("click", evento => {
         if (evento.target === elemento("modal-fundo")) {
+            fecharModal();
+        }
+    });
+
+    document.addEventListener("keydown", evento => {
+        if (evento.key === "Escape") {
             fecharModal();
         }
     });
@@ -982,11 +1194,13 @@
 
         if (!arquivo.type.startsWith("image/")) {
             mostrarMensagem("Escolha um arquivo de imagem válido.");
+            evento.target.value = "";
             return;
         }
 
         if (arquivo.size > 2 * 1024 * 1024) {
             mostrarMensagem("A imagem deve ter no máximo 2 MB.");
+            evento.target.value = "";
             return;
         }
 
@@ -999,7 +1213,17 @@
             mostrarMensagem("Foto de perfil atualizada.");
         };
 
+        leitor.onerror = () => {
+            mostrarMensagem("Não foi possível carregar essa imagem.");
+        };
+
         leitor.readAsDataURL(arquivo);
+    });
+
+    elemento("estante-btn").addEventListener("click", () => {
+        mostrarMensagem(
+            "A Minha Estante Virtual estará disponível em uma próxima atualização do TechBook."
+        );
     });
 
     elemento("sair-btn").addEventListener("click", async () => {
@@ -1030,13 +1254,34 @@
         try {
             await carregarSessao();
 
-            await Promise.all([
+            const resultados = await Promise.allSettled([
+                carregarCatalogo(),
                 carregarEmprestimos(),
                 carregarResumo()
             ]);
 
+            const falhas = resultados.filter(
+                resultado => resultado.status === "rejected"
+            );
+
+            if (falhas.length > 0) {
+                console.error("Falhas ao carregar perfil:", falhas);
+                mostrarMensagem(
+                    "Seu perfil foi aberto, mas algumas informações não puderam ser carregadas. Atualize a página ou verifique o servidor."
+                );
+            } else {
+                mostrarMensagem("");
+            }
+
         } catch (erro) {
+            console.error("Erro ao iniciar perfil:", erro);
             mostrarMensagem(erro.message);
+
+            elemento("nome-aluno").textContent =
+                "Não foi possível carregar seu perfil";
+
+            elemento("identificacao-aluno").textContent =
+                "Verifique sua conexão com o servidor.";
         }
     }
 

@@ -23,7 +23,7 @@
       <a href="#inicio">Início</a>
       <a href="#catalogo">Catálogo</a>
       <a href="#recomendador">Recomendações</a>
-      <a href="#emprestimos">Empréstimos</a>
+      <a href="#como-funciona">Empréstimos</a>
       <a href="estatisticas.html">Estatísticas</a>
       <a href="#desafios">Desafios</a>
       <a href="quiz.html">Quiz Literário</a>
@@ -121,22 +121,52 @@
       </div>
     </section>
 
-    <section class="secao" id="emprestimos">
-      <div class="cabecalho-secao"><span class="etiqueta">ORGANIZE SUA LEITURA</span><h2>Empréstimos e <em>devoluções</em></h2><p>Registre operações de demonstração e acompanhe os exemplares.</p></div>
-      <div class="painel">
-        <form id="form-emprestimo">
-          <div class="campos-form">
-            <div><label for="leitor">Nome de demonstração</label><input id="leitor" required maxlength="80" placeholder="Ex.: Leitor 01"></div>
-            <div><label for="livro-emprestimo">Livro</label><select id="livro-emprestimo" required></select></div>
-            <div><label for="data-devolucao">Data prevista para devolução</label><input id="data-devolucao" type="date" required></div>
-          </div>
-          <button class="botao botao-vinho" type="submit">Registrar empréstimo</button>
-        </form>
-        <p class="aviso">Protótipo escolar: use apenas nomes fictícios. Os registros ficam neste navegador; ainda não é um sistema oficial de biblioteca.</p>
-      </div>
-      <h3 class="subtitulo">Registros de empréstimos</h3>
-      <div id="lista-emprestimos" class="lista-registros"></div>
-    </section>
+
+<section class="secao" id="como-funciona">
+  <div class="cabecalho-secao">
+    <span class="etiqueta">ORGANIZE SUA LEITURA</span>
+    <h2>Empréstimos e <em>devoluções</em></h2>
+    <p>
+      No TechBook, você pode consultar os livros disponíveis,
+      realizar empréstimos e acompanhar suas devoluções
+      diretamente pela sua área de aluno.
+    </p>
+  </div>
+
+  <div class="painel">
+    <div class="grade-estatisticas">
+
+      <article class="painel">
+        <h3>📚 Realize seu empréstimo</h3>
+        <p>
+          Acesse sua conta, escolha um livro disponível
+          no catálogo e solicite seu empréstimo.
+        </p>
+      </article>
+
+      <article class="painel">
+        <h3>↩️ Faça sua devolução</h3>
+        <p>
+          Consulte seus empréstimos ativos e registre
+          a devolução dos livros pela sua conta.
+        </p>
+      </article>
+
+    </div>
+
+    <div style="text-align:center; margin-top:25px;">
+      <p>
+        Entre na sua conta para acessar todas as
+        funcionalidades da biblioteca.
+      </p>
+
+      <a href="login.html" class="botao botao-vinho">
+        Acessar área do aluno →
+      </a>
+    </div>
+  </div>
+</section>
+
 
     <section class="secao secao-creme" id="estatisticas">
       <div class="cabecalho-secao"><span class="etiqueta">A BIBLIOTECA EM NÚMEROS</span><h2>Conhecimento em <em>dados</em></h2><p>Indicadores atualizados a partir dos registros deste protótipo.</p></div>
