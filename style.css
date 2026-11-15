@@ -1,3 +1,4 @@
+
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500;1,600&display=swap');
 
 :root {
@@ -444,3 +445,306 @@ footer p, .rodape-detalhe { color: #D5BFC1; font-size: .78rem; }
 }
 
 
+
+/* ==========================================
+   TECHBOOK — REFINAMENTO VISUAL DA PÁGINA
+   Cole este bloco no FINAL do style.css
+   ========================================== */
+
+/* ---------- ESTATÍSTICAS ---------- */
+
+.grade-estatisticas {
+  align-items: stretch;
+  gap: 22px;
+}
+
+.painel-grafico {
+  padding: 28px;
+  border-radius: 12px;
+  border-top: 4px solid var(--dourado);
+  box-shadow: 0 8px 25px rgba(72, 27, 39, .07);
+}
+
+.painel-grafico h3 {
+  margin: 0 0 8px;
+  font-size: 1.35rem;
+}
+
+.grafico {
+  gap: 19px;
+  margin-top: 25px;
+}
+
+.barra-dado {
+  grid-template-columns: minmax(90px, 125px) 1fr 32px;
+  gap: 12px;
+  color: var(--texto);
+  font-weight: 600;
+}
+
+.trilho {
+  height: 13px;
+  background: #EDE4DE;
+  border: 1px solid #E3D6CE;
+}
+
+.trilho > span {
+  background: linear-gradient(90deg, var(--vinho), var(--rosa));
+  transition: width .4s ease;
+}
+
+/* ---------- METAS E DESAFIOS ---------- */
+
+.grade-desafios {
+  gap: 18px;
+}
+
+.desafio {
+  min-height: 125px;
+  padding: 22px;
+  border-radius: 12px;
+  background: var(--papel);
+  box-shadow: 0 5px 18px rgba(72, 27, 39, .045);
+  transition: transform .2s, box-shadow .2s, border-color .2s;
+}
+
+.desafio:hover {
+  transform: translateY(-3px);
+  border-color: var(--rosa);
+  box-shadow: 0 9px 22px rgba(72, 27, 39, .09);
+}
+
+.desafio input {
+  flex-shrink: 0;
+  width: 21px;
+  height: 21px;
+  accent-color: var(--bordo);
+  cursor: pointer;
+}
+
+.desafio h3 {
+  font-size: 1.12rem;
+  line-height: 1.35;
+}
+
+.desafio p {
+  line-height: 1.55;
+}
+
+.desafio.concluido {
+  border-color: var(--verde);
+  background: #F0F5F0;
+}
+
+.progresso-painel {
+  padding: 25px;
+  border-radius: 12px;
+  border-left: 5px solid var(--dourado);
+  box-shadow: 0 5px 18px rgba(72, 27, 39, .05);
+}
+
+.linha-progresso {
+  color: var(--vinho);
+  font-weight: 700;
+}
+
+.barra {
+  height: 15px;
+  background: #EDE4DE;
+}
+
+.barra > div {
+  background: linear-gradient(90deg, var(--bordo), var(--rosa));
+}
+
+/* ---------- EMPRÉSTIMOS E DEVOLUÇÕES ---------- */
+
+/* Funciona com a seção informativa identificada
+   como #como-funciona ou #emprestimos. */
+
+#como-funciona .grade-estatisticas,
+#emprestimos .grade-estatisticas {
+  margin-top: 25px;
+}
+
+#como-funciona .grade-estatisticas > .painel,
+#emprestimos .grade-estatisticas > .painel {
+  padding: 27px;
+  border: 1px solid var(--borda);
+  border-top: 4px solid var(--bordo);
+  border-radius: 12px;
+  background: var(--papel);
+  box-shadow: 0 8px 22px rgba(72, 27, 39, .07);
+  transition: transform .2s, box-shadow .2s;
+}
+
+#como-funciona .grade-estatisticas > .painel:hover,
+#emprestimos .grade-estatisticas > .painel:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 26px rgba(72, 27, 39, .11);
+}
+
+#como-funciona .grade-estatisticas h3,
+#emprestimos .grade-estatisticas h3 {
+  margin-top: 0;
+  color: var(--vinho);
+  font: 600 1.3rem 'Playfair Display', Georgia, serif;
+}
+
+#como-funciona .grade-estatisticas p,
+#emprestimos .grade-estatisticas p {
+  color: var(--suave);
+  line-height: 1.7;
+}
+
+#como-funciona .botao-vinho,
+#emprestimos .botao-vinho {
+  border: 1px solid var(--dourado);
+  border-radius: 9px;
+  box-shadow: 0 4px 12px rgba(72, 27, 39, .12);
+}
+
+#como-funciona .botao-vinho:hover,
+#emprestimos .botao-vinho:hover {
+  background: var(--vinho);
+  box-shadow: 0 7px 17px rgba(72, 27, 39, .2);
+}
+
+/* ---------- ACESSIBILIDADE ---------- */
+
+.acessibilidade-painel {
+  align-items: center;
+  padding: 27px;
+  border: 1px solid var(--borda);
+  border-radius: 12px;
+  background: var(--papel);
+  box-shadow: 0 6px 20px rgba(72, 27, 39, .05);
+}
+
+.acessibilidade-painel .grupo-botoes {
+  margin: 0;
+}
+
+.acessibilidade-painel button {
+  min-height: 42px;
+  padding: 9px 15px;
+  border: 1px solid var(--borda);
+  border-radius: 8px;
+  background: var(--creme);
+  color: var(--vinho);
+  font-weight: 700;
+  transition: background .2s, color .2s;
+}
+
+.acessibilidade-painel button:hover {
+  background: var(--vinho);
+  color: white;
+}
+
+/* ---------- ALTO CONTRASTE ---------- */
+
+body.alto-contraste {
+  --vinho: #000000;
+  --bordo: #181818;
+  --creme: #181818;
+  --rosa: #FFFF00;
+  --dourado: #FFFF00;
+  --papel: #000000;
+  --texto: #FFFFFF;
+  --suave: #FFFFFF;
+  --borda: #FFFFFF;
+  --verde: #FFFF00;
+  --sombra: none;
+  background: #000000;
+  color: #FFFFFF;
+}
+
+body.alto-contraste .resumo,
+body.alto-contraste .secao-vinho-claro,
+body.alto-contraste .secao-creme,
+body.alto-contraste .painel,
+body.alto-contraste .indicador,
+body.alto-contraste .cartao-livro,
+body.alto-contraste .desafio,
+body.alto-contraste .progresso-painel,
+body.alto-contraste .acessibilidade-painel {
+  background: #000000;
+  color: #FFFFFF;
+  border-color: #FFFFFF;
+}
+
+body.alto-contraste h2,
+body.alto-contraste h3,
+body.alto-contraste .indicador strong,
+body.alto-contraste .info-livro h3,
+body.alto-contraste .desafio h3,
+body.alto-contraste .linha-progresso,
+body.alto-contraste .barra-dado {
+  color: #FFFF00;
+}
+
+body.alto-contraste p,
+body.alto-contraste small,
+body.alto-contraste .texto-suave,
+body.alto-contraste .cabecalho-secao p {
+  color: #FFFFFF;
+}
+
+body.alto-contraste button,
+body.alto-contraste a.botao,
+body.alto-contraste .filtro,
+body.alto-contraste input,
+body.alto-contraste select {
+  background: #000000;
+  color: #FFFF00;
+  border: 2px solid #FFFF00;
+}
+
+body.alto-contraste .trilho,
+body.alto-contraste .barra {
+  background: #333333;
+  border: 1px solid #FFFFFF;
+}
+
+body.alto-contraste .trilho > span,
+body.alto-contraste .barra > div {
+  background: #FFFF00;
+}
+
+body.alto-contraste .desafio.concluido {
+  background: #181818;
+  border-color: #FFFF00;
+}
+
+/* ---------- RESPONSIVIDADE ---------- */
+
+@media (max-width: 760px) {
+  .painel-grafico {
+    padding: 21px;
+  }
+
+  #como-funciona .grade-estatisticas > .painel,
+  #emprestimos .grade-estatisticas > .painel {
+    padding: 22px;
+  }
+
+  .desafio {
+    min-height: auto;
+  }
+
+  .acessibilidade-painel {
+    padding: 20px;
+  }
+}
+
+@media (max-width: 420px) {
+  .barra-dado {
+    grid-template-columns: 78px 1fr 25px;
+    gap: 7px;
+    font-size: .7rem;
+  }
+
+  .painel-grafico {
+    padding: 17px;
+  }
+}
