@@ -748,3 +748,234 @@ body.alto-contraste .desafio.concluido {
     padding: 17px;
   }
 }
+
+
+/* =========================================
+   NOVO ALTO CONTRASTE — AZUL
+   Ativado somente pelo botão de contraste
+   ========================================= */
+
+body.alto-contraste {
+  --vinho: #071B33;
+  --bordo: #123B5A;
+  --creme: #123B5A;
+  --rosa: #8CCEFF;
+  --dourado: #8CCEFF;
+  --papel: #071B33;
+  --texto: #F1F7FC;
+  --suave: #D4E5F2;
+  --borda: #527B9C;
+  --verde: #8CCEFF;
+  --sombra: none;
+
+  background: #071B33;
+  color: #F1F7FC;
+}
+
+/* Fundos das seções */
+body.alto-contraste .topo,
+body.alto-contraste .resumo,
+body.alto-contraste .secao,
+body.alto-contraste .secao-vinho-claro,
+body.alto-contraste .secao-creme,
+body.alto-contraste .sobre,
+body.alto-contraste footer {
+  background: #071B33;
+  color: #F1F7FC;
+}
+
+/* Cartões e painéis */
+body.alto-contraste .painel,
+body.alto-contraste .indicador,
+body.alto-contraste .cartao-livro,
+body.alto-contraste .desafio,
+body.alto-contraste .progresso-painel,
+body.alto-contraste .acessibilidade-painel,
+body.alto-contraste .cartao-jogo,
+body.alto-contraste .painel-grafico {
+  background: #123B5A;
+  color: #FFFFFF;
+  border-color: #8CCEFF;
+  box-shadow: none;
+}
+
+/* Títulos e textos */
+body.alto-contraste h1,
+body.alto-contraste h2,
+body.alto-contraste h3,
+body.alto-contraste .indicador strong,
+body.alto-contraste .info-livro h3,
+body.alto-contraste .desafio h3,
+body.alto-contraste .cabecalho-secao p,
+body.alto-contraste .texto-suave,
+body.alto-contraste .autor,
+body.alto-contraste .sinopse,
+body.alto-contraste .desafio p,
+body.alto-contraste .painel-grafico h3 {
+  color: #FFFFFF;
+}
+
+body.alto-contraste h1 em,
+body.alto-contraste h2 em,
+body.alto-contraste .etiqueta,
+body.alto-contraste .nota-secao {
+  color: #8CCEFF;
+}
+
+/* Navegação */
+body.alto-contraste nav,
+body.alto-contraste nav a,
+body.alto-contraste .marca {
+  color: #FFFFFF;
+}
+
+body.alto-contraste nav a:hover {
+  color: #8CCEFF;
+}
+
+/* Botões e filtros */
+body.alto-contraste .botao,
+body.alto-contraste .filtro,
+body.alto-contraste .acessibilidade-painel button,
+body.alto-contraste .registro button {
+  background: #123B5A;
+  color: #FFFFFF;
+  border: 2px solid #8CCEFF;
+}
+
+body.alto-contraste .botao:hover,
+body.alto-contraste .filtro:hover,
+body.alto-contraste .filtro.ativo {
+  background: #2878A8;
+  color: #FFFFFF;
+}
+
+/* Campos de pesquisa e formulários */
+body.alto-contraste input,
+body.alto-contraste select {
+  background: #071B33;
+  color: #FFFFFF;
+  border: 2px solid #8CCEFF;
+}
+
+body.alto-contraste input::placeholder {
+  color: #D4E5F2;
+}
+
+/* Gráficos e barras de progresso */
+body.alto-contraste .trilho,
+body.alto-contraste .barra {
+  background: #071B33;
+  border: 1px solid #8CCEFF;
+}
+
+body.alto-contraste .trilho > span,
+body.alto-contraste .barra > div {
+  background: #8CCEFF;
+}
+
+/* Indicadores e ícones */
+body.alto-contraste .indicador-icone {
+  background: #071B33;
+  color: #8CCEFF;
+}
+
+/* Disponibilidade dos livros */
+body.alto-contraste .disponibilidade,
+body.alto-contraste .disponibilidade.esgotado {
+  background: #071B33;
+  color: #FFFFFF;
+  border: 1px solid #8CCEFF;
+}
+
+/* Foco visível para navegação por teclado */
+body.alto-contraste button:focus-visible,
+body.alto-contraste a:focus-visible,
+body.alto-contraste input:focus-visible,
+body.alto-contraste select:focus-visible {
+  outline: 3px solid #FFFFFF;
+  outline-offset: 4px;
+}
+
+/* Jogo interativo */
+body.alto-contraste .jogo-status {
+  color: #8CCEFF;
+}
+
+body.alto-contraste .botao-jogo {
+  background: #071B33;
+  border-color: #8CCEFF;
+}
+
+
+/* =========================================
+   SEÇÃO DO JOGO INTERATIVO
+   ========================================= */
+
+.secao-jogo {
+  background: #F5EBDD;
+}
+
+.cartao-jogo {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  padding: 30px;
+  border: 1px solid var(--borda);
+  border-left: 5px solid var(--dourado);
+  border-radius: 12px;
+  background: var(--papel);
+  box-shadow: var(--sombra);
+}
+
+.jogo-icone {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 105px;
+  height: 105px;
+  border-radius: 22px;
+  background: var(--creme);
+  font-size: 3.5rem;
+}
+
+.jogo-conteudo h3 {
+  margin: 8px 0;
+  color: var(--vinho);
+  font: 600 1.6rem 'Playfair Display', Georgia, serif;
+}
+
+.jogo-conteudo p {
+  color: var(--suave);
+  max-width: 650px;
+}
+
+.jogo-status {
+  color: var(--bordo);
+  font-size: .7rem;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+}
+
+.botao-jogo {
+  margin-top: 8px;
+  background: var(--vinho);
+  color: white;
+  border: 1px solid var(--dourado);
+  cursor: default;
+  opacity: .85;
+}
+
+@media (max-width: 600px) {
+  .cartao-jogo {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 22px;
+  }
+
+  .jogo-icone {
+    width: 78px;
+    height: 78px;
+    font-size: 2.7rem;
+  }
+}
