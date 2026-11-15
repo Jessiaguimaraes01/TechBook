@@ -1,3 +1,4 @@
+
 import json
 import sqlite3
 import hashlib
@@ -20,6 +21,9 @@ BANCO = BASE_DIR / "Dados" / "TechBok_Final.db"
 
 SESSOES_BIBLIOTECARIOS = {}
 DURACAO_SESSAO = 8 * 60 * 60
+
+SESSOES_ALUNOS = {}
+COOKIE_ALUNO = "techbook_aluno"
 
 HOST = "0.0.0.0"
 PORTA = 8000
@@ -220,6 +224,62 @@ class TechBookHandler(SimpleHTTPRequestHandler):
             cookie += "; Secure"
 
         return cookie
+    
+    # -----------------------------------------------------
+    # SESSÃO DO ALUNO
+    # -----------------------------------------------------
+
+    def obter_token_aluno(self):
+        cookie = SimpleCookie()
+
+        try:
+            cookie.load(self.headers.get("Cookie", ""))
+            item = cookie.get(COOKIE_ALUNO)
+
+            return item.value if item else None
+
+        except Exception:
+            return None
+
+    def obter_aluno_atual(self):
+        token = self.obter_token_aluno()
+
+        if not token:
+            return None
+
+        sessao = SESSOES_ALUNOS.get(token)
+
+        if not sessao:
+            return None
+
+        if datetime.now().timestamp() > sessao["expira_em"]:
+            SESSOES_ALUNOS.pop(token, None)
+            return None
+
+        return sessao
+
+    def cookie_sessao_aluno(self, token):
+        cookie = (
+            f"{COOKIE_ALUNO}={token}; "
+            f"HttpOnly; Path=/; SameSite=Strict; "
+            f"Max-Age={DURACAO_SESSAO}"
+        )
+
+        if self.cookie_seguro():
+            cookie += "; Secure"
+
+        return cookie
+
+    def cookie_encerrar_aluno(self):
+        cookie = (
+            f"{COOKIE_ALUNO}=; "
+            f"HttpOnly; Path=/; SameSite=Strict; Max-Age=0"
+        )
+
+        if self.cookie_seguro():
+            cookie += "; Secure"
+
+        return cookie
 
     # -----------------------------------------------------
     # GET
@@ -227,6 +287,62 @@ class TechBookHandler(SimpleHTTPRequestHandler):
 
     def do_GET(self):
         caminho = self.caminho()
+
+                # Página do aluno protegida
+        if caminho == "/perfil-aluno.html":
+            if not self.obter_aluno_atual():
+                self.send_response(302)
+                self.send_header("Location", "/login.html")
+                self.end_headers()
+                return
+
+            return super().do_GET()
+
+        # Dados da sessão do aluno
+        if caminho == "/api/sessao-aluno":
+            aluno = self.obter_aluno_atual()
+
+            if not aluno:
+                return responder_erro(
+                    self,
+                    "Sessão não encontrada. Entre novamente.",
+                    401
+                )
+
+            return responder_json(self, {
+                "aluno": {
+                    "id": aluno["id"],
+                    "nome": aluno["nome"],
+                    "matricula": aluno["matricula"],
+                    "turma": aluno["turma"]
+                }
+            })
+
+        # Empréstimos e histórico do aluno conectado
+        if caminho == "/api/aluno/emprestimos":
+            aluno = self.obter_aluno_atual()
+
+            if not aluno:
+                return responder_erro(
+                    self,
+                    "Acesso não autorizado.",
+                    401
+                )
+
+            return self.api_aluno_emprestimos(aluno["id"])
+
+        # Estatísticas do aluno conectado
+        if caminho == "/api/aluno/resumo":
+            aluno = self.obter_aluno_atual()
+
+            if not aluno:
+                return responder_erro(
+                    self,
+                    "Acesso não autorizado.",
+                    401
+                )
+
+            return self.api_aluno_resumo(aluno["id"])
 
         # Página administrativa protegida
         if caminho == "/bibliotecario.html":
@@ -312,6 +428,21 @@ class TechBookHandler(SimpleHTTPRequestHandler):
         # Logout do bibliotecário
         if caminho == "/api/logout-bibliotecario":
             return self.api_logout_bibliotecario()
+
+                # Logout do aluno
+        if caminho == "/api/logout-aluno":
+            token = self.obter_token_aluno()
+
+            if token:
+                SESSOES_ALUNOS.pop(token, None)
+
+            return responder_json(
+                self,
+                {"mensagem": "Sessão encerrada."},
+                headers_extra={
+                    "Set-Cookie": self.cookie_encerrar_aluno()
+                }
+            )
 
         # Rotas administrativas protegidas
         if caminho.startswith("/api/admin/"):
@@ -505,24 +636,42 @@ class TechBookHandler(SimpleHTTPRequestHandler):
                     401
                 )
 
-            return responder_json(self, {
-                "mensagem": "Login realizado com sucesso!",
-                "aluno": {
-                    "id": aluno["id_aluno"],
-                    "matricula": aluno["matricula"],
-                    "nome": aluno["nome"],
-                    "turma": aluno["turma"]
+            token = secrets.token_urlsafe(32)
+
+            SESSOES_ALUNOS[token] = {
+                "id": aluno["id_aluno"],
+                "nome": aluno["nome"],
+                "matricula": aluno["matricula"],
+                "turma": aluno["turma"],
+                "expira_em": (
+                    datetime.now().timestamp() + DURACAO_SESSAO
+                )
+            }
+
+            return responder_json(
+                self,
+                {
+                    "mensagem": "Login realizado com sucesso!",
+                    "aluno": {
+                        "id": aluno["id_aluno"],
+                        "matricula": aluno["matricula"],
+                        "nome": aluno["nome"],
+                        "turma": aluno["turma"]
+                    }
+                },
+                headers_extra={
+                    "Set-Cookie": self.cookie_sessao_aluno(token)
                 }
-            })
+            )
 
         except sqlite3.Error as erro:
             print("Erro no login do aluno:", erro)
+
             return responder_erro(
                 self,
                 "Não foi possível realizar o login.",
                 500
             )
-
     # =====================================================
     # API: LOGIN DO BIBLIOTECÁRIO
     # =====================================================
@@ -610,6 +759,112 @@ class TechBookHandler(SimpleHTTPRequestHandler):
                 "Set-Cookie": self.cookie_encerrar()
             }
         )
+
+        # =====================================================
+    # API DO ALUNO: EMPRÉSTIMOS E HISTÓRICO
+    # =====================================================
+
+    def api_aluno_emprestimos(self, id_aluno):
+        try:
+            emprestimos = executar_consulta("""
+                SELECT
+                    em.id_emprestimo,
+                    em.data_emprestimo,
+                    em.data_prevista_devolucao,
+                    em.data_devolucao,
+
+                    l.titulo,
+                    l.autor,
+                    l.genero,
+
+                    ex.codigo AS codigo_exemplar,
+                    ex.localizacao,
+
+                    CASE
+                        WHEN em.data_devolucao IS NULL
+                        AND date(em.data_prevista_devolucao)
+                            < date('now', 'localtime')
+                        THEN 1
+                        ELSE 0
+                    END AS atrasado
+
+                FROM emprestimo em
+
+                JOIN exemplar ex
+                    ON ex.id_exemplar = em.id_exemplar
+
+                JOIN livro l
+                    ON l.id_livro = ex.id_livro
+
+                WHERE em.id_aluno = ?
+
+                ORDER BY
+                    CASE
+                        WHEN em.data_devolucao IS NULL THEN 0
+                        ELSE 1
+                    END,
+                    em.data_emprestimo DESC
+            """, (id_aluno,))
+
+            return responder_json(
+                self,
+                [dict(item) for item in emprestimos]
+            )
+
+        except sqlite3.Error as erro:
+            print("Erro nos empréstimos do aluno:", erro)
+
+            return responder_erro(
+                self,
+                "Não foi possível carregar seus empréstimos.",
+                500
+            )
+
+    # =====================================================
+    # API DO ALUNO: ESTATÍSTICAS
+    # =====================================================
+
+    def api_aluno_resumo(self, id_aluno):
+        try:
+            resumo = executar_consulta("""
+                SELECT
+                    COUNT(
+                        CASE
+                            WHEN data_devolucao IS NULL
+                            THEN 1
+                        END
+                    ) AS emprestimos_ativos,
+
+                    COUNT(
+                        CASE
+                            WHEN data_devolucao IS NOT NULL
+                            THEN 1
+                        END
+                    ) AS livros_devolvidos,
+
+                    COUNT(
+                        CASE
+                            WHEN data_devolucao IS NULL
+                            AND date(data_prevista_devolucao)
+                                < date('now', 'localtime')
+                            THEN 1
+                        END
+                    ) AS atrasados
+
+                FROM emprestimo
+                WHERE id_aluno = ?
+            """, (id_aluno,), obter_um=True)
+
+            return responder_json(self, dict(resumo))
+
+        except sqlite3.Error as erro:
+            print("Erro nas estatísticas do aluno:", erro)
+
+            return responder_erro(
+                self,
+                "Não foi possível carregar suas estatísticas.",
+                500
+            )
 
     # =====================================================
     # API ADMINISTRATIVA: RESUMO
