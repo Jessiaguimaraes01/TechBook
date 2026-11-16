@@ -1552,6 +1552,26 @@ if __name__ == "__main__":
         print("Caminho esperado:", BANCO)
         raise SystemExit(1)
 
+        # Verificar a estrutura atual do banco de dados
+    with conectar_banco() as conn:
+        tabelas = conn.execute("""
+            SELECT name
+            FROM sqlite_master
+            WHERE type = 'table'
+        """).fetchall()
+
+        print("\nESTRUTURA DO BANCO DE DADOS:")
+
+        for tabela in tabelas:
+            print(f"\nTabela: {tabela['name']}")
+
+            colunas = conn.execute(
+                f"PRAGMA table_info({tabela['name']})"
+            ).fetchall()
+
+            for coluna in colunas:
+                print(" -", coluna["name"])
+
     servidor = ThreadingHTTPServer(
         (HOST, PORTA),
         TechBookHandler
@@ -1575,3 +1595,5 @@ if __name__ == "__main__":
     finally:
         servidor.server_close()
         print("Servidor encerrado.")
+
+        
