@@ -772,6 +772,49 @@ select:focus-visible {
     }
 }
 
+/* =========================================
+   SOLICITAÇÃO DE EMPRÉSTIMO
+   ========================================= */
+
+.solicitar-emprestimo {
+    margin-bottom: 22px;
+    border-top: 3px solid var(--dourado, #D6AE70);
+}
+
+.descricao-emprestimo {
+    color: var(--suave, #78666B);
+    font-size: 13px;
+    line-height: 1.6;
+    margin: -7px 0 18px;
+}
+
+.formulario-emprestimo {
+    display: grid;
+    grid-template-columns: 2fr 1fr auto;
+    align-items: end;
+    gap: 15px;
+}
+
+.formulario-emprestimo .campo {
+    margin: 0;
+}
+
+.formulario-emprestimo .botao {
+    min-height: 42px;
+}
+
+.mensagem-emprestimo {
+    color: var(--suave, #78666B);
+    font-size: 12px;
+    margin: 15px 0 0;
+}
+
+@media (max-width: 700px) {
+    .formulario-emprestimo {
+        grid-template-columns: 1fr;
+    }
+}
+
     </style>
 </head>
 
@@ -851,7 +894,59 @@ select:focus-visible {
             <h2>Minha biblioteca</h2>
             <p>Consulte seus empréstimos e acompanhe seu histórico.</p>
         </div>
+        <!-- Solicitação de empréstimo -->
+        <section class="cartao painel solicitar-emprestimo">
 
+            <h3>📚 Solicitar um empréstimo</h3>
+
+            <p class="descricao-emprestimo">
+                Escolha um livro disponível no catálogo e defina
+                por quantos dias deseja ficar com ele.
+            </p>
+
+            <div class="formulario-emprestimo">
+
+                <div class="campo">
+                    <label for="livro-emprestimo">
+                        Escolha o livro
+                    </label>
+
+                    <select id="livro-emprestimo">
+                        <option value="">Carregando livros...</option>
+                    </select>
+                </div>
+
+                <div class="campo">
+                    <label for="prazo-emprestimo">
+                        Prazo de empréstimo
+                    </label>
+
+                    <select id="prazo-emprestimo">
+                        <option value="7">7 dias</option>
+                        <option value="14" selected>14 dias</option>
+                        <option value="16">16 dias</option>
+                    </select>
+                </div>
+
+                <button
+                    class="botao botao-principal"
+                    id="solicitar-emprestimo-btn"
+                    type="button"
+                    disabled
+                >
+                    Solicitar empréstimo
+                </button>
+
+            </div>
+
+            <p
+                class="mensagem-emprestimo"
+                id="mensagem-emprestimo"
+                role="status"
+                aria-live="polite"
+            ></p>
+
+        </section>
         <div class="biblioteca-grade">
 
             <div class="cartao painel">
@@ -977,6 +1072,7 @@ select:focus-visible {
 </div>
 
 <script>
+    
     const elemento = id => document.getElementById(id);
 
     let alunoAtual = null;
@@ -1130,10 +1226,57 @@ select:focus-visible {
 
         livrosCatalogo = Array.isArray(dados) ? dados : [];
 
+        preencherLivrosParaEmprestimo();
         preencherLivrosFavoritos();
         preencherGenerosDisponiveis();
         renderizarPerfil();
     }
+
+    // =========================================
+// PREENCHER LIVROS DISPONÍVEIS PARA EMPRÉSTIMO
+// =========================================
+
+function preencherLivrosParaEmprestimo() {
+    const seletor = elemento("livro-emprestimo");
+    const botao = elemento("solicitar-emprestimo-btn");
+
+    if (!seletor || !botao) return;
+
+    const livrosDisponiveis = livrosCatalogo.filter(livro =>
+        Number(livro.disponiveis) > 0
+    );
+
+    seletor.innerHTML = "";
+
+    if (livrosDisponiveis.length === 0) {
+        seletor.innerHTML = `
+            <option value="">
+                Nenhum livro disponível no momento
+            </option>
+        `;
+
+        botao.disabled = true;
+        return;
+    }
+
+    seletor.innerHTML = `
+        <option value="">
+            Selecione um livro
+        </option>
+    `;
+
+    livrosDisponiveis.forEach(livro => {
+        const opcao = document.createElement("option");
+
+        opcao.value = livro.id_livro;
+        opcao.textContent =
+            `${livro.titulo} — ${livro.disponiveis} disponível(is)`;
+
+        seletor.appendChild(opcao);
+    });
+
+    botao.disabled = true;
+}
 
     function preencherLivrosFavoritos() {
         const select = elemento("editar-favorito");
@@ -1310,6 +1453,68 @@ select:focus-visible {
         }
     }
 
+    // =========================================
+// SOLICITAR EMPRÉSTIMO
+// =========================================
+
+async function solicitarEmprestimo() {
+    const seletorLivro = elemento("livro-emprestimo");
+    const seletorPrazo = elemento("prazo-emprestimo");
+    const botao = elemento("solicitar-emprestimo-btn");
+    const mensagem = elemento("mensagem-emprestimo");
+
+    const idLivro = Number(seletorLivro.value);
+    const prazoDias = Number(seletorPrazo.value);
+
+    if (!idLivro) {
+        mensagem.textContent = "Selecione um livro primeiro.";
+        return;
+    }
+
+    botao.disabled = true;
+    mensagem.textContent = "Registrando seu empréstimo...";
+
+    try {
+        const resposta = await fetch("/api/aluno/emprestimos", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            credentials: "same-origin",
+            body: JSON.stringify({
+                id_livro: idLivro,
+                prazo_dias: prazoDias
+            })
+        });
+
+        const dados = await resposta.json();
+
+        if (!resposta.ok) {
+            throw new Error(
+                dados.erro ||
+                dados.mensagem ||
+                "Não foi possível realizar o empréstimo."
+            );
+        }
+
+        mensagem.textContent =
+            dados.mensagem || "Empréstimo realizado com sucesso!";
+
+        seletorLivro.value = "";
+
+        await Promise.all([
+            carregarCatalogo(),
+            carregarEmprestimos(),
+            carregarResumo()
+        ]);
+
+    } catch (erro) {
+        mensagem.textContent = erro.message;
+    } finally {
+    botao.disabled = !seletorLivro.value;
+    }
+}
+
     async function carregarResumo() {
         const resposta = await fetch("/api/aluno/resumo", {
             credentials: "same-origin",
@@ -1383,6 +1588,7 @@ select:focus-visible {
             "Suas alterações foram salvas neste navegador."
         );
     }
+
 
     elemento("editar-btn").addEventListener("click", abrirModal);
 
@@ -1499,6 +1705,17 @@ select:focus-visible {
                 "Verifique sua conexão com o servidor.";
         }
     }
+
+    // Atualiza o estado do botão quando o aluno escolhe um livro
+elemento("livro-emprestimo").addEventListener("change", function () {
+    elemento("solicitar-emprestimo-btn").disabled = !this.value;
+});
+
+// Executa a solicitação
+elemento("solicitar-emprestimo-btn").addEventListener(
+    "click",
+    solicitarEmprestimo
+);
 
     iniciarPerfil();
 </script>

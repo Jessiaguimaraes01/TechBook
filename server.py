@@ -6,7 +6,7 @@ import secrets
 import hmac
 
 from pathlib import Path
-from datetime import datetime, date
+from datetime import datetime, date, timedelta
 from http.cookies import SimpleCookie
 from http.server import ThreadingHTTPServer, SimpleHTTPRequestHandler
 from urllib.parse import urlsplit
@@ -443,6 +443,18 @@ class TechBookHandler(SimpleHTTPRequestHandler):
                     "Set-Cookie": self.cookie_encerrar_aluno()
                 }
             )
+                # Empréstimo solicitado pelo aluno
+        if caminho == "/api/aluno/emprestimos":
+            aluno = self.obter_aluno_atual()
+
+            if not aluno:
+                return responder_erro(
+                    self,
+                    "Faça login para solicitar um empréstimo.",
+                    401
+                )
+
+            return self.api_aluno_solicitar_emprestimo(aluno["id"], dados)
 
         # Rotas administrativas protegidas
         if caminho.startswith("/api/admin/"):
@@ -1213,6 +1225,126 @@ class TechBookHandler(SimpleHTTPRequestHandler):
             return responder_erro(
                 self,
                 "Ocorreu um erro ao cadastrar o livro.",
+                500
+            )
+
+        finally:
+            conexao.close()
+
+                # =====================================================
+    # API DO ALUNO: SOLICITAR EMPRÉSTIMO
+    # =====================================================
+
+    def api_aluno_solicitar_emprestimo(self, id_aluno, dados):
+        try:
+            id_livro = int(dados.get("id_livro"))
+            prazo = int(dados.get("prazo_dias"))
+
+        except (ValueError, TypeError):
+            return responder_erro(
+                self,
+                "Selecione um livro e um prazo válidos."
+            )
+
+        if prazo not in (7, 14, 16):
+            return responder_erro(
+                self,
+                "O prazo deve ser de 7, 14 ou 16 dias."
+            )
+
+        data_emprestimo = date.today()
+        data_prevista = (
+            data_emprestimo + timedelta(days=prazo)
+        ).isoformat()
+
+        conexao = conectar_banco()
+
+        try:
+            # Impede que duas solicitações utilizem o mesmo exemplar
+            # ao mesmo tempo.
+            conexao.execute("BEGIN IMMEDIATE")
+
+            aluno = conexao.execute("""
+                SELECT id_aluno
+                FROM aluno
+                WHERE id_aluno = ?
+            """, (id_aluno,)).fetchone()
+
+            if not aluno:
+                conexao.rollback()
+                return responder_erro(
+                    self,
+                    "Aluno não encontrado.",
+                    404
+                )
+
+            # Procura automaticamente um exemplar disponível
+            exemplar = conexao.execute("""
+                SELECT e.id_exemplar
+                FROM exemplar e
+                WHERE e.id_livro = ?
+                AND e.estado = 'Bom'
+                AND NOT EXISTS (
+                    SELECT 1
+                    FROM emprestimo em
+                    WHERE em.id_exemplar = e.id_exemplar
+                    AND em.data_devolucao IS NULL
+                )
+                ORDER BY e.id_exemplar
+                LIMIT 1
+            """, (id_livro,)).fetchone()
+
+            if not exemplar:
+                conexao.rollback()
+                return responder_erro(
+                    self,
+                    "Este livro não possui exemplares disponíveis."
+                )
+
+            # Registra o empréstimo no banco de dados
+            conexao.execute("""
+                INSERT INTO emprestimo (
+                    id_aluno,
+                    id_exemplar,
+                    data_emprestimo,
+                    data_prevista_devolucao,
+                    data_devolucao
+                )
+                VALUES (?, ?, ?, ?, NULL)
+            """, (
+                id_aluno,
+                exemplar["id_exemplar"],
+                data_emprestimo.isoformat(),
+                data_prevista
+            ))
+
+            conexao.commit()
+
+            return responder_json(
+                self,
+                {
+                    "mensagem": "Empréstimo realizado com sucesso!",
+                    "data_prevista_devolucao": data_prevista
+                },
+                201
+            )
+
+        except sqlite3.IntegrityError as erro:
+            conexao.rollback()
+            print("Erro de integridade no empréstimo do aluno:", erro)
+
+            return responder_erro(
+                self,
+                "Não foi possível registrar esse empréstimo."
+            )
+
+        except sqlite3.Error as erro:
+            conexao.rollback()
+            print("Erro no empréstimo do aluno:", erro)
+
+            return responder_erro(
+                self,
+                "Ocorreu um erro ao registrar o empréstimo.",
                 500
             )
 
