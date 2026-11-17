@@ -1621,7 +1621,7 @@ class TechBookHandler(SimpleHTTPRequestHandler):
                     self,
                     "Esse empréstimo já foi devolvido."
                 )
-             if emprestimo["data_solicitacao_devolucao"] is None:
+            if emprestimo["data_solicitacao_devolucao"] is None:
                 return responder_erro(
                     self,
                     "Esse empréstimo ainda não possui solicitação de devolução."
