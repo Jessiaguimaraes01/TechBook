@@ -443,6 +443,21 @@ class TechBookHandler(SimpleHTTPRequestHandler):
                     "Set-Cookie": self.cookie_encerrar_aluno()
                 }
             )
+                    # Solicitação de devolução pelo aluno
+        if caminho == "/api/aluno/emprestimos/devolucao":
+            aluno = self.obter_aluno_atual()
+
+            if not aluno:
+                return responder_erro(
+                    self,
+                    "Faça login para solicitar uma devolução.",
+                    401
+                )
+
+            return self.api_aluno_solicitar_devolucao(
+                aluno["id"],
+                dados
+            )
                 # Empréstimo solicitado pelo aluno
         if caminho == "/api/aluno/emprestimos":
             aluno = self.obter_aluno_atual()
@@ -771,6 +786,96 @@ class TechBookHandler(SimpleHTTPRequestHandler):
                 "Set-Cookie": self.cookie_encerrar()
             }
         )
+            # =====================================================
+    # API DO ALUNO: SOLICITAR DEVOLUÇÃO
+    # =====================================================
+
+    def api_aluno_solicitar_devolucao(self, id_aluno, dados):
+        try:
+            id_emprestimo = int(dados.get("id_emprestimo"))
+
+        except (ValueError, TypeError):
+            return responder_erro(
+                self,
+                "Empréstimo inválido."
+            )
+
+        conexao = conectar_banco()
+
+        try:
+            conexao.execute("BEGIN IMMEDIATE")
+
+            emprestimo = conexao.execute("""
+                SELECT
+                    id_emprestimo,
+                    data_devolucao,
+                    data_solicitacao_devolucao
+                FROM emprestimo
+                WHERE id_emprestimo = ?
+                AND id_aluno = ?
+            """, (
+                id_emprestimo,
+                id_aluno
+            )).fetchone()
+
+            if not emprestimo:
+                conexao.rollback()
+                return responder_erro(
+                    self,
+                    "Empréstimo não encontrado.",
+                    404
+                )
+
+            if emprestimo["data_devolucao"] is not None:
+                conexao.rollback()
+                return responder_erro(
+                    self,
+                    "Esse livro já foi devolvido."
+                )
+
+            if emprestimo["data_solicitacao_devolucao"] is not None:
+                conexao.rollback()
+                return responder_erro(
+                    self,
+                    "A devolução desse livro já foi solicitada."
+                )
+
+            conexao.execute("""
+                UPDATE emprestimo
+                SET data_solicitacao_devolucao = ?
+                WHERE id_emprestimo = ?
+                AND id_aluno = ?
+                AND data_devolucao IS NULL
+                AND data_solicitacao_devolucao IS NULL
+            """, (
+                data_hoje(),
+                id_emprestimo,
+                id_aluno
+            ))
+
+            conexao.commit()
+
+            return responder_json(
+                self,
+                {
+                    "mensagem": (
+                        "Solicitação de devolução enviada com sucesso!"
+                    )
+                }
+            )
+
+        except sqlite3.Error as erro:
+            conexao.rollback()
+            print("Erro ao solicitar devolução:", erro)
+
+            return responder_erro(
+                self,
+                "Não foi possível solicitar a devolução.",
+                500
+            )
+
+        finally:
+            conexao.close()
 
         # =====================================================
     # API DO ALUNO: EMPRÉSTIMOS E HISTÓRICO
