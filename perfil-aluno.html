@@ -814,6 +814,26 @@ select:focus-visible {
         grid-template-columns: 1fr;
     }
 }
+/* =========================================
+   SOLICITAÇÃO DE DEVOLUÇÃO
+   ========================================= */
+
+.botao-devolucao {
+    margin-top: 12px;
+    font-size: 12px;
+}
+
+.situacao.solicitada {
+    background: #F8EEDC;
+    color: #8A642B;
+}
+
+.aviso-devolucao {
+    color: var(--suave, #78666B);
+    font-size: 12px;
+    line-height: 1.5;
+    margin: 9px 0 0;
+}
 
     </style>
 </head>
@@ -1351,46 +1371,147 @@ function preencherLivrosParaEmprestimo() {
         return `${partes[2]}/${partes[1]}/${partes[0]}`;
     }
 
-    function criarEmprestimo(item, devolvido = false) {
-        const artigo = document.createElement("article");
-        artigo.className = "emprestimo";
+    
+function criarEmprestimo(item, devolvido = false) {
+    const artigo = document.createElement("article");
+    artigo.className = "emprestimo";
 
-        const titulo = document.createElement("h4");
-        titulo.textContent = item.titulo || "Livro sem título";
+    const titulo = document.createElement("h4");
+    titulo.textContent = item.titulo || "Livro sem título";
 
-        const autor = document.createElement("p");
-        autor.textContent = `Autor: ${item.autor || "Não informado"}`;
+    const autor = document.createElement("p");
+    autor.textContent = `Autor: ${item.autor || "Não informado"}`;
 
-        const prazo = document.createElement("p");
-        prazo.textContent = devolvido
-            ? `Devolvido em: ${formatarData(item.data_devolucao)}`
-            : `Devolução prevista: ${formatarData(item.data_prevista_devolucao)}`;
+    const prazo = document.createElement("p");
+    prazo.textContent = devolvido
+        ? `Devolvido em: ${formatarData(item.data_devolucao)}`
+        : `Devolução prevista: ${formatarData(item.data_prevista_devolucao)}`;
 
-        artigo.append(titulo, autor, prazo);
+    artigo.append(titulo, autor, prazo);
 
-        if (item.codigo_exemplar) {
-            const codigo = document.createElement("p");
-            codigo.textContent = `Exemplar: ${item.codigo_exemplar}`;
-            artigo.appendChild(codigo);
-        }
+    if (item.codigo_exemplar) {
+        const codigo = document.createElement("p");
+        codigo.textContent = `Exemplar: ${item.codigo_exemplar}`;
+        artigo.appendChild(codigo);
+    }
 
-        const situacao = document.createElement("span");
-        situacao.className = "situacao";
+    const situacao = document.createElement("span");
+    situacao.className = "situacao";
 
-        if (devolvido) {
-            situacao.classList.add("devolvido");
-            situacao.textContent = "Devolvido";
-        } else if (Number(item.atrasado) === 1) {
-            situacao.classList.add("atrasado");
-            situacao.textContent = "Em atraso";
-        } else {
-            situacao.textContent = "Em andamento";
-        }
-
+    if (devolvido) {
+        situacao.classList.add("devolvido");
+        situacao.textContent = "Devolvido";
         artigo.appendChild(situacao);
-
         return artigo;
     }
+
+    const solicitacaoPendente =
+        Boolean(item.data_solicitacao_devolucao);
+
+    const estaAtrasado = Number(item.atrasado) === 1;
+
+    if (solicitacaoPendente) {
+        situacao.classList.add("solicitada");
+        situacao.textContent = "Devolução solicitada";
+    } else if (estaAtrasado) {
+        situacao.classList.add("atrasado");
+        situacao.textContent = "Em atraso";
+    } else {
+        situacao.textContent = "Em andamento";
+    }
+
+    artigo.appendChild(situacao);
+
+    if (solicitacaoPendente && estaAtrasado) {
+        const atraso = document.createElement("span");
+        atraso.className = "situacao atrasado";
+        atraso.textContent = "Em atraso";
+        artigo.appendChild(atraso);
+    }
+
+    if (solicitacaoPendente) {
+        const aviso = document.createElement("p");
+        aviso.className = "aviso-devolucao";
+        aviso.textContent =
+            "Aguardando a biblioteca confirmar o recebimento do livro.";
+
+        artigo.appendChild(aviso);
+
+    } else {
+        const botao = document.createElement("button");
+
+        botao.type = "button";
+        botao.className =
+            "botao botao-secundario botao-devolucao";
+
+        botao.textContent = "Solicitar devolução";
+
+        botao.addEventListener("click", () => {
+            solicitarDevolucao(item.id_emprestimo, botao);
+        });
+
+        artigo.appendChild(botao);
+    }
+
+    return artigo;
+}
+
+
+// =========================================
+// SOLICITAR DEVOLUÇÃO
+// =========================================
+
+async function solicitarDevolucao(idEmprestimo, botao) {
+    const confirmar = window.confirm(
+        "Deseja solicitar a devolução deste livro?"
+    );
+
+    if (!confirmar) return;
+
+    botao.disabled = true;
+    botao.textContent = "Enviando solicitação...";
+
+    try {
+        const resposta = await fetch(
+            "/api/aluno/emprestimos/devolucao",
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                credentials: "same-origin",
+                body: JSON.stringify({
+                    id_emprestimo: idEmprestimo
+                })
+            }
+        );
+
+        const dados = await resposta.json();
+
+        if (!resposta.ok) {
+            throw new Error(
+                dados.erro ||
+                dados.mensagem ||
+                "Não foi possível solicitar a devolução."
+            );
+        }
+
+        mostrarMensagem(
+            dados.mensagem ||
+            "Solicitação de devolução enviada!"
+        );
+
+        await carregarEmprestimos();
+
+    } catch (erro) {
+        mostrarMensagem(erro.message);
+
+        botao.disabled = false;
+        botao.textContent = "Solicitar devolução";
+    }
+}
+
+
 
     async function carregarEmprestimos() {
         const resposta = await fetch("/api/aluno/emprestimos", {
