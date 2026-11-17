@@ -1,15 +1,17 @@
-
 import json
 import sqlite3
 import hashlib
 import secrets
 import hmac
+import re
+import urllib.request
+import urllib.error
 
 from pathlib import Path
 from datetime import datetime, date, timedelta
 from http.cookies import SimpleCookie
 from http.server import ThreadingHTTPServer, SimpleHTTPRequestHandler
-from urllib.parse import urlsplit
+from urllib.parse import urlsplit, quote
 
 
 # =========================================================
@@ -55,6 +57,113 @@ def executar_consulta(sql, parametros=(), obter_um=False):
 
     finally:
         conexao.close()
+
+
+# =========================================================
+# VALIDAÇÃO E BUSCA DE ISBN (TECHSCANNER)
+# =========================================================
+
+def limpar_isbn(isbn_bruto):
+    return re.sub(r"[^0-9Xx]", "", str(isbn_bruto or "")).upper()
+
+
+def validar_isbn(isbn):
+    codigo = limpar_isbn(isbn)
+
+    if len(codigo) == 10:
+        if not re.match(r"^\d{9}[\dX]$", codigo):
+            return False
+        soma = 0
+        for i in range(9):
+            soma += int(codigo[i]) * (10 - i)
+        ultimo = 10 if codigo[9] == "X" else int(codigo[9])
+        soma += ultimo
+        return soma % 11 == 0
+
+    if len(codigo) == 13:
+        if not re.match(r"^\d{13}$", codigo):
+            return False
+        soma = 0
+        for i in range(12):
+            peso = 1 if i % 2 == 0 else 3
+            soma += int(codigo[i]) * peso
+        digito = (10 - (soma % 10)) % 10
+        return digito == int(codigo[12])
+
+    return False
+
+
+def consultar_api_externa_isbn(isbn):
+    resultado = {
+        "isbn": isbn,
+        "titulo": "",
+        "autor": "",
+        "editora": "",
+        "ano_publicacao": None,
+        "genero": "",
+        "capa": ""
+    }
+
+    # 1. Tenta Google Books API
+    try:
+        url_gb = f"https://www.googleapis.com/books/v1/volumes?q=isbn:{quote(isbn)}"
+        req = urllib.request.Request(url_gb, headers={"User-Agent": "TechBook/1.0"})
+        with urllib.request.urlopen(req, timeout=6) as resp:
+            dados_gb = json.loads(resp.read().decode("utf-8"))
+
+        if dados_gb.get("totalItems", 0) > 0:
+            info = dados_gb["items"][0].get("volumeInfo", {})
+            resultado["titulo"] = info.get("title", "")
+            if info.get("subtitle"):
+                resultado["titulo"] += f": {info['subtitle']}"
+            resultado["autor"] = ", ".join(info.get("authors", []))
+            resultado["editora"] = info.get("publisher", "")
+            resultado["genero"] = ", ".join(info.get("categories", []))
+
+            data_pub = str(info.get("publishedDate", ""))
+            match_ano = re.search(r"\b(1[0-9]{3}|20[0-9]{2})\b", data_pub)
+            if match_ano:
+                resultado["ano_publicacao"] = int(match_ano.group(1))
+
+            imagens = info.get("imageLinks", {})
+            capa = imagens.get("thumbnail") or imagens.get("smallThumbnail") or ""
+            if capa.startswith("http://"):
+                capa = "https://" + capa[7:]
+            resultado["capa"] = capa
+    except Exception as erro:
+        print("Aviso Google Books:", erro)
+
+    # 2. Complementa com Open Library se faltar algo
+    if not resultado["titulo"] or not resultado["autor"]:
+        try:
+            url_ol = f"https://openlibrary.org/api/books?bibkeys=ISBN:{quote(isbn)}&format=json&jscmd=data"
+            req = urllib.request.Request(url_ol, headers={"User-Agent": "TechBook/1.0"})
+            with urllib.request.urlopen(req, timeout=6) as resp:
+                dados_ol = json.loads(resp.read().decode("utf-8"))
+
+            chave = f"ISBN:{isbn}"
+            if chave in dados_ol:
+                info_ol = dados_ol[chave]
+                if not resultado["titulo"]:
+                    resultado["titulo"] = info_ol.get("title", "")
+                if not resultado["autor"]:
+                    autores = [a.get("name", "") for a in info_ol.get("authors", []) if a.get("name")]
+                    resultado["autor"] = ", ".join(autores)
+                if not resultado["editora"]:
+                    editoras = [p.get("name", "") for p in info_ol.get("publishers", []) if p.get("name")]
+                    resultado["editora"] = ", ".join(editoras)
+                if not resultado["ano_publicacao"]:
+                    data_ol = str(info_ol.get("publish_date", ""))
+                    match_ano = re.search(r"\b(1[0-9]{3}|20[0-9]{2})\b", data_ol)
+                    if match_ano:
+                        resultado["ano_publicacao"] = int(match_ano.group(1))
+                if not resultado["capa"]:
+                    capas = info_ol.get("cover", {})
+                    resultado["capa"] = capas.get("medium") or capas.get("small") or ""
+        except Exception as erro:
+            print("Aviso Open Library:", erro)
+
+    return resultado
 
 
 # =========================================================
@@ -139,10 +248,6 @@ def data_esta_atrasada(data_prevista):
 
 class TechBookHandler(SimpleHTTPRequestHandler):
 
-    # -----------------------------------------------------
-    # CONFIGURAÇÃO DE ARQUIVOS
-    # -----------------------------------------------------
-
     def __init__(self, *args, **kwargs):
         super().__init__(*args, directory=str(BASE_DIR), **kwargs)
 
@@ -224,7 +329,7 @@ class TechBookHandler(SimpleHTTPRequestHandler):
             cookie += "; Secure"
 
         return cookie
-    
+
     # -----------------------------------------------------
     # SESSÃO DO ALUNO
     # -----------------------------------------------------
@@ -288,7 +393,7 @@ class TechBookHandler(SimpleHTTPRequestHandler):
     def do_GET(self):
         caminho = self.caminho()
 
-                # Página do aluno protegida
+        # Página do aluno protegida
         if caminho == "/perfil-aluno.html":
             if not self.obter_aluno_atual():
                 self.send_response(302)
@@ -303,11 +408,7 @@ class TechBookHandler(SimpleHTTPRequestHandler):
             aluno = self.obter_aluno_atual()
 
             if not aluno:
-                return responder_erro(
-                    self,
-                    "Sessão não encontrada. Entre novamente.",
-                    401
-                )
+                return responder_erro(self, "Sessão não encontrada. Entre novamente.", 401)
 
             return responder_json(self, {
                 "aluno": {
@@ -323,11 +424,7 @@ class TechBookHandler(SimpleHTTPRequestHandler):
             aluno = self.obter_aluno_atual()
 
             if not aluno:
-                return responder_erro(
-                    self,
-                    "Acesso não autorizado.",
-                    401
-                )
+                return responder_erro(self, "Acesso não autorizado.", 401)
 
             return self.api_aluno_emprestimos(aluno["id"])
 
@@ -336,19 +433,22 @@ class TechBookHandler(SimpleHTTPRequestHandler):
             aluno = self.obter_aluno_atual()
 
             if not aluno:
-                return responder_erro(
-                    self,
-                    "Acesso não autorizado.",
-                    401
-                )
+                return responder_erro(self, "Acesso não autorizado.", 401)
 
             return self.api_aluno_resumo(aluno["id"])
 
         # Página administrativa protegida
-        if caminho == "/bibliotecario.html":
+        if caminho in ("/bibliotecario.html", "/scanner.html", "/scanner.html."):
             if not self.exige_bibliotecario():
                 self.send_response(302)
                 self.send_header("Location", "/login-bibliotecario.html")
+                self.end_headers()
+                return
+
+            # Redireciona o scanner antigo diretamente para a aba TechScanner do bibliotecário
+            if caminho in ("/scanner.html", "/scanner.html."):
+                self.send_response(302)
+                self.send_header("Location", "/bibliotecario.html#scanner")
                 self.end_headers()
                 return
 
@@ -359,11 +459,7 @@ class TechBookHandler(SimpleHTTPRequestHandler):
             bibliotecario = self.obter_bibliotecario()
 
             if not bibliotecario:
-                return responder_erro(
-                    self,
-                    "Sessão não encontrada. Entre novamente.",
-                    401
-                )
+                return responder_erro(self, "Sessão não encontrada. Entre novamente.", 401)
 
             return responder_json(self, {
                 "bibliotecario": {
@@ -380,11 +476,7 @@ class TechBookHandler(SimpleHTTPRequestHandler):
         # Rotas administrativas protegidas
         if caminho.startswith("/api/admin/"):
             if not self.exige_bibliotecario():
-                return responder_erro(
-                    self,
-                    "Acesso não autorizado.",
-                    401
-                )
+                return responder_erro(self, "Acesso não autorizado.", 401)
 
             if caminho == "/api/admin/resumo":
                 return self.api_admin_resumo()
@@ -397,6 +489,10 @@ class TechBookHandler(SimpleHTTPRequestHandler):
 
             if caminho == "/api/admin/exemplares-disponiveis":
                 return self.api_exemplares_disponiveis()
+
+            if caminho.startswith("/api/admin/livros/isbn/"):
+                isbn_param = caminho.split("/api/admin/livros/isbn/", 1)[1]
+                return self.api_buscar_isbn(isbn_param)
 
             return responder_erro(self, "Rota não encontrada.", 404)
 
@@ -413,23 +509,18 @@ class TechBookHandler(SimpleHTTPRequestHandler):
         if dados is None:
             return responder_erro(self, "Dados enviados em formato inválido.")
 
-        # Cadastro de aluno
         if caminho == "/api/cadastro":
             return self.api_cadastro_aluno(dados)
 
-        # Login de aluno
         if caminho == "/api/login":
             return self.api_login_aluno(dados)
 
-        # Login do bibliotecário
         if caminho == "/api/login-bibliotecario":
             return self.api_login_bibliotecario(dados)
 
-        # Logout do bibliotecário
         if caminho == "/api/logout-bibliotecario":
             return self.api_logout_bibliotecario()
 
-                # Logout do aluno
         if caminho == "/api/logout-aluno":
             token = self.obter_token_aluno()
 
@@ -439,46 +530,29 @@ class TechBookHandler(SimpleHTTPRequestHandler):
             return responder_json(
                 self,
                 {"mensagem": "Sessão encerrada."},
-                headers_extra={
-                    "Set-Cookie": self.cookie_encerrar_aluno()
-                }
+                headers_extra={"Set-Cookie": self.cookie_encerrar_aluno()}
             )
-                    # Solicitação de devolução pelo aluno
+
         if caminho == "/api/aluno/emprestimos/devolucao":
             aluno = self.obter_aluno_atual()
 
             if not aluno:
-                return responder_erro(
-                    self,
-                    "Faça login para solicitar uma devolução.",
-                    401
-                )
+                return responder_erro(self, "Faça login para solicitar uma devolução.", 401)
 
-            return self.api_aluno_solicitar_devolucao(
-                aluno["id"],
-                dados
-            )
-                # Empréstimo solicitado pelo aluno
+            return self.api_aluno_solicitar_devolucao(aluno["id"], dados)
+
         if caminho == "/api/aluno/emprestimos":
             aluno = self.obter_aluno_atual()
 
             if not aluno:
-                return responder_erro(
-                    self,
-                    "Faça login para solicitar um empréstimo.",
-                    401
-                )
+                return responder_erro(self, "Faça login para solicitar um empréstimo.", 401)
 
             return self.api_aluno_solicitar_emprestimo(aluno["id"], dados)
 
         # Rotas administrativas protegidas
         if caminho.startswith("/api/admin/"):
             if not self.exige_bibliotecario():
-                return responder_erro(
-                    self,
-                    "Acesso não autorizado.",
-                    401
-                )
+                return responder_erro(self, "Acesso não autorizado.", 401)
 
             if caminho == "/api/admin/livros":
                 return self.api_cadastrar_livro(dados)
@@ -492,6 +566,64 @@ class TechBookHandler(SimpleHTTPRequestHandler):
             return responder_erro(self, "Rota não encontrada.", 404)
 
         responder_erro(self, "Rota não encontrada.", 404)
+
+    # =====================================================
+    # API: BUSCAR ISBN (BANCO + APIS EXTERNAS)
+    # =====================================================
+
+    def api_buscar_isbn(self, isbn_bruto):
+        isbn = limpar_isbn(isbn_bruto)
+
+        if not isbn or not validar_isbn(isbn):
+            return responder_erro(
+                self,
+                "ISBN inválido. Verifique os 10 ou 13 dígitos do código."
+            )
+
+        try:
+            # 1. Verifica se o livro já está no banco principal
+            livro_existente = executar_consulta("""
+                SELECT
+                    l.id_livro,
+                    l.ISBN AS isbn,
+                    l.titulo,
+                    l.genero,
+                    l.editora,
+                    l.autor,
+                    l.ano_publicacao,
+                    COUNT(e.id_exemplar) AS total_exemplares
+                FROM livro l
+                LEFT JOIN exemplar e ON e.id_livro = l.id_livro
+                WHERE REPLACE(REPLACE(UPPER(COALESCE(l.ISBN, '')), '-', ''), ' ', '') = ?
+                GROUP BY l.id_livro
+            """, (isbn,), obter_um=True)
+
+            # Sugere o próximo código de exemplar disponível (ex: TB-001)
+            ultimo_ex = executar_consulta(
+                "SELECT COUNT(*) AS total FROM exemplar",
+                obter_um=True
+            )
+            proximo_num = (ultimo_ex["total"] if ultimo_ex else 0) + 1
+            codigo_sugerido = f"TB-{proximo_num:03d}"
+
+            if livro_existente:
+                dados_livro = dict(livro_existente)
+                dados_livro["existe_no_banco"] = True
+                dados_livro["codigo_sugerido"] = codigo_sugerido
+                dados_livro["capa"] = ""
+                return responder_json(self, dados_livro)
+
+            # 2. Se não existe no banco, busca metadados externos para conferência
+            dados_externos = consultar_api_externa_isbn(isbn)
+            dados_externos["existe_no_banco"] = False
+            dados_externos["total_exemplares"] = 0
+            dados_externos["codigo_sugerido"] = codigo_sugerido
+
+            return responder_json(self, dados_externos)
+
+        except sqlite3.Error as erro:
+            print("Erro ao buscar ISBN:", erro)
+            return responder_erro(self, "Erro ao consultar o banco de dados.", 500)
 
     # =====================================================
     # API: LIVROS
@@ -569,19 +701,12 @@ class TechBookHandler(SimpleHTTPRequestHandler):
         senha = str(dados.get("senha", ""))
 
         if not nome or not matricula or not turma or not senha:
-            return responder_erro(
-                self,
-                "Preencha todos os campos obrigatórios."
-            )
+            return responder_erro(self, "Preencha todos os campos obrigatórios.")
 
         if len(senha) < 6:
-            return responder_erro(
-                self,
-                "A senha precisa ter pelo menos 6 caracteres."
-            )
+            return responder_erro(self, "A senha precisa ter pelo menos 6 caracteres.")
 
         senha_hash = gerar_senha_hash(senha)
-
         conexao = conectar_banco()
 
         try:
@@ -594,35 +719,17 @@ class TechBookHandler(SimpleHTTPRequestHandler):
                     senha_hash
                 )
                 VALUES (?, ?, ?, ?, ?)
-            """, (
-                matricula,
-                nome,
-                turma,
-                data_hoje(),
-                senha_hash
-            ))
+            """, (matricula, nome, turma, data_hoje(), senha_hash))
 
             conexao.commit()
-
-            return responder_json(
-                self,
-                {"mensagem": "Cadastro realizado com sucesso!"},
-                201
-            )
+            return responder_json(self, {"mensagem": "Cadastro realizado com sucesso!"}, 201)
 
         except sqlite3.IntegrityError:
-            return responder_erro(
-                self,
-                "Essa matrícula já está cadastrada."
-            )
+            return responder_erro(self, "Essa matrícula já está cadastrada.")
 
         except sqlite3.Error as erro:
             print("Erro no cadastro de aluno:", erro)
-            return responder_erro(
-                self,
-                "Não foi possível realizar o cadastro.",
-                500
-            )
+            return responder_erro(self, "Não foi possível realizar o cadastro.", 500)
 
         finally:
             conexao.close()
@@ -636,32 +743,17 @@ class TechBookHandler(SimpleHTTPRequestHandler):
         senha = str(dados.get("senha", ""))
 
         if not matricula or not senha:
-            return responder_erro(
-                self,
-                "Informe a matrícula e a senha."
-            )
+            return responder_erro(self, "Informe a matrícula e a senha.")
 
         try:
             aluno = executar_consulta("""
-                SELECT
-                    id_aluno,
-                    matricula,
-                    nome,
-                    turma,
-                    senha_hash
+                SELECT id_aluno, matricula, nome, turma, senha_hash
                 FROM aluno
                 WHERE matricula = ?
             """, (matricula,), obter_um=True)
 
-            if not aluno or not verificar_senha(
-                senha,
-                aluno["senha_hash"]
-            ):
-                return responder_erro(
-                    self,
-                    "Matrícula ou senha incorreta.",
-                    401
-                )
+            if not aluno or not verificar_senha(senha, aluno["senha_hash"]):
+                return responder_erro(self, "Matrícula ou senha incorreta.", 401)
 
             token = secrets.token_urlsafe(32)
 
@@ -670,9 +762,7 @@ class TechBookHandler(SimpleHTTPRequestHandler):
                 "nome": aluno["nome"],
                 "matricula": aluno["matricula"],
                 "turma": aluno["turma"],
-                "expira_em": (
-                    datetime.now().timestamp() + DURACAO_SESSAO
-                )
+                "expira_em": datetime.now().timestamp() + DURACAO_SESSAO
             }
 
             return responder_json(
@@ -686,19 +776,13 @@ class TechBookHandler(SimpleHTTPRequestHandler):
                         "turma": aluno["turma"]
                     }
                 },
-                headers_extra={
-                    "Set-Cookie": self.cookie_sessao_aluno(token)
-                }
+                headers_extra={"Set-Cookie": self.cookie_sessao_aluno(token)}
             )
 
         except sqlite3.Error as erro:
             print("Erro no login do aluno:", erro)
+            return responder_erro(self, "Não foi possível realizar o login.", 500)
 
-            return responder_erro(
-                self,
-                "Não foi possível realizar o login.",
-                500
-            )
     # =====================================================
     # API: LOGIN DO BIBLIOTECÁRIO
     # =====================================================
@@ -708,32 +792,17 @@ class TechBookHandler(SimpleHTTPRequestHandler):
         senha = str(dados.get("senha", ""))
 
         if not usuario or not senha:
-            return responder_erro(
-                self,
-                "Informe o usuário e a senha."
-            )
+            return responder_erro(self, "Informe o usuário e a senha.")
 
         try:
             bibliotecario = executar_consulta("""
-                SELECT
-                    id_bibliotecario,
-                    nome,
-                    usuario,
-                    senha_hash
+                SELECT id_bibliotecario, nome, usuario, senha_hash
                 FROM bibliotecario
-                WHERE usuario = ?
-                AND ativo = 1
+                WHERE usuario = ? AND ativo = 1
             """, (usuario,), obter_um=True)
 
-            if not bibliotecario or not verificar_senha(
-                senha,
-                bibliotecario["senha_hash"]
-            ):
-                return responder_erro(
-                    self,
-                    "Usuário ou senha incorretos.",
-                    401
-                )
+            if not bibliotecario or not verificar_senha(senha, bibliotecario["senha_hash"]):
+                return responder_erro(self, "Usuário ou senha incorretos.", 401)
 
             token = secrets.token_urlsafe(32)
 
@@ -741,9 +810,7 @@ class TechBookHandler(SimpleHTTPRequestHandler):
                 "id": bibliotecario["id_bibliotecario"],
                 "nome": bibliotecario["nome"],
                 "usuario": bibliotecario["usuario"],
-                "expira_em": (
-                    datetime.now().timestamp() + DURACAO_SESSAO
-                )
+                "expira_em": datetime.now().timestamp() + DURACAO_SESSAO
             }
 
             return responder_json(
@@ -756,18 +823,12 @@ class TechBookHandler(SimpleHTTPRequestHandler):
                         "usuario": bibliotecario["usuario"]
                     }
                 },
-                headers_extra={
-                    "Set-Cookie": self.cookie_sessao(token)
-                }
+                headers_extra={"Set-Cookie": self.cookie_sessao(token)}
             )
 
         except sqlite3.Error as erro:
             print("Erro no login do bibliotecário:", erro)
-            return responder_erro(
-                self,
-                "Não foi possível realizar o login.",
-                500
-            )
+            return responder_erro(self, "Não foi possível realizar o login.", 500)
 
     # =====================================================
     # API: LOGOUT DO BIBLIOTECÁRIO
@@ -782,23 +843,18 @@ class TechBookHandler(SimpleHTTPRequestHandler):
         return responder_json(
             self,
             {"mensagem": "Sessão encerrada."},
-            headers_extra={
-                "Set-Cookie": self.cookie_encerrar()
-            }
+            headers_extra={"Set-Cookie": self.cookie_encerrar()}
         )
-            # =====================================================
+
+    # =====================================================
     # API DO ALUNO: SOLICITAR DEVOLUÇÃO
     # =====================================================
 
     def api_aluno_solicitar_devolucao(self, id_aluno, dados):
         try:
             id_emprestimo = int(dados.get("id_emprestimo"))
-
         except (ValueError, TypeError):
-            return responder_erro(
-                self,
-                "Empréstimo inválido."
-            )
+            return responder_erro(self, "Empréstimo inválido.")
 
         conexao = conectar_banco()
 
@@ -806,39 +862,22 @@ class TechBookHandler(SimpleHTTPRequestHandler):
             conexao.execute("BEGIN IMMEDIATE")
 
             emprestimo = conexao.execute("""
-                SELECT
-                    id_emprestimo,
-                    data_devolucao,
-                    data_solicitacao_devolucao
+                SELECT id_emprestimo, data_devolucao, data_solicitacao_devolucao
                 FROM emprestimo
-                WHERE id_emprestimo = ?
-                AND id_aluno = ?
-            """, (
-                id_emprestimo,
-                id_aluno
-            )).fetchone()
+                WHERE id_emprestimo = ? AND id_aluno = ?
+            """, (id_emprestimo, id_aluno)).fetchone()
 
             if not emprestimo:
                 conexao.rollback()
-                return responder_erro(
-                    self,
-                    "Empréstimo não encontrado.",
-                    404
-                )
+                return responder_erro(self, "Empréstimo não encontrado.", 404)
 
             if emprestimo["data_devolucao"] is not None:
                 conexao.rollback()
-                return responder_erro(
-                    self,
-                    "Esse livro já foi devolvido."
-                )
+                return responder_erro(self, "Esse livro já foi devolvido.")
 
             if emprestimo["data_solicitacao_devolucao"] is not None:
                 conexao.rollback()
-                return responder_erro(
-                    self,
-                    "A devolução desse livro já foi solicitada."
-                )
+                return responder_erro(self, "A devolução desse livro já foi solicitada.")
 
             conexao.execute("""
                 UPDATE emprestimo
@@ -847,37 +886,20 @@ class TechBookHandler(SimpleHTTPRequestHandler):
                 AND id_aluno = ?
                 AND data_devolucao IS NULL
                 AND data_solicitacao_devolucao IS NULL
-            """, (
-                data_hoje(),
-                id_emprestimo,
-                id_aluno
-            ))
+            """, (data_hoje(), id_emprestimo, id_aluno))
 
             conexao.commit()
-
-            return responder_json(
-                self,
-                {
-                    "mensagem": (
-                        "Solicitação de devolução enviada com sucesso!"
-                    )
-                }
-            )
+            return responder_json(self, {"mensagem": "Solicitação de devolução enviada com sucesso!"})
 
         except sqlite3.Error as erro:
             conexao.rollback()
             print("Erro ao solicitar devolução:", erro)
-
-            return responder_erro(
-                self,
-                "Não foi possível solicitar a devolução.",
-                500
-            )
+            return responder_erro(self, "Não foi possível solicitar a devolução.", 500)
 
         finally:
             conexao.close()
 
-        # =====================================================
+    # =====================================================
     # API DO ALUNO: EMPRÉSTIMOS E HISTÓRICO
     # =====================================================
 
@@ -890,53 +912,31 @@ class TechBookHandler(SimpleHTTPRequestHandler):
                     em.data_prevista_devolucao,
                     em.data_devolucao,
                     em.data_solicitacao_devolucao,
-
                     l.titulo,
                     l.autor,
                     l.genero,
-
                     ex.codigo AS codigo_exemplar,
                     ex.localizacao,
-
                     CASE
                         WHEN em.data_devolucao IS NULL
-                        AND date(em.data_prevista_devolucao)
-                            < date('now', 'localtime')
+                        AND date(em.data_prevista_devolucao) < date('now', 'localtime')
                         THEN 1
                         ELSE 0
                     END AS atrasado
-
                 FROM emprestimo em
-
-                JOIN exemplar ex
-                    ON ex.id_exemplar = em.id_exemplar
-
-                JOIN livro l
-                    ON l.id_livro = ex.id_livro
-
+                JOIN exemplar ex ON ex.id_exemplar = em.id_exemplar
+                JOIN livro l ON l.id_livro = ex.id_livro
                 WHERE em.id_aluno = ?
-
                 ORDER BY
-                    CASE
-                        WHEN em.data_devolucao IS NULL THEN 0
-                        ELSE 1
-                    END,
+                    CASE WHEN em.data_devolucao IS NULL THEN 0 ELSE 1 END,
                     em.data_emprestimo DESC
             """, (id_aluno,))
 
-            return responder_json(
-                self,
-                [dict(item) for item in emprestimos]
-            )
+            return responder_json(self, [dict(item) for item in emprestimos])
 
         except sqlite3.Error as erro:
             print("Erro nos empréstimos do aluno:", erro)
-
-            return responder_erro(
-                self,
-                "Não foi possível carregar seus empréstimos.",
-                500
-            )
+            return responder_erro(self, "Não foi possível carregar seus empréstimos.", 500)
 
     # =====================================================
     # API DO ALUNO: ESTATÍSTICAS
@@ -946,29 +946,15 @@ class TechBookHandler(SimpleHTTPRequestHandler):
         try:
             resumo = executar_consulta("""
                 SELECT
+                    COUNT(CASE WHEN data_devolucao IS NULL THEN 1 END) AS emprestimos_ativos,
+                    COUNT(CASE WHEN data_devolucao IS NOT NULL THEN 1 END) AS livros_devolvidos,
                     COUNT(
                         CASE
                             WHEN data_devolucao IS NULL
-                            THEN 1
-                        END
-                    ) AS emprestimos_ativos,
-
-                    COUNT(
-                        CASE
-                            WHEN data_devolucao IS NOT NULL
-                            THEN 1
-                        END
-                    ) AS livros_devolvidos,
-
-                    COUNT(
-                        CASE
-                            WHEN data_devolucao IS NULL
-                            AND date(data_prevista_devolucao)
-                                < date('now', 'localtime')
+                            AND date(data_prevista_devolucao) < date('now', 'localtime')
                             THEN 1
                         END
                     ) AS atrasados
-
                 FROM emprestimo
                 WHERE id_aluno = ?
             """, (id_aluno,), obter_um=True)
@@ -977,12 +963,7 @@ class TechBookHandler(SimpleHTTPRequestHandler):
 
         except sqlite3.Error as erro:
             print("Erro nas estatísticas do aluno:", erro)
-
-            return responder_erro(
-                self,
-                "Não foi possível carregar suas estatísticas.",
-                500
-            )
+            return responder_erro(self, "Não foi possível carregar suas estatísticas.", 500)
 
     # =====================================================
     # API ADMINISTRATIVA: RESUMO
@@ -993,20 +974,9 @@ class TechBookHandler(SimpleHTTPRequestHandler):
             conexao = conectar_banco()
 
             try:
-                total_livros = conexao.execute("""
-                    SELECT COUNT(*) AS total FROM livro
-                """).fetchone()["total"]
-
-                total_alunos = conexao.execute("""
-                    SELECT COUNT(*) AS total FROM aluno
-                """).fetchone()["total"]
-
-                ativos = conexao.execute("""
-                    SELECT COUNT(*) AS total
-                    FROM emprestimo
-                    WHERE data_devolucao IS NULL
-                """).fetchone()["total"]
-
+                total_livros = conexao.execute("SELECT COUNT(*) AS total FROM livro").fetchone()["total"]
+                total_alunos = conexao.execute("SELECT COUNT(*) AS total FROM aluno").fetchone()["total"]
+                ativos = conexao.execute("SELECT COUNT(*) AS total FROM emprestimo WHERE data_devolucao IS NULL").fetchone()["total"]
                 atrasados = conexao.execute("""
                     SELECT COUNT(*) AS total
                     FROM emprestimo
@@ -1021,31 +991,19 @@ class TechBookHandler(SimpleHTTPRequestHandler):
                         l.titulo,
                         em.data_emprestimo,
                         em.data_prevista_devolucao
-
                     FROM emprestimo em
-
-                    JOIN aluno a
-                        ON a.id_aluno = em.id_aluno
-
-                    JOIN exemplar e
-                        ON e.id_exemplar = em.id_exemplar
-
-                    JOIN livro l
-                        ON l.id_livro = e.id_livro
-
+                    JOIN aluno a ON a.id_aluno = em.id_aluno
+                    JOIN exemplar e ON e.id_exemplar = em.id_exemplar
+                    JOIN livro l ON l.id_livro = e.id_livro
                     WHERE em.data_devolucao IS NULL
-
                     ORDER BY em.id_emprestimo DESC
                     LIMIT 5
                 """).fetchall()
 
                 lista_recentes = []
-
                 for item in recentes:
                     registro = dict(item)
-                    registro["atrasado"] = data_esta_atrasada(
-                        registro["data_prevista_devolucao"]
-                    )
+                    registro["atrasado"] = data_esta_atrasada(registro["data_prevista_devolucao"])
                     lista_recentes.append(registro)
 
                 return responder_json(self, {
@@ -1061,11 +1019,7 @@ class TechBookHandler(SimpleHTTPRequestHandler):
 
         except sqlite3.Error as erro:
             print("Erro no resumo administrativo:", erro)
-            return responder_erro(
-                self,
-                "Não foi possível carregar o resumo.",
-                500
-            )
+            return responder_erro(self, "Não foi possível carregar o resumo.", 500)
 
     # =====================================================
     # API ADMINISTRATIVA: ALUNOS
@@ -1080,41 +1034,18 @@ class TechBookHandler(SimpleHTTPRequestHandler):
                     a.nome,
                     a.turma,
                     a.data_cadastro,
-
-                    COUNT(
-                        CASE
-                            WHEN em.data_devolucao IS NULL
-                            THEN em.id_emprestimo
-                        END
-                    ) AS emprestimos_ativos
-
+                    COUNT(CASE WHEN em.data_devolucao IS NULL THEN em.id_emprestimo END) AS emprestimos_ativos
                 FROM aluno a
-
-                LEFT JOIN emprestimo em
-                    ON em.id_aluno = a.id_aluno
-
-                GROUP BY
-                    a.id_aluno,
-                    a.matricula,
-                    a.nome,
-                    a.turma,
-                    a.data_cadastro
-
+                LEFT JOIN emprestimo em ON em.id_aluno = a.id_aluno
+                GROUP BY a.id_aluno, a.matricula, a.nome, a.turma, a.data_cadastro
                 ORDER BY a.nome
             """)
 
-            return responder_json(
-                self,
-                [dict(aluno) for aluno in alunos]
-            )
+            return responder_json(self, [dict(aluno) for aluno in alunos])
 
         except sqlite3.Error as erro:
             print("Erro ao consultar alunos:", erro)
-            return responder_erro(
-                self,
-                "Não foi possível carregar os alunos.",
-                500
-            )
+            return responder_erro(self, "Não foi possível carregar os alunos.", 500)
 
     # =====================================================
     # API ADMINISTRATIVA: EMPRÉSTIMOS
@@ -1129,55 +1060,33 @@ class TechBookHandler(SimpleHTTPRequestHandler):
                     em.data_prevista_devolucao,
                     em.data_devolucao,
                     em.data_solicitacao_devolucao,
-
                     a.nome AS aluno,
                     a.matricula,
-
                     l.titulo,
                     e.codigo AS codigo_exemplar
-
                 FROM emprestimo em
-
-                JOIN aluno a
-                    ON a.id_aluno = em.id_aluno
-
-                JOIN exemplar e
-                    ON e.id_exemplar = em.id_exemplar
-
-                JOIN livro l
-                    ON l.id_livro = e.id_livro
-
+                JOIN aluno a ON a.id_aluno = em.id_aluno
+                JOIN exemplar e ON e.id_exemplar = em.id_exemplar
+                JOIN livro l ON l.id_livro = e.id_livro
                 ORDER BY
-                    CASE
-                        WHEN em.data_devolucao IS NULL THEN 0
-                        ELSE 1
-                    END,
+                    CASE WHEN em.data_devolucao IS NULL THEN 0 ELSE 1 END,
                     em.id_emprestimo DESC
             """)
 
             resultado = []
-
             for emprestimo in emprestimos:
                 item = dict(emprestimo)
-
                 item["atrasado"] = (
                     item["data_devolucao"] is None
-                    and data_esta_atrasada(
-                        item["data_prevista_devolucao"]
-                    )
+                    and data_esta_atrasada(item["data_prevista_devolucao"])
                 )
-
                 resultado.append(item)
 
             return responder_json(self, resultado)
 
         except sqlite3.Error as erro:
             print("Erro ao consultar empréstimos:", erro)
-            return responder_erro(
-                self,
-                "Não foi possível carregar os empréstimos.",
-                500
-            )
+            return responder_erro(self, "Não foi possível carregar os empréstimos.", 500)
 
     # =====================================================
     # API ADMINISTRATIVA: EXEMPLARES DISPONÍVEIS
@@ -1191,63 +1100,50 @@ class TechBookHandler(SimpleHTTPRequestHandler):
                     e.codigo,
                     e.localizacao,
                     l.titulo
-
                 FROM exemplar e
-
-                JOIN livro l
-                    ON l.id_livro = e.id_livro
-
+                JOIN livro l ON l.id_livro = e.id_livro
                 WHERE e.estado = 'Bom'
-
                 AND NOT EXISTS (
                     SELECT 1
                     FROM emprestimo em
                     WHERE em.id_exemplar = e.id_exemplar
                     AND em.data_devolucao IS NULL
                 )
-
                 ORDER BY l.titulo
             """)
 
-            return responder_json(
-                self,
-                [dict(exemplar) for exemplar in exemplares]
-            )
+            return responder_json(self, [dict(exemplar) for exemplar in exemplares])
 
         except sqlite3.Error as erro:
             print("Erro ao consultar exemplares:", erro)
-            return responder_erro(
-                self,
-                "Não foi possível carregar os exemplares disponíveis.",
-                500
-            )
+            return responder_erro(self, "Não foi possível carregar os exemplares disponíveis.", 500)
 
     # =====================================================
-    # API ADMINISTRATIVA: CADASTRAR LIVRO
+    # API ADMINISTRATIVA: CADASTRAR LIVRO / NOVO EXEMPLAR
     # =====================================================
 
     def api_cadastrar_livro(self, dados):
         titulo = str(dados.get("titulo", "")).strip()
         autor = str(dados.get("autor", "")).strip()
         genero = str(dados.get("genero", "")).strip()
-        isbn = str(dados.get("isbn", "")).strip()
+        isbn_raw = str(dados.get("isbn", "")).strip()
+        isbn = limpar_isbn(isbn_raw) if isbn_raw else ""
         editora = str(dados.get("editora", "")).strip()
         codigo = str(dados.get("codigo", "")).strip()
         localizacao = str(dados.get("localizacao", "")).strip()
-
         ano = dados.get("ano_publicacao")
 
-        if not titulo or not autor:
+        if isbn and not validar_isbn(isbn):
             return responder_erro(
                 self,
-                "Informe o título e o autor do livro."
+                "O ISBN informado é inválido. Confira os dígitos antes de salvar."
             )
 
+        if not titulo or not autor:
+            return responder_erro(self, "Informe o título e o autor do livro.")
+
         if not codigo or not localizacao:
-            return responder_erro(
-                self,
-                "Informe o código e a localização do exemplar."
-            )
+            return responder_erro(self, "Informe o código e a localização do exemplar.")
 
         if ano in ("", None):
             ano = None
@@ -1255,40 +1151,62 @@ class TechBookHandler(SimpleHTTPRequestHandler):
             try:
                 ano = int(ano)
             except (ValueError, TypeError):
-                return responder_erro(
-                    self,
-                    "O ano de publicação precisa ser um número."
-                )
+                return responder_erro(self, "O ano de publicação precisa ser um número.")
 
             if ano < 0 or ano > 2100:
-                return responder_erro(
-                    self,
-                    "Informe um ano de publicação válido."
-                )
+                return responder_erro(self, "Informe um ano de publicação válido.")
 
         conexao = conectar_banco()
 
         try:
-            cursor = conexao.execute("""
-                INSERT INTO livro (
-                    ISBN,
-                    titulo,
-                    genero,
-                    editora,
-                    autor,
-                    ano_publicacao
-                )
-                VALUES (?, ?, ?, ?, ?, ?)
-            """, (
-                isbn or None,
-                titulo,
-                genero or None,
-                editora or None,
-                autor,
-                ano
-            ))
+            conexao.execute("BEGIN IMMEDIATE")
 
-            id_livro = cursor.lastrowid
+            # Verifica se o código do exemplar já existe
+            exemplar_dup = conexao.execute(
+                "SELECT id_exemplar FROM exemplar WHERE UPPER(codigo) = UPPER(?)",
+                (codigo,)
+            ).fetchone()
+
+            if exemplar_dup:
+                conexao.rollback()
+                return responder_erro(
+                    self,
+                    f"O código de exemplar '{codigo}' já está cadastrado em outro livro."
+                )
+
+            # Verifica se o livro já existe pelo ISBN
+            livro_existente = None
+            if isbn:
+                livro_existente = conexao.execute("""
+                    SELECT id_livro, titulo
+                    FROM livro
+                    WHERE REPLACE(REPLACE(UPPER(COALESCE(ISBN, '')), '-', ''), ' ', '') = ?
+                """, (isbn,)).fetchone()
+
+            if livro_existente:
+                id_livro = livro_existente["id_livro"]
+                mensagem = f"Novo exemplar ({codigo}) adicionado ao livro já cadastrado '{livro_existente['titulo']}'!"
+            else:
+                cursor = conexao.execute("""
+                    INSERT INTO livro (
+                        ISBN,
+                        titulo,
+                        genero,
+                        editora,
+                        autor,
+                        ano_publicacao
+                    )
+                    VALUES (?, ?, ?, ?, ?, ?)
+                """, (
+                    isbn or None,
+                    titulo,
+                    genero or None,
+                    editora or None,
+                    autor,
+                    ano
+                ))
+                id_livro = cursor.lastrowid
+                mensagem = "Livro e primeiro exemplar cadastrados com sucesso no catálogo!"
 
             conexao.execute("""
                 INSERT INTO exemplar (
@@ -1298,20 +1216,16 @@ class TechBookHandler(SimpleHTTPRequestHandler):
                     estado
                 )
                 VALUES (?, ?, ?, ?)
-            """, (
-                codigo,
-                id_livro,
-                localizacao,
-                "Bom"
-            ))
+            """, (codigo, id_livro, localizacao, "Bom"))
 
             conexao.commit()
 
             return responder_json(
                 self,
                 {
-                    "mensagem": "Livro e primeiro exemplar cadastrados com sucesso!",
-                    "id_livro": id_livro
+                    "mensagem": mensagem,
+                    "id_livro": id_livro,
+                    "novo_exemplar_apenas": bool(livro_existente)
                 },
                 201
             )
@@ -1319,7 +1233,6 @@ class TechBookHandler(SimpleHTTPRequestHandler):
         except sqlite3.IntegrityError as erro:
             conexao.rollback()
             print("Erro de integridade ao cadastrar livro:", erro)
-
             return responder_erro(
                 self,
                 "Não foi possível cadastrar. Verifique se o código do exemplar ou ISBN já está em uso."
@@ -1328,17 +1241,12 @@ class TechBookHandler(SimpleHTTPRequestHandler):
         except sqlite3.Error as erro:
             conexao.rollback()
             print("Erro ao cadastrar livro:", erro)
-
-            return responder_erro(
-                self,
-                "Ocorreu um erro ao cadastrar o livro.",
-                500
-            )
+            return responder_erro(self, "Ocorreu um erro ao cadastrar o livro.", 500)
 
         finally:
             conexao.close()
 
-                # =====================================================
+    # =====================================================
     # API DO ALUNO: SOLICITAR EMPRÉSTIMO
     # =====================================================
 
@@ -1346,46 +1254,25 @@ class TechBookHandler(SimpleHTTPRequestHandler):
         try:
             id_livro = int(dados.get("id_livro"))
             prazo = int(dados.get("prazo_dias"))
-
         except (ValueError, TypeError):
-            return responder_erro(
-                self,
-                "Selecione um livro e um prazo válidos."
-            )
+            return responder_erro(self, "Selecione um livro e um prazo válidos.")
 
         if prazo not in (7, 14, 16):
-            return responder_erro(
-                self,
-                "O prazo deve ser de 7, 14 ou 16 dias."
-            )
+            return responder_erro(self, "O prazo deve ser de 7, 14 ou 16 dias.")
 
         data_emprestimo = date.today()
-        data_prevista = (
-            data_emprestimo + timedelta(days=prazo)
-        ).isoformat()
+        data_prevista = (data_emprestimo + timedelta(days=prazo)).isoformat()
 
         conexao = conectar_banco()
 
         try:
-            # Impede que duas solicitações utilizem o mesmo exemplar
-            # ao mesmo tempo.
             conexao.execute("BEGIN IMMEDIATE")
 
-            aluno = conexao.execute("""
-                SELECT id_aluno
-                FROM aluno
-                WHERE id_aluno = ?
-            """, (id_aluno,)).fetchone()
-
+            aluno = conexao.execute("SELECT id_aluno FROM aluno WHERE id_aluno = ?", (id_aluno,)).fetchone()
             if not aluno:
                 conexao.rollback()
-                return responder_erro(
-                    self,
-                    "Aluno não encontrado.",
-                    404
-                )
+                return responder_erro(self, "Aluno não encontrado.", 404)
 
-            # Procura automaticamente um exemplar disponível
             exemplar = conexao.execute("""
                 SELECT e.id_exemplar
                 FROM exemplar e
@@ -1403,12 +1290,8 @@ class TechBookHandler(SimpleHTTPRequestHandler):
 
             if not exemplar:
                 conexao.rollback()
-                return responder_erro(
-                    self,
-                    "Este livro não possui exemplares disponíveis."
-                )
+                return responder_erro(self, "Este livro não possui exemplares disponíveis.")
 
-            # Registra o empréstimo no banco de dados
             conexao.execute("""
                 INSERT INTO emprestimo (
                     id_aluno,
@@ -1418,12 +1301,7 @@ class TechBookHandler(SimpleHTTPRequestHandler):
                     data_devolucao
                 )
                 VALUES (?, ?, ?, ?, NULL)
-            """, (
-                id_aluno,
-                exemplar["id_exemplar"],
-                data_emprestimo.isoformat(),
-                data_prevista
-            ))
+            """, (id_aluno, exemplar["id_exemplar"], data_emprestimo.isoformat(), data_prevista))
 
             conexao.commit()
 
@@ -1439,21 +1317,12 @@ class TechBookHandler(SimpleHTTPRequestHandler):
         except sqlite3.IntegrityError as erro:
             conexao.rollback()
             print("Erro de integridade no empréstimo do aluno:", erro)
-
-            return responder_erro(
-                self,
-                "Não foi possível registrar esse empréstimo."
-            )
+            return responder_erro(self, "Não foi possível registrar esse empréstimo.")
 
         except sqlite3.Error as erro:
             conexao.rollback()
             print("Erro no empréstimo do aluno:", erro)
-
-            return responder_erro(
-                self,
-                "Ocorreu um erro ao registrar o empréstimo.",
-                500
-            )
+            return responder_erro(self, "Ocorreu um erro ao registrar o empréstimo.", 500)
 
         finally:
             conexao.close()
@@ -1467,76 +1336,34 @@ class TechBookHandler(SimpleHTTPRequestHandler):
             id_aluno = int(dados.get("id_aluno"))
             id_exemplar = int(dados.get("id_exemplar"))
         except (ValueError, TypeError):
-            return responder_erro(
-                self,
-                "Selecione um aluno e um exemplar válidos."
-            )
+            return responder_erro(self, "Selecione um aluno e um exemplar válidos.")
 
-        data_prevista = str(
-            dados.get("data_prevista_devolucao", "")
-        ).strip()
+        data_prevista = str(dados.get("data_prevista_devolucao", "")).strip()
 
         if not data_prevista:
-            return responder_erro(
-                self,
-                "Informe a data prevista para devolução."
-            )
+            return responder_erro(self, "Informe a data prevista para devolução.")
 
         try:
             data_obj = date.fromisoformat(data_prevista)
-
             if data_obj < date.today():
-                return responder_erro(
-                    self,
-                    "A data de devolução não pode estar no passado."
-                )
-
+                return responder_erro(self, "A data de devolução não pode estar no passado.")
         except ValueError:
-            return responder_erro(
-                self,
-                "A data de devolução é inválida."
-            )
+            return responder_erro(self, "A data de devolução é inválida.")
 
         conexao = conectar_banco()
 
         try:
-            aluno = conexao.execute("""
-                SELECT id_aluno
-                FROM aluno
-                WHERE id_aluno = ?
-            """, (id_aluno,)).fetchone()
-
+            aluno = conexao.execute("SELECT id_aluno FROM aluno WHERE id_aluno = ?", (id_aluno,)).fetchone()
             if not aluno:
-                return responder_erro(
-                    self,
-                    "Aluno não encontrado."
-                )
+                return responder_erro(self, "Aluno não encontrado.")
 
-            exemplar = conexao.execute("""
-                SELECT id_exemplar
-                FROM exemplar
-                WHERE id_exemplar = ?
-                AND estado = 'Bom'
-            """, (id_exemplar,)).fetchone()
-
+            exemplar = conexao.execute("SELECT id_exemplar FROM exemplar WHERE id_exemplar = ? AND estado = 'Bom'", (id_exemplar,)).fetchone()
             if not exemplar:
-                return responder_erro(
-                    self,
-                    "Exemplar não encontrado ou não está em boas condições."
-                )
+                return responder_erro(self, "Exemplar não encontrado ou não está em boas condições.")
 
-            emprestimo_ativo = conexao.execute("""
-                SELECT id_emprestimo
-                FROM emprestimo
-                WHERE id_exemplar = ?
-                AND data_devolucao IS NULL
-            """, (id_exemplar,)).fetchone()
-
+            emprestimo_ativo = conexao.execute("SELECT id_emprestimo FROM emprestimo WHERE id_exemplar = ? AND data_devolucao IS NULL", (id_exemplar,)).fetchone()
             if emprestimo_ativo:
-                return responder_erro(
-                    self,
-                    "Esse exemplar já está emprestado."
-                )
+                return responder_erro(self, "Esse exemplar já está emprestado.")
 
             conexao.execute("""
                 INSERT INTO emprestimo (
@@ -1547,39 +1374,20 @@ class TechBookHandler(SimpleHTTPRequestHandler):
                     data_devolucao
                 )
                 VALUES (?, ?, ?, ?, NULL)
-            """, (
-                id_aluno,
-                id_exemplar,
-                data_hoje(),
-                data_prevista
-            ))
+            """, (id_aluno, id_exemplar, data_hoje(), data_prevista))
 
             conexao.commit()
-
-            return responder_json(
-                self,
-                {"mensagem": "Empréstimo registrado com sucesso!"},
-                201
-            )
+            return responder_json(self, {"mensagem": "Empréstimo registrado com sucesso!"}, 201)
 
         except sqlite3.IntegrityError as erro:
             conexao.rollback()
             print("Erro de integridade no empréstimo:", erro)
-
-            return responder_erro(
-                self,
-                "Não foi possível registrar esse empréstimo."
-            )
+            return responder_erro(self, "Não foi possível registrar esse empréstimo.")
 
         except sqlite3.Error as erro:
             conexao.rollback()
             print("Erro ao registrar empréstimo:", erro)
-
-            return responder_erro(
-                self,
-                "Ocorreu um erro ao registrar o empréstimo.",
-                500
-            )
+            return responder_erro(self, "Ocorreu um erro ao registrar o empréstimo.", 500)
 
         finally:
             conexao.close()
@@ -1592,40 +1400,25 @@ class TechBookHandler(SimpleHTTPRequestHandler):
         try:
             id_emprestimo = int(dados.get("id_emprestimo"))
         except (ValueError, TypeError):
-            return responder_erro(
-                self,
-                "Empréstimo inválido."
-            )
+            return responder_erro(self, "Empréstimo inválido.")
 
         conexao = conectar_banco()
 
         try:
             emprestimo = conexao.execute("""
-                SELECT
-                    id_emprestimo,
-                    data_devolucao,
-                    data_solicitacao_devolucao
+                SELECT id_emprestimo, data_devolucao, data_solicitacao_devolucao
                 FROM emprestimo
                 WHERE id_emprestimo = ?
             """, (id_emprestimo,)).fetchone()
 
             if not emprestimo:
-                return responder_erro(
-                    self,
-                    "Empréstimo não encontrado.",
-                    404
-                )
+                return responder_erro(self, "Empréstimo não encontrado.", 404)
 
             if emprestimo["data_devolucao"] is not None:
-                return responder_erro(
-                    self,
-                    "Esse empréstimo já foi devolvido."
-                )
+                return responder_erro(self, "Esse empréstimo já foi devolvido.")
+
             if emprestimo["data_solicitacao_devolucao"] is None:
-                return responder_erro(
-                    self,
-                    "Esse empréstimo ainda não possui solicitação de devolução."
-                )
+                return responder_erro(self, "Esse empréstimo ainda não possui solicitação de devolução.")
 
             cursor = conexao.execute("""
                 UPDATE emprestimo
@@ -1633,34 +1426,19 @@ class TechBookHandler(SimpleHTTPRequestHandler):
                 WHERE id_emprestimo = ?
                 AND data_devolucao IS NULL
                 AND data_solicitacao_devolucao IS NOT NULL
-            """, (
-                data_hoje(),
-                id_emprestimo
-            ))
+            """, (data_hoje(), id_emprestimo))
 
             if cursor.rowcount != 1:
                 conexao.rollback()
-                return responder_erro(
-                    self,
-                    "Não foi possível confirmar essa devolução."
-                )
+                return responder_erro(self, "Não foi possível confirmar essa devolução.")
 
             conexao.commit()
-
-            return responder_json(
-                self,
-                {"mensagem": "Devolução registrada com sucesso!"}
-            )
+            return responder_json(self, {"mensagem": "Devolução registrada com sucesso!"})
 
         except sqlite3.Error as erro:
             conexao.rollback()
             print("Erro ao registrar devolução:", erro)
-
-            return responder_erro(
-                self,
-                "Não foi possível registrar a devolução.",
-                500
-            )
+            return responder_erro(self, "Não foi possível registrar a devolução.", 500)
 
         finally:
             conexao.close()
@@ -1676,49 +1454,17 @@ if __name__ == "__main__":
         print("Caminho esperado:", BANCO)
         raise SystemExit(1)
 
-    # Verificar e preparar a coluna de solicitação de devolução
     with conectar_banco() as conn:
-        colunas = conn.execute(
-            "PRAGMA table_info(emprestimo)"
-        ).fetchall()
-
+        colunas = conn.execute("PRAGMA table_info(emprestimo)").fetchall()
         nomes_colunas = [coluna["name"] for coluna in colunas]
 
         if "data_solicitacao_devolucao" not in nomes_colunas:
-            conn.execute("""
-                ALTER TABLE emprestimo
-                ADD COLUMN data_solicitacao_devolucao TEXT
-            """)
-
+            conn.execute("ALTER TABLE emprestimo ADD COLUMN data_solicitacao_devolucao TEXT")
             print("Coluna de solicitação de devolução criada!")
-
         else:
             print("Coluna de solicitação de devolução já existe!")
 
-    # Verificar a estrutura atual do banco de dados
-    with conectar_banco() as conn:
-        tabelas = conn.execute("""
-            SELECT name
-            FROM sqlite_master
-            WHERE type = 'table'
-        """).fetchall()
-
-        print("\nESTRUTURA DO BANCO DE DADOS:")
-
-        for tabela in tabelas:
-            print(f"\nTabela: {tabela['name']}")
-
-            colunas = conn.execute(
-                f"PRAGMA table_info({tabela['name']})"
-            ).fetchall()
-
-            for coluna in colunas:
-                print(" -", coluna["name"])
-
-    servidor = ThreadingHTTPServer(
-        (HOST, PORTA),
-        TechBookHandler
-    )
+    servidor = ThreadingHTTPServer((HOST, PORTA), TechBookHandler)
 
     print("=" * 50)
     print("TECHBOOK - SERVIDOR INICIADO")
@@ -1726,17 +1472,12 @@ if __name__ == "__main__":
     print(f"Banco de dados: {BANCO}")
     print(f"Porta: {PORTA}")
     print("Servidor aguardando conexões...")
-    print("Use a porta 8000 no ambiente de desenvolvimento.")
     print("=" * 50)
 
     try:
         servidor.serve_forever()
-
     except KeyboardInterrupt:
         print("\nEncerrando servidor...")
-
     finally:
         servidor.server_close()
         print("Servidor encerrado.")
-
-        
