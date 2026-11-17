@@ -889,6 +889,7 @@ class TechBookHandler(SimpleHTTPRequestHandler):
                     em.data_emprestimo,
                     em.data_prevista_devolucao,
                     em.data_devolucao,
+                    em.data_solicitacao_devolucao,
 
                     l.titulo,
                     l.autor,
@@ -1127,6 +1128,7 @@ class TechBookHandler(SimpleHTTPRequestHandler):
                     em.data_emprestimo,
                     em.data_prevista_devolucao,
                     em.data_devolucao,
+                    em.data_solicitacao_devolucao,
 
                     a.nome AS aluno,
                     a.matricula,
