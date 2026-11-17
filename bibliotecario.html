@@ -657,12 +657,12 @@ async function carregarEmprestimos(){
           ${
             e.data_devolucao
               ? "—"
-              : `<button class="btn secondary"
+               : e.data_solicitacao_devolucao
+                ? `<button class="btn secondary"
                   onclick="devolver(${Number(e.id_emprestimo)})">
-                  ${e.data_solicitacao_devolucao
-                    ? "Confirmar devolução"
-                    : "Registrar devolução"}
-                </button>`
+                  Confirmar devolução
+                 </button>`
+                : '<span class="muted">Aguardando solicitação</span>'
           }
         </td>
       </tr>
