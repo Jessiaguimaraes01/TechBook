@@ -20,9 +20,10 @@
     <button id="menu-btn" class="menu-btn" aria-label="Abrir menu" aria-expanded="false">☰</button>
     <nav id="menu" aria-label="Navegação principal">
       <a href="#catalogo">Catálogo</a>
-      <a href="perfil-aluno.html">Empréstimos</a>
-      <a href="minha_estante_virtual_cabecalho_vinho.html">Minha Estante</a>
+      <a href="emprestimos-aluno.html">Empréstimos</a>
+      <a href="minha_estante_virtual_cabecalho_vinho.html">Estante</a>
       <a href="amigos_de_leitura_completo.html">Amigos</a>
+      <a href="#jogo">Joguinho</a>
       <a href="ranking.html">Ranking</a>
       <a href="quiz.html">Quiz</a>
       <a href="estatisticas.html">Estatísticas</a>
@@ -48,7 +49,7 @@
         </div>
         
         <div class="hero-acoes">
-          <a class="botao botao-vinho" href="quiz.html">
+          <a class="botao botao-vinho botao-quiz" href="quiz.html">
             ✨ Fazer Quiz Literário →
           </a>
 
@@ -125,7 +126,7 @@
         <p>
           No TechBook, você pode consultar os livros disponíveis,
           realizar empréstimos e acompanhar suas devoluções
-          diretamente pela sua área de aluno.
+          na página dedicada de empréstimos.
         </p>
       </div>
 
@@ -134,8 +135,8 @@
           <article class="painel">
             <h3>📚 Realize seu empréstimo</h3>
             <p>
-              Acesse sua conta, escolha um livro disponível
-              no catálogo e solicite seu empréstimo.
+              Acesse a página de empréstimos, escolha um livro disponível
+              no catálogo e defina o prazo da sua leitura.
             </p>
           </article>
 
@@ -143,22 +144,40 @@
             <h3>↩️ Faça sua devolução</h3>
             <p>
               Consulte seus empréstimos ativos e registre
-              a devolução dos livros pela sua conta.
+              a devolução dos livros de forma simples.
             </p>
           </article>
         </div>
 
         <div style="text-align:center; margin-top:25px;">
-          <p>
-            Entre na sua conta para acessar todas as
-            funcionalidades da biblioteca.
-          </p>
-
-          <a href="perfil-aluno.html" class="botao botao-vinho">
-            Acessar área do aluno →
+          <a href="emprestimos-aluno.html" class="botao botao-vinho">
+            Acessar página de empréstimos →
           </a>
         </div>
       </div>
+    </section>
+
+    <section class="secao secao-jogo" id="jogo">
+      <div class="cabecalho-secao">
+        <span class="etiqueta">APRENDA BRINCANDO</span>
+        <h2>Área de <em>Joguinhos</em></h2>
+        <p>Teste seus conhecimentos literários, explore desafios interativos e divirta-se com o TechBook.</p>
+      </div>
+
+      <article class="cartao-jogo">
+        <div class="jogo-icone" aria-hidden="true">🎮</div>
+        <div class="jogo-conteudo">
+          <span class="jogo-status">DESAFIO INTERATIVO • TECHBOOK</span>
+          <h3>Aventura Literária TechBook</h3>
+          <p>
+            Entre na arena de desafios literários! Descubra pistas sobre obras clássicas,
+            complete missões de leitura e desbloqueie conquistas especiais.
+          </p>
+          <a href="jogo.html" class="botao botao-jogo" id="btn-abrir-jogo">
+            🕹️ Jogar agora →
+          </a>
+        </div>
+      </article>
     </section>
 
     <section class="secao secao-creme" id="estatisticas">
@@ -186,7 +205,7 @@
       <div class="cabecalho-secao"><span class="etiqueta">LEITURA PARA TODOS</span><h2>Acessibilidade <em>digital</em></h2><p>Personalize a página para uma leitura mais confortável.</p></div>
       <div class="painel acessibilidade-painel">
         <div><strong>Tamanho do texto</strong><div class="grupo-botoes"><button class="botao botao-claro" id="fonte-diminuir" aria-label="Diminuir tamanho da fonte">A−</button><button class="botao botao-claro" id="fonte-normal">A normal</button><button class="botao botao-claro" id="fonte-aumentar" aria-label="Aumentar tamanho da fonte">A+</button></div></div>
-        <div><strong>Contraste</strong><p class="texto-suave">Ative uma combinação de alto contraste.</p><button id="contraste-btn" class="botao botao-vinho" aria-pressed="false">Alternar alto contraste</button></div>
+        <div><strong>Contraste</strong><p class="texto-suave">Ative uma combinação escura confortável para os olhos.</p><button id="contraste-btn" class="botao botao-vinho" aria-pressed="false">Alternar alto contraste</button></div>
       </div>
     </section>
 

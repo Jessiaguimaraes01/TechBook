@@ -91,6 +91,28 @@ def iniciar_banco():
                 "ALTER TABLE emprestimos ADD COLUMN data_solicitacao_devolucao TEXT;"
             )
 
+        # Garante que os dois clássicos do acervo sempre existam no catálogo
+        livros_base = [
+            ("O Pequeno Príncipe", "Antoine de Saint-Exupéry", "Aventura", "9788595081512", 3),
+            ("Dom Casmurro", "Machado de Assis", "Romance", "9788535910663", 2),
+        ]
+        for titulo, autor, genero, isbn, qtd in livros_base:
+            existente = conexao.execute(
+                "SELECT id_livro FROM livros WHERE titulo = ? OR isbn = ?",
+                (titulo, isbn)
+            ).fetchone()
+            if not existente:
+                cur = conexao.execute(
+                    "INSERT INTO livros (titulo, autor, genero, isbn) VALUES (?, ?, ?, ?)",
+                    (titulo, autor, genero, isbn)
+                )
+                id_livro = cur.lastrowid
+                for n in range(1, qtd + 1):
+                    conexao.execute(
+                        "INSERT OR IGNORE INTO exemplares (id_livro, codigo, status) VALUES (?, ?, 'Disponivel')",
+                        (id_livro, f"{isbn}-{n:02d}")
+                    )
+
 
 def gerar_hash_senha(senha):
     sal = secrets.token_hex(16)
@@ -195,7 +217,7 @@ class ServidorTechBook(SimpleHTTPRequestHandler):
             self.redirecionar("/login-bibliotecario.html")
             return
 
-        if rota == "/perfil-aluno.html" and not self.obter_aluno_logado():
+        if rota in ("/perfil-aluno.html", "/emprestimo-aluno.html") and not self.obter_aluno_logado():
             self.redirecionar("/login.html")
             return
 

@@ -1,1844 +1,275 @@
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Meu perfil — TechBook</title>
-    <link rel="stylesheet" href="assets/css/style.css">
-
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
-
+    <title>Área do Aluno — TechBook</title>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500;1,600&display=swap');
 
-
-
-        body {
-            margin: 0;
-            background: var(--creme, #F5EBDD);
-            color: var(--texto, #38272C);
-            font-family: "DM Sans", sans-serif;
+        :root {
+            --vinho: #481B27;
+            --bordo: #762F3B;
+            --creme: #F5EBDD;
+            --rosa: #C58CA5;
+            --dourado: #D6AE70;
+            --papel: #FFFCF7;
+            --texto: #38272C;
+            --suave: #78666B;
+            --borda: #E6D8CB;
+            --verde: #52776B;
+            --alerta: #9A3B48;
+            --sombra: 0 18px 42px rgba(72, 27, 39, 0.1);
         }
 
-        button, input, textarea, select {
-            font: inherit;
-        }
+        * { box-sizing: border-box; }
+        body { margin: 0; font-family: 'DM Sans', Arial, sans-serif; color: var(--texto); background: var(--papel); line-height: 1.6; }
+        a { color: inherit; text-decoration: none; }
+        button { font: inherit; cursor: pointer; }
 
-        .perfil-topo {
-            background: var(--vinho, #481B27);
-            color: white;
-            padding: 18px 5%;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 20px;
-            flex-wrap: wrap;
+        .topo-perfil {
+            display: flex; align-items: center; justify-content: space-between; gap: 18px;
+            padding: 15px 6.5%; background: var(--papel); border-bottom: 1px solid var(--borda);
+            position: sticky; top: 0; z-index: 10;
         }
-
-        .marca {
-            color: white;
-            text-decoration: none;
-            font-family: "Playfair Display", serif;
-            font-size: 27px;
-            font-weight: 700;
+        .marca { display: inline-flex; align-items: center; gap: 11px; color: var(--vinho); }
+        .marca-simbolo {
+            display: grid; place-items: center; width: 42px; height: 42px; border-radius: 50%;
+            background: var(--vinho); color: var(--dourado);
+            font-family: 'Playfair Display', Georgia, serif; font-weight: 700; border: 1px solid var(--dourado);
         }
-
-        .marca span {
-            display: block;
-            font-family: "DM Sans", sans-serif;
-            font-size: 9px;
-            letter-spacing: 3px;
-            font-weight: 500;
-        }
-
-        .perfil-nav {
-            display: flex;
-            gap: 20px;
-            align-items: center;
-            flex-wrap: wrap;
-        }
-
-        .perfil-nav a,
+        .marca-texto { font-family: 'Playfair Display', Georgia, serif; font-size: 1.32rem; font-weight: 700; line-height: 1.1; }
+        .marca-texto small { display: block; margin-top: 4px; font: 700 0.52rem 'DM Sans', sans-serif; letter-spacing: 1.6px; }
+        .perfil-nav { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; font-size: 0.88rem; color: var(--suave); }
+        .perfil-nav a:hover { color: var(--bordo); }
         .sair-btn {
-            color: white;
-            text-decoration: none;
-            font-size: 13px;
-            opacity: .9;
+            border: 1px solid var(--borda); border-radius: 9px; background: var(--creme);
+            color: var(--vinho); font-weight: 700; padding: 9px 15px; transition: 0.2s;
+        }
+        .sair-btn:hover { background: var(--vinho); color: var(--creme); }
+
+        .hero-aluno {
+            position: relative; overflow: hidden; padding: 54px 8% 66px;
+            background: linear-gradient(135deg, #3D1621 0%, var(--vinho) 58%, #5D2433 100%);
+            color: var(--creme);
+        }
+        .hero-conteudo {
+            position: relative; z-index: 1; max-width: 1120px; margin: 0 auto;
+            display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 26px; align-items: center;
+        }
+        .avatar-aluno {
+            width: 84px; height: 84px; border-radius: 50%; display: grid; place-items: center;
+            background: rgba(255, 252, 247, 0.1); border: 2px solid var(--dourado); color: var(--dourado);
+            font-family: 'Playfair Display', Georgia, serif; font-size: 1.85rem; font-weight: 700;
+        }
+        .etiqueta { display: inline-block; color: var(--dourado); font-size: 0.72rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; }
+        h1 { margin: 8px 0 8px; font-family: 'Playfair Display', Georgia, serif; font-size: clamp(2rem, 4vw, 3rem); font-weight: 600; line-height: 1.15; }
+        .dados-aluno { display: flex; flex-wrap: wrap; gap: 10px 18px; color: #EAD9D6; font-size: 0.94rem; }
+        .selo-info { padding: 5px 12px; border-radius: 999px; background: rgba(255, 252, 247, 0.1); border: 1px solid rgba(214, 174, 112, 0.35); }
+
+        .conteudo-perfil { max-width: 1120px; margin: -28px auto 70px; padding: 0 22px; position: relative; z-index: 2; }
+        .resumo-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+        .card-resumo {
+            padding: 20px 22px; border-radius: 14px; background: var(--papel);
+            border: 1px solid var(--borda); box-shadow: var(--sombra);
+        }
+        .card-resumo span { display: block; color: var(--suave); font-size: 0.84rem; font-weight: 600; }
+        .card-resumo strong { display: block; margin-top: 6px; color: var(--vinho); font-family: 'Playfair Display', Georgia, serif; font-size: 2rem; line-height: 1.1; }
+        .card-resumo.alerta strong { color: var(--alerta); }
+
+        .grade-principal { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; margin-top: 22px; align-items: start; }
+        .painel { padding: 26px; border-radius: 16px; background: var(--papel); border: 1px solid var(--borda); box-shadow: var(--sombra); }
+        .painel-destaque { background: linear-gradient(155deg, #FFFDF9, var(--creme)); border-color: #DFC7AE; }
+        .painel h2 { margin: 6px 0 10px; color: var(--vinho); font-family: 'Playfair Display', Georgia, serif; font-size: 1.55rem; font-weight: 600; }
+        .painel p { margin: 0 0 16px; color: var(--suave); font-size: 0.95rem; }
+
+        .card-atalho {
+            display: flex; align-items: center; gap: 18px;
+            padding: 18px; border-radius: 14px; background: var(--papel);
+            border: 1px solid var(--borda); margin-top: 12px;
+        }
+        .ilustracao-livro {
+            width: 68px; height: 68px; border-radius: 16px; flex-shrink: 0;
+            background: var(--vinho); color: var(--dourado);
+            display: grid; place-items: center; border: 2px solid var(--dourado);
+        }
+        .botao-primario {
+            display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+            border: 0; border-radius: 10px; padding: 13px 20px;
+            background: var(--vinho); color: var(--creme); font-weight: 700; transition: 0.2s;
+        }
+        .botao-primario:hover { background: var(--bordo); transform: translateY(-1px); }
+
+        @media (max-width: 820px) {
+            .resumo-grid, .grade-principal { grid-template-columns: 1fr; }
+        }
+        @media (max-width: 620px) {
+            .hero-conteudo { grid-template-columns: 1fr; text-align: center; }
+            .avatar-aluno { margin: 0 auto; }
+            .dados-aluno { justify-content: center; }
+            .card-atalho { flex-direction: column; text-align: center; }
         }
-
-        .perfil-nav a:hover {
-            opacity: 1;
-            text-decoration: underline;
-        }
-
-        .sair-btn {
-            border: 1px solid #ffffff70;
-            border-radius: 8px;
-            padding: 9px 13px;
-            background: transparent;
-            cursor: pointer;
-        }
-
-        .conteudo-perfil {
-            width: min(1100px, 92%);
-            margin: 38px auto 70px;
-        }
-
-        .introducao {
-            margin-bottom: 25px;
-        }
-
-        .sobretitulo {
-            color: var(--bordo, #762F3B);
-            font-size: 11px;
-            letter-spacing: 2px;
-            font-weight: 700;
-        }
-
-        .introducao h1 {
-            margin: 7px 0;
-            color: var(--vinho, #481B27);
-            font-family: "Playfair Display", serif;
-            font-size: clamp(30px, 5vw, 42px);
-        }
-
-        .introducao p {
-            color: var(--suave, #78666B);
-            margin: 0;
-            line-height: 1.6;
-        }
-
-        .cartao {
-            background: var(--papel, #FFFCF7);
-            border: 1px solid var(--borda, #E6D8CB);
-            border-radius: 17px;
-            box-shadow: 0 8px 25px #481B2709;
-        }
-
-        .perfil-principal {
-            display: flex;
-            align-items: center;
-            gap: 25px;
-            padding: 28px;
-            margin-bottom: 22px;
-            flex-wrap: wrap;
-        }
-
-        .foto-area {
-            position: relative;
-            flex-shrink: 0;
-        }
-
-        .foto-perfil {
-            width: 112px;
-            height: 112px;
-            border-radius: 50%;
-            background: var(--vinho, #481B27);
-            color: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-family: "Playfair Display", serif;
-            font-size: 35px;
-            overflow: hidden;
-            border: 4px solid var(--creme, #F5EBDD);
-        }
-
-        .foto-perfil img {
-            display: block;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            object-position: center;
-            border-radius: 50%;
-        }
-
-        .foto-escolher {
-            position: absolute;
-            right: 0;
-            bottom: 0;
-            background: var(--dourado, #D6AE70);
-            color: var(--vinho, #481B27);
-            border: 2px solid var(--papel, #FFFCF7);
-            border-radius: 50%;
-            width: 34px;
-            height: 34px;
-            display: grid;
-            place-items: center;
-            cursor: pointer;
-            font-weight: 700;
-        }
-
-        .perfil-identidade {
-            flex: 1;
-            min-width: 200px;
-        }
-
-        .perfil-identidade h2 {
-            font-family: "Playfair Display", serif;
-            color: var(--vinho, #481B27);
-            font-size: 27px;
-            margin: 0 0 5px;
-        }
-
-        .perfil-identidade p {
-            margin: 4px 0;
-            color: var(--suave, #78666B);
-            font-size: 13px;
-        }
-
-        .perfil-identidade .bio {
-            margin-top: 12px;
-            line-height: 1.6;
-        }
-
-        .acoes-perfil {
-            display: flex;
-            flex-direction: column;
-            gap: 9px;
-        }
-
-        .botao {
-            border: 0;
-            border-radius: 9px;
-            padding: 11px 16px;
-            cursor: pointer;
-            font-weight: 700;
-            font-size: 13px;
-            transition: .2s;
-        }
-
-        .botao-principal {
-            background: var(--vinho, #481B27);
-            color: white;
-        }
-
-        .botao-principal:hover {
-            background: var(--bordo, #762F3B);
-        }
-
-        .botao-secundario {
-            background: var(--creme, #F5EBDD);
-            color: var(--vinho, #481B27);
-            border: 1px solid var(--borda, #E6D8CB);
-        }
-
-        .botao-secundario:hover {
-            border-color: var(--bordo, #762F3B);
-        }
-
-        .botao:disabled {
-            opacity: .6;
-            cursor: not-allowed;
-        }
-
-        .estatisticas {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 15px;
-            margin-bottom: 30px;
-        }
-
-        .estatistica {
-            padding: 21px;
-            text-align: center;
-        }
-
-        .estatistica .numero {
-            display: block;
-            color: var(--vinho, #481B27);
-            font-family: "Playfair Display", serif;
-            font-size: 32px;
-            font-weight: 700;
-        }
-
-        .estatistica .legenda {
-            color: var(--suave, #78666B);
-            font-size: 12px;
-        }
-
-        .secao-titulo {
-            margin: 34px 0 15px;
-        }
-
-        .secao-titulo h2 {
-            color: var(--vinho, #481B27);
-            font-family: "Playfair Display", serif;
-            font-size: 25px;
-            margin: 0 0 5px;
-        }
-
-        .secao-titulo h3 {
-            color: var(--vinho, #481B27);
-            font-family: "Playfair Display", serif;
-            font-size: 20px;
-            margin: 0 0 5px;
-        }
-
-        .secao-titulo p {
-            color: var(--suave, #78666B);
-            font-size: 13px;
-            margin: 0;
-        }
-
-        .biblioteca-grade {
-            display: grid;
-            grid-template-columns: 1.5fr 1fr;
-            gap: 18px;
-            align-items: start;
-        }
-
-        .painel {
-            padding: 22px;
-        }
-
-        .painel h3 {
-            color: var(--vinho, #481B27);
-            font-family: "Playfair Display", serif;
-            font-size: 20px;
-            margin: 0 0 17px;
-        }
-
-        .emprestimo {
-            padding: 16px 0;
-            border-bottom: 1px solid var(--borda, #E6D8CB);
-        }
-
-        .emprestimo:last-child {
-            border-bottom: 0;
-        }
-
-        .emprestimo h4 {
-            color: var(--vinho, #481B27);
-            margin: 0 0 5px;
-            font-size: 15px;
-        }
-
-        .emprestimo p {
-            color: var(--suave, #78666B);
-            margin: 4px 0;
-            font-size: 12px;
-        }
-
-        .situacao {
-            display: inline-block;
-            padding: 5px 9px;
-            border-radius: 20px;
-            margin-top: 7px;
-            font-size: 10px;
-            font-weight: 700;
-            background: #E8F0E9;
-            color: #426B4F;
-        }
-
-        .situacao.atrasado {
-            background: #F8E4E3;
-            color: #A13F3B;
-        }
-
-        .situacao.devolvido {
-            background: #EEE8F3;
-            color: #725486;
-        }
-
-        .vazio {
-            text-align: center;
-            padding: 25px 10px;
-            color: var(--suave, #78666B);
-            font-size: 13px;
-            line-height: 1.6;
-        }
-
-        .vazio .icone {
-            display: block;
-            font-size: 30px;
-            margin-bottom: 9px;
-        }
-
-        .favorito {
-            margin-bottom: 18px;
-        }
-
-        .favorito-livro {
-            background: var(--creme, #F5EBDD);
-            padding: 16px;
-            border-radius: 12px;
-            color: var(--vinho, #481B27);
-            line-height: 1.6;
-            font-size: 13px;
-        }
-
-        .generos-lista {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-        }
-
-        .genero {
-            padding: 7px 11px;
-            border-radius: 20px;
-            background: var(--creme, #F5EBDD);
-            color: var(--bordo, #762F3B);
-            font-size: 11px;
-            font-weight: 600;
-        }
-
-        .aviso {
-            margin-top: 25px;
-            padding: 15px 18px;
-            background: var(--papel, #FFFCF7);
-            border-left: 4px solid var(--dourado, #D6AE70);
-            border-radius: 8px;
-            color: var(--suave, #78666B);
-            font-size: 12px;
-            line-height: 1.6;
-        }
-
-        .estante-card {
-            margin-top: 22px;
-            padding: 22px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 18px;
-            flex-wrap: wrap;
-        }
-
-        .estante-card h3 {
-            color: var(--vinho, #481B27);
-            font-family: "Playfair Display", serif;
-            margin: 0 0 6px;
-            font-size: 21px;
-        }
-
-        .estante-card p {
-            color: var(--suave, #78666B);
-            font-size: 13px;
-            line-height: 1.5;
-            margin: 0;
-        }
-
-        .modal-fundo {
-            display: none;
-            position: fixed;
-            inset: 0;
-            z-index: 20;
-            background: #24151bd9;
-            padding: 20px;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .modal-fundo.aberto {
-            display: flex;
-        }
-
-        .modal {
-            width: min(480px, 100%);
-            max-height: 90vh;
-            overflow-y: auto;
-            background: var(--papel, #FFFCF7);
-            border-radius: 17px;
-            padding: 25px;
-        }
-
-        .modal h2 {
-            color: var(--vinho, #481B27);
-            font-family: "Playfair Display", serif;
-            margin-top: 0;
-        }
-
-        .campo {
-            display: grid;
-            gap: 7px;
-            margin: 15px 0;
-        }
-
-        .campo label {
-            color: var(--texto, #38272C);
-            font-size: 12px;
-            font-weight: 700;
-        }
-
-        .campo input,
-        .campo textarea,
-        .campo select {
-            width: 100%;
-            padding: 11px;
-            border: 1px solid var(--borda, #E6D8CB);
-            border-radius: 8px;
-            background: white;
-            color: var(--texto, #38272C);
-        }
-
-        .campo textarea {
-            min-height: 85px;
-            resize: vertical;
-        }
-
-        .lista-checkbox-generos {
-            display: grid;
-            grid-template-columns: repeat(2, minmax(0, 1fr));
-            gap: 9px;
-            padding: 12px;
-            background: var(--creme, #F5EBDD);
-            border-radius: 9px;
-        }
-
-        .opcao-genero {
-            display: flex;
-            align-items: center;
-            gap: 7px;
-            font-size: 12px;
-            color: var(--texto, #38272C);
-        }
-
-        .opcao-genero input {
-            width: auto;
-            accent-color: var(--vinho, #481B27);
-        }
-
-        .ajuda {
-            color: var(--suave, #78666B);
-            font-size: 11px;
-            line-height: 1.5;
-        }
-
-        .modal-acoes {
-            display: flex;
-            gap: 10px;
-            justify-content: flex-end;
-            margin-top: 20px;
-        }
-
-        .mensagem-status {
-            color: var(--suave, #78666B);
-            font-size: 13px;
-            margin: 15px 0;
-        }
-
-        .rodape-perfil {
-            text-align: center;
-            padding: 25px;
-            color: var(--suave, #78666B);
-            font-size: 11px;
-        }
-
-        @media (max-width: 700px) {
-            .estatisticas {
-                grid-template-columns: 1fr;
-            }
-
-            .biblioteca-grade {
-                grid-template-columns: 1fr;
-            }
-
-            .perfil-principal {
-                text-align: center;
-                justify-content: center;
-            }
-
-            .perfil-identidade {
-                flex-basis: 100%;
-            }
-
-            .perfil-nav {
-                gap: 12px;
-            }
-
-            .acoes-perfil {
-                width: 100%;
-            }
-
-            .lista-checkbox-generos {
-                grid-template-columns: 1fr;
-            }
-        }
-
-
-/* =========================================
-   TECHBOOK — ACABAMENTO VISUAL DO PERFIL
-   ========================================= */
-
-/* Cabeçalho */
-.perfil-topo {
-    border-bottom: 3px solid var(--dourado, #D6AE70);
-    box-shadow: 0 4px 15px rgba(40, 15, 23, 0.12);
-}
-
-.perfil-nav a {
-    transition: color 0.25s ease, opacity 0.25s ease;
-}
-
-.perfil-nav a:hover {
-    color: var(--dourado, #D6AE70);
-}
-
-/* Cartão principal do aluno */
-.perfil-principal {
-    box-shadow: 0 10px 28px rgba(72, 27, 39, 0.07);
-    transition: box-shadow 0.25s ease;
-}
-
-.perfil-principal:hover {
-    box-shadow: 0 13px 32px rgba(72, 27, 39, 0.11);
-}
-
-/* Foto de perfil */
-.foto-perfil {
-    border: 4px solid var(--dourado, #D6AE70);
-    box-shadow: 0 5px 15px rgba(72, 27, 39, 0.15);
-}
-
-.foto-escolher {
-    transition: transform 0.2s ease;
-}
-
-.foto-escolher:hover {
-    transform: scale(1.1);
-}
-
-/* Botões */
-.botao {
-    transition: transform 0.2s ease, box-shadow 0.2s ease,
-                background 0.2s ease;
-}
-
-.botao:hover:not(:disabled) {
-    transform: translateY(-2px);
-    box-shadow: 0 5px 13px rgba(72, 27, 39, 0.13);
-}
-
-.sair-btn {
-    transition: background 0.2s ease, color 0.2s ease;
-}
-
-.sair-btn:hover {
-    background: var(--creme, #F5EBDD);
-    color: var(--vinho, #481B27);
-}
-
-/* Cartões de estatísticas */
-.estatistica {
-    border-top: 3px solid var(--dourado, #D6AE70);
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.estatistica:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 10px 24px rgba(72, 27, 39, 0.09);
-}
-
-.estatistica .numero {
-    font-size: 2rem;
-}
-
-/* Painéis da biblioteca */
-.painel {
-    box-shadow: 0 7px 20px rgba(72, 27, 39, 0.05);
-}
-
-/* Empréstimos e histórico */
-#lista-emprestimos,
-#historico-emprestimos {
-    display: grid;
-    gap: 12px;
-    margin-top: 15px;
-}
-
-#lista-emprestimos .emprestimo,
-#historico-emprestimos .emprestimo {
-    padding: 15px;
-    border: 1px solid var(--borda, #E6D8CB);
-    border-radius: 12px;
-    background: var(--papel, #FFFCF7);
-    transition: border-color 0.2s ease,
-                transform 0.2s ease,
-                box-shadow 0.2s ease;
-}
-
-#lista-emprestimos .emprestimo:hover,
-#historico-emprestimos .emprestimo:hover {
-    border-color: var(--dourado, #D6AE70);
-    transform: translateY(-2px);
-    box-shadow: 0 5px 14px rgba(72, 27, 39, 0.07);
-}
-
-#lista-emprestimos .emprestimo:last-child,
-#historico-emprestimos .emprestimo:last-child {
-    border-bottom: 1px solid var(--borda, #E6D8CB);
-}
-
-/* Livro favorito */
-.favorito-livro {
-    border-left: 4px solid var(--dourado, #D6AE70);
-    font-weight: 600;
-}
-
-/* Gêneros favoritos */
-.genero {
-    border: 1px solid var(--borda, #E6D8CB);
-    transition: background 0.2s ease, transform 0.2s ease;
-}
-
-.genero:hover {
-    transform: translateY(-2px);
-}
-
-/* Estante virtual */
-.estante-card {
-    border: 1px solid var(--borda, #E6D8CB);
-    box-shadow: 0 7px 20px rgba(72, 27, 39, 0.05);
-}
-
-#estante-btn {
-    border-radius: 12px;
-}
-
-/* Modal */
-.modal {
-    border: 1px solid var(--borda, #E6D8CB);
-    box-shadow: 0 18px 50px rgba(0, 0, 0, 0.2);
-}
-
-.campo input:focus,
-.campo textarea:focus,
-.campo select:focus {
-    outline: 2px solid var(--bordo, #762F3B);
-    outline-offset: 2px;
-    border-color: var(--bordo, #762F3B);
-}
-
-/* Acessibilidade */
-button:focus-visible,
-a:focus-visible,
-input:focus-visible,
-textarea:focus-visible,
-select:focus-visible {
-    outline: 3px solid var(--dourado, #D6AE70);
-    outline-offset: 3px;
-}
-
-/* Animações respeitam a preferência do usuário */
-@media (prefers-reduced-motion: reduce) {
-    *,
-    *::before,
-    *::after {
-        scroll-behavior: auto !important;
-        transition-duration: 0.01ms !important;
-        animation-duration: 0.01ms !important;
-    }
-}
-
-/* Ajustes para celulares */
-@media (max-width: 700px) {
-    .perfil-principal {
-        padding: 22px;
-    }
-
-    .estatistica:hover {
-        transform: none;
-    }
-
-    #lista-emprestimos,
-    #historico-emprestimos {
-        gap: 10px;
-    }
-}
-
-@media (max-width: 480px) {
-    .conteudo-perfil {
-        margin-top: 25px;
-    }
-
-    .perfil-principal,
-    .painel,
-    .estante-card {
-        padding: 17px;
-    }
-
-    .modal {
-        padding: 19px;
-    }
-
-    .modal-acoes {
-        flex-direction: column-reverse;
-    }
-
-    .modal-acoes .botao {
-        width: 100%;
-    }
-}
-
-/* =========================================
-   SOLICITAÇÃO DE EMPRÉSTIMO
-   ========================================= */
-
-.solicitar-emprestimo {
-    margin-bottom: 22px;
-    border-top: 3px solid var(--dourado, #D6AE70);
-}
-
-.descricao-emprestimo {
-    color: var(--suave, #78666B);
-    font-size: 13px;
-    line-height: 1.6;
-    margin: -7px 0 18px;
-}
-
-.formulario-emprestimo {
-    display: grid;
-    grid-template-columns: 2fr 1fr auto;
-    align-items: end;
-    gap: 15px;
-}
-
-.formulario-emprestimo .campo {
-    margin: 0;
-}
-
-.formulario-emprestimo .botao {
-    min-height: 42px;
-}
-
-.mensagem-emprestimo {
-    color: var(--suave, #78666B);
-    font-size: 12px;
-    margin: 15px 0 0;
-}
-
-@media (max-width: 700px) {
-    .formulario-emprestimo {
-        grid-template-columns: 1fr;
-    }
-}
-/* =========================================
-   SOLICITAÇÃO DE DEVOLUÇÃO
-   ========================================= */
-
-.botao-devolucao {
-    margin-top: 12px;
-    font-size: 12px;
-}
-
-.situacao.solicitada {
-    background: #F8EEDC;
-    color: #8A642B;
-}
-
-.aviso-devolucao {
-    color: var(--suave, #78666B);
-    font-size: 12px;
-    line-height: 1.5;
-    margin: 9px 0 0;
-}
-
     </style>
 </head>
-
 <body>
+    <header class="topo-perfil">
+        <a class="marca" href="index.html" aria-label="Voltar para o início do TechBook">
+            <span class="marca-simbolo" aria-hidden="true">TB</span>
+            <span class="marca-texto">TechBook<small>ÁREA DO ALUNO</small></span>
+        </a>
 
-<header class="perfil-topo">
-    <a href="index.html" class="marca">
-        TechBook
-        <span>BIBLIOTECA INTELIGENTE</span>
-    </a>
+        <nav class="perfil-nav" aria-label="Navegação principal">
+        <a  href="index.html">Início</a>
+        <a href="index.html#catalogo">Catálogo</a>
+        <a href="emprestimos-aluno.html">Empréstimos</a>
+        <a href="minha_estante_virtual_cabecalho_vinho.html">Minha Estante</a>
+        <a href="amigos_de_leitura_completo.html">Amigos</a>
+        <a href="ranking.html">Ranking</a>
+        <button class="sair-btn" id="sair-btn" type="button">Sair</button>
+        </nav>
 
-<nav class="perfil-nav" aria-label="Navegação principal">
-     <a href="index.html">Início</a>
-     <a href="index.html#catalogo">Catálogo</a>
-     <a href="minha_estante_virtual_cabecalho_vinho.html">Minha Estante</a>
-     <a href="amigos_de_leitura_completo.html">Amigos</a>
-     <a href="ranking.html">Ranking</a>
-     <button class="sair-btn" id="sair-btn" type="button">Sair</button>
- </nav>
-</header>
+    </header>
 
-<main class="conteudo-perfil">
-
-    <section class="introducao">
-        <span class="sobretitulo">ESPAÇO DO LEITOR</span>
-        <h1>Minha área</h1>
-        <p>Acompanhe sua jornada literária e organize suas leituras.</p>
-    </section>
-
-    <section class="perfil-principal cartao">
-
-        <div class="foto-area">
-            <div class="foto-perfil" id="foto-perfil">
-                <span id="iniciais">TB</span>
-            </div>
-
-            <label for="foto-input" class="foto-escolher" title="Alterar foto">+</label>
-            <input type="file" id="foto-input" accept="image/*" hidden>
-        </div>
-
-        <div class="perfil-identidade">
-            <h2 id="nome-aluno">Carregando perfil...</h2>
-            <p id="identificacao-aluno">Buscando seus dados...</p>
-            <p id="turma-aluno"></p>
-            <p class="bio" id="bio-aluno">Sua jornada de leitura começa aqui.</p>
-        </div>
-
-        <div class="acoes-perfil">
-            <button class="botao botao-principal" id="editar-btn" type="button">
-                Editar perfil
-            </button>
-        </div>
-
-    </section>
-
-    <section class="estatisticas" aria-label="Resumo da biblioteca">
-
-        <article class="estatistica cartao">
-            <span class="numero" id="total-devolvidos">—</span>
-            <span class="legenda">Devoluções registradas</span>
-        </article>
-
-        <article class="estatistica cartao">
-            <span class="numero" id="total-ativos">—</span>
-            <span class="legenda">Empréstimos ativos</span>
-        </article>
-
-        <article class="estatistica cartao">
-            <span class="numero" id="total-atrasados">—</span>
-            <span class="legenda">Empréstimos em atraso</span>
-        </article>
-
-    </section>
-
-    <section id="minha-biblioteca">
-
-        <div class="secao-titulo">
-            <h2>Minha biblioteca</h2>
-            <p>Consulte seus empréstimos e acompanhe seu histórico.</p>
-        </div>
-        <!-- Solicitação de empréstimo -->
-        <section class="cartao painel solicitar-emprestimo">
-
-            <h3>📚 Solicitar um empréstimo</h3>
-
-            <p class="descricao-emprestimo">
-                Escolha um livro disponível no catálogo e defina
-                por quantos dias deseja ficar com ele.
-            </p>
-
-            <div class="formulario-emprestimo">
-
-                <div class="campo">
-                    <label for="livro-emprestimo">
-                        Escolha o livro
-                    </label>
-
-                    <select id="livro-emprestimo">
-                        <option value="">Carregando livros...</option>
-                    </select>
-                </div>
-
-                <div class="campo">
-                    <label for="prazo-emprestimo">
-                        Prazo de empréstimo
-                    </label>
-
-                    <select id="prazo-emprestimo">
-                        <option value="7">7 dias</option>
-                        <option value="14" selected>14 dias</option>
-                        <option value="16">16 dias</option>
-                    </select>
-                </div>
-
-                <button
-                    class="botao botao-principal"
-                    id="solicitar-emprestimo-btn"
-                    type="button"
-                    disabled
-                >
-                    Solicitar empréstimo
-                </button>
-
-            </div>
-
-            <p
-                class="mensagem-emprestimo"
-                id="mensagem-emprestimo"
-                role="status"
-                aria-live="polite"
-            ></p>
-
-        </section>
-        <div class="biblioteca-grade">
-
-            <div class="cartao painel">
-
-                <h3>Meus empréstimos</h3>
-
-                <div id="lista-emprestimos">
-                    <div class="vazio">
-                        <span class="icone">📚</span>
-                        Carregando seus empréstimos...
-                    </div>
-                </div>
-
-                <div class="secao-titulo">
-                    <h3>Histórico de devoluções</h3>
-                    <p>Registros dos livros devolvidos à biblioteca.</p>
-                </div>
-
-                <div id="historico-emprestimos">
-                    <div class="vazio">Carregando histórico...</div>
-                </div>
-
-            </div>
-
-            <aside>
-
-                <div class="cartao painel favorito">
-                    <h3>Meu livro favorito</h3>
-
-                    <div class="favorito-livro" id="livro-favorito">
-                        Você ainda não escolheu seu livro favorito.
-                    </div>
-                </div>
-
-                <div class="cartao painel">
-                    <h3>Gêneros favoritos</h3>
-
-                    <div class="generos-lista" id="generos-lista">
-                        <span class="genero">Ainda não definidos</span>
-                    </div>
-                </div>
-
-            </aside>
-
-        </div>
-
-        <section class="cartao estante-card">
+    <section class="hero-aluno">
+        <div class="hero-conteudo">
+            <div class="avatar-aluno" id="avatar-aluno" aria-hidden="true">TB</div>
             <div>
-                <h3>Minha estante virtual</h3>
-                <p>Organize seus livros favoritos, leituras atuais e próximas leituras.</p>
+                <span class="etiqueta">Perfil conectado</span>
+                <h1 id="nome-aluno">Carregando perfil...</h1>
+                <div class="dados-aluno">
+                    <span class="selo-info" id="matricula-aluno">Matrícula: —</span>
+                    <span class="selo-info" id="turma-aluno">Turma: —</span>
+                </div>
             </div>
+        </div>
+    </section>
 
-            <button class="botao botao-principal" id="estante-btn" type="button">
-                Acessar minha estante
-            </button>
+    <main class="conteudo-perfil">
+        <section class="resumo-grid" aria-label="Resumo da conta">
+            <article class="card-resumo">
+                <span>Empréstimos ativos</span>
+                <strong id="resumo-ativos">0</strong>
+            </article>
+            <article class="card-resumo">
+                <span>Livros devolvidos</span>
+                <strong id="resumo-devolvidos">0</strong>
+            </article>
+            <article class="card-resumo alerta">
+                <span>Devoluções em atraso</span>
+                <strong id="resumo-atrasados">0</strong>
+            </article>
         </section>
 
-    </section>
+        <div class="grade-principal">
+            <!-- ATALHO DEDICADO PARA A PÁGINA DE EMPRÉSTIMOS -->
+            <section class="painel painel-destaque">
+                <span class="etiqueta" style="color: var(--bordo);">Empréstimos & Devoluções</span>
+                <h2>Central de Empréstimos</h2>
+                <p>
+                    Solicite novos livros disponíveis, acompanhe suas datas de entrega e registre devoluções na página exclusiva de empréstimos.
+                </p>
+                <div class="card-atalho">
+                    <div class="ilustracao-livro" aria-hidden="true">
+                        <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+                            <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+                            <line x1="8" y1="7" x2="16" y2="7"></line>
+                            <line x1="8" y1="11" x2="14" y2="11"></line>
+                        </svg>
+                    </div>
+                    <div>
+                        <strong style="display:block;color:var(--vinho);font-size:1.05rem;">Gerenciar meus empréstimos</strong>
+                        <span style="display:block;color:var(--suave);font-size:0.86rem;margin:4px 0 12px;">Escolha livros, defina prazos e solicite devoluções.</span>
+                        <a href="emprestimo-aluno.html" class="botao-primario">
+                            📚 Acessar página de empréstimos →
+                        </a>
+                    </div>
+                </div>
+            </section>
 
-    <div class="aviso">
-        <strong>Sobre suas estatísticas:</strong>
-        os números representam os registros de empréstimos e devoluções
-        cadastrados pela biblioteca. Um livro devolvido não significa
-        necessariamente que sua leitura foi concluída.
-    </div>
-
-    <p class="mensagem-status" id="mensagem-status" role="status" aria-live="polite"></p>
-
-</main>
-
-<footer class="rodape-perfil">
-    TechBook — Uma biblioteca inteligente para transformar sua jornada de leitura.
-</footer>
-
-<!-- Modal de edição -->
-<div class="modal-fundo" id="modal-fundo">
-    <section class="modal" role="dialog" aria-modal="true" aria-labelledby="titulo-modal">
-
-        <h2 id="titulo-modal">Editar meu perfil</h2>
-
-        <div class="campo">
-            <label for="editar-nome">Nome de exibição</label>
-            <input type="text" id="editar-nome" maxlength="70">
+            <!-- ATALHO PARA A ESTANTE VIRTUAL -->
+            <section class="painel painel-destaque">
+                <span class="etiqueta" style="color: var(--bordo);">Coleção pessoal</span>
+                <h2>Minha Estante Virtual</h2>
+                <p>
+                    Organize seus livros favoritos, marque o que você está lendo agora e acompanhe sua meta anual de leitura.
+                </p>
+                <div class="card-atalho">
+                    <div class="ilustracao-livro" aria-hidden="true">
+                        <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
+                            <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
+                        </svg>
+                    </div>
+                    <div>
+                        <strong style="display:block;color:var(--vinho);font-size:1.05rem;">Organizar minha coleção</strong>
+                        <span style="display:block;color:var(--suave);font-size:0.86rem;margin:4px 0 12px;">Estante interativa com metas e conquistas.</span>
+                        <a href="minha_estante_virtual_cabecalho_vinho.html" class="botao-primario">
+                            ✨ Abrir Minha Estante →
+                        </a>
+                    </div>
+                </div>
+            </section>
         </div>
+    </main>
 
-        <div class="campo">
-            <label for="editar-usuario">Nome de usuário</label>
-            <input type="text" id="editar-usuario" maxlength="30" placeholder="Ex.: leitor123">
-        </div>
-
-        <div class="campo">
-            <label for="editar-bio">Biografia</label>
-            <textarea id="editar-bio" maxlength="250" placeholder="Conte um pouco sobre você..."></textarea>
-        </div>
-
-        <div class="campo">
-            <label for="editar-favorito">Livro favorito</label>
-            <select id="editar-favorito">
-                <option value="">Nenhum livro selecionado</option>
-            </select>
-            <small class="ajuda">A lista utiliza os livros cadastrados no catálogo da biblioteca.</small>
-        </div>
-
-        <div class="campo">
-            <label>Gêneros favoritos</label>
-            <div class="lista-checkbox-generos" id="opcoes-generos">
-                <span class="ajuda">Carregando gêneros do catálogo...</span>
-            </div>
-            <small class="ajuda">Selecione um ou mais gêneros disponíveis.</small>
-        </div>
-
-        <div class="modal-acoes">
-            <button class="botao botao-secundario" id="cancelar-btn" type="button">
-                Cancelar
-            </button>
-
-            <button class="botao botao-principal" id="salvar-btn" type="button">
-                Salvar alterações
-            </button>
-        </div>
-
-    </section>
-</div>
-
-<script>
-    
-    const elemento = id => document.getElementById(id);
-
-    let alunoAtual = null;
-    let preferencias = {};
-    let livrosCatalogo = [];
-
-    function mostrarMensagem(texto) {
-        elemento("mensagem-status").textContent = texto;
-    }
-
-    function chavePreferencias(id) {
-        return `techbook_perfil_${id}`;
-    }
-
-    function carregarPreferencias(id) {
-        try {
-            return JSON.parse(
-                localStorage.getItem(chavePreferencias(id)) || "{}"
-            );
-        } catch {
-            return {};
-        }
-    }
-
-    function salvarPreferencias() {
-        if (!alunoAtual) return;
-
-        localStorage.setItem(
-            chavePreferencias(alunoAtual.id),
-            JSON.stringify(preferencias)
-        );
-    }
-
-    function iniciais(nome) {
-        return String(nome || "Aluno")
-            .trim()
-            .split(/\s+/)
-            .slice(0, 2)
-            .map(parte => parte[0])
-            .join("")
-            .toUpperCase();
-    }
-
-    function renderizarFoto() {
-        const foto = elemento("foto-perfil");
-        foto.innerHTML = "";
-
-        if (preferencias.foto) {
-            const imagem = document.createElement("img");
-            imagem.src = preferencias.foto;
-            imagem.alt = "Foto de perfil";
-            foto.appendChild(imagem);
-        } else {
-            const span = document.createElement("span");
-            span.textContent = iniciais(
-                preferencias.nome || alunoAtual.nome
-            );
-            foto.appendChild(span);
-        }
-    }
-
-    function renderizarPerfil() {
-        if (!alunoAtual) return;
-
-        const nome = preferencias.nome || alunoAtual.nome;
-
-        elemento("nome-aluno").textContent = nome;
-
-        elemento("identificacao-aluno").textContent =
-            preferencias.usuario
-                ? `@${preferencias.usuario} · Matrícula ${alunoAtual.matricula}`
-                : `Matrícula ${alunoAtual.matricula}`;
-
-        elemento("turma-aluno").textContent =
-            alunoAtual.turma ? `Turma: ${alunoAtual.turma}` : "";
-
-        elemento("bio-aluno").textContent =
-            preferencias.bio || "Sua jornada de leitura começa aqui.";
-
-        const livro = livrosCatalogo.find(
-            item => String(item.id_livro) === String(preferencias.favoritoId)
-        );
-
-        elemento("livro-favorito").textContent = livro
-            ? `${livro.titulo} — ${livro.autor || "Autor não informado"}`
-            : "Você ainda não escolheu seu livro favorito.";
-
-        renderizarFoto();
-        renderizarGeneros();
-    }
-
-    function renderizarGeneros() {
-        const lista = elemento("generos-lista");
-        lista.innerHTML = "";
-
-        const generos = preferencias.generos || [];
-
-        if (generos.length === 0) {
-            const vazio = document.createElement("span");
-            vazio.className = "genero";
-            vazio.textContent = "Ainda não definidos";
-            lista.appendChild(vazio);
-            return;
+    <script>
+        function elemento(id) {
+            return document.getElementById(id);
         }
 
-        generos.forEach(genero => {
-            const etiqueta = document.createElement("span");
-            etiqueta.className = "genero";
-            etiqueta.textContent = genero;
-            lista.appendChild(etiqueta);
-        });
-    }
-
-    async function carregarSessao() {
-        const resposta = await fetch("/api/sessao-aluno", {
-            credentials: "same-origin",
-            cache: "no-store"
-        });
-
-        if (resposta.status === 401 || resposta.status === 403) {
-            window.location.href = "login.html";
-            throw new Error("Faça login para acessar seu perfil.");
+        function gerarIniciais(nome) {
+            return String(nome || "TB")
+                .trim()
+                .split(/\s+/)
+                .slice(0, 2)
+                .map(parte => parte[0] || "")
+                .join("")
+                .toUpperCase() || "TB";
         }
 
-        if (!resposta.ok) {
-            throw new Error("Não foi possível verificar sua sessão.");
-        }
-
-        const dados = await resposta.json();
-        alunoAtual = dados.aluno || dados;
-
-        if (!alunoAtual.id) {
-            throw new Error("Os dados da sessão do aluno estão incompletos.");
-        }
-
-        preferencias = carregarPreferencias(alunoAtual.id);
-        renderizarPerfil();
-    }
-
-    async function carregarCatalogo() {
-        const resposta = await fetch("/api/livros", {
-            credentials: "same-origin",
-            cache: "no-store"
-        });
-
-        if (!resposta.ok) {
-            throw new Error("Não foi possível carregar o catálogo de livros.");
-        }
-
-        const dados = await resposta.json();
-
-        livrosCatalogo = Array.isArray(dados) ? dados : [];
-
-        preencherLivrosParaEmprestimo();
-        preencherLivrosFavoritos();
-        preencherGenerosDisponiveis();
-        renderizarPerfil();
-    }
-
-    // =========================================
-// PREENCHER LIVROS DISPONÍVEIS PARA EMPRÉSTIMO
-// =========================================
-
-function preencherLivrosParaEmprestimo() {
-    const seletor = elemento("livro-emprestimo");
-    const botao = elemento("solicitar-emprestimo-btn");
-
-    if (!seletor || !botao) return;
-
-    const livrosDisponiveis = livrosCatalogo.filter(livro =>
-        Number(livro.disponiveis) > 0
-    );
-
-    seletor.innerHTML = "";
-
-    if (livrosDisponiveis.length === 0) {
-        seletor.innerHTML = `
-            <option value="">
-                Nenhum livro disponível no momento
-            </option>
-        `;
-
-        botao.disabled = true;
-        return;
-    }
-
-    seletor.innerHTML = `
-        <option value="">
-            Selecione um livro
-        </option>
-    `;
-
-    livrosDisponiveis.forEach(livro => {
-        const opcao = document.createElement("option");
-
-        opcao.value = livro.id_livro;
-        opcao.textContent =
-            `${livro.titulo} — ${livro.disponiveis} disponível(is)`;
-
-        seletor.appendChild(opcao);
-    });
-
-    botao.disabled = true;
-}
-
-    function preencherLivrosFavoritos() {
-        const select = elemento("editar-favorito");
-
-        select.innerHTML = "";
-
-        const opcaoVazia = document.createElement("option");
-        opcaoVazia.value = "";
-        opcaoVazia.textContent = "Nenhum livro selecionado";
-        select.appendChild(opcaoVazia);
-
-        livrosCatalogo.forEach(livro => {
-            const opcao = document.createElement("option");
-            opcao.value = livro.id_livro;
-            opcao.textContent = livro.titulo;
-            select.appendChild(opcao);
-        });
-
-        select.value = preferencias.favoritoId || "";
-    }
-
-    function obterGenerosDisponiveis() {
-        const generos = livrosCatalogo
-            .map(livro => livro.genero)
-            .filter(Boolean)
-            .flatMap(genero => String(genero).split(/[,;]/))
-            .map(genero => genero.trim())
-            .filter(Boolean);
-
-        return [...new Set(generos)].sort((a, b) =>
-            a.localeCompare(b, "pt-BR")
-        );
-    }
-
-    function preencherGenerosDisponiveis() {
-        const container = elemento("opcoes-generos");
-        container.innerHTML = "";
-
-        const generos = obterGenerosDisponiveis();
-
-        if (generos.length === 0) {
-            container.textContent =
-                "Ainda não existem gêneros cadastrados no catálogo.";
-            return;
-        }
-
-        generos.forEach((genero, indice) => {
-            const label = document.createElement("label");
-            label.className = "opcao-genero";
-
-            const checkbox = document.createElement("input");
-            checkbox.type = "checkbox";
-            checkbox.value = genero;
-            checkbox.id = `genero-${indice}`;
-            checkbox.checked = (preferencias.generos || []).includes(genero);
-
-            const texto = document.createElement("span");
-            texto.textContent = genero;
-
-            label.append(checkbox, texto);
-            container.appendChild(label);
-        });
-    }
-
-    function formatarData(data) {
-        if (!data) return "Não informada";
-
-        const partes = String(data).slice(0, 10).split("-");
-
-        if (partes.length !== 3) return data;
-
-        return `${partes[2]}/${partes[1]}/${partes[0]}`;
-    }
-
-    
-function criarEmprestimo(item, devolvido = false) {
-    const artigo = document.createElement("article");
-    artigo.className = "emprestimo";
-
-    const titulo = document.createElement("h4");
-    titulo.textContent = item.titulo || "Livro sem título";
-
-    const autor = document.createElement("p");
-    autor.textContent = `Autor: ${item.autor || "Não informado"}`;
-
-    const prazo = document.createElement("p");
-    prazo.textContent = devolvido
-        ? `Devolvido em: ${formatarData(item.data_devolucao)}`
-        : `Devolução prevista: ${formatarData(item.data_prevista_devolucao)}`;
-
-    artigo.append(titulo, autor, prazo);
-
-    if (item.codigo_exemplar) {
-        const codigo = document.createElement("p");
-        codigo.textContent = `Exemplar: ${item.codigo_exemplar}`;
-        artigo.appendChild(codigo);
-    }
-
-    const situacao = document.createElement("span");
-    situacao.className = "situacao";
-
-    if (devolvido) {
-        situacao.classList.add("devolvido");
-        situacao.textContent = "Devolvido";
-        artigo.appendChild(situacao);
-        return artigo;
-    }
-
-    const solicitacaoPendente =
-        Boolean(item.data_solicitacao_devolucao);
-
-    const estaAtrasado = Number(item.atrasado) === 1;
-
-    if (solicitacaoPendente) {
-        situacao.classList.add("solicitada");
-        situacao.textContent = "Devolução solicitada";
-    } else if (estaAtrasado) {
-        situacao.classList.add("atrasado");
-        situacao.textContent = "Em atraso";
-    } else {
-        situacao.textContent = "Em andamento";
-    }
-
-    artigo.appendChild(situacao);
-
-    if (solicitacaoPendente && estaAtrasado) {
-        const atraso = document.createElement("span");
-        atraso.className = "situacao atrasado";
-        atraso.textContent = "Em atraso";
-        artigo.appendChild(atraso);
-    }
-
-    if (solicitacaoPendente) {
-        const aviso = document.createElement("p");
-        aviso.className = "aviso-devolucao";
-        aviso.textContent =
-            "Aguardando a biblioteca confirmar o recebimento do livro.";
-
-        artigo.appendChild(aviso);
-
-    } else {
-        const botao = document.createElement("button");
-
-        botao.type = "button";
-        botao.className =
-            "botao botao-secundario botao-devolucao";
-
-        botao.textContent = "Solicitar devolução";
-
-        botao.addEventListener("click", () => {
-            solicitarDevolucao(item.id_emprestimo, botao);
-        });
-
-        artigo.appendChild(botao);
-    }
-
-    return artigo;
-}
-
-
-// =========================================
-// SOLICITAR DEVOLUÇÃO
-// =========================================
-
-async function solicitarDevolucao(idEmprestimo, botao) {
-    const confirmar = window.confirm(
-        "Deseja solicitar a devolução deste livro?"
-    );
-
-    if (!confirmar) return;
-
-    botao.disabled = true;
-    botao.textContent = "Enviando solicitação...";
-
-    try {
-        const resposta = await fetch(
-            "/api/aluno/emprestimos/devolucao",
-            {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                credentials: "same-origin",
-                body: JSON.stringify({
-                    id_emprestimo: idEmprestimo
-                })
-            }
-        );
-
-        const dados = await resposta.json();
-
-        if (!resposta.ok) {
-            throw new Error(
-                dados.erro ||
-                dados.mensagem ||
-                "Não foi possível solicitar a devolução."
-            );
-        }
-
-        mostrarMensagem(
-            dados.mensagem ||
-            "Solicitação de devolução enviada!"
-        );
-
-        await carregarEmprestimos();
-
-    } catch (erro) {
-        mostrarMensagem(erro.message);
-
-        botao.disabled = false;
-        botao.textContent = "Solicitar devolução";
-    }
-}
-
-
-
-    async function carregarEmprestimos() {
-        const resposta = await fetch("/api/aluno/emprestimos", {
-            credentials: "same-origin",
-            cache: "no-store"
-        });
-
-        if (!resposta.ok) {
-            throw new Error("Não foi possível carregar seus empréstimos.");
-        }
-
-        const dados = await resposta.json();
-
-        // O server.py envia uma lista diretamente, não um objeto.
-        const emprestimos = Array.isArray(dados)
-            ? dados
-            : (dados.emprestimos || []);
-
-        const ativos = emprestimos.filter(
-            item => !item.data_devolucao
-        );
-
-        const devolvidos = emprestimos.filter(
-            item => Boolean(item.data_devolucao)
-        );
-
-        const listaAtivos = elemento("lista-emprestimos");
-        const listaHistorico = elemento("historico-emprestimos");
-
-        listaAtivos.innerHTML = "";
-        listaHistorico.innerHTML = "";
-
-        if (ativos.length === 0) {
-            const vazio = document.createElement("div");
-            vazio.className = "vazio";
-            vazio.innerHTML = `
-                <span class="icone">📖</span>
-                Você não possui empréstimos ativos no momento.
-                <br>Quando a biblioteca registrar um empréstimo em seu nome, ele aparecerá aqui.
-            `;
-            listaAtivos.appendChild(vazio);
-        } else {
-            ativos.forEach(item => {
-                listaAtivos.appendChild(criarEmprestimo(item));
-            });
-        }
-
-        if (devolvidos.length === 0) {
-            const vazio = document.createElement("div");
-            vazio.className = "vazio";
-            vazio.textContent =
-                "Você ainda não possui devoluções registradas. Seu histórico aparecerá aqui.";
-            listaHistorico.appendChild(vazio);
-        } else {
-            devolvidos.forEach(item => {
-                listaHistorico.appendChild(
-                    criarEmprestimo(item, true)
-                );
-            });
-        }
-    }
-
-    // =========================================
-// SOLICITAR EMPRÉSTIMO
-// =========================================
-
-async function solicitarEmprestimo() {
-    const seletorLivro = elemento("livro-emprestimo");
-    const seletorPrazo = elemento("prazo-emprestimo");
-    const botao = elemento("solicitar-emprestimo-btn");
-    const mensagem = elemento("mensagem-emprestimo");
-
-    const idLivro = Number(seletorLivro.value);
-    const prazoDias = Number(seletorPrazo.value);
-
-    if (!idLivro) {
-        mensagem.textContent = "Selecione um livro primeiro.";
-        return;
-    }
-
-    botao.disabled = true;
-    mensagem.textContent = "Registrando seu empréstimo...";
-
-    try {
-        const resposta = await fetch("/api/aluno/emprestimos", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            credentials: "same-origin",
-            body: JSON.stringify({
-                id_livro: idLivro,
-                prazo_dias: prazoDias
-            })
-        });
-
-        const dados = await resposta.json();
-
-        if (!resposta.ok) {
-            throw new Error(
-                dados.erro ||
-                dados.mensagem ||
-                "Não foi possível realizar o empréstimo."
-            );
-        }
-
-        mensagem.textContent =
-            dados.mensagem || "Empréstimo realizado com sucesso!";
-
-        seletorLivro.value = "";
-
-        await Promise.all([
-            carregarCatalogo(),
-            carregarEmprestimos(),
-            carregarResumo()
-        ]);
-
-    } catch (erro) {
-        mensagem.textContent = erro.message;
-    } finally {
-    botao.disabled = !seletorLivro.value;
-    }
-}
-
-    async function carregarResumo() {
-        const resposta = await fetch("/api/aluno/resumo", {
-            credentials: "same-origin",
-            cache: "no-store"
-        });
-
-        if (!resposta.ok) {
-            throw new Error("Não foi possível carregar suas estatísticas.");
-        }
-
-        const dados = await resposta.json();
-
-        elemento("total-ativos").textContent =
-            dados.emprestimos_ativos ?? 0;
-
-        elemento("total-devolvidos").textContent =
-            dados.livros_devolvidos ?? 0;
-
-        elemento("total-atrasados").textContent =
-            dados.atrasados ?? 0;
-    }
-
-    function abrirModal() {
-        if (!alunoAtual) return;
-
-        elemento("editar-nome").value =
-            preferencias.nome || alunoAtual.nome || "";
-
-        elemento("editar-usuario").value =
-            preferencias.usuario || "";
-
-        elemento("editar-bio").value =
-            preferencias.bio || "";
-
-        preencherLivrosFavoritos();
-        preencherGenerosDisponiveis();
-
-        elemento("modal-fundo").classList.add("aberto");
-        elemento("editar-nome").focus();
-    }
-
-    function fecharModal() {
-        elemento("modal-fundo").classList.remove("aberto");
-    }
-
-    function salvarPerfil() {
-        if (!alunoAtual) return;
-
-        preferencias.nome = elemento("editar-nome").value.trim();
-
-        preferencias.usuario = elemento("editar-usuario").value
-            .trim()
-            .replace(/^@/, "");
-
-        preferencias.bio = elemento("editar-bio").value.trim();
-
-        preferencias.favoritoId =
-            elemento("editar-favorito").value || "";
-
-        preferencias.generos = Array.from(
-            document.querySelectorAll(
-                "#opcoes-generos input[type='checkbox']:checked"
-            )
-        ).map(checkbox => checkbox.value);
-
-        salvarPreferencias();
-        renderizarPerfil();
-        fecharModal();
-
-        mostrarMensagem(
-            "Suas alterações foram salvas neste navegador."
-        );
-    }
-
-
-    elemento("editar-btn").addEventListener("click", abrirModal);
-
-    elemento("cancelar-btn").addEventListener("click", fecharModal);
-
-    elemento("salvar-btn").addEventListener("click", salvarPerfil);
-
-    elemento("modal-fundo").addEventListener("click", evento => {
-        if (evento.target === elemento("modal-fundo")) {
-            fecharModal();
-        }
-    });
-
-    document.addEventListener("keydown", evento => {
-        if (evento.key === "Escape") {
-            fecharModal();
-        }
-    });
-
-    elemento("foto-input").addEventListener("change", evento => {
-        const arquivo = evento.target.files[0];
-
-        if (!arquivo) return;
-
-        if (!arquivo.type.startsWith("image/")) {
-            mostrarMensagem("Escolha um arquivo de imagem válido.");
-            evento.target.value = "";
-            return;
-        }
-
-        if (arquivo.size > 2 * 1024 * 1024) {
-            mostrarMensagem("A imagem deve ter no máximo 2 MB.");
-            evento.target.value = "";
-            return;
-        }
-
-        const leitor = new FileReader();
-
-        leitor.onload = () => {
-            preferencias.foto = leitor.result;
-            salvarPreferencias();
-            renderizarFoto();
-            mostrarMensagem("Foto de perfil atualizada.");
-        };
-
-        leitor.onerror = () => {
-            mostrarMensagem("Não foi possível carregar essa imagem.");
-        };
-
-        leitor.readAsDataURL(arquivo);
-    });
-
-    elemento("estante-btn").addEventListener("click", () => {
-     window.location.href = "minha_estante_virtual_cabecalho_vinho.html";
- });
-
-    elemento("sair-btn").addEventListener("click", async () => {
-        const botao = elemento("sair-btn");
-        botao.disabled = true;
-        botao.textContent = "Saindo...";
-
-        try {
-            const resposta = await fetch("/api/logout-aluno", {
-                method: "POST",
-                credentials: "same-origin"
-            });
-
-            if (!resposta.ok) {
-                throw new Error("Não foi possível encerrar a sessão.");
+        async function carregarPerfil() {
+            try {
+                const resposta = await fetch("/api/sessao-aluno", { credentials: "same-origin" });
+                if (!resposta.ok) {
+                    window.location.href = "login.html";
+                    return;
+                }
+                const dados = await resposta.json();
+                const aluno = dados.aluno || dados;
+
+                elemento("nome-aluno").textContent = aluno.nome || "Aluno TechBook";
+                elemento("matricula-aluno").textContent = "Matrícula: " + (aluno.matricula || "—");
+                elemento("turma-aluno").textContent = "Turma: " + (aluno.turma || "Não informada");
+                elemento("avatar-aluno").textContent = gerarIniciais(aluno.nome);
+            } catch {
+                window.location.href = "login.html";
+                return;
             }
 
-            window.location.href = "login.html";
-
-        } catch (erro) {
-            mostrarMensagem(erro.message);
-            botao.disabled = false;
-            botao.textContent = "Sair";
+            try {
+                const respResumo = await fetch("/api/aluno/resumo", { credentials: "same-origin" });
+                if (respResumo.ok) {
+                    const resumo = await respResumo.json();
+                    elemento("resumo-ativos").textContent = resumo.emprestimos_ativos ?? 0;
+                    elemento("resumo-devolvidos").textContent = resumo.livros_devolvidos ?? 0;
+                    elemento("resumo-atrasados").textContent = resumo.atrasados ?? 0;
+                }
+            } catch (_) {}
         }
-    });
 
-    async function iniciarPerfil() {
-        try {
-            await carregarSessao();
+        // Botão SAIR funcional: limpa sessão e volta para index.html
+        elemento("sair-btn").addEventListener("click", async () => {
+            try {
+                await fetch("/api/logout-aluno", {
+                    method: "POST",
+                    credentials: "same-origin"
+                });
+            } catch (_) {}
+            window.location.replace("index.html");
+        });
 
-            const resultados = await Promise.allSettled([
-                carregarCatalogo(),
-                carregarEmprestimos(),
-                carregarResumo()
-            ]);
-
-            const falhas = resultados.filter(
-                resultado => resultado.status === "rejected"
-            );
-
-            if (falhas.length > 0) {
-                console.error("Falhas ao carregar perfil:", falhas);
-                mostrarMensagem(
-                    "Seu perfil foi aberto, mas algumas informações não puderam ser carregadas. Atualize a página ou verifique o servidor."
-                );
-            } else {
-                mostrarMensagem("");
-            }
-
-        } catch (erro) {
-            console.error("Erro ao iniciar perfil:", erro);
-            mostrarMensagem(erro.message);
-
-            elemento("nome-aluno").textContent =
-                "Não foi possível carregar seu perfil";
-
-            elemento("identificacao-aluno").textContent =
-                "Verifique sua conexão com o servidor.";
-        }
-    }
-
-    // Atualiza o estado do botão quando o aluno escolhe um livro
-elemento("livro-emprestimo").addEventListener("change", function () {
-    elemento("solicitar-emprestimo-btn").disabled = !this.value;
-});
-
-// Executa a solicitação
-elemento("solicitar-emprestimo-btn").addEventListener(
-    "click",
-    solicitarEmprestimo
-);
-
-    iniciarPerfil();
-</script>
-
+        carregarPerfil();
+    </script>
 </body>
 </html>
