@@ -619,21 +619,50 @@ async function carregarEmprestimos(){
           ${escapar(e.aluno)}<br>
           <small class="muted">${escapar(e.matricula)}</small>
         </td>
+
         <td class="book-title">
           ${escapar(e.titulo)}<br>
           <small class="muted">${escapar(e.codigo_exemplar)}</small>
         </td>
+
         <td>${escapar(e.data_emprestimo)}</td>
+
         <td>${escapar(e.data_prevista_devolucao)}</td>
+
         <td>
-          <span class="pill ${e.data_devolucao?"":"warn"} ${e.atrasado?"danger":""}">
-            ${e.data_devolucao?"Devolvido":e.atrasado?"Em atraso":"Ativo"}
+          <span class="pill ${
+            e.data_devolucao
+              ? ""
+              : e.atrasado
+                ? "danger"
+                : e.data_solicitacao_devolucao
+                  ? "warn"
+                  : "warn"
+          }">
+            ${
+              e.data_devolucao
+                ? "Devolvido"
+                : e.data_solicitacao_devolucao
+                  ? (e.atrasado
+                      ? "Solicitada • Em atraso"
+                      : "Devolução solicitada")
+                  : e.atrasado
+                    ? "Em atraso"
+                    : "Ativo"
+            }
           </span>
         </td>
+
         <td>
-          ${e.data_devolucao
-            ? "—"
-            : `<button class="btn secondary" onclick="devolver(${Number(e.id_emprestimo)})">Registrar devolução</button>`
+          ${
+            e.data_devolucao
+              ? "—"
+              : `<button class="btn secondary"
+                  onclick="devolver(${Number(e.id_emprestimo)})">
+                  ${e.data_solicitacao_devolucao
+                    ? "Confirmar devolução"
+                    : "Registrar devolução"}
+                </button>`
           }
         </td>
       </tr>

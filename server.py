@@ -1601,7 +1601,10 @@ class TechBookHandler(SimpleHTTPRequestHandler):
 
         try:
             emprestimo = conexao.execute("""
-                SELECT id_emprestimo, data_devolucao
+                SELECT
+                    id_emprestimo,
+                    data_devolucao,
+                    data_solicitacao_devolucao
                 FROM emprestimo
                 WHERE id_emprestimo = ?
             """, (id_emprestimo,)).fetchone()
@@ -1617,6 +1620,11 @@ class TechBookHandler(SimpleHTTPRequestHandler):
                 return responder_erro(
                     self,
                     "Esse empréstimo já foi devolvido."
+                )
+             if emprestimo["data_solicitacao_devolucao"] is None:
+                return responder_erro(
+                    self,
+                    "Esse empréstimo ainda não possui solicitação de devolução."
                 )
 
             conexao.execute("""
@@ -1659,7 +1667,26 @@ if __name__ == "__main__":
         print("Caminho esperado:", BANCO)
         raise SystemExit(1)
 
-        # Verificar a estrutura atual do banco de dados
+    # Verificar e preparar a coluna de solicitação de devolução
+    with conectar_banco() as conn:
+        colunas = conn.execute(
+            "PRAGMA table_info(emprestimo)"
+        ).fetchall()
+
+        nomes_colunas = [coluna["name"] for coluna in colunas]
+
+        if "data_solicitacao_devolucao" not in nomes_colunas:
+            conn.execute("""
+                ALTER TABLE emprestimo
+                ADD COLUMN data_solicitacao_devolucao TEXT
+            """)
+
+            print("Coluna de solicitação de devolução criada!")
+
+        else:
+            print("Coluna de solicitação de devolução já existe!")
+
+    # Verificar a estrutura atual do banco de dados
     with conectar_banco() as conn:
         tabelas = conn.execute("""
             SELECT name
