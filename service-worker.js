@@ -1,11 +1,11 @@
 
-const CACHE_NAME = "tecbook-offline-v3";
+const CACHE_NAME = "tecbook-offline-v4";
 
 const ARQUIVOS = [
   "/",
   "/index.html",
-  "/style.css",
-  "/script.js",
+  "/assets/css/style.css",
+  "/assets/js/script.js",
   "/quiz.html",
   "/login.html",
   "/cadastro.html",
