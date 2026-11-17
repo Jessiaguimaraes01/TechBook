@@ -846,13 +846,14 @@ select:focus-visible {
         <span>BIBLIOTECA INTELIGENTE</span>
     </a>
 
-    <nav class="perfil-nav" aria-label="Navegação principal">
-        <a href="index.html">Início</a>
-        <a href="index.html#catalogo">Catálogo</a>
-        <a href="#minha-biblioteca">Minha biblioteca</a>
-        <a href="perfil-aluno.html">Meu perfil</a>
-        <button class="sair-btn" id="sair-btn" type="button">Sair</button>
-    </nav>
+<nav class="perfil-nav" aria-label="Navegação principal">
+     <a href="index.html">Início</a>
+     <a href="index.html#catalogo">Catálogo</a>
+     <a href="minha_estante_virtual_cabecalho_vinho.html">Minha Estante</a>
+     <a href="amigos_de_leitura_completo.html">Amigos</a>
+     <a href="ranking.html">Ranking</a>
+     <button class="sair-btn" id="sair-btn" type="button">Sair</button>
+ </nav>
 </header>
 
 <main class="conteudo-perfil">
@@ -1763,10 +1764,8 @@ async function solicitarEmprestimo() {
     });
 
     elemento("estante-btn").addEventListener("click", () => {
-        mostrarMensagem(
-            "A Minha Estante Virtual estará disponível em uma próxima atualização do TechBook."
-        );
-    });
+     window.location.href = "minha_estante_virtual_cabecalho_vinho.html";
+ });
 
     elemento("sair-btn").addEventListener("click", async () => {
         const botao = elemento("sair-btn");
