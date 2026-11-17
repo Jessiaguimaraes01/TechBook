@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#651f35" />
+  <title>TechBook | Scanner</title>
+  <style>
+    :root {
+      font-family: Arial, Helvetica, sans-serif;
+      color: #482d30;
+      background: #faf5eb;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: #fbf6ec;
+      color: #4b2831;
+    }
+
+    /* Cabeçalho e Identidade Visual */
+    header {
+      background: #fbf6ec;
+      color: #5b182b;
+      padding: 18px 18px 22px;
+      border-bottom: 1px solid #e5d5b9;
+    }
+
+    header .wrap {
+      max-width: 780px;
+      margin: auto;
+      position: relative;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      min-height: 128px;
+    }
+
+    .brand-logo {
+      width: 112px;
+      height: 112px;
+      object-fit: contain;
+      flex-shrink: 0;
+      position: relative;
+      z-index: 2;
+    }
+
+    .header-techy {
+      width: 116px;
+      height: 112px;
+      object-fit: contain;
+      object-position: center 35%;
+      border-radius: 28px;
+      transform: rotate(-9deg);
+      border: 3px solid #f5e4c7;
+      box-shadow: 0 6px 18px #6b263325;
+      align-self: flex-end;
+      margin-bottom: 5px;
+      margin-left: -27px;
+      position: relative;
+      z-index: 3;
+      filter: drop-shadow(0 5px 8px rgba(77, 24, 36, 0.14));
+    }
+
+    .eyebrow {
+      color: #99794c;
+      letter-spacing: 0.2em;
+      font-size: 11px;
+      text-transform: uppercase;
+      font-weight: 700;
+    }
+
+    h1, h2, .details h2 {
+      font-family: Georgia, 'Times New Roman', serif;
+    }
+
+    h1 {
+      font-size: clamp(29px, 5vw, 42px);
+      font-weight: normal;
+      margin: 8px 0;
+      color: #641c32;
+    }
+
+    header p {
+      color: #76575a;
+      margin: 0;
+      font-size: 14px;
+    }
+
+    /* Container Principal */
+    main {
+      max-width: 780px;
+      margin: 20px auto 25px;
+      padding: 22px;
+      border: 2px dotted #c5a16a;
+      border-radius: 26px;
+      position: relative;
+      background: rgba(255, 252, 246, 0.6);
+    }
+
+    main::before,
+    main::after {
+      content: '✦';
+      position: absolute;
+      color: #ba9158;
+      font-size: 18px;
+      background: #fbf6ec;
+      padding: 0 8px;
+      top: -13px;
+    }
+
+    main::before {
+      left: 24px;
+    }
+
+    main::after {
+      right: 24px;
+    }
+
+    /* Painéis e Formulários */
+    .panel {
+      background: #fffdf8;
+      border: 1px solid #e8d9c0;
+      border-radius: 18px;
+      padding: 24px;
+      margin: 17px 0;
+      box-shadow: 0 8px 26px #6b26330b;
+    }
+
+    .panel h2 {
+      letter-spacing: -0.02em;
+    }
+
+    label {
+      display: block;
+      color: #651f35;
+      font-weight: 700;
+      font-size: 14px;
+      margin-bottom: 10px;
+    }
+
+    input {
+      width: 100%;
+      padding: 16px;
+      border: 1px solid #d8bfb4;
+      border-radius: 10px;
+      background: #fff;
+      color: #432d30;
+      font-size: 17px;
+      outline-color: #8d3d52;
+    }
+
+    input::placeholder {
+      color: #9e8d87;
+    }
+
+    /* Botões */
+    button {
+      border: 0;
+      border-radius: 10px;
+      padding: 14px 17px;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      min-height: 46px;
+    }
+
+    button.primary,
+    .primary {
+      background: #651f35;
+      color: #fff8ee;
+    }
+
+    button.secondary,
+    .secondary {
+      background: #fff8e9;
+      color: #651f35;
+      border: 1px solid #c8a56f;
+    }
+
+    button.danger {
+      background: #f7e8e5;
+      color: #8b3746;
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    /* Câmera e Status */
+    #cameraBox {
+      display: none;
+      margin-top: 15px;
+    }
+
+    video {
+      width: 100%;
+      max-height: 340px;
+      object-fit: cover;
+      border-radius: 12px;
+      background: #261c20;
+    }
+
+    #status {
+      min-height: 22px;
+      color: #7c3c4d;
+      margin-top: 14px;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    .muted {
+      color: #826f69;
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    /* Bilhetes e Notas */
+    .ticket {
+      position: relative;
+      background: #fff9ed;
+      border: 2px dashed #caa574;
+      border-radius: 18px;
+      padding: 20px 18px;
+      margin: 17px 0;
+      box-shadow: 0 7px 25px rgba(91, 24, 43, 0.06);
+    }
+
+    .ticket::before,
+    .ticket::after {
+      content: '';
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background: #faf5eb;
+      border: 1px solid #caa574;
+      border-radius: 50%;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+
+    .ticket::before {
+      left: -12px;
+    }
+
+    .ticket::after {
+      right: -12px;
+    }
+
+    .ticket-head {
+      display: flex;
+      gap: 15px;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+
+    .techy {
+      width: 95px;
+      height: 106px;
+      object-fit: cover;
+      object-position: center 40%;
+      border-radius: 15px;
+      border: 2px solid #d2a76d;
+      background: #651f35;
+    }
+
+    .ticket-title {
+      font-family: Georgia, serif;
+      font-size: 24px;
+      color: #651f35;
+      margin: 0 0 6px;
+    }
+
+    .ticket-sub {
+      font-size: 13px;
+      line-height: 1.5;
+      color: #7d5a5e;
+      margin: 0;
+    }
+
+    .ticket-divider {
+      border: 0;
+      border-top: 2px dashed #d9bd93;
+      margin: 14px 0;
+    }
+
+    .note-strip {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+
+    .note {
+      background: #fff9ed;
+      border: 1.5px dashed #c5a16a;
+      color: #6c3742;
+      border-radius: 12px;
+      padding: 12px 16px;
+      box-shadow: 0 4px 12px #5d26320c;
+      font-family: Georgia, serif;
+      font-size: 15px;
+      transform: rotate(-1deg);
+    }
+
+    .note:nth-child(2) {
+      transform: rotate(1deg);
+    }
+
+    .note strong {
+      color: #651f35;
+    }
+
+    /* Detalhes dos Livros e Lista */
+    h2 {
+      color: #651f35;
+      font-weight: normal;
+      font-size: 26px;
+    }
+
+    .book {
+      display: flex;
+      align-items: flex-start;
+      gap: 17px;
+    }
+
+    .cover {
+      width: 95px;
+      height: 140px;
+      object-fit: cover;
+      border-radius: 7px;
+      background: #eee0d0;
+      flex-shrink: 0;
+      box-shadow: 0 3px 12px #4c222019;
+    }
+
+    .details {
+      min-width: 0;
+    }
+
+    .details h2 {
+      font-size: 24px;
+      margin: 0 0 12px;
+      overflow-wrap: anywhere;
+    }
+
+    .details p {
+      margin: 7px 0;
+      color: #6b5551;
+      font-size: 14px;
+      line-height: 1.45;
+    }
+
+    .tag {
+      display: inline-block;
+      margin-top: 9px;
+      padding: 7px 10px;
+      background: #f1e5d9;
+      color: #651f35;
+      border-radius: 8px;
+      font-size: 12px;
+    }
+
+    .item {
+      display: flex;
+      gap: 13px;
+      align-items: flex-start;
+      border-top: 1px solid #eadbd0;
+      padding: 17px 0;
+      min-width: 0;
+    }
+
+    .item .cover {
+      width: 55px;
+      height: 80px;
+    }
+
+    .item strong {
+      font-family: Georgia, serif;
+      color: #4c2932;
+      font-size: 17px;
+      overflow-wrap: anywhere;
+    }
+
+    .item p {
+      margin: 6px 0;
+      overflow-wrap: anywhere;
+    }
+
+    .item button {
+      margin-left: auto;
+      align-self: flex-start;
+      padding: 8px 10px;
+      min-height: 36px;
+    }
+
+    .count {
+      font-family: Arial, sans-serif;
+      background: #f0e2d7;
+      color: #651f35;
+      font-size: 14px;
+      padding: 5px 10px;
+      border-radius: 20px;
+      vertical-align: middle;
+    }
+
+    footer {
+      font-size: 12px;
+      line-height: 1.6;
+      color: #8a7770;
+      margin-top: 20px;
+    }
+
+    #preview[hidden] {
+      display: none;
+    }
+
+    a {
+      color: #651f35;
+    }
+
+    /* Responsividade */
+    @media (max-width: 620px) {
+      header .wrap {
+        min-height: 96px;
+        gap: 7px;
+      }
+
+      .brand-logo {
+        width: 78px;
+        height: 78px;
+      }
+
+      .header-techy {
+        width: 77px;
+        height: 82px;
+        margin-left: -20px;
+      }
+
+      main {
+        margin: 12px 9px;
+        padding: 12px;
+        border-radius: 18px;
+      }
+
+      .note {
+        font-size: 13px;
+        padding: 9px 11px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      header {
+        padding: 26px 18px;
+      }
+
+      main {
+        padding: 12px 12px 50px;
+      }
+
+      .panel {
+        padding: 19px 16px;
+        border-radius: 15px;
+      }
+
+      .actions button {
+        flex: 1 1 135px;
+      }
+
+      .book {
+        gap: 12px;
+      }
+
+      .cover {
+        width: 72px;
+        height: 105px;
+      }
+
+      .details h2 {
+        font-size: 20px;
+      }
+
+      .item {
+        flex-wrap: wrap;
+      }
+
+      .item button {
+        margin-left: 0;
+      }
+
+      .item > div {
+        flex: 1;
+        min-width: 135px;
+      }
+
+      h1 {
+        font-size: 27px;
+      }
+
+      .ticket-head {
+        gap: 11px;
+      }
+
+      .techy {
+        width: 82px;
+        height: 94px;
+      }
+
+      .ticket-title {
+        font-size: 21px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <img
+        alt="Logo TechBook"
+        class="brand-logo"
+        src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAVEAAAFGCAYAAADTpaxhAAEAAElEQVR42uy9d5xd513n/37KOee26b2PpJE06pLVLUuWe4270+OQAoSEsATYsCw/ssAGdtmlJEBCAmk4vTqx427HvcmWbPXeNRqNprdbTnme3x/PHdkJZQsbCDBf+76kGU2599xzPudbPp/PF2ZjNn72Q88egtn4WQ01ewhm42c5eqitXFxXs8kvNPWNMJLMHpHZ+FkLOXsIZuNnOZqr1DW5mP/a1pKsmz0aszELorMxG/9nITxbuqOYH15t49JHZg/HbMyC6GzMxv9BrKivmC9N1IuNPVPKX7YgU7l29qjMxiyIzsZs/G9GUEzu1EJ2eFqibVzRnAl+ZzlN2dkjMxuzIDobs/G/iCVB0ONjL0uiuMrGCSlrlReHG2
