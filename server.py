@@ -1627,7 +1627,7 @@ class TechBookHandler(SimpleHTTPRequestHandler):
                     "Esse empréstimo ainda não possui solicitação de devolução."
                 )
 
-                       cursor = conexao.execute("""
+            cursor = conexao.execute("""
                 UPDATE emprestimo
                 SET data_devolucao = ?
                 WHERE id_emprestimo = ?

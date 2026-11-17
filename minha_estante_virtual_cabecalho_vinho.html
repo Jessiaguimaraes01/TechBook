@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Minha Estante Virtual</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700;800&display=swap');
+:root{--wine:#5b0b16;--wine2:#741927;--cream:#fae7d9;--paper:#f8e6d8;--ink:#351b18;--gold:#c99a62;--wood:#421c14;--wood2:#75432c}
+*{box-sizing:border-box}body{margin:0;background:#282828;color:var(--ink);font-family:'DM Sans',sans-serif}
+.topbar{height:44px;background:linear-gradient(90deg,#282828 0 22%,#474747 22% 85%,#282828 85%);color:#fff;text-align:center;font-family:'Playfair Display',serif;font-size:26px;letter-spacing:9px;padding:4px 0;white-space:nowrap;overflow:hidden}
+.page{width:min(1200px,100%);margin:auto;background:#ead2bf;padding:0 15px 15px;min-height:calc(100vh - 44px);background-image:linear-gradient(90deg,#e8cdb8,#fae7d9 25%,#fae7d9 75%,#e8cdb8)}
+.banner{height:145px;position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;text-align:center;background:linear-gradient(110deg,#4b0710 0%,#681321 48%,#4b0710 100%);border-bottom:3px solid #c99a62;box-shadow:inset 0 0 35px rgba(25,3,7,.35)}
+.banner:before{content:"📚";position:absolute;left:5%;bottom:12px;font-size:67px;filter:drop-shadow(5px 7px 4px #4b261f66)}
+.banner:after{content:"🌿";position:absolute;right:5%;top:2px;font-size:73px;transform:rotate(-25deg);opacity:.85}
+.banner h1{font-family:'Playfair Display',serif;font-size:clamp(27px,4vw,42px);margin:0 0 5px;color:#fae7d9;position:relative;z-index:1;text-shadow:0 2px 4px #21050a}
+.banner h1 em{color:#d9b66f}.banner p{margin:0;font-size:13px;line-height:1.35;position:relative;z-index:1;color:#fae7d9}
+.layout{display:grid;grid-template-columns:170px minmax(0,1fr) 175px;gap:10px;align-items:start;margin-top:0}
+.left{padding-top:25px}.right{padding-top:25px}
+.panel{background:var(--paper);border:1px solid #e3c4a8;border-radius:18px;box-shadow:0 4px 9px #49251d25}
+.goal{padding:13px 12px;margin-bottom:15px}.goal-title{font-size:13px;font-weight:700;display:flex;align-items:center;gap:7px}.goal-title span{font-size:20px}.goal-number{font-size:12px;font-weight:600;margin:8px 0 7px}.progress{height:13px;background:#e8cdbb;border-radius:20px;overflow:hidden}.progress span{display:block;height:100%;width:60%;background:linear-gradient(90deg,#4b0710,#741927);border-radius:20px;transition:width .3s}.percent{text-align:right;font-size:11px;font-weight:700;margin-top:4px}
+.menu{padding:10px 9px 13px;display:grid;gap:2px}.nav-btn{border:0;background:transparent;text-align:left;padding:8px 9px;border-radius:13px;color:#4c3029;font:600 12px 'DM Sans';cursor:pointer;display:flex;gap:9px;align-items:center;white-space:nowrap}.nav-btn .ico{font-size:17px;width:20px;text-align:center}.nav-btn:hover,.nav-btn.active{background:var(--wine);color:white}.nav-btn.add{margin-top:7px;border-top:1px solid #ead9c9;border-radius:0;padding-top:14px}
+.center{min-width:0;padding-top:0}
+.filters{height:50px;display:flex;align-items:center;justify-content:space-around;gap:3px;padding:4px 7px;background:#fae7d9;border:1px solid #e5c5a8;border-radius:18px;margin:0 0 8px;box-shadow:0 3px 8px #49251d18}
+.filter{border:0;background:transparent;color:#54362e;border-radius:20px;padding:7px 9px;font:600 11px 'DM Sans';cursor:pointer;white-space:nowrap}.filter.active,.filter:hover{background:var(--wine);color:white}
+.shelf-wrap{background:linear-gradient(90deg,#35160f,#60311f 12%,#421c14 50%,#75432c 88%,#35160f);padding:12px 12px 10px;border:7px solid #8a5034;border-radius:7px;box-shadow:inset 0 0 20px #160805,0 7px 14px #4c251e66;min-height:275px}
+.shelf{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px 9px;padding:5px 3px 11px;border-bottom:9px solid #a66a46;box-shadow:0 8px 5px -5px #170a08}
+.book{position:relative;min-width:0;height:125px;border-radius:2px 5px 5px 2px;overflow:hidden;box-shadow:3px 4px 7px #160a0888;display:flex;flex-direction:column;justify-content:space-between;padding:10px 5px 6px;text-align:center;color:white;border-left:4px solid #ffffff35;cursor:pointer;transition:transform .2s}
+.book:hover{transform:translateY(-4px)}.book-title{font-family:'Playfair Display',serif;font-weight:800;font-size:clamp(10px,1.2vw,14px);line-height:1.05;text-shadow:0 1px 2px #0005}.book-author{font-size:8px;opacity:.95}.book-mark{position:absolute;right:3px;top:2px;border:0;background:#fff1;color:white;font-size:17px;cursor:pointer;text-shadow:0 1px 4px #000}.book-mark.liked{color:#ffbdc5}.book-art{font-size:29px;line-height:1}
+.cover-1{background:linear-gradient(145deg,#d6b18b,#7a4830);color:#2e211a}.cover-2{background:linear-gradient(145deg,#eff3e9,#b5d3d9);color:#17415b}.cover-3{background:linear-gradient(145deg,#f5a14a,#a94419)}.cover-4{background:linear-gradient(145deg,#d5c4a0,#3e2c25)}.cover-5{background:linear-gradient(145deg,#16706a,#123b45)}.cover-6{background:linear-gradient(145deg,#d4e5e6,#8db9bd);color:#183f51}.cover-7{background:linear-gradient(145deg,#272a35,#0b101a)}.cover-8{background:linear-gradient(145deg,#e9c5a2,#8e4a2e);color:#4a251b}.cover-9{background:linear-gradient(145deg,#7e3b4d,#321c35)}.cover-10{background:linear-gradient(145deg,#55714e,#263d2d)}
+.empty{grid-column:1/-1;text-align:center;padding:35px 10px;color:#f8e9da}
+.profile{padding:12px 8px 10px;text-align:center;margin-bottom:10px}.avatar{width:83px;height:83px;border-radius:50%;margin:0 auto 7px;background:radial-gradient(circle at 50% 39%,#d77d45 0 22%,transparent 23%),radial-gradient(ellipse at 50% 100%,#40202a 0 42%,transparent 43%),radial-gradient(ellipse at 50% 35%,#301a17 0 48%,#e7b18b 49% 70%,#e8d5c1 71%);border:4px solid #e4c6aa;box-shadow:0 2px 5px #56322233}
+.profile h2{font-family:'Playfair Display',serif;font-size:17px;margin:4px 0}.profile p{font-size:11px;margin:0}
+.achievements{padding:12px 10px}.achievements h3{font-family:'Playfair Display',serif;margin:0 0 10px;font-size:17px}.badges{display:grid;grid-template-columns:repeat(3,1fr);gap:3px;text-align:center}.badge-item{font-size:9px;line-height:1.2}.badge-icon{width:37px;height:37px;margin:0 auto 5px;border-radius:50%;display:grid;place-items:center;background:var(--wine);color:#f5d79b;font-size:20px}.see-all{border:0;background:var(--wine);color:white;border-radius:20px;padding:8px 12px;font-weight:700;font-size:11px;margin-top:12px;width:100%;cursor:pointer}
+.modal-backdrop{position:fixed;inset:0;background:#1d100dcc;display:none;align-items:center;justify-content:center;padding:18px;z-index:10}.modal-backdrop.show{display:flex}.modal{background:var(--paper);border-radius:18px;padding:22px;width:min(420px,100%);box-shadow:0 15px 50px #0006}.modal h2{font-family:'Playfair Display',serif;margin:0 0 15px}.modal label{display:block;font-size:13px;font-weight:700;margin:10px 0 5px}.modal input,.modal select{width:100%;padding:11px;border:1px solid #ddc4ad;border-radius:9px;background:white;font:14px 'DM Sans'}.modal-actions{display:flex;gap:8px;margin-top:18px}.modal-actions button{flex:1;border:0;padding:11px;border-radius:10px;font-weight:700;cursor:pointer}.save{background:var(--wine);color:white}.cancel{background:#ead4c2;color:#54362e}.toast{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);background:#3c211c;color:white;padding:10px 16px;border-radius:20px;font-size:13px;opacity:0;pointer-events:none;transition:opacity .2s}.toast.show{opacity:1}
+@media(max-width:760px){.layout{grid-template-columns:150px minmax(0,1fr)}.right{grid-column:1/-1;display:grid;grid-template-columns:1fr 1fr;padding-top:0}.left{padding-top:12px}.filters{height:auto;justify-content:flex-start;overflow-x:auto}.banner:before{left:1%;font-size:45px}.banner:after{right:1%;font-size:45px}}
+@media(max-width:520px){.page{padding:0 8px 12px}.topbar{font-size:18px;letter-spacing:5px}.banner{height:125px}.banner h1{font-size:27px}.banner p{font-size:11px}.banner:before,.banner:after{opacity:.25}.layout{grid-template-columns:1fr}.left{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding-top:10px}.goal{margin:0}.menu{padding:8px 6px}.nav-btn{padding:7px 5px;font-size:11px}.center{padding-top:10px}.shelf{grid-template-columns:repeat(2,minmax(0,1fr))}.book{height:150px}.right{grid-column:auto;grid-template-columns:1fr 1fr}.profile{margin:0}.achievements{padding:10px 7px}}
+</style>
+</head>
+<body>
+<div class="topbar">ESTANTE VIRTUAL</div>
+<div class="page">
+<header class="banner">
+ <div><h1>Minha Estante <em>Virtual</em></h1><p>Organize seus livros, acompanhe suas leituras<br>e monte uma coleção do seu jeito!</p></div>
+</header>
+<div class="layout">
+ <aside class="left">
+  <section class="panel goal"><div class="goal-title"><span>◎</span> Meta de Leitura</div><div class="goal-number"><strong id="readCount">8</strong> de <strong id="goalCount">20</strong> livros</div><div class="progress"><span id="progressBar"></span></div><div class="percent" id="progressText">40%</div></section>
+  <nav class="panel menu" id="navigation">
+   <button class="nav-btn active" data-filter="Todos"><span class="ico">▦</span> Minha Estante</button>
+   <button class="nav-btn" data-filter="Todos"><span class="ico">♧</span> Meus Livros</button>
+   <button class="nav-btn" data-filter="Favoritos"><span class="ico">♡</span> Favoritos</button>
+   <button class="nav-btn" data-filter="Quero Ler"><span class="ico">♧</span> Quero Ler</button>
+   <button class="nav-btn" data-filter="Lidos"><span class="ico">⊙</span> Lidos</button>
+   <button class="nav-btn add" id="addOpen"><span class="ico">＋</span> Adicionar Livro</button>
+  </nav>
+ </aside>
+ <main class="center">
+  <div class="filters" id="filters">
+   <button class="filter active" data-filter="Todos">▦ Todos (<span id="allCount">12</span>)</button>
+   <button class="filter" data-filter="Lidos">⊙ Lidos (<span id="doneCount">8</span>)</button>
+   <button class="filter" data-filter="Lendo Agora">▤ Lendo Agora (<span id="readingCount">3</span>)</button>
+   <button class="filter" data-filter="Quero Ler">♧ Quero Ler (<span id="wantCount">1</span>)</button>
+   <button class="filter" data-filter="Favoritos">♡ Favoritos (<span id="favCount">5</span>)</button>
+  </div>
+  <div class="shelf-wrap"><div class="shelf" id="shelf"></div></div>
+ </main>
+ <aside class="right">
+  <section class="panel profile"><div class="avatar"></div><h2 id="profileName">Carol Oliveira</h2><p id="profileClass">Turma 2º EM</p></section>
+  <section class="panel achievements"><h3>🏆 Conquistas</h3><div class="badges">
+   <div class="badge-item"><div class="badge-icon">📖</div>Leitor<br>Ativo</div><div class="badge-item"><div class="badge-icon">▦</div>Sequência<br>7 dias</div><div class="badge-item"><div class="badge-icon">★</div>Explorador<br>de Gêneros</div>
+  </div><button class="see-all" id="achievements">Ver todas</button></section>
+ </aside>
+</div></div>
+<div class="modal-backdrop" id="modal"><form class="modal" id="bookForm"><h2>Adicionar livro</h2><label for="title">Título do livro</label><input id="title" required placeholder="Ex.: O Hobbit"><label for="author">Autor</label><input id="author" required placeholder="Nome do autor"><label for="status">Situação da leitura</label><select id="status"><option>Quero Ler</option><option>Lendo Agora</option><option>Lidos</option></select><label for="genre">Gênero</label><input id="genre" placeholder="Ex.: Fantasia"><div class="modal-actions"><button type="button" class="cancel" id="cancel">Cancelar</button><button class="save" type="submit">Salvar livro</button></div></form></div>
+<div class="toast" id="toast"></div>
+<script>
+const books=[
+{title:"Dom Casmurro",author:"Machado de Assis",status:"Lidos",art:"🏛️",cover:1,fav:true},
+{title:"O Pequeno Príncipe",author:"Antoine de Saint-Exupéry",status:"Lidos",art:"👑",cover:2,fav:true},
+{title:"Capitães da Areia",author:"Jorge Amado",status:"Lidos",art:"🌅",cover:3,fav:true},
+{title:"A Menina que Roubava Livros",author:"Markus Zusak",status:"Lidos",art:"🌙",cover:4,fav:true},
+{title:"Percy Jackson e o Ladrão de Raios",author:"Rick Riordan",status:"Lidos",art:"⚡",cover:5,fav:true},
+{title:"Extraordinário",author:"R. J. Palacio",status:"Lidos",art:"🚀",cover:6,fav:false},
+{title:"1984",author:"George Orwell",status:"Lidos",art:"👁️",cover:7,fav:false},
+{title:"Anne de Green Gables",author:"L. M. Montgomery",status:"Lidos",art:"🌻",cover:8,fav:false},
+{title:"O Hobbit",author:"J. R. R. Tolkien",status:"Lendo Agora",art:"🧙",cover:9,fav:false},
+{title:"Harry Potter",author:"J. K. Rowling",status:"Lendo Agora",art:"⚡",cover:10,fav:false},
+{title:"Coraline",author:"Neil Gaiman",status:"Lendo Agora",art:"🗝️",cover:4,fav:false},
+{title:"A Guerra dos Tronos",author:"George R. R. Martin",status:"Quero Ler",art:"🐉",cover:3,fav:false}
+];
+let currentFilter="Todos";const shelf=document.getElementById("shelf");
+function toast(m){let t=document.getElementById("toast");t.textContent=m;t.classList.add("show");setTimeout(()=>t.classList.remove("show"),2200)}
+function render(){let shown=books.filter(b=>currentFilter==="Todos"||(currentFilter==="Favoritos"?b.fav:b.status===currentFilter));shelf.innerHTML="";
+if(!shown.length)shelf.innerHTML='<div class="empty">📚<br>Nenhum livro nesta categoria ainda.</div>';
+shown.forEach(b=>{let card=document.createElement("article");card.className="book cover-"+b.cover;card.innerHTML='<button class="book-mark '+(b.fav?'liked':'')+'">'+(b.fav?'♥':'♡')+'</button><div class="book-title"></div><div class="book-art"></div><div class="book-author"></div>';card.querySelector(".book-title").textContent=b.title;card.querySelector(".book-art").textContent=b.art;card.querySelector(".book-author").textContent=b.author;card.querySelector(".book-mark").onclick=e=>{e.stopPropagation();b.fav=!b.fav;render();toast(b.fav?"Adicionado aos favoritos!":"Removido dos favoritos.")};card.onclick=()=>{let next=b.status==="Quero Ler"?"Lendo Agora":b.status==="Lendo Agora"?"Lidos":"Quero Ler";if(confirm(`${b.title}\nSituação atual: ${b.status}\n\nMudar para "${next}"?`)){b.status=next;render();toast("Situação atualizada!")}};shelf.appendChild(card)});
+let c={Todos:books.length,Lidos:books.filter(b=>b.status==="Lidos").length,"Lendo Agora":books.filter(b=>b.status==="Lendo Agora").length,"Quero Ler":books.filter(b=>b.status==="Quero Ler").length,Favoritos:books.filter(b=>b.fav).length};
+document.getElementById("allCount").textContent=c.Todos;document.getElementById("doneCount").textContent=c.Lidos;document.getElementById("readingCount").textContent=c["Lendo Agora"];document.getElementById("wantCount").textContent=c["Quero Ler"];document.getElementById("favCount").textContent=c.Favoritos;let pct=Math.round(c.Lidos/20*100);document.getElementById("readCount").textContent=c.Lidos;document.getElementById("progressBar").style.width=pct+"%";document.getElementById("progressText").textContent=pct+"%"}
+function setFilter(f){currentFilter=f;document.querySelectorAll("[data-filter]").forEach(e=>e.classList.toggle("active",e.dataset.filter===f));render()}
+document.querySelectorAll("[data-filter]").forEach(e=>e.addEventListener("click",()=>setFilter(e.dataset.filter)));
+const modal=document.getElementById("modal");document.getElementById("addOpen").onclick=()=>modal.classList.add("show");document.getElementById("cancel").onclick=()=>modal.classList.remove("show");modal.onclick=e=>{if(e.target===modal)modal.classList.remove("show")};
+document.getElementById("bookForm").onsubmit=e=>{e.preventDefault();let title=document.getElementById("title").value.trim(),author=document.getElementById("author").value.trim();books.push({title,author,status:document.getElementById("status").value,art:"📚",cover:Math.floor(Math.random()*10)+1,fav:false});e.target.reset();modal.classList.remove("show");setFilter("Todos");toast("Livro cadastrado com sucesso!")};
+document.getElementById("achievements").onclick=()=>toast("Continue lendo para desbloquear novas conquistas!");render();
+</script></body></html>
