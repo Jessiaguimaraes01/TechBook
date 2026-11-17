@@ -1627,14 +1627,23 @@ class TechBookHandler(SimpleHTTPRequestHandler):
                     "Esse empréstimo ainda não possui solicitação de devolução."
                 )
 
-            conexao.execute("""
+                       cursor = conexao.execute("""
                 UPDATE emprestimo
                 SET data_devolucao = ?
                 WHERE id_emprestimo = ?
+                AND data_devolucao IS NULL
+                AND data_solicitacao_devolucao IS NOT NULL
             """, (
                 data_hoje(),
                 id_emprestimo
             ))
+
+            if cursor.rowcount != 1:
+                conexao.rollback()
+                return responder_erro(
+                    self,
+                    "Não foi possível confirmar essa devolução."
+                )
 
             conexao.commit()
 
