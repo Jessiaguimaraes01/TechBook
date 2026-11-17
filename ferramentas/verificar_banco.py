@@ -2,7 +2,7 @@
 import sqlite3
 from pathlib import Path
 
-BASE_DIR = Path(__file__).resolve().parent
+BASE_DIR = Path(__file__).resolve().parent.parent
 BANCO = BASE_DIR / "Dados" / "TechBok_Final.db"
 
 with sqlite3.connect(BANCO) as conexao:

@@ -147,3 +147,7 @@ vite.config.ts.timestamp-*
 
 # Turbo Repo
 .turbo
+
+# Arquivos temporários do Python
+__pycache__/
+*.py[cod]
