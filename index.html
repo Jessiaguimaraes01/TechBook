@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -6,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="TechBook: uma biblioteca inteligente para descobrir livros e acompanhar sua leitura.">
   <title>TechBook — Biblioteca Inteligente</title>
-<link rel="stylesheet" href="assets/css/style.css">
- <script src="assets/js/script.js" defer></script>
+  <link rel="stylesheet" href="assets/css/style.css">
+  <script src="assets/js/script.js" defer></script>
 </head>
 
 <body>
@@ -20,22 +19,19 @@
     </a>
     <button id="menu-btn" class="menu-btn" aria-label="Abrir menu" aria-expanded="false">☰</button>
     <nav id="menu" aria-label="Navegação principal">
-      <a href="#inicio">Início</a>
       <a href="#catalogo">Catálogo</a>
-      <a href="#recomendador">Recomendações</a>
-      <a href="#como-funciona">Empréstimos</a>
+      <a href="perfil-aluno.html">Empréstimos</a>
+      <a href="minha_estante_virtual_cabecalho_vinho.html">Minha Estante</a>
+      <a href="amigos_de_leitura_completo.html">Amigos</a>
+      <a href="ranking.html">Ranking</a>
+      <a href="quiz.html">Quiz</a>
       <a href="estatisticas.html">Estatísticas</a>
-      <!-- <a href="#jogo-interativo">Jogo Interativo</a> -->
-      <a href="#desafios">Desafios</a>
-      <a href="quiz.html">Quiz Literário</a>
     </nav>
 
-    
-
-<div class="acesso-aluno">
-  <a href="login.html" class="botao-entrar">Entrar</a>
-  <a href="cadastro.html" class="botao-cadastrar">Cadastrar-se</a>
-</div>
+    <div class="acesso-aluno" id="acesso-aluno-area">
+      <a href="login.html" class="botao-entrar">Entrar</a>
+      <a href="cadastro.html" class="botao-cadastrar">Cadastrar-se</a>
+    </div>
 
     <button id="acessibilidade-btn" class="botao botao-claro">Acessibilidade</button>
   </header>
@@ -51,7 +47,6 @@
           <a class="link-claro" href="#recomendador">Encontrar meu próximo livro</a>
         </div>
         
-        <!-- Botões do início -->
         <div class="hero-acoes">
           <a class="botao botao-vinho" href="quiz.html">
             ✨ Fazer Quiz Literário →
@@ -60,11 +55,10 @@
           <a class="botao botao-dourado" href="estatisticas.html">
             📊 Ver estatísticas da pesquisa →
           </a>
-           <a href="ranking.html"
-         class="botao botao-ranking">
-         🏆 Acessar Ranking →
-        </a>
 
+          <a href="ranking.html" class="botao botao-ranking">
+            🏆 Acessar Ranking →
+          </a>
         </div>
 
         <div class="hero-nota">
@@ -124,89 +118,55 @@
       </div>
     </section>
 
-    <!-- JOGO INTERATIVO -->
-<section class="secao secao-jogo" id="jogo-interativo">
-  <div class="cabecalho-secao">
-    <span class="etiqueta">APRENDA BRINCANDO</span>
-    <h2>Universo <em>Interativo</em></h2>
-    <p>
-      Prepare-se para uma experiência divertida que une
-      conhecimento, leitura e desafios.
-    </p>
-  </div>
-
-  <article class="cartao-jogo">
-    <div class="jogo-icone">🎮</div>
-
-    <div class="jogo-conteudo">
-      <span class="jogo-status">EM DESENVOLVIMENTO</span>
-      <h3>Jogo Interativo</h3>
-      <p>
-        Em breve, você poderá testar seus conhecimentos
-        e explorar novas formas de aprender brincando.
-      </p>
-      <a href="#" class="botao botao-jogo"
-         aria-disabled="true">
-        Disponível em breve
-      </a>
-    </div>
-  </article>
-</section>
-
-
-<section class="secao" id="como-funciona">
-  <div class="cabecalho-secao">
-    <span class="etiqueta">ORGANIZE SUA LEITURA</span>
-    <h2>Empréstimos e <em>devoluções</em></h2>
-    <p>
-      No TechBook, você pode consultar os livros disponíveis,
-      realizar empréstimos e acompanhar suas devoluções
-      diretamente pela sua área de aluno.
-    </p>
-  </div>
-
-  <div class="painel">
-    <div class="grade-estatisticas">
-
-      <article class="painel">
-        <h3>📚 Realize seu empréstimo</h3>
+    <section class="secao" id="como-funciona">
+      <div class="cabecalho-secao">
+        <span class="etiqueta">ORGANIZE SUA LEITURA</span>
+        <h2>Empréstimos e <em>devoluções</em></h2>
         <p>
-          Acesse sua conta, escolha um livro disponível
-          no catálogo e solicite seu empréstimo.
+          No TechBook, você pode consultar os livros disponíveis,
+          realizar empréstimos e acompanhar suas devoluções
+          diretamente pela sua área de aluno.
         </p>
-      </article>
+      </div>
 
-      <article class="painel">
-        <h3>↩️ Faça sua devolução</h3>
-        <p>
-          Consulte seus empréstimos ativos e registre
-          a devolução dos livros pela sua conta.
-        </p>
-      </article>
+      <div class="painel">
+        <div class="grade-estatisticas">
+          <article class="painel">
+            <h3>📚 Realize seu empréstimo</h3>
+            <p>
+              Acesse sua conta, escolha um livro disponível
+              no catálogo e solicite seu empréstimo.
+            </p>
+          </article>
 
-    </div>
+          <article class="painel">
+            <h3>↩️ Faça sua devolução</h3>
+            <p>
+              Consulte seus empréstimos ativos e registre
+              a devolução dos livros pela sua conta.
+            </p>
+          </article>
+        </div>
 
-    <div style="text-align:center; margin-top:25px;">
-      <p>
-        Entre na sua conta para acessar todas as
-        funcionalidades da biblioteca.
-      </p>
+        <div style="text-align:center; margin-top:25px;">
+          <p>
+            Entre na sua conta para acessar todas as
+            funcionalidades da biblioteca.
+          </p>
 
-      <a href="login.html" class="botao botao-vinho">
-        Acessar área do aluno →
-      </a>
-    </div>
-  </div>
-</section>
-
+          <a href="perfil-aluno.html" class="botao botao-vinho">
+            Acessar área do aluno →
+          </a>
+        </div>
+      </div>
+    </section>
 
     <section class="secao secao-creme" id="estatisticas">
-      <div class="cabecalho-secao"><span class="etiqueta">A BIBLIOTECA EM NÚMEROS</span><h2>Conhecimento em <em>dados</em></h2><p>Indicadores atualizados a partir dos registros deste protótipo.</p></div>
+      <div class="cabecalho-secao"><span class="etiqueta">A BIBLIOTECA EM NÚMEROS</span><h2>Conhecimento em <em>dados</em></h2><p>Indicadores atualizados em tempo real a partir do acervo do TechBook.</p></div>
       <div class="grade-estatisticas">
         <article class="painel painel-grafico"><h3>Livros por gênero</h3><div id="grafico-generos" class="grafico"></div></article>
         <article class="painel painel-grafico"><h3>Disponibilidade do acervo</h3><div id="grafico-disponibilidade" class="grafico"></div></article>
       </div>
-      <p class="texto-suave">Os números são dados de demonstração, não estatísticas de uma biblioteca real.</p>
     </section>
 
     <section class="secao" id="desafios">
@@ -217,7 +177,7 @@
 
     <section class="secao secao-vinho" id="medidor">
       <div class="medidor-card">
-        <div><span class="etiqueta">NOSSA EXPERIÊNCIA ARTÍSTICA</span><h2>Medidor de Descobertas Literárias</h2><p>Cada desafio concluído acende uma nova etapa da jornada. O medidor representa o progresso nas atividades — não mede a inteligência de ninguém.</p><strong id="valor-medidor" class="valor-medidor">0%</strong><div class="barra barra-escura"><div id="barra-medidor"></div></div><small id="legenda-medidor">Toda grande descoberta começa pela primeira página.</small></div>
+        <div><span class="etiqueta">NOSSA EXPERIÊNCIA ARTÍSTICA</span><h2>Medidor de Descobertas Literárias</h2><p>Cada desafio concluído acende uma nova etapa da jornada.</p><strong id="valor-medidor" class="valor-medidor">0%</strong><div class="barra barra-escura"><div id="barra-medidor"></div></div><small id="legenda-medidor">Toda grande descoberta começa pela primeira página.</small></div>
         <div class="cerebro-arte" aria-hidden="true"><span class="brilho brilho-um">✦</span><span class="brilho brilho-dois">✧</span><span class="cerebro">🧠</span><span class="brilho brilho-tres">✦</span><div class="anel-cerebro"></div></div>
       </div>
     </section>
@@ -236,15 +196,20 @@
     </section>
   </main>
 
-  <footer><a class="marca marca-rodape" href="#inicio"><span class="marca-simbolo">TB</span><span class="marca-texto">TechBook<small>BIBLIOTECA INTELIGENTE</small></span></a><p>Projeto desenvolvido para a feira de ciências.</p><span class="rodape-detalhe">Ler · Descobrir · Imaginar</span></footer>
+  <footer>
+    <a class="marca marca-rodape" href="#inicio"><span class="marca-simbolo">TB</span><span class="marca-texto">TechBook<small>BIBLIOTECA INTELIGENTE</small></span></a>
+    <p>Projeto desenvolvido para a feira de ciências · <a href="login-bibliotecario.html" style="color:inherit;text-decoration:underline;">Área do Bibliotecário</a></p>
+    <span class="rodape-detalhe">Ler · Descobrir · Imaginar</span>
+  </footer>
+
   <script>
-  if ("serviceWorker" in navigator) {
-    window.addEventListener("load", () => {
-      navigator.serviceWorker.register("/service-worker.js")
-        .then(() => console.log("TecBook preparado para modo offline!"))
-        .catch((erro) => console.error("Erro no modo offline:", erro));
-    });
-  }
-</script>
+    if ("serviceWorker" in navigator) {
+      window.addEventListener("load", () => {
+        navigator.serviceWorker.register("/service-worker.js")
+          .then(() => console.log("TechBook preparado para modo offline!"))
+          .catch((erro) => console.error("Erro no modo offline:", erro));
+      });
+    }
+  </script>
 </body>
 </html>

@@ -4,8 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Empréstimos | TechBook</title>
-  <link rel="stylesheet" href="emprestimos.css">
-  <script src="emprestimos.js" defer></script>
+  <link rel="stylesheet" href="assets/css/emprestimos.css">
+  <script src="assets/js/emprestimos.js" defer></script>
 </head>
 <body>
   <header class="topbar">
@@ -19,8 +19,9 @@
 
     <nav class="nav">
       <a href="index.html">Início</a>
-      <a href="login-bibliotecario.html">Bibliotecário</a>
+      <a href="bibliotecario.html">Acervo & Scanner</a>
       <a class="active" href="emprestimos.html">Empréstimos</a>
+      <a href="ranking.html">Ranking</a>
     </nav>
 
     <button class="button button-outline" id="sairBtn">
@@ -29,7 +30,6 @@
   </header>
 
   <main class="container">
-
     <section class="hero">
       <div>
         <span class="eyebrow">CONTROLE DA BIBLIOTECA</span>
@@ -39,12 +39,10 @@
           e confirme as devoluções dos livros.
         </p>
       </div>
-
       <div class="hero-icon">📚</div>
     </section>
 
     <section class="stats">
-
       <article class="stat-card">
         <span class="stat-icon">📖</span>
         <div>
@@ -68,11 +66,9 @@
           <strong id="totalDevolvidos">—</strong>
         </div>
       </article>
-
     </section>
 
     <section class="panel">
-
       <div class="section-heading">
         <div>
           <span class="eyebrow">NOVO REGISTRO</span>
@@ -82,7 +78,6 @@
       </div>
 
       <form id="emprestimoForm">
-
         <label>
           Aluno
           <select id="alunoSelect" required>
@@ -105,17 +100,14 @@
         <button class="button button-primary" type="submit">
           Registrar empréstimo
         </button>
-
       </form>
 
       <p class="form-note">
         A data do empréstimo é registrada automaticamente.
       </p>
-
     </section>
 
     <section class="panel">
-
       <div class="section-heading list-heading">
         <div>
           <span class="eyebrow">ACOMPANHAMENTO</span>
@@ -128,7 +120,6 @@
       </div>
 
       <div class="filters">
-
         <input
           id="buscaInput"
           type="search"
@@ -142,13 +133,11 @@
           <option value="solicitado">Devolução solicitada</option>
           <option value="devolvido">Devolvidos</option>
         </select>
-
       </div>
 
       <div id="mensagem" class="message"></div>
 
       <div class="table-wrap">
-
         <table>
           <thead>
             <tr>
@@ -169,20 +158,16 @@
             </tr>
           </tbody>
         </table>
-
       </div>
 
       <p class="table-help">
         A devolução pode ser confirmada após a solicitação do aluno.
       </p>
-
     </section>
-
   </main>
 
   <footer>
     TechBook · Organização que aproxima você da leitura.
   </footer>
-
 </body>
 </html>
