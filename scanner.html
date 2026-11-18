@@ -1,529 +1,532 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="theme-color" content="#651f35" />
-  <title>TechBook | Scanner</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TechScanner — TechBook</title>
+  <script src="https://unpkg.com/@zxing/library@latest"></script>
   <style>
+    @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap');
+
     :root {
-      font-family: Arial, Helvetica, sans-serif;
-      color: #482d30;
-      background: #faf5eb;
+      --vinho: #451A24;
+      --bordo: #6E2B38;
+      --creme: #F6EFE6;
+      --rosa: #C58CA5;
+      --dourado: #D6AE70;
+      --papel: #FFFCF8;
+      --texto: #38272C;
+      --suave: #78666B;
+      --borda: #E6D8CB;
+      --verde: #52776B;
+      --vermelho: #9A333B;
+      --sombra: 0 12px 30px rgba(69, 26, 36, .08);
     }
 
-    * {
-      box-sizing: border-box;
-    }
+    * { box-sizing: border-box; }
 
     body {
       margin: 0;
-      min-height: 100vh;
-      background: #fbf6ec;
-      color: #4b2831;
+      font-family: "DM Sans", sans-serif;
+      background: var(--creme);
+      color: var(--texto);
+      line-height: 1.6;
     }
 
-    /* Cabeçalho e Identidade Visual */
-    header {
-      background: #fbf6ec;
-      color: #5b182b;
-      padding: 18px 18px 22px;
-      border-bottom: 1px solid #e5d5b9;
+    h1, h2, h3, .marca-texto {
+      font-family: "Playfair Display", Georgia, serif;
     }
 
-    header .wrap {
-      max-width: 780px;
-      margin: auto;
-      position: relative;
+    a { color: inherit; text-decoration: none; }
+    button, input, select { font: inherit; }
+
+    .topo {
+      position: sticky;
+      top: 0;
+      z-index: 20;
       display: flex;
       align-items: center;
+      justify-content: space-between;
       gap: 14px;
-      min-height: 128px;
-    }
-
-    .brand-logo {
-      width: 112px;
-      height: 112px;
-      object-fit: contain;
-      flex-shrink: 0;
-      position: relative;
-      z-index: 2;
-    }
-
-    .header-techy {
-      width: 116px;
-      height: 112px;
-      object-fit: contain;
-      object-position: center 35%;
-      border-radius: 28px;
-      transform: rotate(-9deg);
-      border: 3px solid #f5e4c7;
-      box-shadow: 0 6px 18px #6b263325;
-      align-self: flex-end;
-      margin-bottom: 5px;
-      margin-left: -27px;
-      position: relative;
-      z-index: 3;
-      filter: drop-shadow(0 5px 8px rgba(77, 24, 36, 0.14));
-    }
-
-    .eyebrow {
-      color: #99794c;
-      letter-spacing: 0.2em;
-      font-size: 11px;
-      text-transform: uppercase;
-      font-weight: 700;
-    }
-
-    h1, h2, .details h2 {
-      font-family: Georgia, 'Times New Roman', serif;
-    }
-
-    h1 {
-      font-size: clamp(29px, 5vw, 42px);
-      font-weight: normal;
-      margin: 8px 0;
-      color: #641c32;
-    }
-
-    header p {
-      color: #76575a;
-      margin: 0;
-      font-size: 14px;
-    }
-
-    /* Container Principal */
-    main {
-      max-width: 780px;
-      margin: 20px auto 25px;
-      padding: 22px;
-      border: 2px dotted #c5a16a;
-      border-radius: 26px;
-      position: relative;
-      background: rgba(255, 252, 246, 0.6);
-    }
-
-    main::before,
-    main::after {
-      content: '✦';
-      position: absolute;
-      color: #ba9158;
-      font-size: 18px;
-      background: #fbf6ec;
-      padding: 0 8px;
-      top: -13px;
-    }
-
-    main::before {
-      left: 24px;
-    }
-
-    main::after {
-      right: 24px;
-    }
-
-    /* Painéis e Formulários */
-    .panel {
-      background: #fffdf8;
-      border: 1px solid #e8d9c0;
-      border-radius: 18px;
-      padding: 24px;
-      margin: 17px 0;
-      box-shadow: 0 8px 26px #6b26330b;
-    }
-
-    .panel h2 {
-      letter-spacing: -0.02em;
-    }
-
-    label {
-      display: block;
-      color: #651f35;
-      font-weight: 700;
-      font-size: 14px;
-      margin-bottom: 10px;
-    }
-
-    input {
-      width: 100%;
-      padding: 16px;
-      border: 1px solid #d8bfb4;
-      border-radius: 10px;
-      background: #fff;
-      color: #432d30;
-      font-size: 17px;
-      outline-color: #8d3d52;
-    }
-
-    input::placeholder {
-      color: #9e8d87;
-    }
-
-    /* Botões */
-    button {
-      border: 0;
-      border-radius: 10px;
-      padding: 14px 17px;
-      font-size: 14px;
-      font-weight: 700;
-      cursor: pointer;
-      min-height: 46px;
-    }
-
-    button.primary,
-    .primary {
-      background: #651f35;
-      color: #fff8ee;
-    }
-
-    button.secondary,
-    .secondary {
-      background: #fff8e9;
-      color: #651f35;
-      border: 1px solid #c8a56f;
-    }
-
-    button.danger {
-      background: #f7e8e5;
-      color: #8b3746;
-    }
-
-    .actions {
-      display: flex;
+      padding: 14px 5%;
+      background: var(--papel);
+      border-bottom: 1px solid var(--borda);
       flex-wrap: wrap;
-      gap: 10px;
-      margin-top: 14px;
     }
 
-    /* Câmera e Status */
-    #cameraBox {
-      display: none;
-      margin-top: 15px;
+    .marca {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      font-weight: 700;
+    }
+
+    .marca-simbolo {
+      width: 42px;
+      height: 42px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      background: #3B151E;
+      color: var(--dourado);
+      border: 2px solid var(--dourado);
+      font-family: "Playfair Display", Georgia, serif;
+      font-size: 0.95rem;
+      font-weight: 700;
+    }
+
+    .marca-texto {
+      display: grid;
+      font-size: 1.25rem;
+      color: var(--vinho);
+      line-height: 1.05;
+    }
+
+    .marca-texto small {
+      font-family: "DM Sans", sans-serif;
+      font-size: .56rem;
+      letter-spacing: .16em;
+      color: var(--suave);
+      margin-top: 2px;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .nav-links a {
+      padding: 8px 14px;
+      border-radius: 10px;
+      font-size: .86rem;
+      font-weight: 700;
+      color: var(--suave);
+      transition: .2s;
+    }
+
+    .nav-links a:hover,
+    .nav-links a.ativo {
+      background: rgba(197, 140, 165, .22);
+      color: var(--vinho);
+    }
+
+    .hero {
+      padding: 46px 6% 54px;
+      text-align: center;
+      color: #FFF7EE;
+      background: #431A24;
+      border-bottom: 3px solid var(--dourado);
+    }
+
+    .etiqueta {
+      display: inline-block;
+      font-size: .72rem;
+      font-weight: 700;
+      letter-spacing: .2em;
+      color: var(--dourado);
+      margin-bottom: 8px;
+    }
+
+    .hero h1 {
+      margin: 0 0 8px;
+      font-size: clamp(2rem, 4vw, 3rem);
+    }
+
+    .hero h1 em {
+      color: var(--rosa);
+      font-style: italic;
+    }
+
+    .hero p {
+      margin: 0 auto;
+      max-width: 54ch;
+      color: rgba(255, 247, 238, .86);
+    }
+
+    .container {
+      width: min(880px, 92%);
+      margin: 28px auto 56px;
+      display: grid;
+      gap: 22px;
+    }
+
+    .painel {
+      background: var(--papel);
+      border: 1px solid var(--borda);
+      border-radius: 22px;
+      padding: 26px;
+      box-shadow: var(--sombra);
+    }
+
+    .painel h2 {
+      margin: 0 0 6px;
+      color: var(--vinho);
+      font-size: 1.55rem;
+    }
+
+    .texto-suave {
+      margin: 0 0 16px;
+      color: var(--suave);
+      font-size: .92rem;
+    }
+
+    .camera-box {
+      position: relative;
+      width: 100%;
+      max-width: 520px;
+      margin: 0 auto 16px;
+      border-radius: 16px;
+      overflow: hidden;
+      background: #230D13;
+      border: 2px solid var(--dourado);
+      aspect-ratio: 4 / 3;
+      display: grid;
+      place-items: center;
     }
 
     video {
       width: 100%;
-      max-height: 340px;
+      height: 100%;
       object-fit: cover;
-      border-radius: 12px;
-      background: #261c20;
+      display: block;
     }
 
-    #status {
-      min-height: 22px;
-      color: #7c3c4d;
-      margin-top: 14px;
-      font-size: 14px;
-      line-height: 1.5;
-    }
-
-    .muted {
-      color: #826f69;
-      font-size: 13px;
-      line-height: 1.6;
-    }
-
-    /* Bilhetes e Notas */
-    .ticket {
-      position: relative;
-      background: #fff9ed;
-      border: 2px dashed #caa574;
-      border-radius: 18px;
-      padding: 20px 18px;
-      margin: 17px 0;
-      box-shadow: 0 7px 25px rgba(91, 24, 43, 0.06);
-    }
-
-    .ticket::before,
-    .ticket::after {
-      content: '';
+    .mira-scanner {
       position: absolute;
-      width: 20px;
-      height: 20px;
-      background: #faf5eb;
-      border: 1px solid #caa574;
-      border-radius: 50%;
-      top: 50%;
-      transform: translateY(-50%);
-    }
-
-    .ticket::before {
-      left: -12px;
-    }
-
-    .ticket::after {
-      right: -12px;
-    }
-
-    .ticket-head {
-      display: flex;
-      gap: 15px;
-      align-items: center;
-      margin-bottom: 12px;
-    }
-
-    .techy {
-      width: 95px;
-      height: 106px;
-      object-fit: cover;
-      object-position: center 40%;
-      border-radius: 15px;
-      border: 2px solid #d2a76d;
-      background: #651f35;
-    }
-
-    .ticket-title {
-      font-family: Georgia, serif;
-      font-size: 24px;
-      color: #651f35;
-      margin: 0 0 6px;
-    }
-
-    .ticket-sub {
-      font-size: 13px;
-      line-height: 1.5;
-      color: #7d5a5e;
-      margin: 0;
-    }
-
-    .ticket-divider {
-      border: 0;
-      border-top: 2px dashed #d9bd93;
-      margin: 14px 0;
-    }
-
-    .note-strip {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 12px;
-      margin-bottom: 18px;
-    }
-
-    .note {
-      background: #fff9ed;
-      border: 1.5px dashed #c5a16a;
-      color: #6c3742;
+      inset: 22% 14%;
+      border: 2px dashed rgba(214, 174, 112, .85);
       border-radius: 12px;
+      pointer-events: none;
+    }
+
+    .botoes-camera {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .botao {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      border: 0;
+      border-radius: 10px;
+      padding: 12px 20px;
+      font-weight: 700;
+      font-size: .9rem;
+      cursor: pointer;
+      transition: transform .15s, background-color .2s;
+    }
+
+    .botao:hover {
+      transform: translateY(-1px);
+    }
+
+    .botao-vinho {
+      background: var(--vinho);
+      color: #FFF7EE;
+    }
+
+    .botao-dourado {
+      background: var(--dourado);
+      color: #2B1318;
+    }
+
+    .botao-claro {
+      background: var(--creme);
+      color: var(--vinho);
+      border: 1px solid var(--borda);
+    }
+
+    .grade-form {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-top: 14px;
+    }
+
+    .campo-full {
+      grid-column: 1 / -1;
+    }
+
+    label {
+      display: block;
+      font-weight: 700;
+      font-size: .86rem;
+      color: var(--vinho);
+      margin-bottom: 6px;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 11px 14px;
+      border-radius: 12px;
+      border: 1px solid var(--borda);
+      background: #fff;
+      color: var(--texto);
+    }
+
+    .linha-isbn {
+      display: flex;
+      gap: 10px;
+    }
+
+    .aviso {
+      margin-top: 14px;
       padding: 12px 16px;
-      box-shadow: 0 4px 12px #5d26320c;
-      font-family: Georgia, serif;
-      font-size: 15px;
-      transform: rotate(-1deg);
+      border-radius: 12px;
+      font-size: .9rem;
+      font-weight: 500;
     }
 
-    .note:nth-child(2) {
-      transform: rotate(1deg);
+    .aviso[hidden] { display: none; }
+
+    .aviso.sucesso {
+      background: rgba(82, 119, 107, .16);
+      color: var(--verde);
+      border: 1px solid rgba(82, 119, 107, .35);
     }
 
-    .note strong {
-      color: #651f35;
-    }
-
-    /* Detalhes dos Livros e Lista */
-    h2 {
-      color: #651f35;
-      font-weight: normal;
-      font-size: 26px;
-    }
-
-    .book {
-      display: flex;
-      align-items: flex-start;
-      gap: 17px;
-    }
-
-    .cover {
-      width: 95px;
-      height: 140px;
-      object-fit: cover;
-      border-radius: 7px;
-      background: #eee0d0;
-      flex-shrink: 0;
-      box-shadow: 0 3px 12px #4c222019;
-    }
-
-    .details {
-      min-width: 0;
-    }
-
-    .details h2 {
-      font-size: 24px;
-      margin: 0 0 12px;
-      overflow-wrap: anywhere;
-    }
-
-    .details p {
-      margin: 7px 0;
-      color: #6b5551;
-      font-size: 14px;
-      line-height: 1.45;
-    }
-
-    .tag {
-      display: inline-block;
-      margin-top: 9px;
-      padding: 7px 10px;
-      background: #f1e5d9;
-      color: #651f35;
-      border-radius: 8px;
-      font-size: 12px;
-    }
-
-    .item {
-      display: flex;
-      gap: 13px;
-      align-items: flex-start;
-      border-top: 1px solid #eadbd0;
-      padding: 17px 0;
-      min-width: 0;
-    }
-
-    .item .cover {
-      width: 55px;
-      height: 80px;
-    }
-
-    .item strong {
-      font-family: Georgia, serif;
-      color: #4c2932;
-      font-size: 17px;
-      overflow-wrap: anywhere;
-    }
-
-    .item p {
-      margin: 6px 0;
-      overflow-wrap: anywhere;
-    }
-
-    .item button {
-      margin-left: auto;
-      align-self: flex-start;
-      padding: 8px 10px;
-      min-height: 36px;
-    }
-
-    .count {
-      font-family: Arial, sans-serif;
-      background: #f0e2d7;
-      color: #651f35;
-      font-size: 14px;
-      padding: 5px 10px;
-      border-radius: 20px;
-      vertical-align: middle;
+    .aviso.erro {
+      background: rgba(154, 51, 59, .12);
+      color: var(--vermelho);
+      border: 1px solid rgba(154, 51, 59, .3);
     }
 
     footer {
-      font-size: 12px;
-      line-height: 1.6;
-      color: #8a7770;
-      margin-top: 20px;
+      padding: 24px 6%;
+      background: #2C0F18;
+      color: rgba(255, 247, 238, .82);
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 14px;
+      font-size: .85rem;
     }
 
-    #preview[hidden] {
-      display: none;
-    }
-
-    a {
-      color: #651f35;
-    }
-
-    /* Responsividade */
-    @media (max-width: 620px) {
-      header .wrap {
-        min-height: 96px;
-        gap: 7px;
-      }
-
-      .brand-logo {
-        width: 78px;
-        height: 78px;
-      }
-
-      .header-techy {
-        width: 77px;
-        height: 82px;
-        margin-left: -20px;
-      }
-
-      main {
-        margin: 12px 9px;
-        padding: 12px;
-        border-radius: 18px;
-      }
-
-      .note {
-        font-size: 13px;
-        padding: 9px 11px;
-      }
-    }
-
-    @media (max-width: 480px) {
-      header {
-        padding: 26px 18px;
-      }
-
-      main {
-        padding: 12px 12px 50px;
-      }
-
-      .panel {
-        padding: 19px 16px;
-        border-radius: 15px;
-      }
-
-      .actions button {
-        flex: 1 1 135px;
-      }
-
-      .book {
-        gap: 12px;
-      }
-
-      .cover {
-        width: 72px;
-        height: 105px;
-      }
-
-      .details h2 {
-        font-size: 20px;
-      }
-
-      .item {
-        flex-wrap: wrap;
-      }
-
-      .item button {
-        margin-left: 0;
-      }
-
-      .item > div {
-        flex: 1;
-        min-width: 135px;
-      }
-
-      h1 {
-        font-size: 27px;
-      }
-
-      .ticket-head {
-        gap: 11px;
-      }
-
-      .techy {
-        width: 82px;
-        height: 94px;
-      }
-
-      .ticket-title {
-        font-size: 21px;
-      }
+    @media (max-width: 680px) {
+      .grade-form { grid-template-columns: 1fr; }
+      .linha-isbn { flex-direction: column; }
     }
   </style>
 </head>
 <body>
-  <header>
-    <div class="wrap">
-      <img
-        alt="Logo TechBook"
-        class="brand-logo"
-        src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAVEAAAFGCAYAAADTpaxhAAEAAElEQVR42uy9d5xd513n/37KOee26b2PpJE06pLVLUuWe4270+OQAoSEsATYsCw/ssAGdtmlJEBCAmk4vTqx427HvcmWbPXeNRqNprdbTnme3x/PHdkJZQsbCDBf+76kGU2599xzPudbPp/PF2ZjNn72Q88egtn4WQ01ewhm42c5eqitXFxXs8kvNPWNMJLMHpHZ+FkLOXsIZuNnOZqr1DW5mP/a1pKsmz0aszELorMxG/9nITxbuqOYH15t49JHZg/HbMyC6GzMxv9BrKivmC9N1IuNPVPKX7YgU7l29qjMxiyIzsZs/G9GUEzu1EJ2eFqibVzRnAl+ZzlN2dkjMxuzIDobs/G/iCVB0ONjL0uiuMrGCSlrlReHG2
+
+  <header class="topo">
+    <a class="marca" href="index.html">
+      <span class="marca-simbolo">TB</span>
+      <span class="marca-texto">
+        TechBook
+        <small>BIBLIOTECA INTELIGENTE</small>
+      </span>
+    </a>
+    <nav class="nav-links">
+      <a href="bibliotecario.html">Painel do Bibliotecário</a>
+      <a class="ativo" href="scanner.html">TechScanner</a>
+      <a href="emprestimos.html">Empréstimos</a>
+      <a href="index.html">Catálogo</a>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <span class="etiqueta">AUTOMAÇÃO DE ACERVO</span>
+    <h1>Tech<em>Scanner</em></h1>
+    <p>Aponte o código de barras ISBN do livro para a câmera ou digite o código para buscar os dados automaticamente e salvar no catálogo oficial.</p>
+  </section>
+
+  <main class="container">
+    <section class="painel">
+      <span class="etiqueta">LEITURA ÓPTICA</span>
+      <h2>Câmera de leitura ISBN</h2>
+      <p class="texto-suave">Posicione o código de barras atrás do livro dentro da área pontilhada.</p>
+
+      <div class="camera-box">
+        <video id="video-preview" muted playsinline></video>
+        <div class="mira-scanner" aria-hidden="true"></div>
+      </div>
+
+      <div class="botoes-camera">
+        <button class="botao botao-dourado" id="iniciar-cam-btn" type="button">Iniciar câmera</button>
+        <button class="botao botao-claro" id="parar-cam-btn" type="button">Parar câmera</button>
+      </div>
+    </section>
+
+    <section class="painel">
+      <span class="etiqueta">DADOS DO LIVRO</span>
+      <h2>Confirmar e cadastrar no acervo</h2>
+      <p class="texto-suave">Você também pode digitar o ISBN manualmente e clicar em <strong>Buscar ISBN</strong>.</p>
+
+      <form id="form-scanner">
+        <div class="grade-form">
+          <div class="campo-full">
+            <label for="isbn">Código ISBN</label>
+            <div class="linha-isbn">
+              <input id="isbn" name="isbn" type="text" placeholder="Ex.: 9788595081512">
+              <button class="botao botao-claro" id="buscar-isbn-btn" type="button">Buscar ISBN</button>
+            </div>
+          </div>
+
+          <div>
+            <label for="titulo">Título do livro</label>
+            <input id="titulo" name="titulo" type="text" required placeholder="Título preenchido automaticamente ou manual">
+          </div>
+
+          <div>
+            <label for="autor">Autor</label>
+            <input id="autor" name="autor" type="text" required placeholder="Nome do autor">
+          </div>
+
+          <div>
+            <label for="genero">Gênero</label>
+            <select id="genero" name="genero">
+              <option value="Fantasia">Fantasia</option>
+              <option value="Mistério">Mistério</option>
+              <option value="Aventura">Aventura</option>
+              <option value="Ficção científica">Ficção científica</option>
+              <option value="Romance">Romance</option>
+              <option value="Outros">Outros</option>
+            </select>
+          </div>
+
+          <div>
+            <label for="quantidade">Quantidade de exemplares</label>
+            <input id="quantidade" name="quantidade" type="number" min="1" max="50" value="1" required>
+          </div>
+        </div>
+
+        <div style="margin-top:18px; display:flex; gap:12px; flex-wrap:wrap;">
+          <button class="botao botao-vinho" id="salvar-acervo-btn" type="submit">Cadastrar no acervo oficial</button>
+          <a class="botao botao-claro" href="bibliotecario.html">Voltar ao acervo</a>
+        </div>
+      </form>
+
+      <p class="aviso" id="aviso-scanner" hidden role="status"></p>
+    </section>
+  </main>
+
+  <footer>
+    <span>TechBook · Biblioteca Inteligente</span>
+    <span style="color:var(--dourado)">Ler · Descobrir · Imaginar</span>
+  </footer>
+
+  <script>
+    let codeReader = null;
+
+    function mostrarAviso(texto, tipo) {
+      const el = document.getElementById("aviso-scanner");
+      el.hidden = false;
+      el.className = `aviso ${tipo}`;
+      el.textContent = texto;
+    }
+
+    async function consultarDadosISBN(isbnLimpo) {
+      if (!isbnLimpo) return;
+      mostrarAviso("Buscando informações do ISBN...", "sucesso");
+
+      try {
+        // 1. Tenta Open Library
+        const respOL = await fetch(`https://openlibrary.org/api/books?bibkeys=ISBN:${isbnLimpo}&format=json&jscmd=data`);
+        const dadosOL = await respOL.json();
+        const livroOL = dadosOL[`ISBN:${isbnLimpo}`];
+
+        if (livroOL) {
+          document.getElementById("titulo").value = livroOL.title || "";
+          document.getElementById("autor").value = (livroOL.authors && livroOL.authors[0]?.name) || "";
+          mostrarAviso("Livro encontrado pela Open Library! Confira os dados e clique em cadastrar.", "sucesso");
+          return;
+        }
+
+        // 2. Fallback Google Books
+        const respGB = await fetch(`https://www.googleapis.com/books/v1/volumes?q=isbn:${isbnLimpo}`);
+        const dadosGB = await respGB.json();
+        const infoGB = dadosGB.items && dadosGB.items[0]?.volumeInfo;
+
+        if (infoGB) {
+          document.getElementById("titulo").value = infoGB.title || "";
+          document.getElementById("autor").value = (infoGB.authors && infoGB.authors.join(", ")) || "";
+          mostrarAviso("Livro encontrado! Confira os dados e clique em cadastrar.", "sucesso");
+          return;
+        }
+
+        mostrarAviso("ISBN lido, mas não encontrado nas bases online. Preencha título e autor manualmente.", "erro");
+      } catch {
+        mostrarAviso("Não foi possível consultar o ISBN online agora. Preencha manualmente.", "erro");
+      }
+    }
+
+    document.getElementById("iniciar-cam-btn").addEventListener("click", async () => {
+      try {
+        if (!window.ZXing) {
+          mostrarAviso("Biblioteca do leitor não carregada. Verifique sua conexão.", "erro");
+          return;
+        }
+        codeReader = new ZXing.BrowserMultiFormatReader();
+        mostrarAviso("Câmera ativa! Aponte o código de barras do livro.", "sucesso");
+
+        await codeReader.decodeFromVideoDevice(null, "video-preview", (result, err) => {
+          if (result) {
+            const codigo = result.getText().replace(/[^0-9X]/gi, "");
+            document.getElementById("isbn").value = codigo;
+            codeReader.reset();
+            consultarDadosISBN(codigo);
+          }
+        });
+      } catch (e) {
+        mostrarAviso("Não foi possível acessar a câmera. Permita o uso da câmera no navegador.", "erro");
+      }
+    });
+
+    document.getElementById("parar-cam-btn").addEventListener("click", () => {
+      if (codeReader) {
+        codeReader.reset();
+        mostrarAviso("Câmera pausada.", "sucesso");
+      }
+    });
+
+    document.getElementById("buscar-isbn-btn").addEventListener("click", () => {
+      const isbn = document.getElementById("isbn").value.replace(/[^0-9X]/gi, "");
+      consultarDadosISBN(isbn);
+    });
+
+    document.getElementById("form-scanner").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const btn = document.getElementById("salvar-acervo-btn");
+      btn.disabled = true;
+      btn.textContent = "Cadastrando...";
+
+      try {
+        const resp = await fetch("/api/admin/livros", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          credentials: "same-origin",
+          body: JSON.stringify({
+            titulo: document.getElementById("titulo").value.trim(),
+            autor: document.getElementById("autor").value.trim(),
+            genero: document.getElementById("genero").value,
+            isbn: document.getElementById("isbn").value.trim(),
+            quantidade: Number(document.getElementById("quantidade").value) || 1
+          })
+        });
+
+        const dados = await resp.json();
+        if (!resp.ok) {
+          throw new Error(dados.erro || "Faça login como bibliotecário para cadastrar livros.");
+        }
+
+        mostrarAviso(dados.mensagem || "Livro cadastrado com sucesso no catálogo!", "sucesso");
+        e.target.reset();
+        document.getElementById("quantidade").value = 1;
+      } catch (err) {
+        mostrarAviso(err.message || "Erro ao cadastrar livro.", "erro");
+      } finally {
+        btn.disabled = false;
+        btn.textContent = "Cadastrar no acervo oficial";
+      }
+    });
+  </script>
+</body>
+</html>

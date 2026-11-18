@@ -1,191 +1,422 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>TechBook • Amigos de Leitura</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Amigos de Leitura — TechBook</title>
 <style>
-:root{--wine:#650d20;--wine2:#821b32;--cream:#fff8ef;--paper:#f7eadc;--peach:#f8e1d0;--gold:#d9ad61;--ink:#421b20;--muted:#80645d;--line:#ecd7c4;--green:#4c8a4a;--shadow:0 8px 24px #5b28100d}
-*{box-sizing:border-box}body{margin:0;background:#eee7df;color:var(--ink);font-family:Inter,Arial,sans-serif}button,input,select,textarea{font:inherit}button{cursor:pointer}
-.app{max-width:1500px;min-height:100vh;margin:auto;display:grid;grid-template-columns:245px minmax(0,1fr);background:var(--cream);box-shadow:0 0 35px #0001}
-.sidebar{background:linear-gradient(155deg,#4d0717,var(--wine) 65%,#7b1b2d);color:#fff;padding:23px 17px;display:flex;flex-direction:column;min-height:100vh;position:sticky;top:0;height:100vh;overflow-y:auto}
-.profile{text-align:center;padding:4px 8px 20px;border-bottom:1px solid #ffffff35}.avatar{width:82px;height:82px;border-radius:50%;margin:0 auto 9px;display:grid;place-items:center;font-size:42px;background:radial-gradient(circle at 50% 40%,#d68b54 0 28%,#3b211c 29% 48%,#e6b77d 49% 70%,#f4d6ae 71%);border:4px solid #f6d9ae}.profile h2{font: bold 19px Georgia,serif;margin:4px 0}.profile p{margin:0;font-size:12px;color:#f1d8cf}
-nav{padding-top:14px;display:grid;gap:5px}nav button,.addbook{border:0;background:transparent;color:#f8e8df;text-align:left;padding:10px 12px;border-radius:12px;font-size:13px;display:flex;gap:11px;align-items:center}nav button span{font-size:17px;width:20px;text-align:center}nav button.active,nav button:hover,.addbook:hover{background:#ffe8d2;color:#501020}.addbook{margin-top:12px;border-top:1px solid #ffffff35;border-radius:12px;padding-top:12px}
-.site-links{display:grid;gap:6px;margin-top:auto;padding-top:14px;border-top:1px solid #ffffff35}
-.site-links a{color:#f8e8df;text-decoration:none;font-size:12px;padding:8px 10px;border-radius:10px;background:#ffffff10;display:block}
-.site-links a:hover{background:#ffffff25}
-main{padding:27px 30px 45px;min-width:0;background:linear-gradient(135deg,#fffaf3,#f8eadc)}
-.top{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:18px}.brand{display:flex;align-items:center;gap:13px}.brand-icon{font-size:43px}.brand h1{font:bold 29px Georgia,serif;margin:0;color:#45151c}.brand p{font-size:12px;line-height:1.4;margin:4px 0 0;color:#76564e}.top-right{display:flex;gap:9px;align-items:center}.iconbtn{border:1px solid var(--line);background:#fff7ee;border-radius:12px;padding:9px 12px;color:var(--wine);position:relative}.dot{width:7px;height:7px;background:#d24a4a;border-radius:50%;position:absolute;right:8px;top:7px}
-.tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:19px}.tab{border:0;border-radius:12px;background:#f7e4d5;color:#4c2927;padding:10px 14px;font-weight:700;font-size:12px;flex:1;min-width:125px}.tab.active,.tab:hover{background:var(--wine);color:white}
-.view{display:none}.view.active{display:block}.section-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:17px 0 10px}.section-head h2{font:bold 20px Georgia,serif;margin:0}.muted{color:var(--muted);font-size:12px}.btn{border:0;border-radius:11px;padding:9px 13px;background:var(--wine);color:white;font-weight:700;font-size:12px}.btn:hover{background:var(--wine2)}.btn.light{background:#f6e3d4;color:var(--wine)}.btn.outline{background:transparent;border:1px solid var(--line);color:var(--wine)}.btn.danger{background:#f9e1df;color:#9b2d2d}.btn.small{padding:7px 10px;font-size:11px}
-.grid{display:grid;gap:12px}.friends-grid{grid-template-columns:repeat(6,minmax(80px,1fr));text-align:center}.friend{background:#fff8ef;border:1px solid var(--line);border-radius:14px;padding:11px 5px;cursor:pointer}.friend:hover,.book:hover,.group:hover{transform:translateY(-2px);box-shadow:var(--shadow)}.face{width:57px;height:57px;border-radius:50%;margin:0 auto 6px;display:grid;place-items:center;font-size:30px;background:radial-gradient(circle at 50% 42%,#c77d4c 0 27%,#4a2118 28% 49%,#f0c99e 50% 100%);border:3px solid #f2d5b7}.friend b{font-size:12px;display:block}.friend small{font-size:10px;color:var(--muted)}
-.group-grid{grid-template-columns:repeat(3,1fr)}.group{background:#fff7ee;border:1px solid var(--line);border-radius:15px;padding:13px;display:flex;gap:10px;align-items:center;cursor:pointer;transition:.2s}.group .emoji{font-size:29px}.group b{font: bold 14px Georgia,serif}.group small{display:block;color:var(--muted);font-size:11px;margin-top:4px}
-.home-bottom{display:grid;grid-template-columns:1.25fr 1fr;gap:13px;margin-top:13px}.challenge{background:linear-gradient(135deg,#78142b,#4d0717);color:#fff4e9;border-radius:17px;padding:16px;min-height:190px}.challenge h3,.ranking h3{font:bold 17px Georgia,serif;margin:0 0 4px}.challenge p{margin:0;font-size:11px;color:#f3d8cf}.podium{display:flex;justify-content:space-around;align-items:end;text-align:center;margin-top:12px;gap:8px}.podium .face{width:49px;height:49px}.podium strong{display:block;font-size:11px}.podium small{font-size:10px;color:#f1d3c7}.ranking{background:#fff6ec;border:1px solid var(--line);border-radius:17px;padding:14px}.rankrow{display:grid;grid-template-columns:27px 30px 1fr auto;align-items:center;gap:7px;padding:6px 0;border-bottom:1px solid #efdfd0;font-size:11px}.rankrow:last-child{border:0}.medal{background:#6b1024;color:white;border-radius:20px;text-align:center;padding:3px;font-size:10px}.mini{font-size:21px}
-.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:12px 0}.stat{background:#fff7ee;border:1px solid var(--line);border-radius:14px;padding:13px}.stat strong{font: bold 24px Georgia,serif;color:var(--wine);display:block}.stat span{font-size:11px;color:var(--muted)}
-.toolbar{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}.field{border:1px solid #e5cdb9;background:#fffaf4;border-radius:10px;padding:10px 11px;color:var(--ink);min-width:0}.toolbar .field{flex:1;min-width:150px}.book-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:13px}.book{background:#fffaf3;border:1px solid var(--line);border-radius:15px;padding:12px;transition:.2s;position:relative}.cover{height:135px;border-radius:10px;background:linear-gradient(145deg,#5c1727,#b87b4a);display:grid;place-items:center;color:#fff0d8;font: bold 19px Georgia,serif;text-align:center;padding:12px;box-shadow:inset 0 0 0 5px #ffffff18}.book:nth-child(3n+2) .cover{background:linear-gradient(145deg,#334e43,#9b9a64)}.book:nth-child(3n) .cover{background:linear-gradient(145deg,#273a59,#9874a2)}.book h3{font:bold 14px Georgia,serif;margin:9px 0 3px}.book p{font-size:11px;color:var(--muted);margin:0 0 8px}.book .actions{display:flex;gap:5px;flex-wrap:wrap}.book .actions button{flex:1}.tag{display:inline-block;background:#f2dfcf;color:#6b2a35;border-radius:20px;padding:4px 8px;font-size:10px;margin:2px 2px 5px 0}.empty{padding:25px;text-align:center;color:var(--muted);background:#fff8ef;border:1px dashed #dfc4ad;border-radius:14px}
-.cards{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}.panel{background:#fff8ef;border:1px solid var(--line);border-radius:15px;padding:15px}.panel h3{font:bold 16px Georgia,serif;margin:0 0 7px}.panel p{font-size:12px;color:var(--muted);line-height:1.5}.invite{display:flex;align-items:center;gap:10px;border-bottom:1px solid #efdfd0;padding:10px 0}.invite:last-child{border:0}.invite .face{width:40px;height:40px;font-size:21px;margin:0}.invite .grow{flex:1}.invite b{font-size:12px}.invite small{display:block;color:var(--muted);font-size:10px;margin-top:3px}
-.progress{height:9px;border-radius:20px;background:#ead8c8;overflow:hidden;margin:9px 0}.progress span{height:100%;display:block;background:linear-gradient(90deg,#7d1a31,#d8a45d);border-radius:20px}.challenge-card{background:#fff8ef;border:1px solid var(--line);border-radius:15px;padding:15px}.challenge-card h3{margin:0;font: bold 16px Georgia,serif}.challenge-card p{font-size:11px;color:var(--muted)}
-table{width:100%;border-collapse:collapse;font-size:12px}td,th{text-align:left;padding:9px 6px;border-bottom:1px solid #efdfd0}th{color:var(--muted);font-size:10px;text-transform:uppercase}
-.modal-back{display:none;position:fixed;inset:0;background:#24101599;z-index:5;align-items:center;justify-content:center;padding:16px}.modal-back.open{display:flex}.modal{background:var(--cream);border-radius:18px;padding:21px;width:min(480px,100%);box-shadow:0 20px 60px #0004}.modal h2{font: bold 21px Georgia,serif;margin:0 0 10px}.modal label{display:block;font-size:11px;font-weight:bold;margin:10px 0 5px}.modal input,.modal select,.modal textarea{width:100%}.modal-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:16px}.close{float:right;border:0;background:transparent;font-size:22px;color:var(--wine)}
-.toast{position:fixed;bottom:18px;left:50%;transform:translate(-50%,20px);background:#3d2024;color:white;padding:11px 17px;border-radius:12px;opacity:0;pointer-events:none;transition:.25s;z-index:10;font-size:12px}.toast.show{opacity:1;transform:translate(-50%,0)}
-@media(max-width:1000px){.friends-grid{grid-template-columns:repeat(3,1fr)}.book-grid{grid-template-columns:repeat(3,1fr)}.group-grid{grid-template-columns:1fr}.home-bottom{grid-template-columns:1fr}}
-@media(max-width:680px){.app{display:block}.sidebar{position:relative;height:auto;min-height:0;padding:12px}.profile{display:flex;align-items:center;text-align:left;gap:10px;padding:0 0 10px}.profile .avatar{width:48px;height:48px;font-size:24px;margin:0}.profile h2{font-size:15px}nav{display:flex;overflow-x:auto;padding:9px 0 0}nav button{white-space:nowrap;padding:9px}nav button span{width:auto}.addbook,.site-links{display:none}main{padding:17px 13px 30px}.tabs .tab{min-width:calc(50% - 5px)}.stats{grid-template-columns:repeat(2,1fr)}.book-grid{grid-template-columns:repeat(2,1fr)}.cover{height:115px}.cards{grid-template-columns:1fr}}
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;0,800;1,600&display=swap');
+:root{--wine:#451A24;--wine2:#6E2B38;--cream:#F6EFE6;--paper:#FFFCF8;--ink:#38272C;--gold:#D6AE70;--border:#E6D8CB;--suave:#78666B}
+*{box-sizing:border-box}
+body{margin:0;font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--ink)}
+
+.topo{
+  position:sticky;top:0;z-index:20;
+  display:flex;align-items:center;justify-content:space-between;
+  gap:14px;padding:14px 5%;
+  background:var(--paper);border-bottom:1px solid var(--border);
+  flex-wrap:wrap;
+}
+.marca{display:flex;align-items:center;gap:11px;font-weight:700;text-decoration:none;color:inherit}
+.marca-simbolo{
+  width:42px;height:42px;display:grid;place-items:center;
+  border-radius:50%;background:#3B151E;color:var(--gold);
+  border:2px solid var(--gold);font-family:'Playfair Display',serif;
+  font-size:.95rem;font-weight:700;
+}
+.marca-texto{display:grid;font-family:'Playfair Display',serif;font-size:1.25rem;color:var(--wine);line-height:1.05}
+.marca-texto small{font-family:'DM Sans',sans-serif;font-size:.56rem;letter-spacing:.16em;color:var(--suave);margin-top:2px}
+.nav-links{display:flex;gap:10px;flex-wrap:wrap}
+.nav-links a{text-decoration:none;color:var(--suave);font-size:.86rem;font-weight:700;padding:7px 13px;border-radius:10px;transition:.2s}
+.nav-links a:hover,.nav-links a.ativo{background:rgba(197,140,165,.22);color:var(--wine)}
+
+.hero{
+  padding:46px 6% 52px;text-align:center;color:#FFF7EE;
+  background:#431A24;border-bottom:3px solid var(--gold);
+}
+.hero .etiqueta{display:inline-block;font-size:.72rem;font-weight:700;letter-spacing:.2em;color:var(--gold);margin-bottom:8px}
+.hero h1{font-family:'Playfair Display',serif;font-size:clamp(2rem,4vw,3.1rem);margin:0 0 8px}
+.hero h1 em{color:#C58CA5;font-style:italic}
+.hero p{margin:0 auto;max-width:54ch;color:rgba(255,247,238,.86);font-size:.96rem}
+
+.container{width:min(1080px,92%);margin:28px auto 52px}
+.tabs{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-bottom:24px}
+.tab{
+  border:1px solid var(--border);background:var(--paper);color:var(--ink);
+  border-radius:99px;padding:10px 20px;font-weight:700;font-size:.88rem;cursor:pointer;transition:.2s;
+}
+.tab.active,.tab:hover{background:var(--wine);color:#FFF7EE;border-color:var(--wine)}
+
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(275px,1fr));gap:18px}
+.card{
+  background:var(--paper);border:1px solid var(--border);border-radius:20px;
+  padding:20px;box-shadow:0 10px 24px rgba(69,26,36,.06);
+  display:flex;flex-direction:column;gap:12px;
+}
+.card-head{display:flex;align-items:center;gap:13px}
+.avatar-iniciais{
+  width:50px;height:50px;border-radius:50%;flex-shrink:0;
+  display:grid;place-items:center;background:var(--wine);color:var(--gold);
+  border:2px solid var(--gold);font-family:'Playfair Display',serif;
+  font-weight:700;font-size:1.05rem;
+}
+.card h3{margin:0;font-family:'Playfair Display',serif;font-size:1.15rem;color:var(--wine)}
+.sub{font-size:.82rem;color:var(--suave)}
+.lendo-box{
+  background:#F6EFE6;border:1px solid var(--border);border-radius:12px;
+  padding:10px 12px;font-size:.85rem;
+}
+.lendo-box span{display:block;font-size:.7rem;letter-spacing:.12em;font-weight:700;color:var(--wine2);margin-bottom:2px}
+.actions{display:flex;gap:8px;margin-top:auto}
+.btn{
+  flex:1;border:0;border-radius:10px;padding:10px 12px;font-weight:700;
+  font-size:.84rem;cursor:pointer;transition:.15s;
+}
+.btn:hover{transform:translateY(-1px)}
+.btn-wine{background:var(--wine);color:#FFF7EE}
+.btn-gold{background:var(--gold);color:#2B1318}
+.btn-outline{background:var(--cream);color:var(--wine);border:1px solid var(--border)}
+
+.search-bar{
+  display:flex;gap:10px;margin-bottom:18px;
+}
+.search-bar input{
+  flex:1;padding:12px 16px;border-radius:12px;border:1px solid var(--border);
+  background:var(--paper);font:inherit;color:var(--ink);
+}
+
+.ranking-list{display:grid;gap:12px}
+.rank-row{
+  background:var(--paper);border:1px solid var(--border);border-radius:16px;
+  padding:15px 20px;display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;
+}
+.rank-left{display:flex;align-items:center;gap:14px}
+.pos-badge{
+  width:38px;height:38px;border-radius:50%;display:grid;place-items:center;
+  font-weight:800;font-size:.92rem;background:#EFE3D2;color:var(--wine);
+}
+.pos-1{background:var(--gold);color:#2B1318}
+.pos-2{background:#D8D2CC;color:#2B1318}
+.pos-3{background:#C89B7B;color:#2B1318}
+.pts-pill{
+  background:var(--wine);color:var(--gold);padding:6px 14px;
+  border-radius:99px;font-weight:700;font-size:.85rem;
+}
+
+.toast{
+  position:fixed;bottom:20px;left:50%;transform:translateX(-50%);
+  background:#2B1318;color:#FFF7EE;padding:11px 18px;border-radius:99px;
+  font-size:.86rem;opacity:0;pointer-events:none;transition:opacity .25s;z-index:40;
+}
+.toast.show{opacity:1}
+
+footer{
+  padding:24px 6%;background:#2C0F18;color:rgba(255,247,238,.82);
+  display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:14px;font-size:.85rem;
+}
 </style>
 </head>
 <body>
-<div class="app">
-<aside class="sidebar">
- <div class="profile"><div class="avatar">👩🏽</div><div><h2 id="sidebarUserName">Carol Oliveira</h2><p id="sidebarUserClass">Turma 2º EM • Leitora</p></div></div>
- <nav id="nav">
-  <button class="active" data-view="inicio"><span>⌂</span>Início</button>
-  <button data-view="estante"><span>▤</span>Minha Estante</button>
-  <button data-view="livros"><span>▣</span>Meus Livros</button>
-  <button data-view="amigos"><span>♣</span>Amigos</button>
-  <button data-view="favoritos"><span>♡</span>Favoritos</button>
-  <button data-view="quero"><span>♧</span>Quero Ler</button>
-  <button data-view="lidos"><span>✓</span>Lidos</button>
-  <button data-view="grupos"><span>▦</span>Grupos</button>
-  <button data-view="desafios"><span>🏆</span>Desafios</button>
- </nav>
- <button class="addbook" onclick="openBookModal()">＋ Adicionar Livro</button>
- <div class="site-links">
-   <a href="index.html">← Voltar ao TechBook</a>
-   <a href="perfil-aluno.html">👤 Minha Área / Empréstimos</a>
-   <a href="minha_estante_virtual_cabecalho_vinho.html">📚 Estante Virtual 3D</a>
-   <a href="ranking.html">🏆 Ranking Geral</a>
- </div>
-</aside>
-<main>
- <header class="top"><div class="brand"><div class="brand-icon">👥</div><div><h1>Amigos de Leitura</h1><p>Leia, compartilhe progresso, participe de desafios<br>e evolua junto com seus amigos!</p></div></div>
- <div class="top-right"><button class="iconbtn" onclick="showView('convites')" title="Convites">✉ <span class="dot"></span></button><a href="index.html" class="btn light" style="text-decoration:none;">← Início</a></div></header>
- <div class="tabs"><button class="tab active" data-view="inicio">♟ Visão geral</button><button class="tab" data-view="convites">✉ Convites</button><button class="tab" data-view="encontrar">⌕ Encontrar amigos</button><button class="tab" data-view="grupos">♧ Grupos de leitura</button></div>
 
- <section class="view active" id="view-inicio">
-  <div class="section-head"><h2>Minha Turma de Leitura</h2><button class="btn light" onclick="showView('amigos')">Ver todos →</button></div>
-  <div class="grid friends-grid" id="homeFriends"></div>
-  <div class="section-head"><h2>Grupos de Leitura <small class="muted" style="font-weight:normal">(clique para abrir o chat)</small></h2><button class="btn light" onclick="showView('grupos')">Explorar grupos →</button></div>
-  <div class="grid group-grid" id="homeGroups"></div>
-  <div class="home-bottom">
-   <div class="challenge"><h3>🏆 Desafio entre Amigos</h3><p>Quem lê mais páginas esta semana?</p><div class="podium"><div><div class="face">👨🏻</div><strong>Rafael</strong><small>120 páginas</small></div><div><div class="face">👩🏽</div><strong>Lívia</strong><small>145 páginas</small></div><div><div class="face">👩🏻</div><strong>Bia</strong><small>110 páginas</small></div></div><button class="btn light small" style="margin-top:12px" onclick="showView('desafios')">Participar do desafio</button></div>
-   <div class="ranking"><h3>▥ Ranking da Turma</h3><div id="homeRanking"></div><button class="btn light small" style="margin-top:8px" onclick="showView('desafios')">Ver ranking completo</button></div>
+<header class="topo">
+  <a class="marca" href="index.html">
+    <span class="marca-simbolo">TB</span>
+    <span class="marca-texto">
+      TechBook
+      <small>BIBLIOTECA INTELIGENTE</small>
+    </span>
+  </a>
+  <nav class="nav-links">
+    <a href="index.html">Início</a>
+    <a href="perfil-aluno.html">Minha Área</a>
+    <a href="minha_estante_virtual_cabecalho_vinho.html">Minha Estante</a>
+    <a class="ativo" href="amigos_de_leitura_completo.html">Amigos de Leitura</a>
+    <a href="ranking.html">Ranking Geral</a>
+  </nav>
+</header>
+
+<section class="hero">
+  <span class="etiqueta">COMUNIDADE LITERÁRIA</span>
+  <h1>Amigos de <em>Leitura</em></h1>
+  <p>Conecte-se com colegas da escola, descubra o que eles estão lendo agora e acompanhe o ranking da turma.</p>
+</section>
+
+<main class="container">
+  <div class="tabs">
+    <button class="tab active" data-tab="amigos">Meus Amigos (<span id="countAmigos">0</span>)</button>
+    <button class="tab" data-tab="encontrar">Encontrar Amigos</button>
+    <button class="tab" data-tab="ranking">Ranking da Turma</button>
   </div>
- </section>
 
- <section class="view" id="view-estante">
-  <div class="section-head"><div><h2>Minha Estante</h2><span class="muted">Organize sua coleção de livros.</span></div><button class="btn" onclick="openBookModal()">＋ Novo livro</button></div>
-  <div class="stats" id="stats"></div><div class="toolbar"><input class="field" id="shelfSearch" placeholder="Buscar por título ou autor..." oninput="renderBooks()"><select class="field" id="shelfFilter" onchange="renderBooks()"><option value="todos">Todas as categorias</option><option>Fantasia</option><option>Romance</option><option>Ficção científica</option><option>Suspense</option><option>Aventura</option><option>Outros</option></select></div>
-  <div class="book-grid" id="shelfBooks"></div>
- </section>
- <section class="view" id="view-livros">
-  <div class="section-head"><div><h2>Meus Livros</h2><span class="muted">Adicione, edite e acompanhe suas leituras.</span></div><button class="btn" onclick="openBookModal()">＋ Adicionar</button></div><div class="book-grid" id="allBooks"></div>
- </section>
- <section class="view" id="view-favoritos"><div class="section-head"><div><h2>Meus Favoritos ♡</h2><span class="muted">Os livros que você marcou como especiais.</span></div></div><div class="book-grid" id="favoriteBooks"></div></section>
- <section class="view" id="view-quero"><div class="section-head"><div><h2>Quero Ler</h2><span class="muted">Sua lista de próximas leituras.</span></div><button class="btn" onclick="openBookModal()">＋ Adicionar livro</button></div><div class="book-grid" id="wantBooks"></div></section>
- <section class="view" id="view-lidos"><div class="section-head"><div><h2>Livros Concluídos</h2><span class="muted">Veja seu histórico de leitura.</span></div></div><div class="book-grid" id="readBooks"></div></section>
- <section class="view" id="view-amigos"><div class="section-head"><div><h2>Meus Amigos</h2><span class="muted">Acompanhe seus colegas leitores.</span></div><button class="btn" onclick="showView('encontrar')">＋ Encontrar amigos</button></div><div class="grid friends-grid" id="allFriends"></div></section>
- <section class="view" id="view-convites"><div class="section-head"><div><h2>Convites</h2><span class="muted">Gerencie solicitações de amizade.</span></div></div><div class="panel" id="inviteList"></div></section>
- <section class="view" id="view-encontrar"><div class="section-head"><div><h2>Encontrar Amigos</h2><span class="muted">Conheça outros leitores da comunidade demonstrativa.</span></div></div><div class="toolbar"><input class="field" id="friendSearch" placeholder="Pesquisar por nome..." oninput="renderFindFriends()"></div><div class="grid friends-grid" id="findFriends"></div></section>
- <section class="view" id="view-grupos"><div class="section-head"><div><h2>Grupos de Leitura</h2><span class="muted">Clique em um grupo para conversar ou participar.</span></div><button class="btn" onclick="openGroupModal()">＋ Criar grupo</button></div><div class="grid group-grid" id="allGroups"></div></section>
- <section class="view" id="view-desafios"><div class="section-head"><div><h2>Desafios de Leitura</h2><span class="muted">Pequenas metas para manter o hábito de ler.</span></div><button class="btn" onclick="addPages()">＋ Registrar páginas</button></div><div class="stats" id="challengeStats"></div><div class="cards"><div class="challenge-card"><h3>📖 Meta semanal</h3><p>Leia 100 páginas nesta semana. Cada registro atualiza sua barra de progresso.</p><div class="progress"><span id="weekProgress" style="width:35%"></span></div><b id="weekLabel" style="font-size:12px">35 de 100 páginas</b></div><div class="challenge-card"><h3>🌟 Desafio do mês</h3><p>Concluir 2 livros durante o mês.</p><div class="progress"><span id="monthProgress" style="width:50%"></span></div><b id="monthLabel" style="font-size:12px">1 de 2 livros concluídos</b></div></div><div class="section-head"><h2>Ranking da Turma</h2></div><div class="panel"><table><thead><tr><th>Posição</th><th>Leitor</th><th>Livros</th><th>Páginas na semana</th></tr></thead><tbody id="fullRanking"></tbody></table></div></section>
-</main></div>
+  <!-- ABA 1: MEUS AMIGOS -->
+  <section id="sec-amigos">
+    <div class="grid" id="gridAmigos"></div>
+  </section>
 
-<div class="modal-back" id="modalBack" onclick="if(event.target===this)closeModal()"><div class="modal"><button class="close" onclick="closeModal()">×</button><div id="modalContent"></div></div></div><div class="toast" id="toast"></div>
-<script>
-const defaultBooks=[
- {id:1,title:'O Senhor dos Anéis',author:'J. R. R. Tolkien',category:'Fantasia',status:'Quero ler',favorite:true,pages:0},
- {id:2,title:'Harry Potter e a Pedra Filosofal',author:'J. K. Rowling',category:'Fantasia',status:'Lendo',favorite:false,pages:120},
- {id:3,title:'A Guerra das Almas',author:'T. A. Barron',category:'Aventura',status:'Lido',favorite:true,pages:280},
- {id:4,title:'Viagem ao Centro da Terra',author:'Júlio Verne',category:'Ficção científica',status:'Quero ler',favorite:false,pages:0}
-];
-const defaultFriends=[['Lívia','👩🏽','14 livros'],['Marcos','👨🏻','10 livros'],['Bia','👩🏻','11 livros'],['Rafael','👨🏽','12 livros'],['Clara','👩🏼','9 livros']];
-const candidates=[['Gabriel','👨🏽','8 livros'],['Juliana','👩🏻','7 livros'],['Davi','👨🏻','6 livros'],['Sofia','👩🏼','5 livros'],['Pedro','👨🏽','4 livros']];
-const defaultGroups=[
-  {id:1,name:'Clube do Livro',emoji:'📚',members:8,description:'Um espaço para conversar sobre livros e compartilhar indicações.'},
-  {id:2,name:'Leitura Atual',emoji:'🌿',members:5,description:'Conte o que está lendo e acompanhe a leitura dos colegas.'},
-  {id:3,name:'Desafios de Leitura',emoji:'✏️',members:8,description:'Metas divertidas para incentivar a leitura.'}
-];
-let books=JSON.parse(localStorage.getItem('ab_books')||'null')||defaultBooks;
-let friends=JSON.parse(localStorage.getItem('ab_friends')||'null')||defaultFriends;
-let groups=JSON.parse(localStorage.getItem('ab_groups')||'null')||defaultGroups;
-let invites=JSON.parse(localStorage.getItem('ab_invites')||'null')||[['Ana','👩🏻','Quer adicionar você como amiga.'],['Lucas','👨🏻','Convidou você para o Clube do Livro.']];
-let pages=Number(localStorage.getItem('ab_pages')||35);
-
-function save(){localStorage.setItem('ab_books',JSON.stringify(books));localStorage.setItem('ab_friends',JSON.stringify(friends));localStorage.setItem('ab_groups',JSON.stringify(groups));localStorage.setItem('ab_invites',JSON.stringify(invites));localStorage.setItem('ab_pages',pages)}
-function toast(t){let el=document.getElementById('toast');el.textContent=t;el.classList.add('show');clearTimeout(window.tt);window.tt=setTimeout(()=>el.classList.remove('show'),2200)}
-function showView(v){document.querySelectorAll('.view').forEach(x=>x.classList.remove('active'));let target=document.getElementById('view-'+v);if(target)target.classList.add('active');document.querySelectorAll('[data-view]').forEach(x=>x.classList.toggle('active',x.dataset.view===v));renderAll();window.scrollTo({top:0,behavior:'smooth'})}
-document.querySelectorAll('[data-view]').forEach(b=>b.addEventListener('click',()=>showView(b.dataset.view)));
-function faceCard(f){return `<div class="friend" onclick="toast('Perfil de ${f[0]} • ${f[2]}')"><div class="face">${f[1]}</div><b>${f[0]}</b><small>${f[2]}</small></div>`}
-
-function groupCard(g){
-  let joined=g.joined?'Participando':'Participar';
-  return `<div class="group" onclick="openGroupChat(${g.id})">
-    <span class="emoji">${g.emoji}</span>
-    <div style="flex:1"><b>${esc(g.name)}</b><small>♟ ${g.members} membros · Clique p/ chat</small><small>${esc(g.description)}</small></div>
-    <button class="btn small ${g.joined?'light':''}" onclick="event.stopPropagation();toggleGroup(${g.id})">${joined}</button>
-  </div>`;
-}
-
-function openGroupChat(id){
-  const g = groups.find(x => x.id === id);
-  if(!g) return;
-  g.messages = g.messages || [
-    { author: "Lívia", text: "Acabei de começar o capítulo 3, estou adorando!" },
-    { author: "Rafael", text: "Alguém tem indicação parecida no catálogo do TechBook?" }
-  ];
-  openModal(`
-    <h2>${g.emoji} ${esc(g.name)}</h2>
-    <p class="muted">${esc(g.description)}</p>
-    <div id="chatBox" style="max-height:220px;overflow-y:auto;background:#fff8ef;border:1px solid #ecd7c4;border-radius:12px;padding:10px;margin:12px 0;display:grid;gap:8px;">
-      ${g.messages.map(m => `<div style="font-size:12px;padding:6px 8px;background:#fff;border-radius:8px;"><strong>${esc(m.author)}:</strong> ${esc(m.text)}</div>`).join('')}
+  <!-- ABA 2: ENCONTRAR AMIGOS -->
+  <section id="sec-encontrar" hidden>
+    <div class="search-bar">
+      <input type="search" id="buscaLeitor" placeholder="Pesquisar colega por nome ou turma...">
     </div>
-    <form id="chatForm" style="display:flex;gap:8px;">
-      <input class="field" name="msg" required placeholder="Escreva sua mensagem para o grupo..." style="flex:1;">
-      <button class="btn">Enviar</button>
-    </form>
-  `);
-  document.getElementById('chatForm').onsubmit = e => {
-    e.preventDefault();
-    const txt = new FormData(e.target).get('msg').trim();
-    if(!txt) return;
-    const nomeUsuario = document.getElementById('sidebarUserName')?.textContent || 'Você';
-    g.messages.push({ author: nomeUsuario, text: txt });
-    save();
-    openGroupChat(id);
-  };
+    <div class="grid" id="gridEncontrar"></div>
+  </section>
+
+  <!-- ABA 3: RANKING DA TURMA -->
+  <section id="sec-ranking" hidden>
+    <div class="ranking-list" id="listaRanking"></div>
+  </section>
+</main>
+
+<div class="toast" id="toast"></div>
+
+<footer>
+  <span>TechBook · Biblioteca Inteligente</span>
+  <span style="color:var(--gold)">Ler · Descobrir · Imaginar</span>
+</footer>
+
+<script>
+const CHAVE_AMIGOS = "techbook_amigos_salvos_v2";
+
+const amigosBase = [
+  { id: "demo-1", nome: "Ana Clara Martins", turma: "2º Ano B", lendo: "O Pequeno Príncipe", livrosLidos: 8 },
+  { id: "demo-2", nome: "Lucas Henrique Silva", turma: "3º Ano A", lendo: "Dom Casmurro", livrosLidos: 6 },
+  { id: "demo-3", nome: "Mariana Costa", turma: "1º Ano C", lendo: "O Hobbit", livrosLidos: 10 }
+];
+
+let amigos = [];
+let todosAlunos = [];
+let rankingReal = [];
+
+function toast(msg) {
+  const t = document.getElementById("toast");
+  t.textContent = msg;
+  t.classList.add("show");
+  setTimeout(() => t.classList.remove("show"), 2400);
 }
 
-function esc(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
-function renderFriends(){document.getElementById('homeFriends').innerHTML=friends.slice(0,5).map(faceCard).join('')+`<div class="friend" onclick="showView('encontrar')"><div class="face" style="background:#fff8ef;border:2px dashed #c9a978;color:#6c2b2d">＋</div><b>Adicionar</b><small>Amigo</small></div>`;document.getElementById('allFriends').innerHTML=friends.length?friends.map(faceCard).join(''):'<div class="empty">Você ainda não adicionou amigos.</div>'}
-function renderGroups(){document.getElementById('homeGroups').innerHTML=groups.slice(0,3).map(groupCard).join('');document.getElementById('allGroups').innerHTML=groups.map(groupCard).join('')}
-function bookCard(b){return `<article class="book"><div class="cover">${esc(b.title)}</div><h3>${esc(b.title)}</h3><p>${esc(b.author)}</p><span class="tag">${esc(b.category)}</span><span class="tag">${esc(b.status)}</span><div class="actions"><button class="btn small light" onclick="toggleFavorite(${b.id})">${b.favorite?'♥ Favorito':'♡ Favoritar'}</button><button class="btn small outline" onclick="changeStatus(${b.id})">Status</button><button class="btn small outline" onclick="editBook(${b.id})">Editar</button></div></article>`}
-function renderBooks(){let q=(document.getElementById('shelfSearch')?.value||'').toLowerCase(),cat=document.getElementById('shelfFilter')?.value||'todos';let list=books.filter(b=>(b.title.toLowerCase().includes(q)||b.author.toLowerCase().includes(q))&&(cat==='todos'||b.category===cat));document.getElementById('shelfBooks').innerHTML=list.length?list.map(bookCard).join(''):'<div class="empty">Nenhum livro encontrado. Experimente outra busca ou adicione um livro.</div>';document.getElementById('allBooks').innerHTML=books.length?books.map(bookCard).join(''):'<div class="empty">Sua lista está vazia. Adicione seu primeiro livro!</div>';document.getElementById('favoriteBooks').innerHTML=books.filter(b=>b.favorite).map(bookCard).join('')||'<div class="empty">Você ainda não marcou favoritos.</div>';document.getElementById('wantBooks').innerHTML=books.filter(b=>b.status==='Quero ler').map(bookCard).join('')||'<div class="empty">Sua lista de próximas leituras está vazia.</div>';document.getElementById('readBooks').innerHTML=books.filter(b=>b.status==='Lido').map(bookCard).join('')||'<div class="empty">Os livros concluídos aparecerão aqui.</div>';let read=books.filter(b=>b.status==='Lido').length;document.getElementById('stats').innerHTML=`<div class="stat"><strong>${books.length}</strong><span>Livros na estante</span></div><div class="stat"><strong>${read}</strong><span>Livros concluídos</span></div><div class="stat"><strong>${books.filter(b=>b.status==='Lendo').length}</strong><span>Em andamento</span></div><div class="stat"><strong>${books.filter(b=>b.favorite).length}</strong><span>Favoritos</span></div>`}
-function toggleFavorite(id){let b=books.find(x=>x.id===id);b.favorite=!b.favorite;save();renderAll();toast(b.favorite?'Adicionado aos favoritos!':'Removido dos favoritos.')}
-function changeStatus(id){let b=books.find(x=>x.id===id),opts=['Quero ler','Lendo','Lido'];b.status=opts[(opts.indexOf(b.status)+1)%opts.length];save();renderAll();toast('Status atualizado: '+b.status)}
-function openModal(content){document.getElementById('modalContent').innerHTML=content;document.getElementById('modalBack').classList.add('open')}
-function closeModal(){document.getElementById('modalBack').classList.remove('open')}
-function openBookModal(){openModal(`<h2>Adicionar livro</h2><form id="bookForm"><label>Título do livro</label><input class="field" name="title" required placeholder="Ex.: O Hobbit"><label>Autor</label><input class="field" name="author" required placeholder="Nome do autor"><label>Categoria</label><select class="field" name="category"><option>Fantasia</option><option>Romance</option><option>Ficção científica</option><option>Suspense</option><option>Aventura</option><option>Outros</option></select><label>Status da leitura</label><select class="field" name="status"><option>Quero ler</option><option>Lendo</option><option>Lido</option></select><div class="modal-actions"><button type="button" class="btn light" onclick="closeModal()">Cancelar</button><button class="btn">Salvar livro</button></div></form>`);document.getElementById('bookForm').onsubmit=e=>{e.preventDefault();let d=new FormData(e.target);books.push({id:Date.now(),title:d.get('title'),author:d.get('author'),category:d.get('category'),status:d.get('status'),favorite:false,pages:0});save();closeModal();renderAll();toast('Livro adicionado à estante!')}}
-function editBook(id){let b=books.find(x=>x.id===id);openModal(`<h2>Editar livro</h2><form id="editForm"><label>Título</label><input class="field" name="title" required value="${esc(b.title)}"><label>Autor</label><input class="field" name="author" required value="${esc(b.author)}"><label>Categoria</label><select class="field" name="category">${['Fantasia','Romance','Ficção científica','Suspense','Aventura','Outros'].map(x=>`<option ${x===b.category?'selected':''}>${x}</option>`).join('')}</select><div class="modal-actions"><button type="button" class="btn danger" onclick="deleteBook(${id})">Excluir</button><button type="button" class="btn light" onclick="closeModal()">Cancelar</button><button class="btn">Salvar</button></div></form>`);document.getElementById('editForm').onsubmit=e=>{e.preventDefault();let d=new FormData(e.target);Object.assign(b,{title:d.get('title'),author:d.get('author'),category:d.get('category')});save();closeModal();renderAll();toast('Livro atualizado!')}}
-function deleteBook(id){if(confirm('Deseja realmente excluir este livro?')){books=books.filter(b=>b.id!==id);save();closeModal();renderAll();toast('Livro excluído.')}}
-function renderFindFriends(){let q=(document.getElementById('friendSearch')?.value||'').toLowerCase(),known=[...friends.map(x=>x[0]),document.getElementById('sidebarUserName').textContent];let list=candidates.filter(f=>f[0].toLowerCase().includes(q)&&!known.includes(f[0]));document.getElementById('findFriends').innerHTML=list.map(f=>`<div class="friend"><div class="face">${f[1]}</div><b>${f[0]}</b><small>${f[2]}</small><button class="btn small" style="margin-top:8px" onclick="sendInvite('${f[0]}','${f[1]}','${f[2]}')">＋ Adicionar</button></div>`).join('')||'<div class="empty">Nenhum leitor encontrado.</div>'}
-function sendInvite(n,e,d){invites.push([n,e,'Convite enviado por você.']);save();renderInvites();renderFindFriends();toast('Convite enviado para '+n+'!')}
-function renderInvites(){document.getElementById('inviteList').innerHTML=invites.length?invites.map((x,i)=>`<div class="invite"><div class="face">${x[1]}</div><div class="grow"><b>${esc(x[0])}</b><small>${esc(x[2])}</small></div><button class="btn small" onclick="acceptInvite(${i})">Aceitar</button><button class="btn small danger" onclick="rejectInvite(${i})">Recusar</button></div>`).join(''):'<div class="empty">Nenhum convite no momento.</div>'}
-function acceptInvite(i){let x=invites.splice(i,1)[0];friends.push([x[0],x[1],'Novo amigo']);save();renderAll();toast(x[0]+' foi adicionado à sua turma!')}
-function rejectInvite(i){invites.splice(i,1);save();renderInvites();toast('Convite recusado.')}
-function openGroupModal(){openModal(`<h2>Criar grupo de leitura</h2><form id="groupForm"><label>Nome do grupo</label><input class="field" name="name" required placeholder="Ex.: Clube de Fantasia"><label>Descrição</label><textarea class="field" name="description" rows="3" placeholder="Sobre o que será o grupo?"></textarea><label>Ícone</label><select class="field" name="emoji"><option>📚</option><option>🌿</option><option>✨</option><option>🚀</option><option>🕵️</option></select><div class="modal-actions"><button type="button" class="btn light" onclick="closeModal()">Cancelar</button><button class="btn">Criar grupo</button></div></form>`);document.getElementById('groupForm').onsubmit=e=>{e.preventDefault();let d=new FormData(e.target);groups.push({id:Date.now(),name:d.get('name'),description:d.get('description')||'Grupo criado por você.',emoji:d.get('emoji'),members:1,joined:true});save();closeModal();renderAll();toast('Grupo criado com sucesso!')}}
-function toggleGroup(id){let g=groups.find(x=>x.id===id);g.joined=!g.joined;g.members+=g.joined?1:-1;save();renderAll();toast(g.joined?'Você entrou no grupo!':'Você saiu do grupo.')}
-function addPages(){openModal(`<h2>Registrar leitura</h2><p class="muted">Quantas páginas você leu nesta semana?</p><form id="pagesForm"><label>Número de páginas</label><input class="field" type="number" name="pages" min="1" max="1000" required placeholder="Ex.: 20"><div class="modal-actions"><button type="button" class="btn light" onclick="closeModal()">Cancelar</button><button class="btn">Registrar</button></div></form>`);document.getElementById('pagesForm').onsubmit=e=>{e.preventDefault();pages+=Number(new FormData(e.target).get('pages'));save();closeModal();renderChallenges();toast('Páginas registradas! Continue assim!')}}
-function renderChallenges(){let read=books.filter(b=>b.status==='Lido').length;document.getElementById('challengeStats').innerHTML=`<div class="stat"><strong>${pages}</strong><span>Páginas nesta semana</span></div><div class="stat"><strong>${read}</strong><span>Livros concluídos</span></div><div class="stat"><strong>${friends.length}</strong><span>Amigos leitores</span></div><div class="stat"><strong>${groups.length}</strong><span>Grupos disponíveis</span></div>`;let p=Math.min(100,pages);document.getElementById('weekProgress').style.width=p+'%';document.getElementById('weekLabel').textContent=pages+' de 100 páginas';let m=Math.min(100,read/2*100);document.getElementById('monthProgress').style.width=m+'%';document.getElementById('monthLabel').textContent=read+' de 2 livros concluídos';let rows=[['1º','Lívia','14','145'],['2º','Rafael','12','120'],['3º','Bia','11','110'],['4º','Marcos','10','95'],['5º','Clara','9','80'],['6º','Você',String(read),String(pages)]];document.getElementById('fullRanking').innerHTML=rows.map(r=>`<tr><td>${r[0]}</td><td>${r[1]}</td><td>${r[2]}</td><td>${r[3]}</td></tr>`).join('');document.getElementById('homeRanking').innerHTML=rows.slice(0,4).map(r=>`<div class="rankrow"><span class="medal">${r[0]}</span><span class="mini">👤</span><b>${r[1]}</b><small>${r[2]} livros</small></div>`).join('')}
-function renderAll(){renderFriends();renderGroups();renderBooks();renderInvites();renderFindFriends();renderChallenges()}
+function iniciais(nome) {
+  return String(nome || "TB").trim().split(/\s+/).slice(0, 2).map(p => p[0]).join("").toUpperCase();
+}
 
-fetch('/api/sessao-aluno', { credentials: 'same-origin' })
-  .then(r => r.ok ? r.json() : null)
-  .then(d => {
-    if (!d) return;
-    const aluno = d.aluno || d;
-    document.getElementById('sidebarUserName').textContent = aluno.nome;
-    document.getElementById('sidebarUserClass').textContent = `${aluno.turma || 'Leitor'} • TechBook`;
-    renderAll();
-  }).catch(() => {});
+function escapar(str) {
+  return String(str ?? "").replace(/[&<>"']/g, c => ({ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;" }[c]));
+}
 
-renderAll();
+function carregarAmigos() {
+  try {
+    const salvo = JSON.parse(localStorage.getItem(CHAVE_AMIGOS) || "null");
+    amigos = Array.isArray(salvo) && salvo.length ? salvo : [...amigosBase];
+  } catch {
+    amigos = [...amigosBase];
+  }
+}
+
+function salvarAmigos() {
+  localStorage.setItem(CHAVE_AMIGOS, JSON.stringify(amigos));
+}
+
+function renderAmigos() {
+  document.getElementById("countAmigos").textContent = amigos.length;
+  const grid = document.getElementById("gridAmigos");
+
+  if (!amigos.length) {
+    grid.innerHTML = `<div class="card"><p>Você ainda não adicionou amigos. Clique em <strong>Encontrar Amigos</strong> para conhecer outros leitores!</p></div>`;
+    return;
+  }
+
+  grid.innerHTML = amigos.map(a => `
+    <article class="card">
+      <div class="card-head">
+        <div class="avatar-iniciais">${iniciais(a.nome)}</div>
+        <div>
+          <h3>${escapar(a.nome)}</h3>
+          <div class="sub">${escapar(a.turma || "Leitor TechBook")} · ${a.livrosLidos || 1} livro(s) lido(s)</div>
+        </div>
+      </div>
+      <div class="lendo-box">
+        <span>LENDO ATUALMENTE</span>
+        <strong>${escapar(a.lendo || "Explorando o catálogo")}</strong>
+      </div>
+      <div class="actions">
+        <button class="btn btn-gold" type="button" onclick="recomendarPara('${escapar(a.nome)}')">Indicar livro</button>
+        <button class="btn btn-outline" type="button" onclick="removerAmigo('${escapar(a.id)}')">Remover</button>
+      </div>
+    </article>
+  `).join("");
+}
+
+function renderEncontrar() {
+  const termo = (document.getElementById("buscaLeitor").value || "").trim().toLowerCase();
+  const grid = document.getElementById("gridEncontrar");
+
+  const candidatos = todosAlunos.filter(al => {
+    const texto = `${al.nome} ${al.turma || ""}`.toLowerCase();
+    return texto.includes(termo);
+  });
+
+  if (!candidatos.length) {
+    grid.innerHTML = `<div class="card"><p>Nenhum leitor encontrado com esse filtro.</p></div>`;
+    return;
+  }
+
+  grid.innerHTML = candidatos.map(al => {
+    const jaAmigo = amigos.some(am => String(am.id) === String(al.id));
+    return `
+      <article class="card">
+        <div class="card-head">
+          <div class="avatar-iniciais">${iniciais(al.nome)}</div>
+          <div>
+            <h3>${escapar(al.nome)}</h3>
+            <div class="sub">${escapar(al.turma || "Estudante")}</div>
+          </div>
+        </div>
+        <div class="lendo-box">
+          <span>LEITURA ATUAL</span>
+          <strong>${escapar(al.lendo || "Explorando o acervo TechBook")}</strong>
+        </div>
+        <div class="actions">
+          <button
+            class="btn ${jaAmigo ? "btn-outline" : "btn-wine"}"
+            type="button"
+            ${jaAmigo ? "disabled" : ""}
+            onclick="adicionarAmigo('${escapar(al.id)}')"
+          >
+            ${jaAmigo ? "Já é seu amigo" : "+ Adicionar amigo"}
+          </button>
+        </div>
+      </article>
+    `;
+  }).join("");
+}
+
+function renderRanking() {
+  const lista = document.getElementById("listaRanking");
+  const baseRanking = rankingReal.length
+    ? rankingReal
+    : [...amigos].sort((a, b) => (b.livrosLidos || 0) - (a.livrosLidos || 0)).map(a => ({
+        nome: a.nome,
+        turma: a.turma,
+        livros_lidos: a.livrosLidos || 1,
+        pontos: (a.livrosLidos || 1) * 50
+      }));
+
+  if (!baseRanking.length) {
+    lista.innerHTML = `<div class="card"><p>Ainda não há leituras registradas no ranking.</p></div>`;
+    return;
+  }
+
+  lista.innerHTML = baseRanking.map((item, idx) => {
+    const pos = idx + 1;
+    const cls = pos === 1 ? "pos-1" : pos === 2 ? "pos-2" : pos === 3 ? "pos-3" : "";
+    return `
+      <div class="rank-row">
+        <div class="rank-left">
+          <div class="pos-badge ${cls}">${pos}º</div>
+          <div class="avatar-iniciais" style="width:42px;height:42px;font-size:.9rem;">${iniciais(item.nome)}</div>
+          <div>
+            <strong style="color:var(--wine);font-size:1rem;">${escapar(item.nome)}</strong>
+            <div class="sub">${escapar(item.turma || "Estudante")} · ${Number(item.livros_lidos || 0)} livro(s)</div>
+          </div>
+        </div>
+        <span class="pts-pill">${Number(item.pontos || 0)} pts</span>
+      </div>
+    `;
+  }).join("");
+}
+
+window.adicionarAmigo = function(id) {
+  const leitor = todosAlunos.find(a => String(a.id) === String(id));
+  if (!leitor) return;
+  if (amigos.some(a => String(a.id) === String(id))) return;
+
+  amigos.push({
+    id: String(leitor.id),
+    nome: leitor.nome,
+    turma: leitor.turma || "Estudante",
+    lendo: leitor.lendo || "Explorando o acervo",
+    livrosLidos: leitor.livrosLidos || 1
+  });
+  salvarAmigos();
+  renderAmigos();
+  renderEncontrar();
+  toast(`${leitor.nome} adicionado(a) aos seus amigos!`);
+};
+
+window.removerAmigo = function(id) {
+  amigos = amigos.filter(a => String(a.id) !== String(id));
+  salvarAmigos();
+  renderAmigos();
+  renderEncontrar();
+  toast("Amigo removido da lista.");
+};
+
+window.recomendarPara = function(nome) {
+  const livro = prompt(`Qual livro você quer indicar para ${nome}?`);
+  if (livro && livro.trim()) {
+    toast(`Indicação de "${livro.trim()}" enviada para ${nome}!`);
+  }
+};
+
+document.querySelectorAll(".tab").forEach(btn => {
+  btn.addEventListener("click", () => {
+    document.querySelectorAll(".tab").forEach(b => b.classList.remove("active"));
+    btn.classList.add("active");
+    const alvo = btn.dataset.tab;
+    document.getElementById("sec-amigos").hidden = alvo !== "amigos";
+    document.getElementById("sec-encontrar").hidden = alvo !== "encontrar";
+    document.getElementById("sec-ranking").hidden = alvo !== "ranking";
+  });
+});
+
+document.getElementById("buscaLeitor").addEventListener("input", renderEncontrar);
+
+async function carregarDadosServidor() {
+  carregarAmigos();
+  renderAmigos();
+
+  // Carrega alunos reais do banco + sugestões
+  const sugestoes = [
+    ...amigosBase,
+    { id: "demo-4", nome: "Gabriel Almeida", turma: "2º Ano A", lendo: "1984", livrosLidos: 7 },
+    { id: "demo-5", nome: "Sofia Ribeiro", turma: "3º Ano B", lendo: "A Revolução dos Bichos", livrosLidos: 9 }
+  ];
+
+  try {
+    const respAlunos = await fetch("/api/alunos", { cache: "no-store" });
+    if (respAlunos.ok) {
+      const listaBanco = await respAlunos.json();
+      const reais = (Array.isArray(listaBanco) ? listaBanco : []).map(a => ({
+        id: `db-${a.id_aluno}`,
+        nome: a.nome,
+        turma: a.turma || `Matrícula ${a.matricula}`,
+        lendo: "Explorando o catálogo TechBook",
+        livrosLidos: 1
+      }));
+      todosAlunos = [...reais, ...sugestoes];
+    } else {
+      todosAlunos = sugestoes;
+    }
+  } catch {
+    todosAlunos = sugestoes;
+  }
+
+  renderEncontrar();
+
+  // Carrega ranking real
+  try {
+    const respRank = await fetch("/api/ranking", { cache: "no-store" });
+    if (respRank.ok) {
+      const dadosRank = await respRank.json();
+      if (Array.isArray(dadosRank) && dadosRank.length) {
+        rankingReal = dadosRank;
+      }
+    }
+  } catch {}
+
+  renderRanking();
+}
+
+carregarDadosServidor();
 </script>
-</body></html>
+</body>
+</html>
