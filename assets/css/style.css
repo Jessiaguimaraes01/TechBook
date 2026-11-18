@@ -1,17 +1,17 @@
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap');
 
 :root {
-  --vinho: #481B27;
-  --bordo: #762F3B;
-  --creme: #F5EBDD;
+  --vinho: #451A24;
+  --bordo: #6E2B38;
+  --creme: #F6EFE6;
   --rosa: #C58CA5;
   --dourado: #D6AE70;
-  --papel: #FFFCF7;
+  --papel: #FFFCF8;
   --texto: #38272C;
   --suave: #78666B;
   --borda: #E6D8CB;
   --verde: #52776B;
-  --sombra: 0 12px 30px rgba(72, 27, 39, .08);
+  --sombra: 0 12px 30px rgba(69, 26, 36, .08);
 }
 
 * {
@@ -62,7 +62,7 @@ button, input, select {
   top: 12px;
 }
 
-/* TOPO */
+/* TOPO IDÊNTICO AO ORIGINAL */
 .topo {
   position: sticky;
   top: 0;
@@ -71,48 +71,52 @@ button, input, select {
   align-items: center;
   justify-content: space-between;
   gap: 14px;
-  padding: 14px 6%;
-  background: rgba(245, 235, 221, .96);
+  padding: 14px 5%;
+  background: var(--papel);
   border-bottom: 1px solid var(--borda);
-  backdrop-filter: blur(8px);
 }
 
 .marca {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 11px;
   font-weight: 700;
   flex-shrink: 0;
 }
 
 .marca-simbolo {
-  width: 38px;
-  height: 38px;
+  width: 42px;
+  height: 42px;
   display: grid;
   place-items: center;
-  border-radius: 10px;
-  background: var(--vinho);
+  border-radius: 50%;
+  background: #3B151E;
   color: var(--dourado);
+  border: 2px solid var(--dourado);
+  font-family: "Playfair Display", Georgia, serif;
+  font-size: 0.95rem;
   font-weight: 700;
+  letter-spacing: 0.04em;
 }
 
 .marca-texto {
   display: grid;
-  font-size: 1.2rem;
+  font-size: 1.25rem;
   color: var(--vinho);
   line-height: 1.05;
 }
 
 .marca-texto small {
   font-family: "DM Sans", sans-serif;
-  font-size: .58rem;
+  font-size: .56rem;
   letter-spacing: .16em;
   color: var(--suave);
+  margin-top: 2px;
 }
 
 nav {
   display: flex;
-  gap: 14px;
+  gap: 16px;
   flex-wrap: wrap;
   justify-content: center;
 }
@@ -121,7 +125,7 @@ nav a {
   font-size: .88rem;
   font-weight: 500;
   color: var(--suave);
-  padding: 5px 4px;
+  padding: 5px 3px;
   transition: color .2s;
 }
 
@@ -141,9 +145,9 @@ nav a:hover {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 8px 14px;
-  border-radius: 99px;
-  font-size: .85rem;
+  padding: 9px 16px;
+  border-radius: 10px;
+  font-size: .86rem;
   font-weight: 700;
   white-space: nowrap;
   transition: transform .15s, background-color .2s;
@@ -157,13 +161,13 @@ nav a:hover {
 .botao-entrar {
   background: var(--papel);
   color: var(--vinho);
-  border: 1px solid var(--borda);
+  border: 1.5px solid var(--dourado);
 }
 
 .botao-cadastrar {
-  background: var(--vinho);
-  color: #fff;
-  border: 1px solid var(--vinho);
+  background: #3B151E;
+  color: #FFF7EE;
+  border: 1.5px solid var(--dourado);
 }
 
 .menu-btn {
@@ -182,10 +186,10 @@ nav a:hover {
   justify-content: center;
   gap: 7px;
   border: 0;
-  border-radius: 99px;
-  padding: 11px 20px;
+  border-radius: 10px;
+  padding: 12px 20px;
   font-weight: 700;
-  font-size: .92rem;
+  font-size: .9rem;
   cursor: pointer;
   transition: transform .15s, background-color .2s, color .2s;
 }
@@ -196,12 +200,13 @@ nav a:hover {
 
 .botao-dourado {
   background: var(--dourado);
-  color: #291318;
+  color: #2B1318;
 }
 
 .botao-vinho {
-  background: var(--vinho);
-  color: #FFF6EC;
+  background: var(--bordo);
+  color: #FFF7EE;
+  border: 1px solid rgba(214, 174, 112, 0.28);
 }
 
 .botao-claro {
@@ -211,27 +216,26 @@ nav a:hover {
 }
 
 .botao-ranking {
-  background: var(--bordo);
-  color: #FFF6EC;
-  border: 1px solid rgba(214, 174, 112, 0.5);
+  background: #521E2A;
+  color: #FFF7EE;
+  border: 1px solid rgba(214, 174, 112, 0.45);
 }
 
 .botao-ranking:hover {
   background: var(--dourado);
-  color: #291318;
+  color: #2B1318;
 }
 
-/* HERO */
+/* HERO IDÊNTICO AO ORIGINAL */
 .hero {
   min-height: 76vh;
-  padding: 58px 7% 72px;
+  padding: 58px 8% 72px;
   display: grid;
   grid-template-columns: 1.15fr .85fr;
   align-items: center;
   gap: 32px;
   color: #FFF7EE;
-  background: radial-gradient(circle at 74% 35%, rgba(197, 140, 165, .28), transparent 42%),
-              linear-gradient(125deg, #3D1420, var(--vinho) 58%, var(--bordo));
+  background: #431A24;
 }
 
 .etiqueta {
@@ -240,17 +244,22 @@ nav a:hover {
   font-weight: 700;
   letter-spacing: .2em;
   color: var(--dourado);
-  margin-bottom: 10px;
+  margin-bottom: 12px;
 }
 
 .hero h1 {
-  margin: 0 0 16px;
-  font-size: clamp(2.4rem, 5.2vw, 4.1rem);
-  line-height: 1.07;
+  margin: 0 0 18px;
+  font-size: clamp(2.5rem, 5.2vw, 4.2rem);
+  line-height: 1.06;
   max-width: 12ch;
 }
 
-.hero em, h2 em {
+.hero h1 em {
+  color: var(--rosa);
+  font-style: italic;
+}
+
+h2 em {
   color: var(--dourado);
   font-style: italic;
 }
@@ -258,7 +267,7 @@ nav a:hover {
 .hero p {
   max-width: 48ch;
   color: rgba(255, 247, 238, .88);
-  margin: 0 0 24px;
+  margin: 0 0 26px;
 }
 
 .hero-acoes {
@@ -270,8 +279,8 @@ nav a:hover {
 }
 
 .link-claro {
-  color: var(--dourado);
-  font-weight: 700;
+  color: #FFF7EE;
+  font-weight: 500;
   text-decoration: underline;
   text-underline-offset: 4px;
 }
@@ -285,7 +294,7 @@ nav a:hover {
   color: rgba(255, 247, 238, .75);
 }
 
-/* ARTE DO HERO */
+/* ARTE ORIGINAL DA DIREITA DO HERO (LIVROS EMPILHADOS HORIZONTALMENTE) */
 .hero-arte {
   position: relative;
   min-height: 360px;
@@ -296,7 +305,7 @@ nav a:hover {
 .halo {
   position: absolute;
   border-radius: 50%;
-  border: 1px solid rgba(255, 255, 255, .14);
+  border: 1px solid rgba(214, 174, 112, .22);
 }
 
 .halo-um {
@@ -305,85 +314,100 @@ nav a:hover {
 }
 
 .halo-dois {
-  width: 240px;
-  height: 240px;
-  background: rgba(255, 255, 255, .04);
+  width: 245px;
+  height: 245px;
+  background: rgba(255, 255, 255, .02);
 }
 
 .livros-arte {
   position: relative;
-  width: 250px;
+  width: 270px;
   height: 250px;
 }
 
 .livro {
   position: absolute;
-  width: 68px;
-  height: 155px;
-  border-radius: 10px 4px 4px 10px;
+  width: 175px;
+  height: 48px;
+  border-radius: 7px 4px 4px 7px;
   display: grid;
   place-items: center;
-  writing-mode: vertical-rl;
-  font-size: .68rem;
-  letter-spacing: .16em;
+  writing-mode: horizontal-tb;
+  font-size: .72rem;
+  letter-spacing: .24em;
   font-weight: 700;
-  box-shadow: var(--sombra);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, .28);
+  border-left: 4px solid rgba(255, 255, 255, .25);
 }
 
 .livro-um {
-  left: 34px;
-  top: 48px;
-  background: var(--rosa);
-  color: var(--vinho);
-  transform: rotate(-10deg);
+  left: 48px;
+  top: 46px;
+  background: #531F2C;
+  color: #FFF7EE;
+  border: 1px solid rgba(214, 174, 112, .55);
+  transform: rotate(-1deg);
 }
 
 .livro-dois {
-  left: 96px;
-  top: 32px;
-  background: var(--dourado);
-  color: var(--vinho);
+  left: 56px;
+  top: 98px;
+  background: #9E7363;
+  color: #FFF7EE;
+  border: 1px solid rgba(255, 247, 238, .35);
+  transform: rotate(1.5deg);
 }
 
 .livro-tres {
-  left: 154px;
-  top: 52px;
-  background: var(--creme);
-  color: var(--bordo);
-  transform: rotate(9deg);
+  left: 34px;
+  top: 150px;
+  width: 185px;
+  background: #7C4454;
+  color: #FFF7EE;
+  border: 1px solid rgba(214, 174, 112, .45);
+  transform: rotate(-1.5deg);
 }
 
 .livro-aberto {
   position: absolute;
-  right: 12px;
-  bottom: 24px;
-  width: 64px;
-  height: 64px;
-  border-radius: 50%;
-  display: grid;
-  place-items: center;
-  background: var(--bordo);
+  right: 14px;
+  top: 32px;
+  width: auto;
+  height: auto;
+  background: transparent;
+  border: 0;
   color: var(--dourado);
-  border: 1px solid rgba(214, 174, 112, .5);
-  font-size: 1.4rem;
+  font-size: 2.2rem;
+  line-height: 1;
 }
 
 .selo-arte {
   position: absolute;
-  left: 12px;
+  right: 4px;
   bottom: 22px;
-  background: var(--papel);
+  background: #F4ECE1;
   color: var(--vinho);
-  padding: 13px 16px;
-  border-radius: 16px;
-  box-shadow: var(--sombra);
+  padding: 14px 18px;
+  border-radius: 4px;
+  box-shadow: 0 12px 26px rgba(0, 0, 0, .25);
+  transform: rotate(3deg);
+  text-align: left;
 }
 
 .selo-arte span {
   display: block;
-  font-size: .62rem;
-  letter-spacing: .15em;
+  font-size: .6rem;
+  letter-spacing: .16em;
   color: var(--suave);
+  margin-bottom: 3px;
+}
+
+.selo-arte strong {
+  font-family: "Playfair Display", Georgia, serif;
+  font-style: italic;
+  font-size: 1rem;
+  line-height: 1.15;
+  display: block;
 }
 
 /* RESUMO E SEÇÕES */
@@ -443,7 +467,7 @@ nav a:hover {
 }
 
 .secao-vinho {
-  background: linear-gradient(135deg, #3D1420, var(--vinho));
+  background: #431A24;
   color: #FFF7EE;
 }
 
@@ -910,7 +934,6 @@ footer {
 
 /* ========================================================
    ALTO CONTRASTE / MODO NOTURNO CONFORTÁVEL (PALETA TECHBOOK)
-   Fundo escuro vinho-profundo, textos claros, ZERO azul/amarelo bugado
    ======================================================== */
 body.alto-contraste {
   --vinho: #F2C97D;
@@ -928,13 +951,14 @@ body.alto-contraste {
 }
 
 body.alto-contraste .topo {
-  background: rgba(20, 11, 14, .97);
+  background: #140B0E;
   border-bottom: 1px solid #57323D;
 }
 
 body.alto-contraste .marca-simbolo {
-  background: #F2C97D;
-  color: #1A0B0F;
+  background: #2B171E;
+  color: #F2C97D;
+  border-color: #F2C97D;
 }
 
 body.alto-contraste .secao-creme,
@@ -945,7 +969,7 @@ body.alto-contraste .secao-vinho-claro {
 body.alto-contraste .hero,
 body.alto-contraste .secao-vinho,
 body.alto-contraste .sobre {
-  background: linear-gradient(135deg, #1E0E14, #2E151E);
+  background: #1E0E14;
   color: #FFF6EC;
 }
 
@@ -1009,7 +1033,7 @@ body.alto-contraste footer {
     padding-top: 38px;
   }
   .hero-arte {
-    min-height: 250px;
+    min-height: 270px;
   }
   .resumo {
     grid-template-columns: repeat(2, 1fr);

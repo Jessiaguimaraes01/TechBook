@@ -1,1075 +1,829 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>TechBook | Painel do bibliotecário</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Área do Bibliotecário — TechBook</title>
+    <style>
+        @import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap");
 
-<style>
-:root{
---vinho:#481B27;--bordo:#762F3B;--creme:#F5EBDD;
---rosa:#C58CA5;--dourado:#D6AE70;--papel:#FFFCF7;
---texto:#38272C;--suave:#78666B;--borda:#E6D8CB;
---verde:#52776B;--vermelho:#A84D55;
---sombra:0 12px 35px rgba(72,27,39,.07)
-}
-*{box-sizing:border-box}
-body{margin:0;background:#F7F3EE;color:var(--texto);font-family:"DM Sans",sans-serif}
-button,input,select{font:inherit}
-button{cursor:pointer}
-.layout{min-height:100vh}
-.sidebar{position:fixed;inset:0 auto 0 0;width:258px;background:var(--vinho);color:#fff;padding:28px 18px;display:flex;flex-direction:column;z-index:5}
-.brand{padding:0 12px 30px;border-bottom:1px solid #ffffff22}
-.brand-name{font:700 29px "Playfair Display",serif;letter-spacing:.2px}
-.brand-name span{color:var(--dourado)}
-.brand small{display:block;color:#e7d8d5;font-size:10px;letter-spacing:2px;margin-top:5px}
-.nav-label{font-size:10px;letter-spacing:1.8px;color:#c8aeb1;margin:26px 12px 10px}
-.nav{display:grid;gap:6px}
-.nav button{border:0;background:transparent;color:#eadfe0;text-align:left;padding:13px 14px;border-radius:11px;display:flex;gap:12px;align-items:center;font-weight:600;font-size:13px}
-.nav button:hover,.nav button.active{background:#ffffff18;color:#fff}
-.nav button.active{box-shadow:inset 3px 0 var(--dourado)}
-.nav .ico{width:22px;text-align:center;font-size:17px}
-.side-bottom{margin-top:auto;padding:15px 12px 0;border-top:1px solid #ffffff22;color:#d7c3c4;font-size:11px;line-height:1.7}
-.side-bottom strong{color:white;display:block;font-size:13px}
-.main{margin-left:258px;padding:30px clamp(20px,4vw,54px) 55px;max-width:1600px}
-.topbar{display:flex;justify-content:space-between;align-items:center;gap:18px;margin-bottom:30px}
-.eyebrow{font-size:11px;color:var(--bordo);font-weight:700;letter-spacing:1.5px;text-transform:uppercase}
-.topbar h1{font:700 clamp(25px,3vw,34px) "Playfair Display",serif;margin:5px 0}
-.welcome{color:var(--suave);font-size:13px}
-.profile{display:flex;align-items:center;gap:12px;background:var(--papel);border:1px solid var(--borda);padding:9px 13px;border-radius:14px}
-.avatar{width:38px;height:38px;border-radius:12px;background:var(--creme);display:grid;place-items:center;color:var(--bordo);font-weight:700}
-.profile strong{display:block;font-size:12px}
-.profile small{color:var(--suave);font-size:10px}
-.logout{border:0;background:transparent;color:var(--bordo);font-size:12px;font-weight:700;padding:8px}
-.page{display:none}
-.page.active{display:block}
-.intro{margin-bottom:22px}
-.intro h2{font:700 24px "Playfair Display",serif;margin:0 0 6px}
-.intro p{margin:0;color:var(--suave);font-size:13px;line-height:1.6}
-.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:15px;margin:22px 0}
-.stat,.panel{background:var(--papel);border:1px solid var(--borda);border-radius:17px;box-shadow:var(--sombra)}
-.stat{padding:20px}
-.stat-top{display:flex;justify-content:space-between;align-items:center;color:var(--suave);font-size:12px}
-.stat-icon{width:37px;height:37px;border-radius:12px;background:var(--creme);display:grid;place-items:center;font-size:18px}
-.stat strong{display:block;font:700 30px "Playfair Display",serif;color:var(--vinho);margin-top:12px}
-.stat small{color:var(--suave);font-size:11px}
-.panel{padding:22px;margin-bottom:18px}
-.panel-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:18px}
-.panel-head h3{font:700 18px "Playfair Display",serif;margin:0}
-.muted{color:var(--suave);font-size:12px}
-.btn{border:0;border-radius:10px;background:var(--vinho);color:#fff;padding:11px 15px;font-size:12px;font-weight:700}
-.btn:hover{background:var(--bordo)}
-.btn.secondary{background:var(--creme);color:var(--vinho);border:1px solid #d7ba93}
-.btn.ghost{background:transparent;color:var(--bordo);border:1px solid var(--borda)}
-.toolbar{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:15px}
-.toolbar input,.toolbar select,.field input,.field select{width:100%;border:1px solid var(--borda);border-radius:10px;padding:12px 13px;background:#fff;color:var(--texto);outline:none}
-.toolbar input{max-width:360px}
-.toolbar input:focus,.field input:focus,.field select:focus{border-color:var(--rosa);box-shadow:0 0 0 3px #c58ca522}
-.table-wrap{overflow-x:auto}
-table{width:100%;border-collapse:collapse;min-width:620px}
-th{text-align:left;color:var(--suave);font-size:10px;letter-spacing:1px;text-transform:uppercase;padding:12px 10px;border-bottom:1px solid var(--borda)}
-td{padding:14px 10px;border-bottom:1px solid #eee7df;font-size:12px}
-tbody tr:last-child td{border-bottom:0}
-.book-title{font-weight:700;color:var(--vinho)}
-.pill{display:inline-block;border-radius:30px;padding:5px 9px;background:#edf3ef;color:var(--verde);font-size:10px;font-weight:700}
-.pill.warn{background:#fbf0df;color:#986b2d}
-.pill.danger{background:#f8e9e9;color:var(--vermelho)}
-.empty{padding:28px;text-align:center;color:var(--suave);font-size:13px}
-.form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
-.field label{display:block;font-size:11px;font-weight:700;margin:0 0 7px;color:var(--suave)}
-.field.full{grid-column:1/-1}
-.field small{display:block;color:var(--suave);font-size:10px;margin-top:5px}
-.form-actions{display:flex;gap:10px;margin-top:18px;align-items:center;flex-wrap:wrap}
-.notice{padding:14px 16px;background:#fbf4e8;border:1px solid #ead9ba;border-radius:12px;color:#73552d;font-size:12px;line-height:1.6;margin-bottom:16px}
-.message{margin-top:12px;font-size:13px;font-weight:600;min-height:18px}
-.message.error{color:var(--vermelho)}
-.message.ok{color:var(--verde)}
+        :root {
+            --vinho: #481B27;
+            --bordo: #762F3B;
+            --creme: #F5EBDD;
+            --rosa: #C58CA5;
+            --dourado: #D6AE70;
+            --papel: #FFFCF7;
+            --texto: #38272C;
+            --suave: #78666B;
+            --borda: #E6D8CB;
+            --verde: #52776B;
+            --vermelho: #9A333B;
+            --sombra: 0 12px 30px rgba(72, 27, 39, 0.08);
+        }
 
-/* Identidade visual do TechScanner */
-.scanner-frame{border:2px dotted #c5a16a;border-radius:22px;padding:22px;background:#fbf6ec;position:relative}
-.note-strip{display:flex;flex-wrap:wrap;gap:12px;margin-bottom:18px}
-.note{background:#fff9ed;border:1.5px dashed #c5a16a;color:#6c3742;border-radius:12px;padding:11px 15px;box-shadow:0 4px 12px #5d26320c;font-family:"Playfair Display",Georgia,serif;font-size:14px}
-.note strong{color:#651f35}
-.ticket{background:#fff9ed;border:2px dashed #caa574;border-radius:18px;padding:22px;margin-bottom:18px;box-shadow:0 7px 25px rgba(91,24,43,.06)}
-.ticket-row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
-.ticket-row input{flex:1;min-width:220px;border:1px solid #d8bfb4;border-radius:10px;padding:13px 15px;font-size:15px;background:#fff}
-#cameraBox{display:none;margin-top:16px;background:#261c20;border-radius:14px;padding:12px;text-align:center}
-#cameraBox video{width:100%;max-height:320px;object-fit:cover;border-radius:10px;display:block}
-.camera-hint{color:#f5ebdd;font-size:12px;margin-top:8px}
-.scan-preview{display:none;margin-top:18px}
-.scan-preview.active{display:block}
-.preview-head{display:flex;gap:16px;align-items:flex-start;margin-bottom:18px;padding-bottom:16px;border-bottom:1px dashed #d9bd93}
-.preview-cover{width:84px;height:122px;object-fit:cover;border-radius:8px;background:#eee0d0;border:1px solid #d9bd93;flex-shrink:0}
-.badge-status{display:inline-block;padding:5px 11px;border-radius:20px;font-size:11px;font-weight:700;margin-bottom:8px}
-.badge-novo{background:#edf3ef;color:var(--verde)}
-.badge-existente{background:#fbf0df;color:#986b2d}
+        * {
+            box-sizing: border-box;
+        }
 
-@media(max-width:1050px){
-.stats{grid-template-columns:repeat(2,minmax(0,1fr))}
-.sidebar{width:220px}
-.main{margin-left:220px}
-}
-@media(max-width:720px){
-.sidebar{position:static;width:auto;padding:14px 16px}
-.brand{padding:0 5px 13px}
-.brand-name{font-size:24px}
-.brand small{font-size:9px}
-.nav-label,.side-bottom{display:none}
-.nav{display:flex;overflow:auto;padding-top:12px}
-.nav button{white-space:nowrap;padding:10px}
-.main{margin:0;padding:22px 15px 40px}
-.topbar{align-items:flex-start}
-.profile{padding:7px}
-.profile .who{display:none}
-.logout{font-size:11px}
-.stats{gap:10px}
-.stat{padding:15px}
-.stat strong{font-size:25px}
-.form-grid{grid-template-columns:1fr}
-.field.full{grid-column:auto}
-.panel{padding:16px}
-}
-@media(max-width:420px){
-.stats{grid-template-columns:1fr 1fr}
-.stat-top{font-size:10px}
-.stat-icon{width:30px;height:30px}
-.topbar h1{font-size:24px}
-}
-</style>
+        body {
+            margin: 0;
+            font-family: "DM Sans", sans-serif;
+            background: var(--creme);
+            color: var(--texto);
+            line-height: 1.6;
+        }
+
+        h1, h2, h3, .marca-texto {
+            font-family: "Playfair Display", Georgia, serif;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        button, input, select {
+            font: inherit;
+        }
+
+        :focus-visible {
+            outline: 3px solid var(--dourado);
+            outline-offset: 2px;
+        }
+
+        .topo {
+            position: sticky;
+            top: 0;
+            z-index: 20;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            flex-wrap: wrap;
+            padding: 15px 6%;
+            background: rgba(245, 235, 221, 0.96);
+            border-bottom: 1px solid var(--borda);
+            backdrop-filter: blur(8px);
+        }
+
+        .marca {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 700;
+        }
+
+        .marca-simbolo {
+            width: 38px;
+            height: 38px;
+            display: grid;
+            place-items: center;
+            border-radius: 10px;
+            background: var(--vinho);
+            color: var(--dourado);
+            font-weight: 700;
+        }
+
+        .marca-texto {
+            display: grid;
+            font-size: 1.2rem;
+            color: var(--vinho);
+            line-height: 1.05;
+        }
+
+        .marca-texto small {
+            font-family: "DM Sans", sans-serif;
+            font-size: 0.58rem;
+            letter-spacing: 0.16em;
+            color: var(--suave);
+        }
+
+        .admin-nav {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .admin-nav a {
+            padding: 8px 13px;
+            border-radius: 99px;
+            font-size: 0.88rem;
+            font-weight: 700;
+            color: var(--suave);
+            transition: background-color 0.2s, color 0.2s;
+        }
+
+        .admin-nav a:hover,
+        .admin-nav a.ativo {
+            background: rgba(197, 140, 165, 0.22);
+            color: var(--vinho);
+        }
+
+        .admin-nav a.destaque-scanner {
+            background: var(--dourado);
+            color: #291318;
+        }
+
+        .sair-btn {
+            border: 1px solid var(--borda);
+            background: var(--papel);
+            color: var(--vinho);
+            border-radius: 99px;
+            padding: 8px 16px;
+            font-size: 0.88rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background-color 0.2s, color 0.2s;
+        }
+
+        .sair-btn:hover {
+            background: var(--vinho);
+            color: #fff;
+        }
+
+        .cabecalho-admin {
+            padding: 46px 6% 74px;
+            color: #FFF7EE;
+            background: radial-gradient(circle at 82% 28%, rgba(197, 140, 165, 0.25), transparent 42%),
+                        linear-gradient(125deg, #3D1420, var(--vinho) 58%, var(--bordo));
+        }
+
+        .cabecalho-conteudo {
+            width: min(1080px, 100%);
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .etiqueta {
+            display: inline-block;
+            font-size: 0.72rem;
+            font-weight: 700;
+            letter-spacing: 0.2em;
+            color: var(--dourado);
+            margin-bottom: 8px;
+        }
+
+        .cabecalho-admin h1 {
+            margin: 0 0 8px;
+            font-size: clamp(2rem, 4.4vw, 3.1rem);
+            line-height: 1.1;
+        }
+
+        .cabecalho-admin h1 em {
+            color: var(--dourado);
+            font-style: italic;
+        }
+
+        .cabecalho-admin p {
+            margin: 0;
+            color: rgba(255, 247, 238, 0.84);
+            max-width: 58ch;
+        }
+
+        .conteudo-principal {
+            width: min(1080px, 90%);
+            margin: -38px auto 56px;
+            position: relative;
+            z-index: 3;
+            display: grid;
+            gap: 24px;
+        }
+
+        .resumo-admin {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 14px;
+        }
+
+        .indicador {
+            background: var(--papel);
+            border: 1px solid var(--borda);
+            border-radius: 18px;
+            padding: 18px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            box-shadow: var(--sombra);
+        }
+
+        .indicador-icone {
+            width: 42px;
+            height: 42px;
+            border-radius: 12px;
+            display: grid;
+            place-items: center;
+            background: rgba(197, 140, 165, 0.22);
+            color: var(--vinho);
+            font-weight: 700;
+        }
+
+        .indicador strong {
+            display: block;
+            font-size: 1.55rem;
+            color: var(--vinho);
+            line-height: 1.1;
+        }
+
+        .indicador small {
+            color: var(--suave);
+            font-size: 0.85rem;
+        }
+
+        .painel {
+            background: var(--papel);
+            border: 1px solid var(--borda);
+            border-radius: 22px;
+            padding: 24px;
+            box-shadow: var(--sombra);
+        }
+
+        .painel h2 {
+            margin: 0 0 6px;
+            color: var(--vinho);
+            font-size: 1.65rem;
+        }
+
+        .painel .etiqueta {
+            color: var(--bordo);
+            margin-bottom: 4px;
+        }
+
+        .texto-suave {
+            margin: 0;
+            color: var(--suave);
+            font-size: 0.92rem;
+        }
+
+        .atalhos-rapidos {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        .card-atalho {
+            background: var(--papel);
+            border: 1px solid var(--borda);
+            border-radius: 20px;
+            padding: 22px;
+            box-shadow: var(--sombra);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+        }
+
+        .card-atalho h3 {
+            margin: 0 0 6px;
+            color: var(--vinho);
+            font-size: 1.3rem;
+        }
+
+        .formulario-livro {
+            display: grid;
+            grid-template-columns: 1.3fr 1.1fr 0.8fr 0.8fr 0.55fr;
+            gap: 14px;
+            align-items: end;
+            margin-top: 18px;
+        }
+
+        label {
+            display: block;
+            font-weight: 700;
+            font-size: 0.86rem;
+            color: var(--vinho);
+            margin-bottom: 6px;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 11px 13px;
+            border-radius: 12px;
+            border: 1px solid var(--borda);
+            background: #fff;
+            color: var(--texto);
+        }
+
+        .acoes-formulario {
+            margin-top: 16px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            flex-wrap: wrap;
+        }
+
+        .botao {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            border: 0;
+            border-radius: 99px;
+            padding: 12px 20px;
+            font-weight: 700;
+            font-size: 0.94rem;
+            cursor: pointer;
+            transition: transform 0.15s, background-color 0.2s;
+        }
+
+        .botao:hover {
+            transform: translateY(-1px);
+        }
+
+        .botao-vinho {
+            background: var(--vinho);
+            color: #fff;
+        }
+
+        .botao-dourado {
+            background: var(--dourado);
+            color: #291318;
+        }
+
+        .botao-perigo {
+            background: rgba(154, 51, 59, 0.12);
+            color: var(--vermelho);
+            border: 1px solid rgba(154, 51, 59, 0.28);
+            padding: 8px 14px;
+            font-size: 0.84rem;
+        }
+
+        .aviso {
+            margin-top: 14px;
+            padding: 12px 15px;
+            border-radius: 14px;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .aviso[hidden] {
+            display: none;
+        }
+
+        .aviso.sucesso {
+            background: rgba(82, 119, 107, 0.16);
+            color: var(--verde);
+            border: 1px solid rgba(82, 119, 107, 0.35);
+        }
+
+        .aviso.erro {
+            background: rgba(154, 51, 59, 0.12);
+            color: var(--vermelho);
+            border: 1px solid rgba(154, 51, 59, 0.3);
+        }
+
+        .lista-livros {
+            display: grid;
+            gap: 12px;
+            margin-top: 18px;
+        }
+
+        .item-livro {
+            border: 1px solid var(--borda);
+            border-radius: 16px;
+            padding: 16px 18px;
+            background: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .item-livro h3 {
+            margin: 0 0 4px;
+            color: var(--vinho);
+            font-size: 1.12rem;
+        }
+
+        .meta-livro {
+            margin: 0;
+            color: var(--suave);
+            font-size: 0.87rem;
+        }
+
+        .selo {
+            display: inline-block;
+            padding: 4px 11px;
+            border-radius: 99px;
+            font-size: 0.76rem;
+            font-weight: 700;
+            background: rgba(197, 140, 165, 0.24);
+            color: var(--vinho);
+            margin-right: 8px;
+        }
+
+        .vazio {
+            padding: 26px;
+            border-radius: 16px;
+            border: 1px dashed var(--borda);
+            background: rgba(245, 235, 221, 0.45);
+            text-align: center;
+            color: var(--suave);
+        }
+
+        footer {
+            padding: 26px 6%;
+            background: #2C0F18;
+            color: rgba(255, 247, 238, 0.8);
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            gap: 14px;
+            font-size: 0.86rem;
+        }
+
+        .marca-rodape .marca-texto {
+            color: #FFF7EE;
+        }
+
+        .rodape-detalhe {
+            color: var(--dourado);
+        }
+
+        @media (max-width: 960px) {
+            .resumo-admin,
+            .atalhos-rapidos {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .formulario-livro {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .resumo-admin,
+            .atalhos-rapidos,
+            .formulario-livro {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
 </head>
-
 <body>
-<div class="layout">
+    <header class="topo">
+        <a class="marca" href="index.html">
+            <span class="marca-simbolo" aria-hidden="true">TB</span>
+            <span class="marca-texto">
+                TechBook
+                <small>BIBLIOTECA INTELIGENTE</small>
+            </span>
+        </a>
 
-<aside class="sidebar">
-  <div class="brand">
-    <div class="brand-name">Tech<span>Book</span></div>
-    <small>PAINEL ADMINISTRATIVO</small>
-  </div>
+        <nav class="admin-nav" aria-label="Navegação administrativa">
+            <a class="ativo" href="bibliotecario.html">Acervo</a>
+            <a class="destaque-scanner" href="scanner.html">📷 Abrir TechScanner</a>
+            <a href="emprestimos.html">Empréstimos & Devoluções</a>
+            <a href="index.html">Catálogo Público</a>
+            <button class="sair-btn" id="sair-btn" type="button">Sair</button>
+        </nav>
+    </header>
 
-  <div class="nav-label">GERENCIAMENTO</div>
-
-  <nav class="nav" aria-label="Navegação administrativa">
-    <button class="active" data-page="inicio"><span class="ico">▦</span>Visão geral</button>
-    <button data-page="scanner"><span class="ico">▣</span>TechScanner</button>
-    <button data-page="catalogo"><span class="ico">▤</span>Catálogo</button>
-    <button data-page="cadastro"><span class="ico">＋</span>Cadastro manual</button>
-    <button data-page="emprestimos"><span class="ico">⇄</span>Empréstimos</button>
-    <button data-page="alunos"><span class="ico">♙</span>Alunos</button>
-  </nav>
-
-  <div class="side-bottom">
-    <strong>TechBook</strong>
-    Sua biblioteca, seu conhecimento.<br>
-    Área restrita ao bibliotecário.
-  </div>
-</aside>
-
-<main class="main">
-
-<header class="topbar">
-  <div>
-    <div class="eyebrow">Administração da biblioteca</div>
-    <h1 id="page-title">Visão geral</h1>
-    <div class="welcome">Acompanhe e organize as atividades da biblioteca.</div>
-  </div>
-
-  <div class="profile">
-    <div class="avatar" id="avatar">B</div>
-    <div class="who">
-      <strong id="nome-bibliotecario">Bibliotecário</strong>
-      <small>Conta administrativa</small>
-    </div>
-    <button class="logout" id="sair">Sair ↗</button>
-  </div>
-</header>
-
-<section class="page active" id="page-inicio">
-  <div class="intro">
-    <h2>Bem-vindo ao painel do TechBook</h2>
-    <p>Uma visão rápida do acervo e da movimentação da biblioteca.</p>
-  </div>
-
-  <div class="stats">
-    <article class="stat">
-      <div class="stat-top"><span>Livros cadastrados</span><span class="stat-icon">📚</span></div>
-      <strong id="total-livros">—</strong>
-      <small>Títulos no catálogo</small>
-    </article>
-
-    <article class="stat">
-      <div class="stat-top"><span>Alunos</span><span class="stat-icon">🎓</span></div>
-      <strong id="total-alunos">—</strong>
-      <small>Cadastros de estudantes</small>
-    </article>
-
-    <article class="stat">
-      <div class="stat-top"><span>Empréstimos ativos</span><span class="stat-icon">📖</span></div>
-      <strong id="total-ativos">—</strong>
-      <small>Livros ainda não devolvidos</small>
-    </article>
-
-    <article class="stat">
-      <div class="stat-top"><span>Em atraso</span><span class="stat-icon">⏰</span></div>
-      <strong id="total-atrasados">—</strong>
-      <small>Prazo de devolução vencido</small>
-    </article>
-  </div>
-
-  <section class="panel">
-    <div class="panel-head">
-      <h3>Empréstimos recentes</h3>
-      <div style="display:flex;gap:8px;flex-wrap:wrap">
-        <button class="btn" data-go="scanner">▣ Abrir TechScanner</button>
-        <button class="btn secondary" data-go="emprestimos">Ver empréstimos</button>
-      </div>
-    </div>
-    <div id="recentes" class="empty">Carregando informações...</div>
-  </section>
-</section>
-
-<!-- ABA TECHSCANNER INTEGRADA AO BANCO PRINCIPAL -->
-<section class="page" id="page-scanner">
-  <div class="intro">
-    <h2>TechScanner — Leitor e Cadastro por ISBN</h2>
-    <p>Aponte a câmera para o código de barras ou digite o ISBN para buscar os dados e salvar direto no banco oficial da biblioteca.</p>
-  </div>
-
-  <div class="scanner-frame">
-    <div class="note-strip">
-      <div class="note"><strong>Recado da Techy:</strong> cada livro guarda uma nova história.</div>
-      <div class="note">Aponte a câmera para o ISBN, confira os dados e adicione o exemplar ao acervo.</div>
-    </div>
-
-    <div class="ticket">
-      <label for="scan-isbn" style="display:block;font-weight:700;color:#651f35;margin-bottom:8px;font-size:13px">ISBN do livro (10 ou 13 dígitos)</label>
-      <div class="ticket-row">
-        <input id="scan-isbn" type="text" inputmode="numeric" placeholder="Digite, use leitor USB ou escaneie o ISBN..." autocomplete="off">
-        <button type="button" class="btn" id="btn-abrir-camera">📷 Abrir câmera</button>
-        <button type="button" class="btn secondary" id="btn-buscar-isbn">🔍 Buscar pelo ISBN</button>
-      </div>
-
-      <div id="cameraBox">
-        <video id="video-scanner" playsinline muted></video>
-        <div class="camera-hint">Centralize o código de barras do livro na câmera. A leitura é automática!</div>
-        <div style="margin-top:10px">
-          <button type="button" class="btn ghost" style="color:#fff;border-color:#ffffff55" id="btn-fechar-camera">Fechar câmera</button>
+    <section class="cabecalho-admin">
+        <div class="cabecalho-conteudo">
+            <div>
+                <span class="etiqueta">ÁREA DO BIBLIOTECÁRIO</span>
+                <h1>Gestão do <em>acervo</em></h1>
+                <p>
+                    Cadastre novos livros manualmente ou pelo TechScanner, acompanhe a disponibilidade dos exemplares e gerencie empréstimos.
+                </p>
+            </div>
+            <a href="scanner.html" class="botao botao-dourado">📷 Abrir TechScanner (Leitor ISBN) →</a>
         </div>
-      </div>
-
-      <div class="message" id="msg-scanner" role="status"></div>
-    </div>
-
-    <!-- Conferência antes de salvar no banco principal -->
-    <div class="panel scan-preview" id="scan-preview">
-      <div class="preview-head">
-        <img id="preview-capa" class="preview-cover" alt="Capa do livro" style="display:none">
-        <div>
-          <span id="preview-badge" class="badge-status badge-novo">Novo título</span>
-          <h3 id="preview-titulo-topo" style="margin:0 0 6px;font-family:'Playfair Display',serif;color:#481B27">Conferência do livro</h3>
-          <p id="preview-info-banco" class="muted" style="margin:0"></p>
-        </div>
-      </div>
-
-      <form id="form-scanner-salvar">
-        <div class="form-grid">
-          <div class="field full">
-            <label for="scan-titulo">Título *</label>
-            <input id="scan-titulo" name="titulo" maxlength="200" required>
-          </div>
-
-          <div class="field">
-            <label for="scan-autor">Autor *</label>
-            <input id="scan-autor" name="autor" maxlength="150" required>
-          </div>
-
-          <div class="field">
-            <label for="scan-genero">Gênero / categoria</label>
-            <input id="scan-genero" name="genero" maxlength="80" placeholder="Ex.: Literatura Brasileira, Ficção...">
-          </div>
-
-          <div class="field">
-            <label for="scan-isbn-confirm">ISBN validado</label>
-            <input id="scan-isbn-confirm" name="isbn" maxlength="30" readonly style="background:#f7f3ee">
-          </div>
-
-          <div class="field">
-            <label for="scan-editora">Editora</label>
-            <input id="scan-editora" name="editora" maxlength="120">
-          </div>
-
-          <div class="field">
-            <label for="scan-ano">Ano de publicação</label>
-            <input id="scan-ano" name="ano_publicacao" type="number" min="0" max="2100">
-          </div>
-        </div>
-
-        <div class="panel-head" style="margin:22px 0 12px">
-          <h3>Identificação do Exemplar Físico</h3>
-        </div>
-
-        <div class="form-grid">
-          <div class="field">
-            <label for="scan-codigo">Código do exemplar *</label>
-            <input id="scan-codigo" name="codigo" maxlength="50" required placeholder="Ex.: TB-001">
-            <small>Identificação única da etiqueta física deste exemplar.</small>
-          </div>
-
-          <div class="field">
-            <label for="scan-localizacao">Prateleira / localização *</label>
-            <input id="scan-localizacao" name="localizacao" maxlength="50" required placeholder="Ex.: Estante A - Prateleira 2">
-          </div>
-        </div>
-
-        <div class="form-actions">
-          <button class="btn" type="submit">✓ Confirmar e salvar no banco TechBook</button>
-          <button class="btn ghost" type="button" id="btn-limpar-scanner">Cancelar / Novo scan</button>
-        </div>
-      </form>
-    </div>
-  </div>
-</section>
-
-<section class="page" id="page-catalogo">
-  <div class="intro">
-    <h2>Catálogo de livros</h2>
-    <p>Consulte os títulos cadastrados e veja a quantidade de exemplares disponíveis.</p>
-  </div>
-
-  <section class="panel">
-    <div class="panel-head">
-      <h3>Acervo</h3>
-      <div style="display:flex;gap:8px;flex-wrap:wrap">
-        <button class="btn secondary" data-go="scanner">▣ Escanear ISBN</button>
-        <button class="btn" data-go="cadastro">＋ Novo livro</button>
-      </div>
-    </div>
-
-    <div class="toolbar">
-      <input id="busca-livros" type="search" placeholder="Buscar por título, autor, gênero ou ISBN...">
-    </div>
-
-    <div class="table-wrap">
-      <table>
-        <thead>
-          <tr><th>Livro</th><th>ISBN</th><th>Autor</th><th>Gênero</th><th>Exemplares</th><th>Disponíveis</th></tr>
-        </thead>
-        <tbody id="tabela-livros">
-          <tr><td colspan="6" class="empty">Carregando...</td></tr>
-        </tbody>
-      </table>
-    </div>
-  </section>
-</section>
-
-<section class="page" id="page-cadastro">
-  <div class="intro">
-    <h2>Cadastro manual de livro</h2>
-    <p>Adicione um título manualmente ao acervo (ou um novo exemplar usando o mesmo ISBN) e registre o exemplar físico.</p>
-  </div>
-
-  <div class="notice">
-    Se o livro possuir código de barras, você também pode usar a aba <strong>TechScanner</strong> para preencher estes campos automaticamente.
-  </div>
-
-  <section class="panel">
-    <div class="panel-head"><h3>Informações do livro</h3></div>
-
-    <form id="form-livro">
-      <div class="form-grid">
-        <div class="field full">
-          <label for="titulo">Título *</label>
-          <input id="titulo" name="titulo" maxlength="200" required>
-        </div>
-
-        <div class="field">
-          <label for="autor">Autor *</label>
-          <input id="autor" name="autor" maxlength="150" required>
-        </div>
-
-        <div class="field">
-          <label for="genero">Gênero / categoria</label>
-          <input id="genero" name="genero" maxlength="80">
-        </div>
-
-        <div class="field">
-          <label for="isbn">ISBN</label>
-          <input id="isbn" name="isbn" maxlength="30">
-        </div>
-
-        <div class="field">
-          <label for="editora">Editora</label>
-          <input id="editora" name="editora" maxlength="120">
-        </div>
-
-        <div class="field">
-          <label for="ano">Ano de publicação</label>
-          <input id="ano" name="ano_publicacao" type="number" min="0" max="2100">
-        </div>
-      </div>
-
-      <div class="panel-head" style="margin:25px 0 15px">
-        <h3>Exemplar físico</h3>
-      </div>
-
-      <div class="form-grid">
-        <div class="field">
-          <label for="codigo">Código do exemplar *</label>
-          <input id="codigo" name="codigo" maxlength="50" required placeholder="Ex.: TB-001">
-        </div>
-
-        <div class="field">
-          <label for="localizacao">Prateleira / localização *</label>
-          <input id="localizacao" name="localizacao" maxlength="50" required placeholder="Ex.: A1">
-        </div>
-      </div>
-
-      <div class="form-actions">
-        <button class="btn" type="submit">Salvar livro e exemplar</button>
-        <button class="btn ghost" type="reset">Limpar</button>
-      </div>
-
-      <div class="message" id="msg-livro" role="status"></div>
-    </form>
-  </section>
-</section>
-
-<section class="page" id="page-emprestimos">
-  <div class="intro">
-    <h2>Empréstimos e devoluções</h2>
-    <p>Registre a saída de exemplares e confirme quando forem devolvidos.</p>
-  </div>
-
-  <section class="panel">
-    <div class="panel-head"><h3>Novo empréstimo</h3></div>
-
-    <form id="form-emprestimo">
-      <div class="form-grid">
-        <div class="field">
-          <label for="aluno-emprestimo">Aluno *</label>
-          <select id="aluno-emprestimo" required>
-            <option value="">Selecione um aluno</option>
-          </select>
-        </div>
-
-        <div class="field">
-          <label for="exemplar-emprestimo">Exemplar disponível *</label>
-          <select id="exemplar-emprestimo" required>
-            <option value="">Selecione um exemplar</option>
-          </select>
-        </div>
-
-        <div class="field">
-          <label for="data-prevista">Previsão de devolução *</label>
-          <input id="data-prevista" type="date" required>
-        </div>
-      </div>
-
-      <div class="form-actions">
-        <button class="btn" type="submit">Registrar empréstimo</button>
-      </div>
-
-      <div class="message" id="msg-emprestimo" role="status"></div>
-    </form>
-  </section>
-
-  <section class="panel">
-    <div class="panel-head">
-      <h3>Movimentações</h3>
-      <span class="muted">Empréstimos e devoluções</span>
-    </div>
-
-    <div class="table-wrap">
-      <table>
-        <thead>
-          <tr><th>Aluno</th><th>Livro</th><th>Data</th><th>Devolução prevista</th><th>Status</th><th>Ação</th></tr>
-        </thead>
-        <tbody id="tabela-emprestimos">
-          <tr><td colspan="6" class="empty">Carregando...</td></tr>
-        </tbody>
-      </table>
-    </div>
-  </section>
-</section>
-
-<section class="page" id="page-alunos">
-  <div class="intro">
-    <h2>Alunos cadastrados</h2>
-    <p>Consulte os estudantes que possuem cadastro no TechBook.</p>
-  </div>
-
-  <section class="panel">
-    <div class="panel-head"><h3>Lista de alunos</h3></div>
-
-    <div class="toolbar">
-      <input id="busca-alunos" type="search" placeholder="Buscar por nome, matrícula ou turma...">
-    </div>
-
-    <div class="table-wrap">
-      <table>
-        <thead>
-          <tr><th>Nome</th><th>Matrícula</th><th>Turma</th><th>Cadastro</th><th>Empréstimos ativos</th></tr>
-        </thead>
-        <tbody id="tabela-alunos">
-          <tr><td colspan="5" class="empty">Carregando...</td></tr>
-        </tbody>
-      </table>
-    </div>
-  </section>
-</section>
-
-</main>
-</div>
-
-<script>
-const $ = (id) => document.getElementById(id);
-
-const state = {
-  livros: [],
-  alunos: [],
-  emprestimos: [],
-  exemplares: [],
-  streamCamera: null,
-  intervaloScan: null
-};
-
-const nomesPaginas = {
-  inicio:"Visão geral",
-  scanner:"TechScanner",
-  catalogo:"Catálogo",
-  cadastro:"Cadastro manual",
-  emprestimos:"Empréstimos",
-  alunos:"Alunos"
-};
-
-function escapar(v){
-  return String(v ?? "").replace(/[&<>"']/g,c=>({
-    "&":"&amp;",
-    "<":"&lt;",
-    ">":"&gt;",
-    '"':"&quot;",
-    "'":"&#39;"
-  }[c]));
-}
-
-async function api(url, options={}){
-  const resposta = await fetch(url,{
-    credentials:"same-origin",
-    ...options,
-    headers:{
-      "Content-Type":"application/json",
-      ...(options.headers||{})
-    }
-  });
-
-  const dados = await resposta.json().catch(()=>({
-    erro:"Resposta inválida do servidor."
-  }));
-
-  if(resposta.status===401){
-    location.href="login-bibliotecario.html";
-    throw new Error("Sessão encerrada.");
-  }
-
-  if(!resposta.ok){
-    throw new Error(dados.erro || "Não foi possível concluir a operação.");
-  }
-
-  return dados;
-}
-
-function mostrarMensagem(id,texto,tipo="ok"){
-  const el=$(id);
-  el.textContent=texto;
-  el.className="message "+tipo;
-}
-
-function abrirPagina(nome){
-  if(nome!=="scanner") pararCameraScanner();
-
-  document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
-  const pagina = $("page-"+nome);
-  if(pagina) pagina.classList.add("active");
-
-  document.querySelectorAll(".nav button").forEach(b=>{
-    b.classList.toggle("active",b.dataset.page===nome);
-  });
-
-  $("page-title").textContent=nomesPaginas[nome]||"Painel";
-
-  if(nome==="catalogo") carregarLivros();
-  if(nome==="alunos") carregarAlunos();
-
-  if(nome==="emprestimos"){
-    carregarEmprestimos();
-    carregarOpcoesEmprestimo();
-  }
-}
-
-document.querySelectorAll(".nav button").forEach(b=>{
-  b.addEventListener("click",()=>abrirPagina(b.dataset.page));
-});
-
-document.querySelectorAll("[data-go]").forEach(b=>{
-  b.addEventListener("click",()=>abrirPagina(b.dataset.go));
-});
-
-/* =========================================================
-   TECHSCANNER: CÂMERA, BUSCA DE ISBN E CONFERÊNCIA
-   ========================================================= */
-
-function pararCameraScanner(){
-  if(state.intervaloScan){
-    clearInterval(state.intervaloScan);
-    state.intervaloScan = null;
-  }
-  if(state.streamCamera){
-    state.streamCamera.getTracks().forEach(t=>t.stop());
-    state.streamCamera = null;
-  }
-  $("cameraBox").style.display = "none";
-}
-
-$("btn-abrir-camera").addEventListener("click", async ()=>{
-  mostrarMensagem("msg-scanner", "");
-
-  if(!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia){
-    mostrarMensagem("msg-scanner", "Este navegador não permite abrir a câmera. Digite o ISBN ou use um leitor USB.", "error");
-    return;
-  }
-
-  try{
-    const stream = await navigator.mediaDevices.getUserMedia({
-      video: { facingMode: { ideal: "environment" } },
-      audio: false
-    });
-
-    state.streamCamera = stream;
-    const video = $("video-scanner");
-    video.srcObject = stream;
-    await video.play();
-    $("cameraBox").style.display = "block";
-
-    if("BarcodeDetector" in window){
-      const detector = new BarcodeDetector({ formats: ["ean_13", "ean_8", "upc_a", "code_128"] });
-      state.intervaloScan = setInterval(async ()=>{
-        try{
-          const codigos = await detector.detect(video);
-          if(codigos.length > 0){
-            const valor = codigos[0].rawValue;
-            if(valor){
-              $("scan-isbn").value = valor;
-              pararCameraScanner();
-              buscarIsbnNoBanco(valor);
+    </section>
+
+    <main class="conteudo-principal">
+        <section class="resumo-admin" aria-label="Indicadores do acervo">
+            <article class="indicador">
+                <span class="indicador-icone" aria-hidden="true">▤</span>
+                <div>
+                    <strong id="total-livros">0</strong>
+                    <small>Títulos cadastrados</small>
+                </div>
+            </article>
+
+            <article class="indicador">
+                <span class="indicador-icone" aria-hidden="true">✓</span>
+                <div>
+                    <strong id="total-disponiveis">0</strong>
+                    <small>Exemplares disponíveis</small>
+                </div>
+            </article>
+
+            <article class="indicador">
+                <span class="indicador-icone" aria-hidden="true">↗</span>
+                <div>
+                    <strong id="total-emprestados">0</strong>
+                    <small>Empréstimos ativos</small>
+                </div>
+            </article>
+
+            <article class="indicador">
+                <span class="indicador-icone" aria-hidden="true">☺</span>
+                <div>
+                    <strong id="total-alunos">0</strong>
+                    <small>Alunos cadastrados</small>
+                </div>
+            </article>
+        </section>
+
+        <section class="atalhos-rapidos">
+            <article class="card-atalho">
+                <div>
+                    <span class="etiqueta">CADASTRO POR CÂMERA</span>
+                    <h3>TechScanner</h3>
+                    <p class="texto-suave">Leia o código de barras ISBN do livro pela câmera para preencher título e autor automaticamente.</p>
+                </div>
+                <a href="scanner.html" class="botao botao-dourado">Abrir Scanner →</a>
+            </article>
+
+            <article class="card-atalho">
+                <div>
+                    <span class="etiqueta">BALCÃO DA BIBLIOTECA</span>
+                    <h3>Empréstimos & Devoluções</h3>
+                    <p class="texto-suave">Registre novos empréstimos para alunos e confirme as devoluções solicitadas.</p>
+                </div>
+                <a href="emprestimos.html" class="botao botao-vinho">Abrir Controle →</a>
+            </article>
+        </section>
+
+        <section class="painel" aria-labelledby="titulo-novo-livro">
+            <span class="etiqueta">CADASTRO MANUAL</span>
+            <h2 id="titulo-novo-livro">Adicionar livro ao catálogo</h2>
+            <p class="texto-suave">
+                Os livros adicionados aparecem imediatamente no catálogo da página inicial para os alunos.
+            </p>
+
+            <form id="form-livro">
+                <div class="formulario-livro">
+                    <div>
+                        <label for="titulo">Título do livro</label>
+                        <input id="titulo" name="titulo" type="text" required placeholder="Ex.: O Pequeno Príncipe">
+                    </div>
+
+                    <div>
+                        <label for="autor">Autor</label>
+                        <input id="autor" name="autor" type="text" required placeholder="Ex.: Antoine de Saint-Exupéry">
+                    </div>
+
+                    <div>
+                        <label for="genero">Gênero</label>
+                        <select id="genero" name="genero">
+                            <option value="Fantasia">Fantasia</option>
+                            <option value="Mistério">Mistério</option>
+                            <option value="Aventura">Aventura</option>
+                            <option value="Ficção científica">Ficção científica</option>
+                            <option value="Romance">Romance</option>
+                            <option value="Outros">Outros</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label for="isbn">ISBN (opcional)</label>
+                        <input id="isbn" name="isbn" type="text" placeholder="Ex.: 9788595081512">
+                    </div>
+
+                    <div>
+                        <label for="quantidade">Qtd.</label>
+                        <input id="quantidade" name="quantidade" type="number" min="1" max="50" value="1" required>
+                    </div>
+                </div>
+
+                <div class="acoes-formulario">
+                    <button class="botao botao-vinho" id="salvar-livro-btn" type="submit">
+                        Adicionar ao acervo
+                    </button>
+                </div>
+            </form>
+
+            <p class="aviso" id="mensagem-admin" hidden role="status" aria-live="polite"></p>
+        </section>
+
+        <section class="painel" aria-labelledby="titulo-acervo">
+            <span class="etiqueta">CATÁLOGO ATUAL</span>
+            <h2 id="titulo-acervo">Livros cadastrados</h2>
+            <p class="texto-suave">
+                Gerencie os livros e exemplares disponíveis na biblioteca.
+            </p>
+
+            <div class="lista-livros" id="lista-livros">
+                <div class="vazio">Carregando acervo...</div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <a class="marca marca-rodape" href="index.html">
+            <span class="marca-simbolo" aria-hidden="true">TB</span>
+            <span class="marca-texto">
+                TechBook
+                <small>BIBLIOTECA INTELIGENTE</small>
+            </span>
+        </a>
+        <p>Projeto desenvolvido para a feira de ciências</p>
+        <span class="rodape-detalhe">Ler · Descobrir · Imaginar</span>
+    </footer>
+
+    <script>
+        function elemento(id) {
+            return document.getElementById(id);
+        }
+
+        function escapar(texto) {
+            return String(texto ?? "").replace(/[&<>"']/g, caractere => ({
+                "&": "&amp;",
+                "<": "&lt;",
+                ">": "&gt;",
+                '"': "&quot;",
+                "'": "&#39;"
+            })[caractere]);
+        }
+
+        function mostrarAviso(texto, tipo) {
+            const aviso = elemento("mensagem-admin");
+            aviso.hidden = false;
+            aviso.className = `aviso ${tipo}`;
+            aviso.textContent = texto;
+        }
+
+        async function verificarSessao() {
+            const resposta = await fetch("/api/sessao-bibliotecario", {
+                credentials: "same-origin"
+            });
+
+            if (!resposta.ok) {
+                window.location.href = "login-bibliotecario.html";
+                return false;
             }
-          }
-        }catch(e){}
-      }, 450);
-    } else {
-      mostrarMensagem("msg-scanner", "Câmera aberta! Se o navegador não ler o código automaticamente, digite os números do ISBN acima.", "ok");
-    }
-  }catch(erro){
-    mostrarMensagem("msg-scanner", "Não foi possível acessar a câmera. Verifique a permissão do navegador ou digite o ISBN.", "error");
-  }
-});
 
-$("btn-fechar-camera").addEventListener("click", pararCameraScanner);
+            return true;
+        }
 
-async function buscarIsbnNoBanco(isbnInformado){
-  const isbn = String(isbnInformado || $("scan-isbn").value || "").trim();
-  if(!isbn){
-    mostrarMensagem("msg-scanner", "Digite ou escaneie um código ISBN primeiro.", "error");
-    return;
-  }
+        async function carregarResumo() {
+            try {
+                const resposta = await fetch("/api/admin/resumo", {
+                    credentials: "same-origin"
+                });
+                if (!resposta.ok) return;
 
-  mostrarMensagem("msg-scanner", "Validando ISBN e consultando o banco de dados...", "ok");
-  $("scan-preview").classList.remove("active");
+                const resumo = await resposta.json();
+                elemento("total-livros").textContent = resumo.total_livros ?? 0;
+                elemento("total-disponiveis").textContent = resumo.disponiveis ?? 0;
+                elemento("total-emprestados").textContent = resumo.emprestimos_ativos ?? 0;
+                elemento("total-alunos").textContent = resumo.total_alunos ?? 0;
+            } catch (_) {}
+        }
 
-  try{
-    const dados = await api("/api/admin/livros/isbn/" + encodeURIComponent(isbn));
+        function renderizarLivros(livros) {
+            const lista = elemento("lista-livros");
 
-    $("scan-isbn-confirm").value = dados.isbn || isbn;
-    $("scan-titulo").value = dados.titulo || "";
-    $("scan-autor").value = dados.autor || "";
-    $("scan-genero").value = dados.genero || "";
-    $("scan-editora").value = dados.editora || "";
-    $("scan-ano").value = dados.ano_publicacao || "";
-    $("scan-codigo").value = dados.codigo_sugerido || "";
-    $("scan-localizacao").value = "";
-
-    const imgCapa = $("preview-capa");
-    if(dados.capa){
-      imgCapa.src = dados.capa;
-      imgCapa.style.display = "block";
-    } else {
-      imgCapa.style.display = "none";
-    }
-
-    const badge = $("preview-badge");
-    const infoBanco = $("preview-info-banco");
-    const bloqueiaCamposLivro = Boolean(dados.existe_no_banco);
-
-    ["scan-titulo", "scan-autor", "scan-genero", "scan-editora", "scan-ano"].forEach(id=>{
-      $(id).readOnly = bloqueiaCamposLivro;
-      $(id).style.background = bloqueiaCamposLivro ? "#f7f3ee" : "#fff";
-    });
-
-    if(dados.existe_no_banco){
-      badge.textContent = "Livro já cadastrado no acervo";
-      badge.className = "badge-status badge-existente";
-      $("preview-titulo-topo").textContent = dados.titulo;
-      infoBanco.textContent = `Este título já existe no banco (${dados.total_exemplares} exemplar(es) cadastrado(s)). Preencha apenas o código e a localização para adicionar um novo exemplar físico.`;
-      mostrarMensagem("msg-scanner", "Livro encontrado no banco principal! Confira e adicione o novo exemplar abaixo.", "ok");
-    } else {
-      badge.textContent = dados.titulo ? "Novo livro encontrado" : "Novo livro (preenchimento manual)";
-      badge.className = "badge-status badge-novo";
-      $("preview-titulo-topo").textContent = dados.titulo || "Confira e complete os dados do livro";
-      infoBanco.textContent = dados.titulo
-        ? "Dados bibliográficos carregados automaticamente. Confira os campos e defina o código do primeiro exemplar antes de salvar."
-        : "ISBN válido, mas não encontramos os dados automaticamente nas bases externas. Preencha os campos abaixo para cadastrar.";
-      mostrarMensagem("msg-scanner", "ISBN validado! Confira os dados abaixo antes de salvar no banco.", "ok");
-    }
-
-    $("scan-preview").classList.add("active");
-    $("scan-codigo").focus();
-
-  }catch(erro){
-    mostrarMensagem("msg-scanner", erro.message, "error");
-  }
-}
-
-$("btn-buscar-isbn").addEventListener("click", ()=>buscarIsbnNoBanco());
-
-$("scan-isbn").addEventListener("keydown", (ev)=>{
-  if(ev.key === "Enter"){
-    ev.preventDefault();
-    buscarIsbnNoBanco();
-  }
-});
-
-$("btn-limpar-scanner").addEventListener("click", ()=>{
-  $("form-scanner-salvar").reset();
-  $("scan-isbn").value = "";
-  $("scan-preview").classList.remove("active");
-  mostrarMensagem("msg-scanner", "");
-  $("scan-isbn").focus();
-});
-
-$("form-scanner-salvar").addEventListener("submit", async (ev)=>{
-  ev.preventDefault();
-  const f = new FormData(ev.currentTarget);
-  const dados = Object.fromEntries(f.entries());
-  dados.ano_publicacao = dados.ano_publicacao ? Number(dados.ano_publicacao) : null;
-
-  try{
-    const r = await api("/api/admin/livros", {
-      method: "POST",
-      body: JSON.stringify(dados)
-    });
-
-    mostrarMensagem("msg-scanner", r.mensagem || "Salvo com sucesso no banco de dados!", "ok");
-    $("scan-preview").classList.remove("active");
-    $("scan-isbn").value = "";
-    ev.currentTarget.reset();
-
-    await carregarResumo();
-    await carregarLivros();
-  }catch(erro){
-    mostrarMensagem("msg-scanner", erro.message, "error");
-  }
-});
-
-/* =========================================================
-   DEMAIS FUNÇÕES DO PAINEL DO BIBLIOTECÁRIO
-   ========================================================= */
-
-async function carregarSessao(){
-  const d=await api("/api/sessao-bibliotecario");
-  const nome=d.bibliotecario?.nome || "Bibliotecário";
-
-  $("nome-bibliotecario").textContent=nome;
-  $("avatar").textContent=nome.trim().charAt(0).toUpperCase()||"B";
-}
-
-async function carregarResumo(){
-  const d=await api("/api/admin/resumo");
-
-  $("total-livros").textContent=d.livros;
-  $("total-alunos").textContent=d.alunos;
-  $("total-ativos").textContent=d.emprestimos_ativos;
-  $("total-atrasados").textContent=d.atrasados;
-
-  const recentes=d.recentes||[];
-
-  $("recentes").innerHTML=recentes.length
-    ? `<div class="table-wrap">
-        <table>
-          <thead>
-            <tr><th>Aluno</th><th>Livro</th><th>Empréstimo</th><th>Status</th></tr>
-          </thead>
-          <tbody>
-            ${recentes.map(e=>`
-              <tr>
-                <td>${escapar(e.aluno)}</td>
-                <td class="book-title">${escapar(e.titulo)}</td>
-                <td>${escapar(e.data_emprestimo)}</td>
-                <td>
-                  <span class="pill ${e.atrasado?"danger":"warn"}">
-                    ${e.atrasado?"Em atraso":"Em andamento"}
-                  </span>
-                </td>
-              </tr>
-            `).join("")}
-          </tbody>
-        </table>
-      </div>`
-    : '<div class="empty">Ainda não há empréstimos registrados.</div>';
-}
-
-async function carregarLivros(){
-  state.livros=await api("/api/livros");
-  renderLivros();
-}
-
-function renderLivros(){
-  const termo=($("busca-livros").value||"").toLowerCase();
-
-  const lista=state.livros.filter(l=>
-    [l.titulo,l.autor,l.genero,l.isbn].some(v=>
-      String(v||"").toLowerCase().includes(termo)
-    )
-  );
-
-  $("tabela-livros").innerHTML=lista.length
-    ? lista.map(l=>`
-      <tr>
-        <td>
-          <div class="book-title">${escapar(l.titulo)}</div>
-          <small class="muted">${escapar(l.editora||"")}</small>
-        </td>
-        <td>${escapar(l.isbn||"—")}</td>
-        <td>${escapar(l.autor)}</td>
-        <td>${escapar(l.genero||"—")}</td>
-        <td>${l.quantidade??0}</td>
-        <td><span class="pill">${l.disponiveis??0} disponíveis</span></td>
-      </tr>
-    `).join("")
-    : '<tr><td colspan="6" class="empty">Nenhum livro encontrado.</td></tr>';
-}
-
-$("busca-livros").addEventListener("input",renderLivros);
-
-async function carregarAlunos(){
-  state.alunos=await api("/api/admin/alunos");
-  renderAlunos();
-}
-
-function renderAlunos(){
-  const termo=($("busca-alunos").value||"").toLowerCase();
-
-  const lista=state.alunos.filter(a=>
-    [a.nome,a.matricula,a.turma].some(v=>
-      String(v||"").toLowerCase().includes(termo)
-    )
-  );
-
-  $("tabela-alunos").innerHTML=lista.length
-    ? lista.map(a=>`
-      <tr>
-        <td class="book-title">${escapar(a.nome)}</td>
-        <td>${escapar(a.matricula)}</td>
-        <td>${escapar(a.turma)}</td>
-        <td>${escapar(a.data_cadastro||"—")}</td>
-        <td>${a.emprestimos_ativos}</td>
-      </tr>
-    `).join("")
-    : '<tr><td colspan="5" class="empty">Nenhum aluno encontrado.</td></tr>';
-}
-
-$("busca-alunos").addEventListener("input",renderAlunos);
-
-async function carregarEmprestimos(){
-  state.emprestimos=await api("/api/admin/emprestimos");
-
-  $("tabela-emprestimos").innerHTML=state.emprestimos.length
-    ? state.emprestimos.map(e=>`
-      <tr>
-        <td>
-          ${escapar(e.aluno)}<br>
-          <small class="muted">${escapar(e.matricula)}</small>
-        </td>
-
-        <td class="book-title">
-          ${escapar(e.titulo)}<br>
-          <small class="muted">${escapar(e.codigo_exemplar)}</small>
-        </td>
-
-        <td>${escapar(e.data_emprestimo)}</td>
-
-        <td>${escapar(e.data_prevista_devolucao)}</td>
-
-        <td>
-          <span class="pill ${
-            e.data_devolucao
-              ? ""
-              : e.atrasado
-                ? "danger"
-                : e.data_solicitacao_devolucao
-                  ? "warn"
-                  : "warn"
-          }">
-            ${
-              e.data_devolucao
-                ? "Devolvido"
-                : e.data_solicitacao_devolucao
-                  ? (e.atrasado
-                      ? "Solicitada • Em atraso"
-                      : "Devolução solicitada")
-                  : e.atrasado
-                    ? "Em atraso"
-                    : "Ativo"
+            if (!Array.isArray(livros) || livros.length === 0) {
+                lista.innerHTML = `<div class="vazio">Nenhum livro cadastrado ainda.</div>`;
+                return;
             }
-          </span>
-        </td>
 
-        <td>
-          ${
-            e.data_devolucao
-              ? "—"
-               : e.data_solicitacao_devolucao
-                ? `<button class="btn secondary"
-                  onclick="devolver(${Number(e.id_emprestimo)})">
-                  Confirmar devolução
-                 </button>`
-                : '<span class="muted">Aguardando solicitação</span>'
-          }
-        </td>
-      </tr>
-    `).join("")
-    : '<tr><td colspan="6" class="empty">Nenhum empréstimo cadastrado.</td></tr>';
-}
+            lista.innerHTML = livros.map(livro => `
+                <article class="item-livro">
+                    <div>
+                        <h3>${escapar(livro.titulo)}</h3>
+                        <p class="meta-livro">
+                            <span class="selo">${escapar(livro.genero || "Geral")}</span>
+                            ${escapar(livro.autor)} ·
+                            ISBN: ${escapar(livro.isbn || "não informado")} ·
+                            ${Number(livro.disponiveis || 0)} de ${Number(livro.quantidade || 0)} disponível(is)
+                        </p>
+                    </div>
 
-async function carregarOpcoesEmprestimo(){
-  const [alunos,exemplares]=await Promise.all([
-    api("/api/admin/alunos"),
-    api("/api/admin/exemplares-disponiveis")
-  ]);
+                    <button
+                        class="botao botao-perigo"
+                        type="button"
+                        data-remover="${escapar(livro.id_livro)}"
+                        data-titulo="${escapar(livro.titulo)}"
+                    >
+                        Remover
+                    </button>
+                </article>
+            `).join("");
+        }
 
-  state.alunos=alunos;
-  state.exemplares=exemplares;
+        async function carregarLivros() {
+            try {
+                const resposta = await fetch("/api/admin/livros", {
+                    credentials: "same-origin"
+                });
+                if (!resposta.ok) return;
+                const livros = await resposta.json();
+                renderizarLivros(livros);
+            } catch (_) {
+                elemento("lista-livros").innerHTML = `<div class="vazio">Erro ao carregar livros.</div>`;
+            }
+        }
 
-  $("aluno-emprestimo").innerHTML=
-    '<option value="">Selecione um aluno</option>'+
-    alunos.map(a=>`
-      <option value="${a.id_aluno}">
-        ${escapar(a.nome)} — ${escapar(a.matricula)}
-      </option>
-    `).join("");
+        async function atualizarTudo() {
+            await Promise.all([
+                carregarResumo(),
+                carregarLivros()
+            ]);
+        }
 
-  $("exemplar-emprestimo").innerHTML=
-    '<option value="">Selecione um exemplar</option>'+
-    exemplares.map(e=>`
-      <option value="${e.id_exemplar}">
-        ${escapar(e.titulo)} — ${escapar(e.codigo)} (${escapar(e.localizacao)})
-      </option>
-    `).join("");
-}
+        elemento("form-livro").addEventListener("submit", async evento => {
+            evento.preventDefault();
 
-$("form-livro").addEventListener("submit",async ev=>{
-  ev.preventDefault();
+            const dados = {
+                titulo: elemento("titulo").value.trim(),
+                autor: elemento("autor").value.trim(),
+                genero: elemento("genero").value,
+                isbn: elemento("isbn").value.trim(),
+                quantidade: Number(elemento("quantidade").value) || 1
+            };
 
-  const f=new FormData(ev.currentTarget);
-  const dados=Object.fromEntries(f.entries());
+            const botao = elemento("salvar-livro-btn");
+            botao.disabled = true;
+            botao.textContent = "Salvando...";
 
-  dados.ano_publicacao=dados.ano_publicacao
-    ? Number(dados.ano_publicacao)
-    : null;
+            try {
+                const resposta = await fetch("/api/admin/livros", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    credentials: "same-origin",
+                    body: JSON.stringify(dados)
+                });
 
-  try{
-    const r=await api("/api/admin/livros",{
-      method:"POST",
-      body:JSON.stringify(dados)
-    });
+                const resultado = await resposta.json();
 
-    mostrarMensagem("msg-livro",r.mensagem||"Livro cadastrado com sucesso!");
-    ev.currentTarget.reset();
+                if (!resposta.ok) {
+                    throw new Error(resultado.erro || "Não foi possível salvar o livro.");
+                }
 
-    await carregarResumo();
-    await carregarLivros();
+                evento.target.reset();
+                elemento("quantidade").value = 1;
+                mostrarAviso(resultado.mensagem || "Livro adicionado ao acervo!", "sucesso");
+                await atualizarTudo();
+            } catch (erro) {
+                mostrarAviso(erro.message || "Erro ao salvar livro.", "erro");
+            } finally {
+                botao.disabled = false;
+                botao.textContent = "Adicionar ao acervo";
+            }
+        });
 
-  }catch(e){
-    mostrarMensagem("msg-livro",e.message,"error");
-  }
-});
+        elemento("lista-livros").addEventListener("click", async evento => {
+            const botao = evento.target.closest("[data-remover]");
+            if (!botao) return;
 
-$("form-emprestimo").addEventListener("submit",async ev=>{
-  ev.preventDefault();
+            const idLivro = Number(botao.dataset.remover);
+            const titulo = botao.dataset.titulo || "este livro";
 
-  const dados={
-    id_aluno:Number($("aluno-emprestimo").value),
-    id_exemplar:Number($("exemplar-emprestimo").value),
-    data_prevista_devolucao:$("data-prevista").value
-  };
+            if (!confirm(`Deseja remover "${titulo}" do catálogo?`)) return;
 
-  try{
-    const r=await api("/api/admin/emprestimos",{
-      method:"POST",
-      body:JSON.stringify(dados)
-    });
+            botao.disabled = true;
+            botao.textContent = "Removendo...";
 
-    mostrarMensagem("msg-emprestimo",r.mensagem||"Empréstimo registrado!");
-    ev.currentTarget.reset();
+            try {
+                const resposta = await fetch(`/api/admin/livros/${idLivro}`, {
+                    method: "DELETE",
+                    credentials: "same-origin"
+                });
 
-    await carregarEmprestimos();
-    await carregarOpcoesEmprestimo();
-    await carregarResumo();
+                const resultado = await resposta.json();
 
-  }catch(e){
-    mostrarMensagem("msg-emprestimo",e.message,"error");
-  }
-});
+                if (!resposta.ok) {
+                    throw new Error(resultado.erro || "Não foi possível remover o livro.");
+                }
 
-async function devolver(id){
-  if(!confirm("Confirmar a devolução deste exemplar?"))return;
+                mostrarAviso(resultado.mensagem || "Livro removido.", "sucesso");
+                await atualizarTudo();
+            } catch (erro) {
+                mostrarAviso(erro.message || "Erro ao remover livro.", "erro");
+                botao.disabled = false;
+                botao.textContent = "Remover";
+            }
+        });
 
-  try{
-    await api("/api/admin/devolucoes",{
-      method:"POST",
-      body:JSON.stringify({id_emprestimo:id})
-    });
+        elemento("sair-btn").addEventListener("click", async () => {
+            try {
+                await fetch("/api/logout-bibliotecario", {
+                    method: "POST",
+                    credentials: "same-origin"
+                });
+            } catch (_) {}
+            window.location.replace("index.html");
+        });
 
-    await carregarEmprestimos();
-    await carregarOpcoesEmprestimo();
-    await carregarResumo();
+        async function iniciar() {
+            const autenticado = await verificarSessao();
+            if (!autenticado) return;
+            await atualizarTudo();
+        }
 
-  }catch(e){
-    alert(e.message);
-  }
-}
-
-$("sair").addEventListener("click",async()=>{
-  try{
-    await api("/api/logout-bibliotecario",{
-      method:"POST",
-      body:"{}"
-    });
-  }catch(e){}
-
-  location.href="login-bibliotecario.html";
-});
-
-(async()=>{
-  try{
-    await carregarSessao();
-    await carregarResumo();
-    if(location.hash === "#scanner") abrirPagina("scanner");
-  }catch(e){
-    if(e.message!=="Sessão encerrada.")console.error(e);
-  }
-})();
-</script>
+        iniciar();
+    </script>
 </body>
 </html>
