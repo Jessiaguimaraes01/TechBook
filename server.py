@@ -91,17 +91,17 @@ def iniciar_banco():
                 "ALTER TABLE emprestimos ADD COLUMN data_solicitacao_devolucao TEXT;"
             )
 
-        # Garante que os dois clássicos do acervo sempre existam no catálogo
-        livros_base = [
-            ("O Pequeno Príncipe", "Antoine de Saint-Exupéry", "Aventura", "9788595081512", 3),
-            ("Dom Casmurro", "Machado de Assis", "Romance", "9788535910663", 2),
+        # Garante que os dois livros clássicos iniciais existam no catálogo
+        livros_iniciais = [
+            ("O Pequeno Príncipe", "Antoine de Saint-Exupéry", "Fantasia", "9788595081512", 3),
+            ("Dom Casmurro", "Machado de Assis", "Romance", "9788535914849", 3),
         ]
-        for titulo, autor, genero, isbn, qtd in livros_base:
-            existente = conexao.execute(
-                "SELECT id_livro FROM livros WHERE titulo = ? OR isbn = ?",
-                (titulo, isbn)
+        for titulo, autor, genero, isbn, qtd in livros_iniciais:
+            existe = conexao.execute(
+                "SELECT id_livro FROM livros WHERE isbn = ? OR LOWER(titulo) = LOWER(?)",
+                (isbn, titulo)
             ).fetchone()
-            if not existente:
+            if not existe:
                 cur = conexao.execute(
                     "INSERT INTO livros (titulo, autor, genero, isbn) VALUES (?, ?, ?, ?)",
                     (titulo, autor, genero, isbn)
@@ -217,7 +217,7 @@ class ServidorTechBook(SimpleHTTPRequestHandler):
             self.redirecionar("/login-bibliotecario.html")
             return
 
-        if rota in ("/perfil-aluno.html", "/emprestimo-aluno.html") and not self.obter_aluno_logado():
+        if rota in ("/perfil-aluno.html", "/emprestimos-aluno.html") and not self.obter_aluno_logado():
             self.redirecionar("/login.html")
             return
 
@@ -269,6 +269,24 @@ class ServidorTechBook(SimpleHTTPRequestHandler):
                     "pontos": pontos
                 })
             self.enviar_json(ranking)
+            return
+
+        if rota == "/api/alunos-comunidade":
+            with conectar() as conexao:
+                linhas = conexao.execute(
+                    """
+                    SELECT
+                        a.id_aluno,
+                        a.nome,
+                        a.turma,
+                        COUNT(e.id_emprestimo) AS total_livros
+                    FROM alunos a
+                    LEFT JOIN emprestimos e ON e.id_aluno = a.id_aluno
+                    GROUP BY a.id_aluno
+                    ORDER BY a.nome COLLATE NOCASE
+                    """
+                ).fetchall()
+            self.enviar_json([dict(x) for x in linhas])
             return
 
         if rota == "/api/sessao-aluno":
