@@ -1,0 +1,911 @@
+
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Press+Start+2P&family=VT323&display=swap');
+
+:root {
+    --background: #2b111c;
+    --panel: #4a202f;
+    --panel-light: #603044;
+    --border: #b98759;
+    --text: #fff1dc;
+    --muted: #d8bcae;
+    --pink: #c7839c;
+    --gold: #e4bd7d;
+    --green: #a8bd91;
+    --shadow: #1b0a12;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    min-height: 100vh;
+    padding: 25px;
+    color: var(--text);
+    font-family: "DM Sans", sans-serif;
+    background:
+        radial-gradient(ellipse at 15% 5%, rgba(183,127,150,.17), transparent 35%),
+        radial-gradient(ellipse at 90% 90%, rgba(217,180,119,.12), transparent 35%),
+        repeating-linear-gradient(135deg, rgba(255,255,255,.012) 0 2px, transparent 2px 7px),
+        var(--background);
+}
+
+button {
+    font: inherit;
+}
+
+.game-shell {
+    width: min(1600px, 100%);
+    margin: 0 auto;
+}
+
+/* CABEÇALHO */
+
+.topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    margin-bottom: 25px;
+    padding: 15px 19px;
+    border: 3px solid #8d5b4d;
+    outline: 2px solid rgba(228,189,125,.18);
+    background: linear-gradient(180deg, #57283a, #3b1a29);
+    box-shadow: 0 7px 0 #1d0b13, inset 0 2px rgba(255,255,255,.07);
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.brand-icon {
+    display: grid;
+    place-items: center;
+    width: 58px;
+    height: 58px;
+    border: 3px solid var(--gold);
+    border-radius: 5px;
+    background: linear-gradient(145deg, #87465b, #482131);
+    box-shadow: 4px 4px 0 #27101a, inset 0 0 0 3px rgba(255,255,255,.06);
+    font-size: 27px;
+}
+
+.eyebrow,
+.panel-label {
+    color: #d9bda9;
+    font-family: "Press Start 2P", monospace;
+    font-size: 8px;
+    line-height: 1.8;
+    letter-spacing: .3px;
+}
+
+.brand h1 {
+    margin-top: 5px;
+    color: #fff2df;
+    font-family: "VT323", monospace;
+    font-size: clamp(29px, 3vw, 39px);
+    font-weight: 400;
+    letter-spacing: 1px;
+}
+
+.brand h1 span {
+    color: #e5a9bd;
+}
+
+.top-status {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+}
+
+.status-pill,
+.restart-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+    padding: 12px 14px;
+    border: 2px solid #93654f;
+    border-radius: 4px;
+    color: #f7e5d2;
+    background: #482131;
+    box-shadow: 3px 3px 0 #24101a;
+    font-family: "Press Start 2P", monospace;
+    font-size: 7px;
+    line-height: 1.7;
+}
+
+.status-dot,
+.location-dot {
+    width: 8px;
+    height: 8px;
+    flex-shrink: 0;
+    background: var(--green);
+    box-shadow: 0 0 9px rgba(168,189,145,.7);
+}
+
+.restart-button {
+    cursor: pointer;
+    font-family: "DM Sans", sans-serif;
+    font-size: 12px;
+    font-weight: 800;
+    transition: .18s;
+}
+
+.restart-button:hover {
+    border-color: var(--gold);
+    color: #fff4df;
+    background: #754052;
+    transform: translateY(-2px);
+}
+
+/* ORGANIZAÇÃO PRINCIPAL */
+
+.game-layout {
+    display: grid;
+    grid-template-columns: 255px minmax(400px, 1fr) 255px;
+    align-items: stretch;
+    gap: 18px;
+}
+
+.side-panel,
+.game-panel {
+    min-width: 0;
+    border: 3px solid #8d5b4d;
+    border-radius: 5px;
+    background:
+        linear-gradient(145deg, rgba(255,255,255,.035), transparent 35%),
+        linear-gradient(155deg, #5b2b3b, #351824);
+    box-shadow:
+        0 7px 0 #1d0b13,
+        0 16px 35px rgba(18,4,9,.25),
+        inset 0 0 0 2px rgba(228,189,125,.08);
+}
+
+.side-panel {
+    padding: 20px 17px;
+}
+
+/* TÍTULOS DOS PAINÉIS */
+
+.panel-heading {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding-bottom: 18px;
+    border-bottom: 2px solid rgba(217,180,119,.3);
+}
+
+.panel-icon {
+    display: grid;
+    place-items: center;
+    width: 42px;
+    height: 42px;
+    flex-shrink: 0;
+    border: 2px solid #a8755e;
+    border-radius: 4px;
+    background: #6c3548;
+    box-shadow: 3px 3px 0 #2a111b;
+    font-size: 20px;
+}
+
+.panel-heading h2 {
+    margin-top: 5px;
+    color: #fff0df;
+    font-family: "VT323", monospace;
+    font-size: 29px;
+    font-weight: 400;
+}
+
+/* FASE */
+
+.phase-card {
+    position: relative;
+    overflow: hidden;
+    margin-top: 20px;
+    padding: 16px;
+    border: 2px solid #b4875e;
+    border-radius: 4px;
+    background:
+        linear-gradient(135deg, rgba(183,127,150,.2), transparent 60%),
+        #45202f;
+    box-shadow: 4px 4px 0 #29111b;
+}
+
+.phase-card::after {
+    content: "✦";
+    position: absolute;
+    right: 12px;
+    bottom: 4px;
+    color: rgba(228,189,125,.12);
+    font-size: 55px;
+}
+
+.phase-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: var(--gold);
+    font-family: "Press Start 2P", monospace;
+    font-size: 7px;
+    line-height: 1.8;
+}
+
+.phase-star {
+    color: var(--gold);
+    font-size: 19px;
+}
+
+.phase-card h3 {
+    margin-top: 13px;
+    color: #fff0df;
+    font-family: "VT323", monospace;
+    font-size: 26px;
+    font-weight: 400;
+}
+
+.phase-card p {
+    position: relative;
+    z-index: 1;
+    margin-top: 7px;
+    color: #e0cfc2;
+    font-size: 12px;
+    line-height: 1.65;
+}
+
+/* PROGRESSO */
+
+.progress-track {
+    height: 10px;
+    margin-top: 17px;
+    overflow: hidden;
+    border: 2px solid #8e634e;
+    border-radius: 2px;
+    background: #28121b;
+}
+
+.progress-fill {
+    width: 0%;
+    height: 100%;
+    background: repeating-linear-gradient(90deg, #c7839c 0 9px, #e4bd7d 9px 18px);
+    box-shadow: 0 0 10px rgba(228,189,125,.35);
+    transition: width .4s ease;
+}
+
+/* MISSÕES */
+
+.mission-section {
+    margin-top: 25px;
+}
+
+.section-title {
+    display: flex;
+    justify-content: space-between;
+    color: #d9c4b7;
+    font-family: "Press Start 2P", monospace;
+    font-size: 7px;
+    line-height: 1.8;
+}
+
+.tiny-icon {
+    color: var(--gold);
+    font-size: 16px;
+}
+
+.mission-list {
+    display: grid;
+    gap: 9px;
+    margin-top: 15px;
+}
+
+.mission-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 10px;
+    border: 1px solid rgba(217,180,119,.18);
+    border-radius: 3px;
+    color: #f0dfd3;
+    background: rgba(255,245,235,.045);
+    font-size: 11px;
+    line-height: 1.5;
+    transition: .2s;
+}
+
+.mission-item:hover {
+    border-color: rgba(217,180,119,.5);
+    background: rgba(255,245,235,.08);
+}
+
+.mission-check {
+    display: grid;
+    place-items: center;
+    width: 19px;
+    height: 19px;
+    flex-shrink: 0;
+    border: 2px solid #c49c89;
+    border-radius: 2px;
+    color: #3d1d29;
+    font-size: 11px;
+}
+
+.mission-item.done {
+    border-color: rgba(168,189,145,.35);
+    color: #c7d6ad;
+    background: rgba(168,189,145,.09);
+}
+
+.mission-item.done .mission-check {
+    border-color: var(--green);
+    background: var(--green);
+}
+
+/* PONTUAÇÃO */
+
+.points-card {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+    margin-top: 25px;
+    padding: 14px;
+    border: 2px solid rgba(217,180,119,.4);
+    border-radius: 4px;
+    background: rgba(217,180,119,.09);
+    box-shadow: 3px 3px 0 #29111b;
+}
+
+.points-icon {
+    font-size: 26px;
+}
+
+.points-card p {
+    color: #ddc7b8;
+    font-family: "Press Start 2P", monospace;
+    font-size: 7px;
+    line-height: 1.8;
+}
+
+.points-card strong {
+    display: block;
+    margin-top: 3px;
+    color: #f0d6a8;
+    font-family: "VT323", monospace;
+    font-size: 31px;
+    font-weight: 400;
+}
+
+/* ÁREA DO JOGO */
+
+.game-panel {
+    padding: 20px;
+}
+
+.game-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 17px;
+}
+
+.game-heading h2 {
+    margin-top: 5px;
+    color: #fff0df;
+    font-family: "VT323", monospace;
+    font-size: 31px;
+    font-weight: 400;
+}
+
+.location-tag {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 9px 11px;
+    border: 2px solid rgba(217,180,119,.4);
+    border-radius: 3px;
+    color: #f0d6b4;
+    background: rgba(217,180,119,.09);
+    font-size: 10px;
+    font-weight: 700;
+}
+
+.location-dot {
+    background: var(--green);
+}
+
+/* CANVAS */
+
+.canvas-frame {
+    overflow: hidden;
+    border: 5px solid #d9b477;
+    border-radius: 3px;
+    background: #4b2432;
+    box-shadow:
+        0 0 0 3px #3a1a27,
+        0 8px 0 #24101a,
+        0 15px 38px rgba(20,5,10,.32);
+}
+
+canvas {
+    display: block;
+    width: 100%;
+    height: auto;
+    image-rendering: pixelated;
+    image-rendering: crisp-edges;
+}
+
+.canvas-caption {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 10px 13px;
+    border-top: 2px solid #8f604d;
+    color: #f0dfcf;
+    background: #43202e;
+    font-family: "Press Start 2P", monospace;
+    font-size: 7px;
+    line-height: 1.8;
+}
+
+.canvas-caption span:last-child {
+    color: var(--gold);
+}
+
+/* DICA DE INTERAÇÃO */
+
+.interaction-hint {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 11px;
+    min-height: 48px;
+    margin-top: 15px;
+    padding: 10px;
+    border: 2px dashed rgba(217,180,119,.55);
+    border-radius: 3px;
+    color: #f0dfcf;
+    background: rgba(217,180,119,.08);
+    font-size: 11px;
+    text-align: center;
+}
+
+.hint-key {
+    display: grid;
+    place-items: center;
+    width: 29px;
+    height: 29px;
+    flex-shrink: 0;
+    border: 2px solid var(--gold);
+    border-radius: 3px;
+    color: #fff0dc;
+    background: #754052;
+    box-shadow: 2px 2px 0 #28111b;
+    font-family: "Press Start 2P", monospace;
+    font-size: 10px;
+}
+
+/* CONTROLES */
+
+.controls-bar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 22px;
+    margin-top: 18px;
+    color: #d9c4b7;
+    font-size: 10px;
+}
+
+.control-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.key-group {
+    display: flex;
+    gap: 3px;
+}
+
+kbd {
+    display: inline-grid;
+    place-items: center;
+    min-width: 22px;
+    height: 22px;
+    padding: 0 4px;
+    border: 1px solid #b48772;
+    border-radius: 2px;
+    color: #fff0df;
+    background: #754052;
+    box-shadow: 0 3px 0 #3b1b28;
+    font-family: "Press Start 2P", monospace;
+    font-size: 7px;
+}
+
+.single-key {
+    min-width: 25px;
+    height: 25px;
+}
+
+/* INVENTÁRIO */
+
+.inventory-summary {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 22px;
+    color: #d8c2b4;
+    font-size: 11px;
+}
+
+.inventory-summary strong {
+    display: grid;
+    place-items: center;
+    min-width: 28px;
+    height: 28px;
+    padding: 0 7px;
+    border: 1px solid #b4875e;
+    border-radius: 3px;
+    color: #f0d6a8;
+    background: rgba(217,180,119,.16);
+}
+
+.inventory-list {
+    display: grid;
+    gap: 9px;
+    min-height: 190px;
+    margin-top: 14px;
+    align-content: start;
+}
+
+.empty-inventory {
+    display: grid;
+    justify-items: center;
+    padding: 28px 10px;
+    border: 2px dashed rgba(217,180,119,.3);
+    border-radius: 3px;
+    color: #c9aa9d;
+    text-align: center;
+}
+
+.empty-inventory span {
+    margin-bottom: 10px;
+    font-size: 27px;
+    opacity: .8;
+}
+
+.empty-inventory p {
+    color: #f0dfcf;
+    font-size: 11px;
+}
+
+.empty-inventory small {
+    max-width: 165px;
+    margin-top: 6px;
+    font-size: 10px;
+    line-height: 1.5;
+}
+
+.inventory-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 11px;
+    border: 1px solid rgba(217,180,119,.3);
+    border-radius: 3px;
+    color: #f0dfcf;
+    background: rgba(217,180,119,.07);
+    font-size: 11px;
+    transition: .2s;
+}
+
+.inventory-item:hover {
+    border-color: var(--gold);
+    transform: translateX(3px);
+}
+
+.inventory-item span {
+    font-size: 18px;
+}
+
+/* DICAS */
+
+.tip-card {
+    display: flex;
+    gap: 10px;
+    margin-top: 18px;
+    padding: 13px;
+    border: 2px solid rgba(217,180,119,.32);
+    border-radius: 3px;
+    background: rgba(217,180,119,.09);
+}
+
+.tip-icon {
+    font-size: 19px;
+}
+
+.tip-card strong {
+    color: #f0d6a8;
+    font-size: 10px;
+}
+
+.tip-card p {
+    margin-top: 5px;
+    color: #ddc7b8;
+    font-size: 10px;
+    line-height: 1.6;
+}
+
+/* REGISTRO DO JOGO */
+
+.game-log {
+    margin-top: 23px;
+    padding-top: 16px;
+    border-top: 2px solid var(--border);
+}
+
+.game-log p:last-child {
+    margin-top: 9px;
+    color: #e0cfc2;
+    font-size: 10px;
+    line-height: 1.6;
+}
+
+/* RODAPÉ */
+
+.footer {
+    display: flex;
+    justify-content: space-between;
+    gap: 15px;
+    padding: 20px 5px 0;
+    color: #c5a69b;
+    font-family: "Press Start 2P", monospace;
+    font-size: 7px;
+    line-height: 1.8;
+    letter-spacing: .2px;
+}
+
+.footer-star {
+    color: var(--gold);
+}
+
+/* DIÁLOGOS */
+
+.dialog-overlay {
+    position: fixed;
+    z-index: 10;
+    inset: 0;
+    display: none;
+    place-items: center;
+    padding: 20px;
+    background: rgba(25,8,15,.84);
+    backdrop-filter: blur(4px);
+}
+
+.dialog-overlay.active {
+    display: grid;
+}
+
+.dialog-box {
+    width: min(480px, 100%);
+    padding: 24px;
+    border: 4px solid #b98759;
+    border-radius: 3px;
+    outline: 3px solid #3b1b28;
+    background:
+        linear-gradient(135deg, rgba(183,127,150,.2), transparent 55%),
+        #512331;
+    box-shadow:
+        0 8px 0 #1b0a12,
+        0 25px 90px rgba(20,5,10,.55),
+        inset 0 0 0 2px rgba(255,255,255,.05);
+    animation: dialogAppear .22s ease-out;
+}
+
+@keyframes dialogAppear {
+    from {
+        transform: translateY(12px) scale(.98);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0) scale(1);
+        opacity: 1;
+    }
+}
+
+.dialog-top {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+}
+
+.dialog-badge {
+    display: grid;
+    place-items: center;
+    width: 33px;
+    height: 33px;
+    border: 1px solid var(--gold);
+    border-radius: 3px;
+    background: rgba(217,180,119,.16);
+}
+
+.dialog-label {
+    color: var(--gold);
+    font-family: "Press Start 2P", monospace;
+    font-size: 8px;
+}
+
+.dialog-x {
+    width: 31px;
+    height: 31px;
+    margin-left: auto;
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    color: #fff0df;
+    background: rgba(255,255,255,.05);
+    cursor: pointer;
+    font-size: 21px;
+    transition: .2s;
+}
+
+.dialog-x:hover {
+    border-color: var(--gold);
+    background: rgba(217,180,119,.15);
+}
+
+.dialog-box h2 {
+    margin-top: 19px;
+    color: #fff4e8;
+    font-family: "VT323", monospace;
+    font-size: 34px;
+    font-weight: 400;
+}
+
+.dialog-box > p {
+    margin-top: 10px;
+    color: #eadbd0;
+    font-size: 13px;
+    line-height: 1.8;
+    white-space: pre-line;
+}
+
+.dialog-options {
+    display: grid;
+    gap: 9px;
+    margin-top: 22px;
+}
+
+.dialog-option {
+    padding: 12px 15px;
+    border: 2px solid rgba(217,180,119,.42);
+    border-radius: 3px;
+    color: #fff0df;
+    background: rgba(217,180,119,.12);
+    text-align: left;
+    cursor: pointer;
+    transition: .2s;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.dialog-option:hover {
+    border-color: var(--gold);
+    background: rgba(217,180,119,.22);
+    transform: translateY(-2px);
+}
+
+/* ACESSIBILIDADE */
+
+button:focus-visible {
+    outline: 3px solid var(--gold);
+    outline-offset: 3px;
+}
+
+/* ANIMAÇÕES */
+
+@media (prefers-reduced-motion: no-preference) {
+    .side-panel,
+    .game-panel {
+        animation: panelEnter .45s ease both;
+    }
+
+    .inventory-panel {
+        animation-delay: .08s;
+    }
+
+    @keyframes panelEnter {
+        from {
+            opacity: 0;
+            transform: translateY(8px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+}
+
+/* RESPONSIVIDADE */
+
+@media (max-width: 1100px) {
+    body {
+        padding: 16px;
+    }
+
+    .game-layout {
+        grid-template-columns: 220px minmax(300px, 1fr);
+    }
+
+    .inventory-panel {
+        grid-column: 1 / -1;
+    }
+
+    .inventory-list {
+        grid-template-columns: repeat(3, 1fr);
+        min-height: auto;
+    }
+
+    .empty-inventory {
+        grid-column: 1 / -1;
+    }
+}
+
+@media (max-width: 700px) {
+    body {
+        padding: 10px;
+    }
+
+    .topbar {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .top-status {
+        width: 100%;
+        justify-content: space-between;
+    }
+
+    .game-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .game-panel {
+        grid-row: 1;
+        padding: 12px;
+    }
+
+    .mission-panel,
+    .inventory-panel {
+        padding: 16px;
+    }
+
+    .inventory-panel {
+        grid-column: auto;
+    }
+
+    .inventory-list {
+        grid-template-columns: 1fr;
+    }
+
+    .game-heading {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .canvas-caption {
+        font-size: 6px;
+    }
+
+    .controls-bar {
+        gap: 12px;
+    }
+
+    .footer {
+        font-size: 6px;
+    }
+}
