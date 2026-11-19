@@ -1,0 +1,18 @@
+CONFIGURACAO DO ACESSO DO BIBLIOTECARIO
+
+Esta etapa corrige a incompatibilidade entre o formulario login-bibliotecario.html
+(que envia usuario e senha) e o servidor (que antes verificava apenas uma senha).
+
+No Render, em Environment, cadastre estas duas variaveis:
+
+TECHBOOK_USUARIO_BIBLIOTECARIO = um nome de usuario escolhido pela equipe
+TECHBOOK_SENHA_BIBLIOTECARIO = uma senha forte, exclusiva e privada
+
+Nao coloque os valores reais neste arquivo, no GitHub, no HTML ou no JavaScript.
+Nao envie a senha pelo chat.
+
+Se as variaveis nao estiverem configuradas, o servidor recusa o login com uma
+mensagem de configuracao pendente; ele nao aceita mais uma senha padrao conhecida.
+
+IMPORTANTE: esta etapa ainda usa o banco SQLite do projeto. Ela corrige somente
+o login administrativo e NAO representa a migracao para o Supabase.

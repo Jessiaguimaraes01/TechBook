@@ -13,10 +13,8 @@ PASTA_PROJETO = os.path.dirname(os.path.abspath(__file__))
 CAMINHO_BANCO = os.path.join(PASTA_PROJETO, "Dados", "TechBok_Final.db")
 PORTA = int(os.environ.get("PORT", 8000))
 
-SENHA_BIBLIOTECARIO = os.environ.get(
-    "TECHBOOK_SENHA_BIBLIOTECARIO",
-    "techbook2026"
-)
+USUARIO_BIBLIOTECARIO = os.environ.get("TECHBOOK_USUARIO_BIBLIOTECARIO", "").strip()
+SENHA_BIBLIOTECARIO = os.environ.get("TECHBOOK_SENHA_BIBLIOTECARIO", "")
 
 SESSOES_ALUNOS = {}
 SESSOES_BIBLIOTECARIOS = set()
@@ -699,9 +697,23 @@ class ServidorTechBook(SimpleHTTPRequestHandler):
             return
 
         if rota == "/api/login-bibliotecario":
+            usuario = str(dados.get("usuario", "")).strip()
             senha = str(dados.get("senha", ""))
-            if not hmac.compare_digest(senha, SENHA_BIBLIOTECARIO):
-                self.enviar_json({"erro": "Senha administrativa incorreta."}, 401)
+
+            # O acesso administrativo nunca usa credenciais padrao embutidas no codigo.
+            if not USUARIO_BIBLIOTECARIO or not SENHA_BIBLIOTECARIO:
+                self.enviar_json(
+                    {"erro": "A conta do bibliotecario ainda nao foi configurada no servidor."},
+                    503
+                )
+                return
+
+            usuario_valido = hmac.compare_digest(
+                usuario.casefold(), USUARIO_BIBLIOTECARIO.casefold()
+            )
+            senha_valida = hmac.compare_digest(senha, SENHA_BIBLIOTECARIO)
+            if not (usuario_valido and senha_valida):
+                self.enviar_json({"erro": "Usuario ou senha incorretos."}, 401)
                 return
 
             token = secrets.token_urlsafe(32)
