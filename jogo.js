@@ -1,4 +1,5 @@
 
+
 const canvas = document.getElementById("gameCanvas");
 const ctx = canvas.getContext("2d");
 const phaseNumber = document.getElementById("phaseNumber");
@@ -380,12 +381,10 @@ function interactWith(entity) {
         return;
     }
 
-    switch (entity.id) {
-        case "librarian":
-            if (!state.started) {
-                state.started = true;
-                updateUI();
-
-                showDialog(
-                    "Bibliotecária",
-                    "Ainda bem que você chegou! Um livro muito importante desapareceu da biblioteca. Antes de sumir, ele
+   // switch (entity.id) {
+       // case "librarian":
+            //if (!state.started) {
+               // state.started = true;
+                //updateUI();showDialog(
+                //    "Bibliotecária",
+                   // "Ainda bem que você chegou! Um livro muito importante desapareceu da biblioteca. Antes de sumir, ele"//

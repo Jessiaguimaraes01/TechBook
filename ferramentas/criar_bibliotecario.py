@@ -46,8 +46,18 @@ def main():
 
     try:
         with sqlite3.connect(BANCO) as conexao:
+            conexao.execute("""
+                CREATE TABLE IF NOT EXISTS bibliotecarios (
+                    id_bibliotecario INTEGER PRIMARY KEY AUTOINCREMENT,
+                    nome TEXT NOT NULL,
+                    usuario TEXT NOT NULL UNIQUE,
+                    senha_hash TEXT NOT NULL,
+                    ativo INTEGER NOT NULL DEFAULT 1,
+                    data_cadastro TEXT DEFAULT CURRENT_TIMESTAMP
+                )
+            """)
             existente = conexao.execute(
-                "SELECT 1 FROM bibliotecario WHERE usuario = ?",
+                "SELECT 1 FROM bibliotecarios WHERE usuario = ?",
                 (usuario,)
             ).fetchone()
 
@@ -56,7 +66,7 @@ def main():
                 return
 
             conexao.execute("""
-                INSERT INTO bibliotecario
+                INSERT INTO bibliotecarios
                     (nome, usuario, senha_hash)
                 VALUES (?, ?, ?)
             """, (nome, usuario, gerar_hash_senha(senha)))

@@ -129,15 +129,20 @@
         </div>
 
         <div class="campo-cadastro">
-          <label for="matricula">Matrícula escolar</label>
+          <label for="matricula">Identificação numérica</label>
           <input
             id="matricula"
             name="matricula"
             type="text"
-            maxlength="30"
+            inputmode="numeric"
+            pattern="[0-9]{6,12}"
+            minlength="6"
+            maxlength="12"
+            title="Digite de 6 a 12 números."
             autocomplete="username"
             required
           >
+          <small>Crie uma sequência de 6 a 12 números. Ela será usada no login.</small>
         </div>
 
         <div class="campo-cadastro">
