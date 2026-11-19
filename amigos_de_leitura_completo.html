@@ -6,7 +6,7 @@
 <title>Amigos de Leitura — TechBook</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;0,800;1,600&display=swap');
-:root{--wine:#451A24;--wine2:#6E2B38;--cream:#F6EFE6;--paper:#FFFCF8;--ink:#38272C;--gold:#D6AE70;--border:#E6D8CB;--suave:#78666B}
+:root{--wine:#481B27;--wine2:#762F3B;--cream:#F5EBDD;--paper:#FFFCF7;--ink:#38272C;--gold:#D6AE70;--border:#E6D8CB;--suave:#78666B}
 *{box-sizing:border-box}
 body{margin:0;font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--ink)}
 
@@ -114,6 +114,13 @@ footer{
   padding:24px 6%;background:#2C0F18;color:rgba(255,247,238,.82);
   display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:14px;font-size:.85rem;
 }
+
+/* Ajustes de identidade visual compartilhada do TechBook */
+.hero { background: radial-gradient(circle at 82% 20%, rgba(197,140,165,.22), transparent 36%), linear-gradient(125deg,#321018,var(--wine) 60%,var(--wine2)); }
+.card, .rank-row { box-shadow: 0 12px 28px rgba(72,27,39,.07); }
+.nav-links a { border-radius: 999px; }
+.nav-links a:hover, .nav-links a.ativo { background: rgba(197,140,165,.22); color: var(--wine); }
+:focus-visible { outline: 3px solid var(--gold); outline-offset: 3px; }
 </style>
 </head>
 <body>

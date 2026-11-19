@@ -1,455 +1,51 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Empréstimos e Devoluções — TechBook</title>
-    <style>
-        @import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap");
-
-        :root {
-            --vinho: #481B27;
-            --bordo: #762F3B;
-            --creme: #F5EBDD;
-            --rosa: #C58CA5;
-            --dourado: #D6AE70;
-            --papel: #FFFCF7;
-            --texto: #38272C;
-            --suave: #78666B;
-            --borda: #E6D8CB;
-            --verde: #52776B;
-            --vermelho: #9A333B;
-            --sombra: 0 12px 30px rgba(72, 27, 39, 0.08);
-        }
-
-        * {
-            box-sizing: border-box;
-        }
-
-        body {
-            margin: 0;
-            font-family: "DM Sans", sans-serif;
-            background: var(--creme);
-            color: var(--texto);
-            line-height: 1.6;
-        }
-
-        h1, h2, h3, .marca-texto {
-            font-family: "Playfair Display", Georgia, serif;
-        }
-
-        a {
-            color: inherit;
-            text-decoration: none;
-        }
-
-        button, select {
-            font: inherit;
-        }
-
-        :focus-visible {
-            outline: 3px solid var(--dourado);
-            outline-offset: 2px;
-        }
-
-        .topo {
-            position: sticky;
-            top: 0;
-            z-index: 20;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 16px;
-            flex-wrap: wrap;
-            padding: 15px 6%;
-            background: rgba(245, 235, 221, 0.96);
-            border-bottom: 1px solid var(--borda);
-            backdrop-filter: blur(8px);
-        }
-
-        .marca {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-weight: 700;
-        }
-
-        .marca-simbolo {
-            width: 38px;
-            height: 38px;
-            display: grid;
-            place-items: center;
-            border-radius: 10px;
-            background: var(--vinho);
-            color: var(--dourado);
-            font-weight: 700;
-        }
-
-        .marca-texto {
-            display: grid;
-            font-size: 1.2rem;
-            color: var(--vinho);
-            line-height: 1.05;
-        }
-
-        .marca-texto small {
-            font-family: "DM Sans", sans-serif;
-            font-size: 0.58rem;
-            letter-spacing: 0.16em;
-            color: var(--suave);
-        }
-
-        .perfil-nav {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            flex-wrap: wrap;
-        }
-
-        .perfil-nav a {
-            padding: 8px 13px;
-            border-radius: 99px;
-            font-size: 0.88rem;
-            font-weight: 700;
-            color: var(--suave);
-            transition: background-color 0.2s, color 0.2s;
-        }
-
-        .perfil-nav a:hover,
-        .perfil-nav a.ativo {
-            background: rgba(197, 140, 165, 0.25);
-            color: var(--vinho);
-        }
-
-        .sair-btn {
-            border: 1px solid var(--borda);
-            background: var(--papel);
-            color: var(--vinho);
-            border-radius: 99px;
-            padding: 8px 16px;
-            font-size: 0.88rem;
-            font-weight: 700;
-            cursor: pointer;
-            transition: background-color 0.2s, color 0.2s;
-        }
-
-        .sair-btn:hover {
-            background: var(--vinho);
-            color: #fff;
-        }
-
-        .cabecalho-pagina {
-            padding: 44px 6% 70px;
-            color: #FFF7EE;
-            background: radial-gradient(circle at 80% 30%, rgba(197, 140, 165, 0.25), transparent 42%),
-                        linear-gradient(125deg, #3D1420, var(--vinho) 58%, var(--bordo));
-        }
-
-        .cabecalho-conteudo {
-            width: min(1060px, 100%);
-            margin: 0 auto;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 20px;
-            flex-wrap: wrap;
-        }
-
-        .etiqueta {
-            display: inline-block;
-            font-size: 0.72rem;
-            font-weight: 700;
-            letter-spacing: 0.2em;
-            color: var(--dourado);
-            margin-bottom: 8px;
-        }
-
-        .cabecalho-pagina h1 {
-            margin: 0 0 8px;
-            font-size: clamp(2rem, 4.4vw, 3.1rem);
-            line-height: 1.1;
-        }
-
-        .cabecalho-pagina h1 em {
-            color: var(--dourado);
-            font-style: italic;
-        }
-
-        .cabecalho-pagina p {
-            margin: 0;
-            color: rgba(255, 247, 238, 0.86);
-            max-width: 55ch;
-        }
-
-        .conteudo-principal {
-            width: min(1060px, 90%);
-            margin: -36px auto 56px;
-            position: relative;
-            z-index: 3;
-            display: grid;
-            gap: 24px;
-        }
-
-        .resumo-aluno {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 16px;
-        }
-
-        .indicador {
-            background: var(--papel);
-            border: 1px solid var(--borda);
-            border-radius: 18px;
-            padding: 20px;
-            display: flex;
-            align-items: center;
-            gap: 14px;
-            box-shadow: var(--sombra);
-        }
-
-        .indicador-icone {
-            width: 44px;
-            height: 44px;
-            border-radius: 12px;
-            display: grid;
-            place-items: center;
-            background: rgba(197, 140, 165, 0.22);
-            color: var(--vinho);
-            font-weight: 700;
-        }
-
-        .indicador strong {
-            display: block;
-            font-size: 1.7rem;
-            color: var(--vinho);
-            line-height: 1.1;
-        }
-
-        .indicador small {
-            color: var(--suave);
-            font-size: 0.88rem;
-        }
-
-        .painel {
-            background: var(--papel);
-            border: 1px solid var(--borda);
-            border-radius: 22px;
-            padding: 26px;
-            box-shadow: var(--sombra);
-        }
-
-        .painel h2 {
-            margin: 0 0 6px;
-            color: var(--vinho);
-            font-size: 1.65rem;
-        }
-
-        .painel .etiqueta {
-            color: var(--bordo);
-            margin-bottom: 4px;
-        }
-
-        .texto-suave {
-            margin: 0;
-            color: var(--suave);
-            font-size: 0.92rem;
-        }
-
-        .formulario-emprestimo {
-            display: grid;
-            grid-template-columns: 1.5fr 0.8fr auto;
-            gap: 14px;
-            align-items: end;
-            margin-top: 18px;
-        }
-
-        label {
-            display: block;
-            font-weight: 700;
-            font-size: 0.88rem;
-            color: var(--vinho);
-            margin-bottom: 6px;
-        }
-
-        select {
-            width: 100%;
-            padding: 12px 14px;
-            border-radius: 12px;
-            border: 1px solid var(--borda);
-            background: #fff;
-            color: var(--texto);
-        }
-
-        .botao {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            border: 0;
-            border-radius: 99px;
-            padding: 12px 22px;
-            font-weight: 700;
-            font-size: 0.94rem;
-            cursor: pointer;
-            transition: transform 0.15s, background-color 0.2s;
-        }
-
-        .botao:hover {
-            transform: translateY(-1px);
-        }
-
-        .botao-vinho {
-            background: var(--vinho);
-            color: #fff;
-        }
-
-        .botao-claro {
-            background: var(--creme);
-            color: var(--vinho);
-            border: 1px solid var(--borda);
-        }
-
-        .botao-pequeno {
-            padding: 9px 15px;
-            font-size: 0.84rem;
-        }
-
-        .botao:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-            transform: none;
-        }
-
-        .aviso {
-            margin-top: 14px;
-            padding: 12px 15px;
-            border-radius: 14px;
-            font-size: 0.9rem;
-            font-weight: 500;
-        }
-
-        .aviso[hidden] {
-            display: none;
-        }
-
-        .aviso.sucesso {
-            background: rgba(82, 119, 107, 0.16);
-            color: var(--verde);
-            border: 1px solid rgba(82, 119, 107, 0.35);
-        }
-
-        .aviso.erro {
-            background: rgba(154, 51, 59, 0.12);
-            color: var(--vermelho);
-            border: 1px solid rgba(154, 51, 59, 0.3);
-        }
-
-        .lista-emprestimos {
-            display: grid;
-            gap: 14px;
-            margin-top: 18px;
-        }
-
-        .item-emprestimo {
-            border: 1px solid var(--borda);
-            border-radius: 16px;
-            padding: 18px;
-            background: #fff;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 16px;
-            flex-wrap: wrap;
-        }
-
-        .item-emprestimo h3 {
-            margin: 0 0 4px;
-            color: var(--vinho);
-            font-size: 1.15rem;
-        }
-
-        .meta-emprestimo {
-            margin: 0;
-            color: var(--suave);
-            font-size: 0.88rem;
-        }
-
-        .acoes-item {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            flex-wrap: wrap;
-        }
-
-        .selo-status {
-            display: inline-block;
-            padding: 5px 12px;
-            border-radius: 99px;
-            font-size: 0.78rem;
-            font-weight: 700;
-            background: rgba(82, 119, 107, 0.16);
-            color: var(--verde);
-        }
-
-        .selo-status.atrasado {
-            background: rgba(154, 51, 59, 0.14);
-            color: var(--vermelho);
-        }
-
-        .selo-status.devolvido {
-            background: rgba(120, 102, 107, 0.15);
-            color: var(--suave);
-        }
-
-        .vazio {
-            padding: 26px;
-            border-radius: 16px;
-            border: 1px dashed var(--borda);
-            background: rgba(245, 235, 221, 0.45);
-            text-align: center;
-            color: var(--suave);
-        }
-
-        footer {
-            padding: 26px 6%;
-            background: #2C0F18;
-            color: rgba(255, 247, 238, 0.8);
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-between;
-            align-items: center;
-            gap: 14px;
-            font-size: 0.86rem;
-        }
-
-        .marca-rodape .marca-texto {
-            color: #FFF7EE;
-        }
-
-        .rodape-detalhe {
-            color: var(--dourado);
-        }
-
-        @media (max-width: 820px) {
-            .resumo-aluno,
-            .formulario-emprestimo {
-                grid-template-columns: 1fr;
-            }
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Meus empréstimos — TechBook</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root{--vinho:#481B27;--bordo:#762F3B;--creme:#F5EBDD;--rosa:#C58CA5;--dourado:#D6AE70;--papel:#FFFCF7;--texto:#38272C;--suave:#78666B;--borda:#E6D8CB;--verde:#52776B;--vermelho:#9A333B}
+    *{box-sizing:border-box}body{margin:0;background:var(--creme);color:var(--texto);font-family:"DM Sans",sans-serif;line-height:1.6}
+    a{color:inherit;text-decoration:none}button,input,select{font:inherit}.topo{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;padding:15px 6%;background:var(--papel);border-bottom:1px solid var(--borda)}
+    .marca{display:flex;align-items:center;gap:10px;color:var(--vinho);font-weight:700}.marca-simbolo{display:grid;place-items:center;width:40px;height:40px;border-radius:12px;background:var(--vinho);color:var(--dourado)}.marca-texto{display:grid;font-family:"Playfair Display",serif;font-size:1.2rem;line-height:1.1}.marca-texto small{font:700 .58rem "DM Sans",sans-serif;letter-spacing:.14em;color:var(--suave)}
+    nav{display:flex;gap:8px;flex-wrap:wrap}nav a{padding:8px 12px;border-radius:99px;color:var(--suave);font-size:.9rem;font-weight:700}nav a:hover,nav a.ativo{background:#f0e0e4;color:var(--vinho)}
+    .hero{padding:44px 6% 68px;background:radial-gradient(circle at 82% 20%,#8d596c 0,transparent 36%),linear-gradient(125deg,#321018,var(--vinho) 60%,var(--bordo));color:#fff7ee}.hero-inner{max-width:1050px;margin:auto}.eyebrow{font-size:.72rem;font-weight:700;letter-spacing:.18em;color:var(--dourado)}h1,h2,h3{font-family:"Playfair Display",Georgia,serif}h1{font-size:clamp(2rem,5vw,3rem);line-height:1.1;margin:8px 0} .hero p{max-width:620px;color:#f3e8e8;margin:0}
+    main{width:min(1050px,90%);margin:-30px auto 55px;position:relative;display:grid;gap:22px}.panel{background:var(--papel);border:1px solid var(--borda);border-radius:20px;padding:24px;box-shadow:0 12px 28px #481b2710}.panel h2{margin:0 0 6px;color:var(--vinho);font-size:1.55rem}.sub{color:var(--suave);margin:0 0 16px}.form-grid{display:grid;grid-template-columns:1fr auto;gap:12px;align-items:end}label{display:grid;gap:7px;font-size:.9rem;font-weight:700;color:var(--vinho)}select,input{width:100%;padding:12px 14px;border:1px solid var(--borda);border-radius:12px;background:white;color:var(--texto)}button{border:0;border-radius:12px;padding:12px 18px;background:var(--vinho);color:white;font-weight:700;cursor:pointer}button:hover{background:var(--bordo)}button:disabled{opacity:.55;cursor:not-allowed}.message{margin-top:12px;padding:10px 13px;border-radius:10px;display:none}.message.show{display:block}.message.error{background:#f8e5e5;color:var(--vermelho)}.message.success{background:#e7f0eb;color:var(--verde)}
+    .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.stat{padding:16px;border:1px solid var(--borda);border-radius:15px;background:white}.stat small{display:block;color:var(--suave)}.stat strong{font-size:1.55rem;color:var(--vinho)}.loan-list{display:grid;gap:12px;margin-top:16px}.loan{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;padding:17px;border:1px solid var(--borda);border-radius:15px;background:white}.loan h3{margin:0;color:var(--vinho);font-size:1.12rem}.loan p{margin:3px 0 0;color:var(--suave);font-size:.88rem}.status{display:inline-block;padding:5px 10px;border-radius:99px;font-size:.78rem;font-weight:700;background:#e8efe9;color:var(--verde)}.status.late{background:#f8e5e5;color:var(--vermelho)}.status.done{background:#eee9e9;color:var(--suave)}.status.requested{background:#f5ead8;color:#79551f}.empty{padding:22px;border:1px dashed var(--borda);border-radius:14px;text-align:center;color:var(--suave)}footer{padding:24px 6%;background:#2c0f18;color:#f5e8e6;text-align:center;font-size:.88rem}
+    @media(max-width:700px){.form-grid,.stats{grid-template-columns:1fr}.topo{justify-content:center}.panel{padding:18px}}
+  </style>
 </head>
 <body>
-    <header class="topo">
-        <a class="marca" href="index.html" aria-label="TechBook, página inicial">
-            <span class="marca-simbolo" aria-hidden="true">TB</span>
-            <span class="marca-texto">
-                TechBook
-                <small>BIBLIOTECA INTELIGENTE</small>
-            </span>
-        </a>
-
-        <nav class="perfil-nav" aria-label="Navegação principal">
-            <a href="index.html">Início</a>
-            <a href="perfil-aluno.html">Minha Área</a>
-            <a class="ativo" href="emprestimos-aluno.html">Empréstimos</a>
-            <a href="minha_estante_virtual_
+  <header class="topo"><a class="marca" href="index.html"><span class="marca-simbolo">TB</span><span class="marca-texto">TechBook<small>BIBLIOTECA INTELIGENTE</small></span></a>
+    <nav aria-label="Navegação"><a href="perfil-aluno.html">Minha área</a><a class="ativo" href="emprestimos-aluno.html">Empréstimos</a><a href="minha_estante_virtual_cabecalho_vinho.html">Minha estante</a><a href="amigos_de_leitura_completo.html">Amigos</a></nav>
+  </header>
+  <section class="hero"><div class="hero-inner"><span class="eyebrow">SUA LEITURA, SEU TEMPO</span><h1>Empréstimos <em>& devoluções</em></h1><p>Solicite um livro do acervo e acompanhe seus prazos. Quando terminar, solicite a devolução e entregue o exemplar ao bibliotecário para a confirmação.</p></div></section>
+  <main>
+    <section class="stats"><article class="stat"><small>Empréstimos ativos</small><strong id="totalAtivos">—</strong></article><article class="stat"><small>Livros devolvidos</small><strong id="totalDevolvidos">—</strong></article><article class="stat"><small>Em atraso</small><strong id="totalAtrasados">—</strong></article></section>
+    <section class="panel"><h2>Solicitar um empréstimo</h2><p class="sub">Escolha um livro disponível no catálogo.</p><form id="formSolicitar" class="form-grid"><label>Livro disponível<select id="livroSelect" required><option value="">Carregando catálogo...</option></select></label><button id="btnSolicitar" type="submit">Solicitar livro</button></form><div id="mensagemSolicitar" class="message" role="status" aria-live="polite"></div></section>
+    <section class="panel"><h2>Meus empréstimos</h2><p class="sub">Acompanhe a situação de cada livro emprestado.</p><div id="listaEmprestimos" class="loan-list"><div class="empty">Carregando seus empréstimos...</div></div><div id="mensagemLista" class="message" role="status" aria-live="polite"></div></section>
+  </main>
+  <footer>TechBook · Ler, descobrir e imaginar.</footer>
+  <script>
+  (()=>{
+    const $=id=>document.getElementById(id);
+    const fmt=v=>v?String(v).slice(8,10)+'/'+String(v).slice(5,7)+'/'+String(v).slice(0,4):'—';
+    async function api(url,options={}){const r=await fetch(url,{credentials:'same-origin',...options,headers:{...(options.body?{'Content-Type':'application/json'}:{}),...(options.headers||{})}});const d=await r.json().catch(()=>({}));if(r.status===401){location.href='login.html';throw new Error('Entre na sua conta para continuar.')}if(!r.ok)throw new Error(d.erro||'Não foi possível concluir a operação.');return d}
+    function msg(id,text,type='success'){const e=$(id);e.textContent=text;e.className='message show '+(type==='error'?'error':'success')}
+    function status(x){if(x.data_devolucao)return ['Devolvido','done'];if(x.data_solicitacao_devolucao)return ['Devolução solicitada','requested'];if(x.atrasado)return ['Em atraso','late'];return ['Em andamento','']}
+    async function carregarCatalogo(){const livros=await api('/api/livros');const disponiveis=livros.filter(x=>Number(x.disponiveis)>0);$('livroSelect').innerHTML=disponiveis.length?'<option value="">Selecione um livro</option>'+disponiveis.map(x=>`<option value="${x.id_livro}">${esc(x.titulo)} — ${esc(x.autor||'Autor não informado')} (${x.disponiveis} disponível(is))</option>`).join(''):'<option value="">Nenhum livro disponível no momento</option>';}
+    function esc(v){return String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+    async function carregarEmprestimos(){const itens=await api('/api/aluno/emprestimos');const hoje=new Date().toISOString().slice(0,10);const ativos=itens.filter(x=>!x.data_devolucao);$('totalAtivos').textContent=ativos.length;$('totalDevolvidos').textContent=itens.filter(x=>x.data_devolucao).length;$('totalAtrasados').textContent=ativos.filter(x=>x.atrasado).length;
+      $('listaEmprestimos').innerHTML=itens.length?itens.map(x=>{const [rotulo,classe]=status(x);const acao=!x.data_devolucao&&!x.data_solicitacao_devolucao?`<button type="button" data-devolver="${x.id_emprestimo}">Solicitar devolução</button>`:x.data_solicitacao_devolucao&&!x.data_devolucao?'<span class="status requested">Aguardando bibliotecário</span>':'';return `<article class="loan"><div><h3>${esc(x.titulo)}</h3><p>${esc(x.autor)} · Exemplar ${esc(x.codigo_exemplar)}</p><p>Retirada: ${fmt(x.data_emprestimo)} · Prazo: ${fmt(x.data_prevista_devolucao)}</p></div><div><span class="status ${classe}">${rotulo}</span><div style="margin-top:9px">${acao}</div></div></article>`}).join(''):'<div class="empty">Você ainda não tem empréstimos. Escolha um livro acima para começar sua leitura!</div>';
+    }
+    $('formSolicitar').addEventListener('submit',async e=>{e.preventDefault();const btn=$('btnSolicitar');btn.disabled=true;try{const d=await api('/api/aluno/emprestimos',{method:'POST',body:JSON.stringify({id_livro:Number($('livroSelect').value),prazo_dias:14})});msg('mensagemSolicitar',d.mensagem||'Solicitação registrada!');await Promise.all([carregarCatalogo(),carregarEmprestimos()]);e.target.reset()}catch(err){msg('mensagemSolicitar',err.message,'error')}finally{btn.disabled=false}});
+    $('listaEmprestimos').addEventListener('click',async e=>{const b=e.target.closest('[data-devolver]');if(!b)return;const id=Number(b.dataset.devolver);if(!id)return;if(!confirm('Deseja solicitar a devolução deste livro? Depois, entregue o exemplar ao bibliotecário.'))return;b.disabled=true;try{const d=await api('/api/aluno/emprestimos/devolucao',{method:'POST',body:JSON.stringify({id_emprestimo:id})});msg('mensagemLista',d.mensagem||'Solicitação enviada.');await carregarEmprestimos()}catch(err){msg('mensagemLista',err.message,'error');b.disabled=false}});
+    Promise.all([carregarCatalogo(),carregarEmprestimos()]).catch(err=>msg('mensagemLista',err.message,'error'));
+  })();
+  </script>
+</body>
+</html>

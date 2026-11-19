@@ -32,7 +32,17 @@ def conectar():
 
 
 def iniciar_banco():
+    """Cria o esquema atual e importa os registros do esquema legado sem apagá-los."""
     os.makedirs(os.path.dirname(CAMINHO_BANCO), exist_ok=True)
+
+    def existe_tabela(conexao, nome):
+        return conexao.execute(
+            "SELECT 1 FROM sqlite_master WHERE type='table' AND name=?", (nome,)
+        ).fetchone() is not None
+
+    def colunas(conexao, nome):
+        return {linha["name"] for linha in conexao.execute(f"PRAGMA table_info({nome})")}
+
     with conectar() as conexao:
         conexao.executescript(
             """
@@ -49,7 +59,10 @@ def iniciar_banco():
                 titulo TEXT NOT NULL,
                 autor TEXT NOT NULL,
                 genero TEXT,
-                isbn TEXT UNIQUE
+                isbn TEXT UNIQUE,
+                editora TEXT,
+                ano_publicacao INTEGER,
+                capa_url TEXT
             );
 
             CREATE TABLE IF NOT EXISTS exemplares (
@@ -75,43 +88,69 @@ def iniciar_banco():
             """
         )
 
-        colunas = [
-            linha["name"]
-            for linha in conexao.execute("PRAGMA table_info(alunos);")
-        ]
-        if "senha_hash" not in colunas:
-            conexao.execute("ALTER TABLE alunos ADD COLUMN senha_hash TEXT;")
+        # Atualiza bancos que já tinham sido criados por versões anteriores do servidor.
+        if "senha_hash" not in colunas(conexao, "alunos"):
+            conexao.execute("ALTER TABLE alunos ADD COLUMN senha_hash TEXT")
+        for nome, tipo in (("editora", "TEXT"), ("ano_publicacao", "INTEGER"), ("capa_url", "TEXT")):
+            if nome not in colunas(conexao, "livros"):
+                conexao.execute(f"ALTER TABLE livros ADD COLUMN {nome} {tipo}")
+        if "data_solicitacao_devolucao" not in colunas(conexao, "emprestimos"):
+            conexao.execute("ALTER TABLE emprestimos ADD COLUMN data_solicitacao_devolucao TEXT")
 
-        colunas_emp = [
-            linha["name"]
-            for linha in conexao.execute("PRAGMA table_info(emprestimos);")
-        ]
-        if "data_solicitacao_devolucao" not in colunas_emp:
-            conexao.execute(
-                "ALTER TABLE emprestimos ADD COLUMN data_solicitacao_devolucao TEXT;"
-            )
+        # Importação idempotente: mantém as tabelas antigas intactas e copia IDs/dados.
+        if existe_tabela(conexao, "aluno"):
+            cols = colunas(conexao, "aluno")
+            senha_expr = "senha_hash" if "senha_hash" in cols else "NULL"
+            turma_expr = "turma" if "turma" in cols else "NULL"
+            conexao.execute(f"""
+                INSERT OR IGNORE INTO alunos (id_aluno, nome, matricula, turma, senha_hash)
+                SELECT id_aluno, nome, matricula, {turma_expr}, {senha_expr} FROM aluno
+            """)
 
-        # Garante que os dois livros clássicos iniciais existam no catálogo
-        livros_iniciais = [
-            ("O Pequeno Príncipe", "Antoine de Saint-Exupéry", "Fantasia", "9788595081512", 3),
-            ("Dom Casmurro", "Machado de Assis", "Romance", "9788535914849", 3),
-        ]
-        for titulo, autor, genero, isbn, qtd in livros_iniciais:
-            existe = conexao.execute(
-                "SELECT id_livro FROM livros WHERE isbn = ? OR LOWER(titulo) = LOWER(?)",
-                (isbn, titulo)
-            ).fetchone()
-            if not existe:
-                cur = conexao.execute(
-                    "INSERT INTO livros (titulo, autor, genero, isbn) VALUES (?, ?, ?, ?)",
-                    (titulo, autor, genero, isbn)
-                )
-                id_livro = cur.lastrowid
-                for n in range(1, qtd + 1):
-                    conexao.execute(
-                        "INSERT OR IGNORE INTO exemplares (id_livro, codigo, status) VALUES (?, ?, 'Disponivel')",
-                        (id_livro, f"{isbn}-{n:02d}")
-                    )
+        if existe_tabela(conexao, "livro"):
+            cols = colunas(conexao, "livro")
+            editora_expr = "editora" if "editora" in cols else "NULL"
+            ano_expr = "ano_publicacao" if "ano_publicacao" in cols else "NULL"
+            conexao.execute(f"""
+                INSERT OR IGNORE INTO livros
+                    (id_livro, isbn, titulo, genero, editora, autor, ano_publicacao)
+                SELECT id_livro, isbn, titulo, genero, {editora_expr},
+                       COALESCE(NULLIF(autor, ''), 'Autor não informado'), {ano_expr}
+                FROM livro
+            """)
+
+        if existe_tabela(conexao, "exemplar"):
+            conexao.execute("""
+                INSERT OR IGNORE INTO exemplares (id_exemplar, codigo, id_livro, status)
+                SELECT e.id_exemplar, e.codigo, e.id_livro,
+                    CASE WHEN EXISTS (
+                        SELECT 1 FROM emprestimo em
+                        WHERE em.id_exemplar = e.id_exemplar AND em.data_devolucao IS NULL
+                    ) THEN 'Emprestado' ELSE 'Disponivel' END
+                FROM exemplar e
+            """)
+
+        if existe_tabela(conexao, "emprestimo"):
+            old_cols = colunas(conexao, "emprestimo")
+            pedido_expr = "data_solicitacao_devolucao" if "data_solicitacao_devolucao" in old_cols else "NULL"
+            conexao.execute(f"""
+                INSERT OR IGNORE INTO emprestimos
+                    (id_emprestimo, id_aluno, id_exemplar, data_emprestimo,
+                     data_prevista_devolucao, data_devolucao, data_solicitacao_devolucao)
+                SELECT id_emprestimo, id_aluno, id_exemplar, data_emprestimo,
+                       data_prevista_devolucao, data_devolucao, {pedido_expr}
+                FROM emprestimo
+            """)
+
+        # O estado de disponibilidade é derivado dos empréstimos ainda não devolvidos.
+        conexao.execute("""
+            UPDATE exemplares
+            SET status = CASE WHEN EXISTS (
+                SELECT 1 FROM emprestimos em
+                WHERE em.id_exemplar = exemplares.id_exemplar
+                  AND em.data_devolucao IS NULL
+            ) THEN 'Emprestado' ELSE 'Disponivel' END
+        """)
 
 
 def gerar_hash_senha(senha):
@@ -213,11 +252,11 @@ class ServidorTechBook(SimpleHTTPRequestHandler):
             self.send_error(403, "Acesso nao permitido.")
             return
 
-        if rota in ("/bibliotecario.html", "/emprestimos.html") and not self.obter_bibliotecario_logado():
+        if rota in ("/bibliotecario.html", "/emprestimos.html", "/emprestimo.html", "/techbook.html", "/scanner.html") and not self.obter_bibliotecario_logado():
             self.redirecionar("/login-bibliotecario.html")
             return
 
-        if rota in ("/perfil-aluno.html", "/emprestimos-aluno.html") and not self.obter_aluno_logado():
+        if rota in ("/perfil-aluno.html", "/emprestimos-aluno.html", "/emprestimo-aluno.html") and not self.obter_aluno_logado():
             self.redirecionar("/login.html")
             return
 
@@ -226,7 +265,7 @@ class ServidorTechBook(SimpleHTTPRequestHandler):
                 livros = conexao.execute(
                     """
                     SELECT
-                        l.id_livro, l.titulo, l.autor, l.genero, l.isbn,
+                        l.id_livro, l.titulo, l.autor, l.genero, l.isbn, l.editora, l.ano_publicacao, l.capa_url,
                         COUNT(e.id_exemplar) AS quantidade,
                         SUM(CASE WHEN LOWER(REPLACE(e.status, 'í', 'i')) = 'disponivel' THEN 1 ELSE 0 END) AS disponiveis
                     FROM livros l
@@ -271,7 +310,7 @@ class ServidorTechBook(SimpleHTTPRequestHandler):
             self.enviar_json(ranking)
             return
 
-        if rota == "/api/alunos-comunidade":
+        if rota in ("/api/alunos-comunidade", "/api/alunos"):
             with conectar() as conexao:
                 linhas = conexao.execute(
                     """
@@ -470,7 +509,7 @@ class ServidorTechBook(SimpleHTTPRequestHandler):
                 livros = conexao.execute(
                     """
                     SELECT
-                        l.id_livro, l.titulo, l.autor, l.genero, l.isbn,
+                        l.id_livro, l.titulo, l.autor, l.genero, l.isbn, l.editora, l.ano_publicacao, l.capa_url,
                         COUNT(e.id_exemplar) AS quantidade,
                         SUM(CASE WHEN LOWER(REPLACE(e.status, 'í', 'i')) = 'disponivel' THEN 1 ELSE 0 END) AS disponiveis
                     FROM livros l
@@ -641,8 +680,16 @@ class ServidorTechBook(SimpleHTTPRequestHandler):
                     self.enviar_json({"erro": "Este livro ja foi devolvido."}, 409)
                     return
 
+                ja_solicitada = conexao.execute(
+                    "SELECT data_solicitacao_devolucao FROM emprestimos WHERE id_emprestimo = ?",
+                    (id_emprestimo,)
+                ).fetchone()["data_solicitacao_devolucao"]
+                if ja_solicitada:
+                    self.enviar_json({"erro": "A devolucao deste livro ja foi solicitada."}, 409)
+                    return
+
                 conexao.execute(
-                    "UPDATE emprestimos SET data_solicitacao_devolucao = ? WHERE id_emprestimo = ?",
+                    "UPDATE emprestimos SET data_solicitacao_devolucao = ? WHERE id_emprestimo = ? AND data_devolucao IS NULL",
                     (datetime.now().isoformat(timespec="seconds"), id_emprestimo)
                 )
 
@@ -719,7 +766,7 @@ class ServidorTechBook(SimpleHTTPRequestHandler):
 
             with conectar() as conexao:
                 emp = conexao.execute(
-                    "SELECT id_exemplar, data_devolucao FROM emprestimos WHERE id_emprestimo = ?",
+                    "SELECT id_exemplar, data_devolucao, data_solicitacao_devolucao FROM emprestimos WHERE id_emprestimo = ?",
                     (id_emprestimo,)
                 ).fetchone()
 
@@ -731,10 +778,17 @@ class ServidorTechBook(SimpleHTTPRequestHandler):
                     self.enviar_json({"erro": "Devolucao ja registrada."}, 409)
                     return
 
-                conexao.execute(
-                    "UPDATE emprestimos SET data_devolucao = ? WHERE id_emprestimo = ?",
+                if not emp["data_solicitacao_devolucao"]:
+                    self.enviar_json({"erro": "O aluno ainda nao solicitou a devolucao."}, 409)
+                    return
+
+                cursor = conexao.execute(
+                    "UPDATE emprestimos SET data_devolucao = ? WHERE id_emprestimo = ? AND data_devolucao IS NULL AND data_solicitacao_devolucao IS NOT NULL",
                     (date.today().isoformat(), id_emprestimo)
                 )
+                if cursor.rowcount != 1:
+                    self.enviar_json({"erro": "Nao foi possivel confirmar esta devolucao."}, 409)
+                    return
                 conexao.execute(
                     "UPDATE exemplares SET status = 'Disponivel' WHERE id_exemplar = ?",
                     (emp["id_exemplar"],)
@@ -752,6 +806,12 @@ class ServidorTechBook(SimpleHTTPRequestHandler):
             autor = str(dados.get("autor", "")).strip()
             genero = str(dados.get("genero", "")).strip() or "Geral"
             isbn = str(dados.get("isbn", "")).strip() or None
+            editora = str(dados.get("editora", "")).strip() or None
+            ano_bruto = str(dados.get("ano_publicacao", "")).strip()
+            ano_publicacao = int(ano_bruto) if ano_bruto.isdigit() else None
+            capa_url = str(dados.get("capa_url", "")).strip() or None
+            if capa_url and not capa_url.startswith("https://"):
+                capa_url = None
             quantidade = int(dados.get("quantidade", 1))
 
             if not titulo or not autor:
@@ -773,10 +833,14 @@ class ServidorTechBook(SimpleHTTPRequestHandler):
 
                     if livro_existente:
                         id_livro = livro_existente["id_livro"]
+                        conexao.execute(
+                            "UPDATE livros SET titulo = ?, autor = ?, genero = ?, editora = COALESCE(?, editora), ano_publicacao = COALESCE(?, ano_publicacao), capa_url = COALESCE(?, capa_url) WHERE id_livro = ?",
+                            (titulo, autor, genero, editora, ano_publicacao, capa_url, id_livro)
+                        )
                     else:
                         cursor = conexao.execute(
-                            "INSERT INTO livros (titulo, autor, genero, isbn) VALUES (?, ?, ?, ?)",
-                            (titulo, autor, genero, isbn)
+                            "INSERT INTO livros (titulo, autor, genero, isbn, editora, ano_publicacao, capa_url) VALUES (?, ?, ?, ?, ?, ?, ?)",
+                            (titulo, autor, genero, isbn, editora, ano_publicacao, capa_url)
                         )
                         id_livro = cursor.lastrowid
 
@@ -816,25 +880,19 @@ class ServidorTechBook(SimpleHTTPRequestHandler):
                 return
 
             with conectar() as conexao:
-                emprestados = conexao.execute(
+                historico = conexao.execute(
                     """
-                    SELECT COUNT(*) FROM exemplares
-                    WHERE id_livro = ? AND LOWER(REPLACE(status, 'í', 'i')) != 'disponivel'
+                    SELECT COUNT(*) FROM emprestimos em
+                    JOIN exemplares ex ON ex.id_exemplar = em.id_exemplar
+                    WHERE ex.id_livro = ?
                     """,
                     (id_livro,)
                 ).fetchone()[0]
 
-                if emprestados > 0:
-                    self.enviar_json({"erro": "Existe exemplar emprestado deste livro."}, 409)
+                if historico > 0:
+                    self.enviar_json({"erro": "Este livro possui historico de emprestimos e nao pode ser excluido."}, 409)
                     return
 
-                conexao.execute(
-                    """
-                    DELETE FROM emprestimos
-                    WHERE id_exemplar IN (SELECT id_exemplar FROM exemplares WHERE id_livro = ?)
-                    """,
-                    (id_livro,)
-                )
                 conexao.execute("DELETE FROM exemplares WHERE id_livro = ?", (id_livro,))
                 conexao.execute("DELETE FROM livros WHERE id_livro = ?", (id_livro,))
 

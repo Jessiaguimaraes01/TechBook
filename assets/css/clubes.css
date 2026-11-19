@@ -3,12 +3,12 @@
 }
 
 :root {
-  --wine: #4b1828;
-  --wine2: #68283a;
-  --cream: #fbf4ec;
-  --gold: #d9ad63;
-  --ink: #30252a;
-  --muted: #796d6b;
+  --wine: #481B27;
+  --wine2: #762F3B;
+  --cream: #F5EBDD;
+  --gold: #D6AE70;
+  --ink: #38272C;
+  --muted: #78666B;
 }
 
 html {
@@ -691,3 +691,14 @@ dialog textarea {
     align-items: flex-start;
   }
 }
+
+/* Cabeçalho e superfícies alinhados à identidade principal do TechBook */
+.topbar { min-height: 76px; height: auto; padding: 12px 5%; gap: 14px; flex-wrap: wrap; background: #FFFCF7; border-bottom-color: #E6D8CB; }
+.brand { font-family: "Playfair Display", Georgia, serif; color: #481B27; }
+.brand-mark { width: 42px; height: 42px; border-radius: 50%; border: 2px solid #D6AE70; background: #481B27; color: #D6AE70; }
+nav { gap: 8px; flex-wrap: wrap; }
+nav a { padding: 8px 12px; border-radius: 999px; color: #78666B; }
+nav a:hover { color: #481B27; background: rgba(197,140,165,.22); }
+.club-card { border-color: #E6D8CB; box-shadow: 0 12px 28px rgba(72,27,39,.07); }
+:focus-visible { outline: 3px solid #D6AE70; outline-offset: 3px; }
+@media (max-width: 720px) { .topbar { justify-content: center; } nav { justify-content: center; } }
