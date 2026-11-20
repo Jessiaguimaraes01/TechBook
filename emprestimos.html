@@ -35,8 +35,8 @@
         <span class="eyebrow">CONTROLE DA BIBLIOTECA</span>
         <h1>Empréstimos <em>& devoluções</em></h1>
         <p>
-          Registre empréstimos, acompanhe os prazos
-          e confirme as devoluções dos livros.
+          Analise solicitações, registre a entrega física,
+          acompanhe os prazos e confirme as devoluções.
         </p>
       </div>
       <div class="hero-icon">📚</div>
@@ -128,10 +128,13 @@
 
         <select id="filtroStatus">
           <option value="todos">Todas as situações</option>
+          <option value="pendente">Aguardando aprovação</option>
+          <option value="aprovado">Aprovados / aguardando retirada</option>
           <option value="ativo">Em andamento</option>
           <option value="atrasado">Em atraso</option>
-          <option value="solicitado">Devolução solicitada</option>
+          <option value="devolucao">Devolução solicitada</option>
           <option value="devolvido">Devolvidos</option>
+          <option value="recusado">Recusados</option>
         </select>
       </div>
 

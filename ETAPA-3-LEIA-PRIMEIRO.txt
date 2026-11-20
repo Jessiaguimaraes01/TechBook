@@ -1,0 +1,38 @@
+TECHBOOK — ETAPA 3: FLUXO COMPLETO DE SOLICITAÇÃO E EMPRÉSTIMO
+
+ESTA ETAPA CORRIGE O PROCESSO DO ALUNO E DO BIBLIOTECÁRIO.
+
+O QUE MUDA
+1. Quando o aluno solicita um livro, o registro fica como "solicitado" e o exemplar é reservado. O sistema não marca o livro como entregue.
+2. O bibliotecário pode aprovar ou recusar a solicitação.
+3. Se recusar, o exemplar volta a ficar disponível no catálogo.
+4. Se aprovar, o sistema aguarda o aluno ir à biblioteca. Quando o livro for entregue fisicamente, o bibliotecário clica em "Registrar entrega".
+5. A partir da entrega, começa o prazo de 14 dias.
+6. O aluno pode solicitar a devolução depois de receber o livro; o bibliotecário confirma quando receber o exemplar físico.
+
+ARQUIVOS PARA ENVIAR AO GITHUB
+Envie SOMENTE estes cinco arquivos, preservando seus caminhos:
+- server.py                                  (raiz do repositório)
+- emprestimos-aluno.html                     (raiz do repositório)
+- emprestimos.html                           (raiz do repositório)
+- assets/js/emprestimos.js                   (dentro de assets/js)
+- assets/css/emprestimos.css                 (dentro de assets/css)
+
+COMO ENVIAR
+1. Abra o repositório TechBook e selecione a branch integrar-github.
+2. Na raiz do repositório, use Add file > Upload files para enviar server.py,
+   emprestimos-aluno.html e emprestimos.html. Confirme a substituição dos arquivos.
+3. Abra a pasta assets/js e envie o novo emprestimos.js.
+4. Abra a pasta assets/css e envie o novo emprestimos.css.
+5. Faça Commit changes em cada envio.
+
+NÃO envie o arquivo de instruções, o ZIP, a pasta Dados nem o banco .db.
+Não altere index.html, login.html, cadastro.html nem login-bibliotecario.html.
+O requirements.txt da etapa 2 continua necessário e NÃO precisa ser enviado de novo.
+
+VERIFICAÇÕES
+- Sintaxe de Python conferida com py_compile.
+- Sintaxe de JavaScript conferida com node --check.
+- Conferidas as transições de status e as rotas novas no código.
+- Não foi possível testar a conexão real com o Supabase ou a interface no navegador
+  neste ambiente. Isso será feito depois que o serviço Render estiver configurado.
