@@ -345,95 +345,6 @@ class ServidorTechBook(SimpleHTTPRequestHandler):
                 """).fetchall()
             self.enviar_json([dict(x) for x in exemplares]); return
 
-        if rota == "/api/admin/emprestimos/aprovar":
-            if not self.obter_bibliotecario_logado():
-                self.enviar_json({"erro": "Acesso restrito ao bibliotecario."}, 401)
-                return
-            id_emprestimo = int(dados.get("id_emprestimo") or 0)
-            if not id_emprestimo:
-                self.enviar_json({"erro": "Solicitacao invalida."}, 400)
-                return
-            with conectar() as conexao:
-                registro = conexao.execute(
-                    "SELECT status FROM emprestimos WHERE id_emprestimo = %s FOR UPDATE",
-                    (id_emprestimo,),
-                ).fetchone()
-                if not registro:
-                    self.enviar_json({"erro": "Solicitacao nao encontrada."}, 404)
-                    return
-                if registro["status"] != "solicitado":
-                    self.enviar_json({"erro": "Esta solicitacao ja foi analisada."}, 409)
-                    return
-                conexao.execute(
-                    "UPDATE emprestimos SET status = 'aprovado' WHERE id_emprestimo = %s",
-                    (id_emprestimo,),
-                )
-            self.enviar_json({"mensagem": "Solicitacao aprovada. Registre a entrega quando o aluno retirar o livro."})
-            return
-
-        if rota == "/api/admin/emprestimos/recusar":
-            if not self.obter_bibliotecario_logado():
-                self.enviar_json({"erro": "Acesso restrito ao bibliotecario."}, 401)
-                return
-            id_emprestimo = int(dados.get("id_emprestimo") or 0)
-            if not id_emprestimo:
-                self.enviar_json({"erro": "Solicitacao invalida."}, 400)
-                return
-            with conectar() as conexao:
-                registro = conexao.execute(
-                    "SELECT id_exemplar, status FROM emprestimos WHERE id_emprestimo = %s FOR UPDATE",
-                    (id_emprestimo,),
-                ).fetchone()
-                if not registro:
-                    self.enviar_json({"erro": "Solicitacao nao encontrada."}, 404)
-                    return
-                if registro["status"] != "solicitado":
-                    self.enviar_json({"erro": "Esta solicitacao ja foi analisada."}, 409)
-                    return
-                conexao.execute(
-                    "UPDATE emprestimos SET status = 'recusado' WHERE id_emprestimo = %s",
-                    (id_emprestimo,),
-                )
-                conexao.execute(
-                    "UPDATE exemplares SET status = 'disponivel' WHERE id_exemplar = %s",
-                    (registro["id_exemplar"],),
-                )
-            self.enviar_json({"mensagem": "Solicitacao recusada. O exemplar voltou a ficar disponivel."})
-            return
-
-        if rota == "/api/admin/emprestimos/entrega":
-            if not self.obter_bibliotecario_logado():
-                self.enviar_json({"erro": "Acesso restrito ao bibliotecario."}, 401)
-                return
-            id_emprestimo = int(dados.get("id_emprestimo") or 0)
-            if not id_emprestimo:
-                self.enviar_json({"erro": "Solicitacao invalida."}, 400)
-                return
-            hoje = date.today()
-            prevista = hoje + timedelta(days=14)
-            with conectar() as conexao:
-                registro = conexao.execute(
-                    "SELECT id_exemplar, status FROM emprestimos WHERE id_emprestimo = %s FOR UPDATE",
-                    (id_emprestimo,),
-                ).fetchone()
-                if not registro:
-                    self.enviar_json({"erro": "Solicitacao nao encontrada."}, 404)
-                    return
-                if registro["status"] != "aprovado":
-                    self.enviar_json({"erro": "A entrega so pode ser registrada depois da aprovacao."}, 409)
-                    return
-                conexao.execute(
-                    "UPDATE emprestimos SET status = 'emprestado', data_emprestimo = %s, "
-                    "data_prevista_devolucao = %s WHERE id_emprestimo = %s",
-                    (hoje, prevista, id_emprestimo),
-                )
-                conexao.execute(
-                    "UPDATE exemplares SET status = 'emprestado' WHERE id_exemplar = %s",
-                    (registro["id_exemplar"],),
-                )
-            self.enviar_json({"mensagem": f"Entrega registrada. Devolucao prevista para {prevista.strftime('%d/%m/%Y')}."})
-            return
-
         if rota == "/api/admin/emprestimos":
             if not self.obter_bibliotecario_logado(): self.enviar_json({"erro": "Acesso restrito ao bibliotecario."}, 401); return
             with conectar() as conexao:
@@ -582,6 +493,95 @@ class ServidorTechBook(SimpleHTTPRequestHandler):
             encerrar_sessao(token)
             cookie = f"{COOKIE_BIBLIOTECARIO}=; Path=/; Max-Age=0; HttpOnly; SameSite=Lax; Secure"
             self.enviar_json({"mensagem": "Sessao encerrada."}, cookies=[cookie]); return
+
+        if rota == "/api/admin/emprestimos/aprovar":
+            if not self.obter_bibliotecario_logado():
+                self.enviar_json({"erro": "Acesso restrito ao bibliotecario."}, 401)
+                return
+            id_emprestimo = int(dados.get("id_emprestimo") or 0)
+            if not id_emprestimo:
+                self.enviar_json({"erro": "Solicitacao invalida."}, 400)
+                return
+            with conectar() as conexao:
+                registro = conexao.execute(
+                    "SELECT status FROM emprestimos WHERE id_emprestimo = %s FOR UPDATE",
+                    (id_emprestimo,),
+                ).fetchone()
+                if not registro:
+                    self.enviar_json({"erro": "Solicitacao nao encontrada."}, 404)
+                    return
+                if registro["status"] != "solicitado":
+                    self.enviar_json({"erro": "Esta solicitacao ja foi analisada."}, 409)
+                    return
+                conexao.execute(
+                    "UPDATE emprestimos SET status = 'aprovado' WHERE id_emprestimo = %s",
+                    (id_emprestimo,),
+                )
+            self.enviar_json({"mensagem": "Solicitacao aprovada. Registre a entrega quando o aluno retirar o livro."})
+            return
+
+        if rota == "/api/admin/emprestimos/recusar":
+            if not self.obter_bibliotecario_logado():
+                self.enviar_json({"erro": "Acesso restrito ao bibliotecario."}, 401)
+                return
+            id_emprestimo = int(dados.get("id_emprestimo") or 0)
+            if not id_emprestimo:
+                self.enviar_json({"erro": "Solicitacao invalida."}, 400)
+                return
+            with conectar() as conexao:
+                registro = conexao.execute(
+                    "SELECT id_exemplar, status FROM emprestimos WHERE id_emprestimo = %s FOR UPDATE",
+                    (id_emprestimo,),
+                ).fetchone()
+                if not registro:
+                    self.enviar_json({"erro": "Solicitacao nao encontrada."}, 404)
+                    return
+                if registro["status"] != "solicitado":
+                    self.enviar_json({"erro": "Esta solicitacao ja foi analisada."}, 409)
+                    return
+                conexao.execute(
+                    "UPDATE emprestimos SET status = 'recusado' WHERE id_emprestimo = %s",
+                    (id_emprestimo,),
+                )
+                conexao.execute(
+                    "UPDATE exemplares SET status = 'disponivel' WHERE id_exemplar = %s",
+                    (registro["id_exemplar"],),
+                )
+            self.enviar_json({"mensagem": "Solicitacao recusada. O exemplar voltou a ficar disponivel."})
+            return
+
+        if rota == "/api/admin/emprestimos/entrega":
+            if not self.obter_bibliotecario_logado():
+                self.enviar_json({"erro": "Acesso restrito ao bibliotecario."}, 401)
+                return
+            id_emprestimo = int(dados.get("id_emprestimo") or 0)
+            if not id_emprestimo:
+                self.enviar_json({"erro": "Solicitacao invalida."}, 400)
+                return
+            hoje = date.today()
+            prevista = hoje + timedelta(days=14)
+            with conectar() as conexao:
+                registro = conexao.execute(
+                    "SELECT id_exemplar, status FROM emprestimos WHERE id_emprestimo = %s FOR UPDATE",
+                    (id_emprestimo,),
+                ).fetchone()
+                if not registro:
+                    self.enviar_json({"erro": "Solicitacao nao encontrada."}, 404)
+                    return
+                if registro["status"] != "aprovado":
+                    self.enviar_json({"erro": "A entrega so pode ser registrada depois da aprovacao."}, 409)
+                    return
+                conexao.execute(
+                    "UPDATE emprestimos SET status = 'emprestado', data_emprestimo = %s, "
+                    "data_prevista_devolucao = %s WHERE id_emprestimo = %s",
+                    (hoje, prevista, id_emprestimo),
+                )
+                conexao.execute(
+                    "UPDATE exemplares SET status = 'emprestado' WHERE id_exemplar = %s",
+                    (registro["id_exemplar"],),
+                )
+            self.enviar_json({"mensagem": f"Entrega registrada. Devolucao prevista para {prevista.strftime('%d/%m/%Y')}."})
+            return
 
         if rota == "/api/admin/emprestimos":
             if not self.obter_bibliotecario_logado(): self.enviar_json({"erro": "Acesso restrito ao bibliotecario."}, 401); return
