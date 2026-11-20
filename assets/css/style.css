@@ -2161,7 +2161,7 @@ body.alto-contraste footer {
 .capa-livro img[hidden] { display: none; }
 .capa-fallback { display: flex; flex-direction: column; align-items: center; justify-content: space-evenly; gap: 5px; width: 96px; height: 140px; padding: 8px; overflow: hidden; border: 1px solid rgba(72,27,39,.22); border-radius: 7px; background: linear-gradient(155deg, rgba(255,255,255,.7), rgba(255,255,255,.24)); color: #481B27; text-align: center; box-shadow: 0 8px 18px rgba(0,0,0,.12); }
 .capa-fallback-icone { font-size: 1.8rem; line-height: 1; }
-.capa-fallback strong { display: -webkit-box; overflow: hidden; -webkit-box-orient: vertical; -webkit-line-clamp: 3; font-family: "Playfair Display", Georgia, serif; font-size: .64rem; line-height: 1.15; }
+.capa-fallback strong { display: -webkit-box; overflow: hidden; -webkit-box-orient: vertical; -webkit-line-clamp: 3; line-clamp: 3; font-family: "Playfair Display", Georgia, serif; font-size: .64rem; line-height: 1.15; }
 .capa-fallback small { display: block; max-width: 100%; overflow: hidden; font-size: .48rem; line-height: 1.1; text-overflow: ellipsis; }
 .capa-fallback[hidden] { display: none; }
 .acoes-cartao-livro { display: grid; gap: 8px; margin-top: 10px; }
