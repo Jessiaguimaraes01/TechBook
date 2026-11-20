@@ -1,0 +1,212 @@
+
+<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Ranking de Leitores | TechBook</title><meta name="description" content="Ranking demonstrativo de leitores do TechBook"><style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Playfair+Display:wght@500;600;700;800&display=swap');
+:root{--wine:#4b102c;--dark:#2c0a1b;--pink:#7b3152;--cream:#fff1c1;--paper:#fffdfa;--ink:#35232c;--muted:#85737b;--line:#eee3e2;--gold:#d7a84c}*{box-sizing:border-box}body{margin:0;background:var(--paper);font-family:'DM Sans',sans-serif;color:var(--ink)}button,input{font:inherit}button{cursor:pointer}a{color:inherit;text-decoration:none}.wrap{max-width:1160px;width:calc(100% - 36px);margin:auto}.top{background:#fff;border-bottom:1px solid var(--line)}.topinner{min-height:78px;display:flex;align-items:center;justify-content:space-between;gap:16px}.brand{display:flex;align-items:center;gap:10px}.brandmark{height:42px;width:42px;border-radius:50%;display:grid;place-items:center;background:var(--wine);color:var(--cream);font:700 19px Georgia}.brand strong{font:600 26px 'Playfair Display',Georgia}.brand small{display:block;font-size:9px;letter-spacing:1.7px;color:#8b7b7d;font-weight:800}.nav{display:flex;gap:23px;align-items:center;font-size:13px;color:#685962}.nav a:hover{color:var(--wine)}.nav .active{font-weight:800;color:var(--wine)}.hero{margin:26px auto 0;border-radius:24px;background:radial-gradient(circle at 89% 20%,#79264b 0,transparent 34%),linear-gradient(120deg,#2c081b,#4b102c 65%,#5c1839);padding:48px 56px;color:#fff;display:grid;grid-template-columns:1fr auto;gap:20px;align-items:center}.eyebrow{color:#8e4b63;letter-spacing:2px;font-size:11px;font-weight:800;text-transform:uppercase}.hero .eyebrow{color:var(--cream)}h1,h2,h3{font-family:'Playfair Display',Georgia,serif}h1{font-size:clamp(36px,5vw,58px);line-height:1.13;margin:14px 0}h1 em{color:var(--cream);font-weight:500}.hero p{font-size:14px;line-height:1.85;max-width:650px;color:#f2dfe7;margin:0}.heroicon{width:150px;height:150px;border-radius:50%;border:1px solid #fff5;display:grid;place-items:center;font-size:76px;background:#ffffff09}.demo{display:inline-flex;margin-top:20px;padding:8px 12px;border-radius:50px;border:1px solid #e5b9ca77;color:var(--cream);font-size:11px;font-weight:700}.section{padding-top:49px}.sectiontitle{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;flex-wrap:wrap}.section h2{font-size:clamp(29px,3.4vw,40px);margin:9px 0}.section p.intro{font-size:14px;color:var(--muted);line-height:1.8;margin:0}.toggle{display:flex;gap:5px;background:#f4ebeb;padding:5px;border-radius:12px}.toggle button{border:0;border-radius:9px;padding:11px 18px;background:transparent;color:#705e66;font-size:13px;font-weight:700}.toggle button.selected{background:var(--wine);color:white;box-shadow:0 2px 7px #4b102c22}.podium{display:grid;grid-template-columns:1fr 1.1fr 1fr;align-items:end;gap:17px;margin-top:30px}.podiumcard{border:1px solid var(--line);background:white;border-radius:19px;padding:22px 16px 0;text-align:center;overflow:hidden}.podiumcard.first{border-color:#e5c982;background:linear-gradient(180deg,#fffcf1,#fff)}.medal{font-size:28px}.avatar{width:70px;height:70px;border-radius:50%;display:grid;place-items:center;background:#f3e3e8;color:var(--wine);font:700 26px 'Playfair Display',Georgia,serif;margin:13px auto 10px}.first .avatar{width:84px;height:84px;background:#f8e8ba}.podiumcard h3{font-size:24px;margin:0 0 7px}.podiumcard .books{font-size:13px;color:#6f6268}.podiumcard .score{font-weight:800;font-size:20px;color:var(--wine);margin:11px 0 20px}.stand{background:#e9d7dc;color:#683349;font-size:13px;font-weight:800;padding:12px}.first .stand{background:#f0db9f;color:#6c4e14;padding:20px}.third .stand{background:#eedbc9}.board{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(270px,.85fr);gap:24px;align-items:start;margin-top:25px}.panel{background:white;border:1px solid var(--line);border-radius:19px;padding:25px}.panel h3{font-size:25px;margin:0 0 17px}.panelhead{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}.search{border:1px solid #e5d9dd;border-radius:10px;padding:10px 12px;max-width:210px;width:100%;outline-color:var(--pink);font-size:12px}.tablewrap{overflow-x:auto}table{border-collapse:collapse;width:100%;font-size:13px;min-width:440px}th{text-align:left;font-size:11px;letter-spacing:.7px;color:#96838c;padding:13px 9px;border-bottom:1px solid var(--line)}td{padding:15px 9px;border-bottom:1px solid #f3ecee}tr:last-child td{border:0}.position{font-weight:800;color:var(--wine)}.reader{display:flex;align-items:center;gap:9px;font-weight:700}.miniavatar{width:32px;height:32px;flex-shrink:0;border-radius:50%;display:grid;place-items:center;background:#f3e8eb;color:var(--wine);font-weight:800}.points{color:var(--wine);font-weight:800}.note{font-size:12px;line-height:1.75;color:var(--muted);margin-top:15px}.mycard{border-radius:14px;background:#4b102c;color:#fff;padding:23px}.mycard .eyebrow{color:var(--cream)}.mycard h3{font-size:28px;margin:12px 0 5px}.mycard p{color:#f2dfe5;font-size:13px;line-height:1.7}.statrow{display:flex;gap:14px;margin-top:18px}.stat{flex:1;background:#ffffff12;padding:14px;border-radius:12px}.stat strong{display:block;font-size:24px}.stat span{font-size:11px;color:#f2dfe5}.progress{height:8px;background:#ffffff30;border-radius:20px;overflow:hidden;margin:18px 0 7px}.progress span{display:block;height:100%;background:var(--cream);width:0%;transition:width .25s}.hint{font-size:11px;color:#f1dfe5}.picker{margin-top:15px;width:100%;border:1px solid #e7d7dd;border-radius:10px;background:#fff;padding:12px;color:var(--wine);font-weight:700;font-size:13px}.achievements{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin:24px 0 0}.achievement{background:#fff;border:1px solid var(--line);border-radius:17px;padding:23px 16px;text-align:center}.achievement .symbol{width:57px;height:57px;border-radius:17px;background:#f9eceb;display:grid;place-items:center;margin:0 auto 13px;font-size:29px}.achievement h3{font-size:19px;margin:0 0 8px}.achievement p{font-size:12px;line-height:1.65;color:var(--muted);margin:0}.rules{margin:42px 0 55px;background:#f9f1ed;border:1px solid #eddfdb;border-radius:18px;padding:27px 30px}.rules h3{font-size:24px;margin:0 0 12px}.rules p{font-size:13px;line-height:1.8;color:#6c5d65;margin:0}.rules strong{color:var(--wine)}footer{background:#2b0b1c;color:#fff;text-align:center;padding:26px 15px}footer strong{font:600 23px 'Playfair Display',Georgia,serif}footer p{color:#ddcbd3;font-size:12px;margin:6px 0 0}@media(max-width:800px){.board{grid-template-columns:1fr}.hero{padding:40px 30px}.heroicon{width:100px;height:100px;font-size:55px}.achievements{grid-template-columns:repeat(2,1fr)}}@media(max-width:560px){.topinner{align-items:flex-start;flex-direction:column;padding:14px 0}.nav{gap:15px;flex-wrap:wrap}.hero{grid-template-columns:1fr;padding:30px 23px}.heroicon{display:none}.podium{gap:6px}.podiumcard{padding:15px 5px 0}.podiumcard h3{font-size:17px}.podiumcard .books{font-size:11px}.podiumcard .score{font-size:15px}.avatar{height:52px;width:52px;font-size:20px}.first .avatar{width:60px;height:60px}.medal{font-size:22px}.stand,.first .stand{padding:10px 2px}.panel{padding:18px}.achievements{gap:9px}.achievement{padding:19px 9px}.achievement h3{font-size:17px}.rules{padding:22px 18px}}
+
+/* Confetes comemorativos: discretos, sem bibliotecas externas */
+.confetti-layer{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:1000}
+.confetti-piece{position:absolute;width:9px;height:15px;left:var(--start-x);top:var(--start-y);background:var(--confetti-color);border-radius:2px;opacity:0;animation:confetti-fly var(--duration) cubic-bezier(.15,.68,.32,1) forwards;transform:translate(-50%,-50%) rotate(0deg)}
+.confetti-piece.round{width:8px;height:8px;border-radius:50%}
+@keyframes confetti-fly{0%{opacity:0;transform:translate(-50%,-50%) scale(.5) rotate(0)}10%{opacity:1}75%{opacity:1}100%{opacity:0;transform:translate(calc(-50% + var(--move-x)),calc(-50% + var(--move-y))) rotate(var(--rotation))}}
+@media(prefers-reduced-motion:reduce){.confetti-piece{animation:none!important;display:none}}
+
+/* Ilustração editorial original da capa */
+.heroart{width:290px;height:255px;position:relative;display:grid;place-items:center;isolation:isolate}
+.art-orbit{position:absolute;border:1px solid #f8e6b45c;border-radius:50%;width:258px;height:258px;z-index:-1}
+.orbit-two{width:210px;height:210px;border-style:dashed;opacity:.6;animation:orbit-turn 38s linear infinite}
+.book-illustration{width:265px;max-width:100%;filter:drop-shadow(0 17px 14px #1c05167a);animation:book-float 5s ease-in-out infinite}
+.art-star{position:absolute;color:#fce5a7;font-size:23px;animation:star-pulse 2.7s ease-in-out infinite}.star-one{left:12px;top:32px}.star-two{right:8px;top:46px;animation-delay:.7s}.star-three{right:27px;bottom:36px;animation-delay:1.2s}
+.art-label{position:absolute;bottom:-8px;font-size:9px;letter-spacing:2px;color:#f6dca4;font-weight:800}
+@keyframes book-float{50%{transform:translateY(-9px)}}@keyframes orbit-turn{to{transform:rotate(360deg)}}@keyframes star-pulse{50%{opacity:.3;transform:scale(.7)}}
+.hero{grid-template-columns:minmax(0,1fr) 290px}
+@media(max-width:800px){.hero{grid-template-columns:minmax(0,1fr) 190px}.heroart{width:190px;height:200px}.book-illustration{width:185px}.art-orbit{width:184px;height:184px}.orbit-two{width:150px;height:150px}}
+@media(max-width:560px){.hero{grid-template-columns:1fr}.heroart{width:100%;height:180px;margin:8px auto 0}.book-illustration{width:200px}.art-orbit{width:180px;height:180px}.orbit-two{width:140px;height:140px}.art-label{bottom:-2px}}
+/* Troféu e pódio */
+.podiumcard{position:relative;animation:podium-enter .55s both;transition:transform .3s,box-shadow .3s}
+.podiumcard:nth-child(1){animation-delay:.1s}.podiumcard:nth-child(2){animation-delay:.2s}.podiumcard:nth-child(3){animation-delay:.3s}
+.podiumcard:hover{transform:translateY(-6px);box-shadow:0 16px 32px #4b102c16}
+.podiumcard.first:before{content:'';position:absolute;top:-35%;left:-110%;width:48%;height:165%;transform:rotate(24deg);background:linear-gradient(90deg,transparent,#fff9d8a8,transparent);animation:trophy-shine 4s ease-in-out infinite;pointer-events:none}
+.podiumcard.first .medal{filter:drop-shadow(0 0 7px #f0c351a8);animation:trophy-glow 2.5s ease-in-out infinite}
+@keyframes trophy-shine{0%,35%{left:-110%}65%,100%{left:170%}}@keyframes trophy-glow{50%{filter:drop-shadow(0 0 14px #edbc43)}}
+@keyframes podium-enter{from{opacity:0;transform:translateY(25px) scale(.96)}to{opacity:1;transform:translateY(0) scale(1)}}
+.podiumcard.first{cursor:pointer}.podiumcard.first:focus-visible{outline:3px solid #b47d27;outline-offset:4px}
+.movement-note{font-size:12px;color:#8b5267;margin:10px 0 0}
+.position-up{color:#247f5d;font-weight:800;white-space:nowrap;font-size:11px}.position-down{color:#9a6678;font-weight:800;white-space:nowrap;font-size:11px}.position-same{color:#aa9ba0;font-size:11px}
+.ranking-row{animation:row-rise .5s ease both;animation-delay:var(--row-delay,0ms)}
+@keyframes row-rise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+/* Leitor do mês */
+.winner-feature{margin:32px 0 0;padding:25px 29px;display:flex;align-items:center;gap:24px;flex-wrap:wrap;border-radius:20px;border:1px solid #ead49e;background:linear-gradient(120deg,#fff9e9,#fffdfa 58%,#f9e9e9);position:relative;overflow:hidden}
+.winner-symbol{position:absolute;right:20%;top:-38px;font-size:170px;color:#f0d99b45;pointer-events:none}
+.winner-copy{flex:1 1 230px;position:relative}.winner-copy h2{font-size:29px;margin:6px 0}.winner-copy p{font-size:12px;color:#7c6870;margin:0}
+.winner-profile{display:flex;align-items:center;gap:13px;position:relative}.winner-crown{width:60px;height:60px;border-radius:50%;display:grid;place-items:center;background:#f2dda3;color:#765019;font-size:35px;box-shadow:0 0 0 5px #f4e6c080;animation:trophy-glow 3s infinite}
+.winner-profile strong{display:block;font:700 22px 'Playfair Display',Georgia,serif;color:#4b102c}.winner-profile span{font-size:12px;color:#8b6875;display:block;margin-top:4px}
+.celebrate-button{position:relative;background:#4b102c;color:white;border:0;border-radius:10px;padding:13px 15px;font-size:12px;font-weight:800}
+.celebrate-button:hover{background:#6d2142}
+/* Níveis e conquistas */
+.level-row{display:flex;justify-content:space-between;gap:8px;align-items:center;margin-top:21px}.level-name{font-size:13px;font-weight:800;color:#fff0bd}.level-next{font-size:11px;color:#f0d9e2;text-align:right}
+.mycard .progress{height:11px;background:#ffffff32;margin:10px 0 8px}.mycard .progress span{background:linear-gradient(90deg,#dfac59,#fff0b4);transition:width .7s cubic-bezier(.2,.8,.2,1)}
+.achievement-explain{font-size:12px;color:#8d737c;margin:15px 0 0}
+.achievement{position:relative;transition:transform .25s,box-shadow .25s;overflow:hidden}
+.achievement:hover{transform:translateY(-5px);box-shadow:0 10px 25px #4b102c0d}
+.achievement.locked .symbol{filter:grayscale(1);opacity:.4}.achievement.locked{background:#faf8f8}.achievement.locked h3{color:#8e8085}
+.achievement.unlocked{border-color:#e9c77d;background:linear-gradient(180deg,#fffdf5,#fff)}
+.achievement.unlocked .symbol{animation:badge-bounce .65s both;background:#fff0bf;box-shadow:0 0 0 4px #f7e9c8}
+.achievement .status{display:inline-flex;margin-top:14px;padding:6px 10px;border-radius:20px;background:#f0e9e9;color:#82717a;font-size:10px;font-weight:800}
+.achievement.unlocked .status{background:#fff0c6;color:#7b5318}
+.achievement .badge-progress{margin-top:12px;font-size:11px;color:#9a858c}
+@keyframes badge-bounce{0%{transform:scale(.65) rotate(-18deg)}60%{transform:scale(1.15) rotate(7deg)}100%{transform:scale(1) rotate(0)}}
+/* Livro de boas-vindas */
+.welcome-overlay{position:fixed;inset:0;background:#1b0614c9;z-index:1100;display:grid;place-items:center;padding:20px;backdrop-filter:blur(6px)}
+.welcome-overlay[hidden]{display:none!important}
+.welcome-card{width:min(460px,100%);background:#fffdfa;border-radius:24px;padding:38px 30px;text-align:center;box-shadow:0 24px 70px #1b0614a8;animation:welcome-appear .55s ease both}
+.welcome-card .eyebrow{color:#8a4260}.welcome-card h2{font-size:clamp(28px,5vw,37px);color:#4b102c;margin:13px 0}.welcome-card p{font-size:13px;line-height:1.7;color:#796972}
+.welcome-button{border:0;background:#4b102c;color:#fff;border-radius:12px;padding:14px 24px;font-weight:800;margin-top:10px}
+.welcome-book{height:112px;width:180px;margin:0 auto 22px;display:flex;justify-content:center;align-items:end;position:relative;perspective:350px}
+.welcome-left,.welcome-right{width:72px;height:94px;background:repeating-linear-gradient(180deg,#fff4c8 0 12px,#e3c987 13px 14px);border:3px solid #c9a465;box-shadow:0 6px 14px #4b102c26}
+.welcome-left{border-radius:9px 3px 4px 14px;transform-origin:right bottom;animation:open-left 1.3s ease both}
+.welcome-right{border-radius:3px 9px 14px 4px;transform-origin:left bottom;animation:open-right 1.3s ease both}
+.welcome-spark{position:absolute;top:-5px;left:82px;font-size:32px;color:#d7a84c;animation:star-pulse 2s infinite}
+@keyframes open-left{from{transform:rotateY(-80deg)}to{transform:rotateY(-12deg) rotate(-5deg)}}@keyframes open-right{from{transform:rotateY(80deg)}to{transform:rotateY(12deg) rotate(5deg)}}
+@keyframes welcome-appear{from{opacity:0;transform:translateY(15px) scale(.95)}to{opacity:1;transform:translateY(0) scale(1)}}
+@media(max-width:560px){.winner-feature{padding:22px 18px;gap:18px}.winner-profile{flex:1 1 200px}.celebrate-button{width:100%}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.01ms!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}
+</style></head><body>
+<header class="top"><div class="wrap topinner"><a class="brand" href="https://jessiaguimaraes01.github.io/TechBook/index.html"><div class="brandmark">TB</div><div><strong>TechBook</strong><small>BIBLIOTECA INTELIGENTE</small></div></a><nav class="nav"><a href="https://jessiaguimaraes01.github.io/TechBook/index.html">Início do TechBook</a><a href="#podio">Pódio</a><a class="active" href="#classificacao">Ranking</a><a href="#conquistas">Conquistas</a></nav></div></header>
+<main class="wrap"><section class="hero"><div><div class="eyebrow">✦ Cada página conta</div><h1>Grandes leitores deixam <em>suas marcas.</em></h1><p>Descubra quem está fazendo história entre os livros. Leia, evolua, conquiste novos títulos e encontre seu lugar no ranking do TechBook.</p><span class="demo">VERSÃO DEMONSTRATIVA · DADOS FICTÍCIOS</span></div><div class="heroart" aria-hidden="true"><div class="art-orbit orbit-one"></div><div class="art-orbit orbit-two"></div><span class="art-star star-one">✦</span><span class="art-star star-two">✧</span><span class="art-star star-three">✦</span><svg class="book-illustration" viewBox="0 0 320 270" fill="none" xmlns="http://www.w3.org/2000/svg"><ellipse cx="163" cy="236" rx="123" ry="15" fill="#230617" opacity=".42"/><path d="M162 64C116 36 65 43 27 61V206C77 186 121 190 162 218V64Z" fill="#F5E5B4" stroke="#D6B36D" stroke-width="4"/><path d="M162 64C205 37 257 42 293 61V206C245 185 204 190 162 218V64Z" fill="#FFF5D5" stroke="#D6B36D" stroke-width="4"/><path d="M162 64V218" stroke="#9C633F" stroke-width="5" stroke-linecap="round"/><path d="M42 85C78 74 111 81 143 99M42 109C80 99 113 109 143 123M42 133C78 123 113 133 143 147M42 157C79 147 110 155 143 172M181 99C212 80 248 75 278 85M181 123C211 106 245 101 278 109M181 147C214 130 246 127 278 133M181 172C214 153 245 151 278 157" stroke="#C5A16C" stroke-width="3" opacity=".7" stroke-linecap="round"/><path d="M27 206C74 187 119 191 162 220C203 192 247 185 293 206" stroke="#E7C783" stroke-width="7" stroke-linecap="round"/><path d="M155 47L162 28L169 47L189 54L169 61L162 80L155 61L135 54L155 47Z" fill="#FFE5A0"/><path d="M229 19L234 7L239 19L252 24L239 29L234 41L229 29L216 24L229 19Z" fill="#F8D481"/><circle cx="83" cy="29" r="5" fill="#F8D481"/><circle cx="278" cy="42" r="4" fill="#F8D481"/></svg><div class="art-label">HISTÓRIAS QUE BRILHAM</div></div></section>
+<section class="section" id="podio"><div class="sectiontitle"><div><div class="eyebrow">✦ Os destaques</div><h2>Nosso pódio de leitores</h2><p class="intro">Os três leitores com mais pontos no período selecionado.</p></div><div class="toggle" role="group" aria-label="Período do ranking"><button type="button" data-period="month" class="selected" aria-pressed="true">Este mês</button><button type="button" data-period="all" aria-pressed="false">Geral</button></div></div><div class="podium" id="podium" aria-live="polite"></div></section>
+<section class="winner-feature" id="leitor-do-mes" aria-label="Leitor do mês"><div class="winner-symbol" aria-hidden="true">✦</div><div class="winner-copy"><div class="eyebrow">✦ Destaque especial</div><h2>Leitor do mês</h2><p>Um capítulo especial para quem se destacou na leitura.</p></div><div class="winner-profile"><div class="winner-crown" aria-hidden="true">♛</div><div><strong id="winnerName">Lara Martins</strong><span id="winnerInfo">8 livros concluídos neste mês</span></div></div><button class="celebrate-button" id="celebrateWinner" type="button">Celebrar conquista ✨</button></section>
+<section class="section" id="classificacao"><div class="board"><div class="panel"><div class="panelhead"><h3>Classificação completa</h3><input class="search" id="search" type="search" placeholder="Buscar leitor..." aria-label="Buscar leitor"></div><div class="tablewrap"><table><thead><tr><th>Posição</th><th>Leitor</th><th>Livros lidos</th><th>Pontos</th></tr></thead><tbody id="rankingRows"></tbody></table></div><p class="note" id="tableNote"></p><p class="movement-note" id="movementNote" aria-live="polite">↗ Veja como as posições mudam entre os períodos.</p></div><aside class="panel"><div class="mycard"><div class="eyebrow">✦ Minha jornada</div><h3 id="myName">Selecione um leitor</h3><p>Veja uma simulação do progresso individual.</p><div class="statrow"><div class="stat"><strong id="myPosition">—</strong><span>Posição</span></div><div class="stat"><strong id="myBooks">—</strong><span>Livros lidos</span></div><div class="stat"><strong id="myPoints">—</strong><span>Pontos</span></div></div><div class="level-row"><span id="myLevel" class="level-name">Explorador</span><span id="myNextLevel" class="level-next">Próximo nível</span></div><div class="progress" role="progressbar" aria-label="Progresso no nível literário" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="progressBar"><span id="myProgress"></span></div><div class="hint" id="progressText">Progresso até o próximo nível</div></div><label for="readerSelect" class="note" style="display:block;margin-bottom:7px">Escolha um perfil fictício:</label><select class="picker" id="readerSelect"></select><p class="note">Na versão integrada, este espaço poderá mostrar os dados do estudante conectado.</p></aside></div></section>
+<section class="section" id="conquistas"><div class="eyebrow">✦ Além das posições</div><h2>Conquistas literárias</h2><p class="intro">Cada etapa da leitura merece ser celebrada.</p><p class="achievement-explain" id="achievementExplain">Escolha um leitor em “Minha jornada” para acompanhar as medalhas desbloqueadas.</p><div class="achievements" id="achievementsList" aria-live="polite"></div></section>
+<section class="rules"><h3>Como funciona a pontuação?</h3><p>Nesta demonstração, cada <strong>livro concluído e validado vale 100 pontos</strong>. O ranking mensal considera as leituras registradas no mês, enquanto o ranking geral considera o total acumulado. <strong>Empréstimos não contam automaticamente como leitura concluída.</strong> Os nomes e números desta página são fictícios. Na integração com o banco de dados, a equipe poderá definir o processo de validação das leituras e as regras oficiais.</p></section></main>
+<div class="welcome-overlay" id="welcomeOverlay" hidden><div class="welcome-card" role="dialog" aria-modal="true" aria-labelledby="welcomeTitle"><div class="welcome-book" aria-hidden="true"><span class="welcome-left"></span><span class="welcome-right"></span><span class="welcome-spark">✦</span></div><div class="eyebrow">✦ Bem-vindo ao ranking</div><h2 id="welcomeTitle">Toda grande aventura começa com uma página.</h2><p>Descubra quem está escrevendo novas histórias com a leitura.</p><button type="button" id="welcomeClose" class="welcome-button">Explorar o ranking</button></div></div><footer><strong>TechBook</strong><p>Histórias que inspiram novas histórias · Protótipo 2026</p></footer>
+<div id="confettiLayer" class="confetti-layer" aria-hidden="true"></div>
+<script>
+'use strict';
+const readers=[
+{id:1,name:'Lara Martins',month:8,all:21},{id:2,name:'Miguel Oliveira',month:6,all:17},{id:3,name:'Ana Clara',month:7,all:15},{id:4,name:'Pedro Henrique',month:4,all:19},{id:5,name:'Sofia Almeida',month:5,all:13},{id:6,name:'João Gabriel',month:3,all:12},{id:7,name:'Beatriz Costa',month:4,all:10},{id:8,name:'Lucas Ferreira',month:2,all:9},{id:9,name:'Mariana Santos',month:3,all:8},{id:10,name:'Rafael Lima',month:1,all:5}];
+let period='month',selectedId=3;
+const $=id=>document.getElementById(id);
+const ranked=()=>[...readers].sort((a,b)=>b[period]-a[period]||a.name.localeCompare(b.name,'pt-BR'));
+const achievementDefs=[
+ {min:1,icon:'🌱',title:'Primeiro capítulo',desc:'Conclua sua primeira leitura.'},
+ {min:5,icon:'📚',title:'Leitor dedicado',desc:'Complete 5 livros e continue crescendo.'},
+ {min:10,icon:'✨',title:'Entre páginas',desc:'Alcance 10 livros concluídos.'},
+ {min:20,icon:'👑',title:'Lenda da biblioteca',desc:'Chegue à marca de 20 livros lidos.'}
+];
+const levelDefs=[
+ {min:0,name:'Aprendiz',next:5},{min:5,name:'Explorador',next:12},
+ {min:12,name:'Mestre das Páginas',next:20},{min:20,name:'Lenda Literária',next:null}
+];
+function renderAchievements(count){
+ $('achievementsList').innerHTML=achievementDefs.map((a,i)=>{
+ const unlocked=count>=a.min;
+ return `<article class="achievement ${unlocked?'unlocked':'locked'}" style="--badge-delay:${i*80}ms"><div class="symbol" aria-hidden="true">${a.icon}</div><h3>${a.title}</h3><p>${a.desc}</p><span class="status">${unlocked?'✦ Desbloqueada':'🔒 Bloqueada'}</span><div class="badge-progress">${unlocked?'Conquista alcançada!':`${count} de ${a.min} livros`}</div></article>`;
+ }).join('');
+}
+function render(){
+ const list=ranked(),top=list.slice(0,3),medal=['🥇','🥈','🥉'];
+ $('podium').innerHTML=[top[1],top[0],top[2]].map(r=>{
+ const place=top.indexOf(r);
+ return `<article class="podiumcard ${place===0?'first':place===2?'third':''}" ${place===0?'tabindex="0" role="button" aria-label="Celebrar o primeiro lugar" title="Clique para celebrar"':''}><div class="medal" aria-label="${place+1}º lugar">${medal[place]}</div><div class="avatar">${r.name.charAt(0)}</div><h3>${r.name}</h3><div class="books">${r[period]} ${r[period]===1?'livro lido':'livros lidos'}</div><div class="score">${r[period]*100} pts</div><div class="stand">${place+1}º LUGAR</div></article>`;
+ }).join('');
+ const champion=$('podium').querySelector('.first');
+ champion.addEventListener('click',celebratePodium);
+ champion.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();celebratePodium()}});
+ const monthLeader=[...readers].sort((a,b)=>b.month-a.month||a.name.localeCompare(b.name,'pt-BR'))[0];
+ $('winnerName').textContent=monthLeader.name;
+ $('winnerInfo').textContent=`${monthLeader.month} livros concluídos neste mês · ${monthLeader.month*100} pontos`;
+ const previous=period==='month'?'all':'month';
+ const previousList=[...readers].sort((a,b)=>b[previous]-a[previous]||a.name.localeCompare(b.name,'pt-BR'));
+ const previousPositions=new Map(previousList.map((r,i)=>[r.id,i+1]));
+ const query=$('search').value.trim().toLocaleLowerCase('pt-BR');
+ const filtered=list.filter(r=>r.name.toLocaleLowerCase('pt-BR').includes(query));
+ $('rankingRows').innerHTML=filtered.length?filtered.map((r,i)=>{
+  const pos=list.indexOf(r)+1,old=previousPositions.get(r.id),delta=old-pos;
+  const movement=delta>0?`<span class="position-up" aria-label="Subiu ${delta} posições">↗ +${delta}</span>`:delta<0?`<span class="position-down" aria-label="Desceu ${Math.abs(delta)} posições">↘ ${delta}</span>`:'<span class="position-same" aria-label="Mesma posição">•</span>';
+  return `<tr class="ranking-row" style="--row-delay:${Math.min(i*35,280)}ms"><td class="position">${pos}º &nbsp;${movement}</td><td><div class="reader"><span class="miniavatar">${r.name.charAt(0)}</span>${r.name}</div></td><td>${r[period]}</td><td class="points">${r[period]*100}</td></tr>`;
+ }).join(''):'<tr><td colspan="4">Nenhum leitor encontrado.</td></tr>';
+ $('tableNote').textContent=`${filtered.length} de ${list.length} leitores · ${period==='month'?'Ranking mensal':'Ranking geral'} · Dados fictícios`;
+ $('movementNote').textContent=`↗ ↘ As setas comparam a posição no ranking ${period==='month'?'geral':'mensal'}.`;
+ const me=readers.find(r=>r.id===selectedId)||readers[0],pos=list.findIndex(r=>r.id===me.id)+1,count=me[period];
+ $('myName').textContent=me.name;$('myPosition').textContent=pos+'º';$('myBooks').textContent=count;$('myPoints').textContent=count*100;
+ const level=[...levelDefs].reverse().find(l=>count>=l.min);
+ const progress=level.next===null?100:Math.max(0,Math.min(100,((count-level.min)/(level.next-level.min))*100));
+ $('myLevel').textContent='✦ '+level.name;
+ $('myNextLevel').textContent=level.next===null?'Nível máximo':`${level.next-count} ${level.next-count===1?'livro':'livros'} para evoluir`;
+ $('myProgress').style.width=progress+'%';
+ $('progressBar').setAttribute('aria-valuenow',String(Math.round(progress)));
+ $('progressText').textContent=level.next===null?'Você alcançou o título de Lenda Literária!':`${count} livros concluídos · próximo nível aos ${level.next} livros`;
+ $('achievementExplain').textContent=`Conquistas de ${me.name} · ${count} ${count===1?'livro concluído':'livros concluídos'} no ${period==='month'?'mês':'total'}.`;
+ renderAchievements(count);
+}
+$('readerSelect').innerHTML=readers.map(r=>`<option value="${r.id}">${r.name}</option>`).join('');
+$('readerSelect').value=String(selectedId);
+$('readerSelect').addEventListener('change',e=>{selectedId=Number(e.target.value);render()});
+$('search').addEventListener('input',render);
+document.querySelectorAll('[data-period]').forEach(b=>b.addEventListener('click',()=>{
+ period=b.dataset.period;
+ document.querySelectorAll('[data-period]').forEach(x=>{const on=x===b;x.classList.toggle('selected',on);x.setAttribute('aria-pressed',String(on))});
+ render();
+}));
+render();
+
+// Celebração visual quando o pódio entra em cena, sem afetar a classificação.
+const confettiLayer=document.getElementById('confettiLayer');
+const reducedMotion=window.matchMedia('(prefers-reduced-motion: reduce)');
+let lastCelebration=0;
+function celebratePodium(){
+ if(reducedMotion.matches)return;
+ const now=Date.now();if(now-lastCelebration<900)return;lastCelebration=now;
+ const colors=['#e5b75d','#f6e6aa','#8b2b55','#d58ca4','#ffffff','#c89a65'];
+ const rect=document.getElementById('podio').getBoundingClientRect();
+ const visible=rect.bottom>0&&rect.top<window.innerHeight;
+ const winnerRect=document.getElementById('leitor-do-mes').getBoundingClientRect();
+ const target=visible?rect:winnerRect;
+ const y=Math.max(90,Math.min(window.innerHeight-100,target.top+Math.min(target.height*.43,230)));
+ for(let i=0;i<72;i++){
+  const side=i%2===0?'left':'right';
+  const piece=document.createElement('span');piece.className='confetti-piece'+(i%5===0?' round':'');
+  const x=side==='left'?Math.max(12,Math.min(90,target.left+18)):Math.min(window.innerWidth-12,Math.max(window.innerWidth-90,target.right-18));
+  const moveX=(side==='left'?1:-1)*(55+Math.random()*Math.min(240,window.innerWidth*.34));
+  const moveY=-95+Math.random()*300;
+  piece.style.setProperty('--start-x',x+'px');
+  piece.style.setProperty('--start-y',(y+(Math.random()-.5)*110)+'px');
+  piece.style.setProperty('--move-x',moveX+'px');
+  piece.style.setProperty('--move-y',moveY+'px');
+  piece.style.setProperty('--rotation',(360+Math.random()*900)*(i%2?-1:1)+'deg');
+  piece.style.setProperty('--duration',(1.6+Math.random()*.9)+'s');
+  piece.style.setProperty('--confetti-color',colors[i%colors.length]);
+  piece.style.animationDelay=(Math.random()*.18)+'s';
+  confettiLayer.appendChild(piece);
+  piece.addEventListener('animationend',()=>piece.remove(),{once:true});
+ }
+}
+document.getElementById('celebrateWinner').addEventListener('click',celebratePodium);
+document.querySelectorAll('a[href="#podio"]').forEach(link=>link.addEventListener('click',()=>setTimeout(celebratePodium,450)));
+document.querySelectorAll('[data-period]').forEach(button=>button.addEventListener('click',()=>{if(document.getElementById('podio').getBoundingClientRect().top<window.innerHeight)celebratePodium()}));
+if('IntersectionObserver'in window){
+ let celebratedOnEntry=false;
+ const observer=new IntersectionObserver(entries=>{
+  const visible=entries.some(e=>e.isIntersecting);
+  if(visible&&!celebratedOnEntry){celebratedOnEntry=true;celebratePodium()}
+  if(!visible)celebratedOnEntry=false;
+ },{threshold:.35});
+ observer.observe(document.getElementById('podio'));
+}
+
+// Aparece uma vez por aba; fechar não impede navegação.
+const welcomeOverlay=$('welcomeOverlay');
+const welcomeClose=$('welcomeClose');
+function closeWelcome(){welcomeOverlay.hidden=true;document.body.style.overflow='';}
+welcomeClose.addEventListener('click',closeWelcome);
+welcomeOverlay.addEventListener('click',e=>{if(e.target===welcomeOverlay)closeWelcome()});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!welcomeOverlay.hidden)closeWelcome()});
+try{
+ if(!sessionStorage.getItem('techbook-ranking-welcome-v2')){
+  welcomeOverlay.hidden=false;document.body.style.overflow='hidden';
+  sessionStorage.setItem('techbook-ranking-welcome-v2','1');
+  welcomeClose.focus();
+ }
+}catch(e){/* navegação normal se o navegador bloquear sessionStorage */}
+</script></body></html>
+Exibindo Ranking.html.
