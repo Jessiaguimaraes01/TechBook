@@ -1,7 +1,7 @@
 // ========================================
 // CONFIGURAÇÕES E DADOS
 // ========================================
-
+/*
 const CHAVE = "tecbook-demo-v2";
 const CHAVE_CONTRASTE = "techbook-alto-contraste";
 
@@ -575,4 +575,170 @@ async function verificarSessaoTopo() {
 aplicarContrasteSalvo();
 renderizarTudo();
 carregarLivrosDoBanco();
-verificarSessaoTopo();
+verificarSessaoTopo(); */
+
+// TechBook — catálogo demonstrativo, sem servidor e sem banco de dados.
+// A lista existe apenas neste arquivo e não é salva no navegador.
+
+const livros = [
+  {
+    id: 1,
+    titulo: "O Pequeno Príncipe",
+    autor: "Antoine de Saint-Exupéry",
+    genero: "Fantasia",
+    emoji: "🌹",
+    cor: "#E9DCE5",
+    sinopse: "Uma história delicada sobre amizade, afeto e o olhar sobre o mundo.",
+    disponiveis: 2
+  },
+  {
+    id: 2,
+    titulo: "Dom Casmurro",
+    autor: "Machado de Assis",
+    genero: "Romance",
+    emoji: "📜",
+    cor: "#E8D8C4",
+    sinopse: "Um clássico da literatura brasileira narrado por Bento Santiago.",
+    disponiveis: 2
+  },
+  {
+    id: 3,
+    titulo: "Alice no País das Maravilhas",
+    autor: "Lewis Carroll",
+    genero: "Fantasia",
+    emoji: "🐇",
+    cor: "#DCE7E2",
+    sinopse: "Uma aventura fantástica por um mundo cheio de personagens inesperados.",
+    disponiveis: 3
+  },
+  {
+    id: 4,
+    titulo: "A Menina que Roubava Livros",
+    autor: "Markus Zusak",
+    genero: "Romance",
+    emoji: "📖",
+    cor: "#E8D5D0",
+    sinopse: "Uma jovem encontra nos livros uma forma de atravessar tempos difíceis.",
+    disponiveis: 1
+  },
+  {
+    id: 5,
+    titulo: "O Hobbit",
+    autor: "J. R. R. Tolkien",
+    genero: "Aventura",
+    emoji: "🗺️",
+    cor: "#E7E1C9",
+    sinopse: "Bilbo Bolseiro parte para uma jornada inesperada pela Terra-média.",
+    disponiveis: 2
+  },
+  {
+    id: 6,
+    titulo: "Extraordinário",
+    autor: "R. J. Palacio",
+    genero: "Romance",
+    emoji: "⭐",
+    cor: "#DDE5EF",
+    sinopse: "Uma história sobre empatia, amizade e a importância de acolher as diferenças.",
+    disponiveis: 3
+  },
+  {
+    id: 7,
+    titulo: "Sherlock Holmes: Um Estudo em Vermelho",
+    autor: "Arthur Conan Doyle",
+    genero: "Mistério",
+    emoji: "🔎",
+    cor: "#E8D9C8",
+    sinopse: "O início das investigações do famoso detetive Sherlock Holmes.",
+    disponiveis: 2
+  },
+  {
+    id: 8,
+    titulo: "A Máquina do Tempo",
+    autor: "H. G. Wells",
+    genero: "Ficção científica",
+    emoji: "⏳",
+    cor: "#D9E3E8",
+    sinopse: "Uma viagem imaginária que explora o futuro da humanidade.",
+    disponiveis: 1
+  }
+];
+
+const campoBusca = document.querySelector("#busca");
+const grade = document.querySelector("#grade-livros");
+const resultado = document.querySelector("#resultado-busca");
+const vazio = document.querySelector("#vazio");
+let generoSelecionado = "Todos";
+
+function escapar(texto) {
+  return String(texto).replace(/[&<>"']/g, caractere => ({
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    '"': "&quot;",
+    "'": "&#39;"
+  })[caractere]);
+}
+
+function renderizarCatalogo() {
+  if (!campoBusca || !grade || !resultado || !vazio) return;
+
+  const termo = campoBusca.value.trim().toLocaleLowerCase("pt-BR");
+  const encontrados = livros.filter(livro => {
+    const texto = `${livro.titulo} ${livro.autor} ${livro.genero} ${livro.sinopse}`.toLocaleLowerCase("pt-BR");
+    const combinaGenero = generoSelecionado === "Todos" || livro.genero === generoSelecionado;
+    return texto.includes(termo) && combinaGenero;
+  });
+
+  resultado.textContent = `${encontrados.length} livro(s) encontrado(s).`;
+  vazio.hidden = encontrados.length > 0;
+  grade.innerHTML = encontrados.map(livro => `
+    <article class="cartao-livro">
+      <div class="capa-livro" style="--cor-capa:${livro.cor}">
+        <span class="capa-emoji" aria-hidden="true">${livro.emoji}</span>
+      </div>
+      <div class="info-livro">
+        <span class="genero-livro">${escapar(livro.genero)}</span>
+        <h3>${escapar(livro.titulo)}</h3>
+        <p class="autor">${escapar(livro.autor)}</p>
+        <p class="sinopse">${escapar(livro.sinopse)}</p>
+        <span class="disponibilidade">${livro.disponiveis} exemplar(es) na demonstração</span>
+        <div style="display:grid; gap:8px; margin-top:10px;">
+          <a class="botao botao-vinho acao-cartao" href="login.html">Entrar para solicitar</a>
+        </div>
+      </div>
+    </article>
+  `).join("");
+
+  document.querySelectorAll(".filtro").forEach(botao => {
+    const ativo = botao.dataset.genero === generoSelecionado;
+    botao.classList.toggle("ativo", ativo);
+    botao.setAttribute("aria-pressed", String(ativo));
+  });
+}
+
+campoBusca?.addEventListener("input", renderizarCatalogo);
+document.querySelectorAll(".filtro").forEach(botao => {
+  botao.addEventListener("click", () => {
+    generoSelecionado = botao.dataset.genero || "Todos";
+    renderizarCatalogo();
+  });
+});
+
+const menuBotao = document.querySelector("#menu-btn");
+const menu = document.querySelector("#menu");
+if (menuBotao && menu) {
+  menuBotao.addEventListener("click", evento => {
+    const aberto = menu.classList.toggle("aberto");
+    evento.currentTarget.setAttribute("aria-expanded", String(aberto));
+  });
+  menu.querySelectorAll("a").forEach(link => {
+    link.addEventListener("click", () => {
+      menu.classList.remove("aberto");
+      menuBotao.setAttribute("aria-expanded", "false");
+    });
+  });
+}
+
+document.querySelector("#total-livros")?.replaceChildren(String(livros.length));
+document.querySelector("#total-generos")?.replaceChildren(String(new Set(livros.map(livro => livro.genero)).size));
+renderizarCatalogo();

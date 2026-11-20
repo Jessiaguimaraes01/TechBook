@@ -1,4 +1,4 @@
-
+<!--
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -231,5 +231,173 @@
       }
     });
   </script>
+</body>
+</html>  --->
+
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cadastro de aluno — TechBook</title>
+
+  <link rel="stylesheet" href="assets/css/style.css">
+
+  <style>
+    .cadastro-pagina {
+      min-height: 75vh;
+      display: grid;
+      place-items: center;
+      padding: 40px 20px;
+    }
+
+    .cadastro-cartao {
+      width: 100%;
+      max-width: 520px;
+      padding: 32px;
+      background: var(--papel, #FFFCF7);
+      color: var(--texto, #38272C);
+      border: 1px solid var(--borda, #E6D8CB);
+      border-radius: 20px;
+      box-shadow: 0 12px 35px #481B2715;
+    }
+
+    .cadastro-cartao h1 {
+      color: var(--vinho, #481B27);
+      margin: 10px 0 14px;
+      font-size: clamp(2.2rem, 5vw, 2.9rem);
+      line-height: 1.12;
+    }
+
+    .cadastro-cartao > p:not(.genero-livro) {
+      font-size: 1rem;
+      line-height: 1.7;
+    }
+
+    .campo-cadastro label,
+    .campo-cadastro input,
+    .cadastro-botao {
+      font-size: 1rem;
+    }
+
+    .cadastro-cartao > p {
+      margin-bottom: 24px;
+    }
+
+    .campo-cadastro {
+      display: grid;
+      gap: 7px;
+      margin-bottom: 18px;
+    }
+
+    .campo-cadastro label {
+      font-weight: 600;
+    }
+
+    .campo-cadastro input {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid var(--borda, #E6D8CB);
+      border-radius: 9px;
+      background: white;
+      color: #38272C;
+      font: inherit;
+    }
+
+    .campo-cadastro input:focus {
+      outline: 3px solid var(--rosa, #C58CA5);
+      outline-offset: 2px;
+    }
+
+    .cadastro-botao {
+      width: 100%;
+      padding: 13px;
+      border: 0;
+      border-radius: 9px;
+      background: var(--vinho, #481B27);
+      color: white;
+      font: inherit;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .cadastro-botao:disabled {
+      opacity: 0.55;
+      cursor: not-allowed;
+    }
+
+    .visitante-botao {
+      display: block;
+      margin-top: 16px;
+      padding: 13px;
+      border: 1px solid var(--vinho, #481B27);
+      border-radius: 9px;
+      background: transparent;
+      color: var(--vinho, #481B27);
+      font-weight: 700;
+      text-align: center;
+      text-decoration: none;
+    }
+
+    .visitante-botao:hover {
+      background: var(--creme, #F5EBDD);
+    }
+    .campo-cadastro input:disabled {
+      background: #F3EEE9;
+      color: #78666B;
+      cursor: not-allowed;
+    }
+
+    #mensagem-cadastro {
+      margin-top: 18px;
+      font-weight: 600;
+    }
+
+    .cadastro-voltar {
+      display: block;
+      margin-top: 20px;
+      text-align: center;
+    }
+  </style>
+</head>
+
+<body>
+  <main class="cadastro-pagina">
+    <section class="cadastro-cartao">
+      <p class="genero-livro">TECHBOOK · DEMONSTRAÇÃO</p>
+      <h1>Cadastrar-se</h1>
+      <p>Esta tela está disponível para visualização, mas a criação de contas está desativada nesta demonstração.</p>
+
+      <div style="margin:20px 0; padding:14px; border-radius:10px; background:var(--creme); border:1px solid var(--borda); color:var(--vinho); font-weight:600;">
+        Cadastro demonstrativo — nenhum dado será enviado ou armazenado.
+      </div>
+
+      <form aria-disabled="true">
+        <div class="campo-cadastro">
+          <label for="nome">Nome completo</label>
+          <input id="nome" name="nome" type="text" placeholder="Indisponível nesta versão" disabled>
+        </div>
+        <div class="campo-cadastro">
+          <label for="matricula">Identificação numérica</label>
+          <input id="matricula" name="matricula" type="text" placeholder="Indisponível nesta versão" disabled>
+        </div>
+        <div class="campo-cadastro">
+          <label for="turma">Turma</label>
+          <input id="turma" name="turma" type="text" placeholder="Indisponível nesta versão" disabled>
+        </div>
+        <div class="campo-cadastro">
+          <label for="senha">Senha</label>
+          <input id="senha" name="senha" type="password" placeholder="Indisponível nesta versão" disabled>
+        </div>
+        <button class="cadastro-botao" type="button" disabled>Cadastro desativado</button>
+      </form>
+
+      <a class="visitante-botao" href="index.html#catalogo">Entrar como visitante</a>
+
+      <a class="cadastro-voltar" href="login.html">Ir para a página de login</a>
+      <a class="cadastro-voltar" href="index.html">← Voltar para os livros</a>
+    </section>
+  </main>
 </body>
 </html>

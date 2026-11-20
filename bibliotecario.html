@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
@@ -806,6 +806,928 @@
                 botao.textContent = "Remover";
             }
         });
+
+        elemento("sair-btn").addEventListener("click", async () => {
+            try {
+                await fetch("/api/logout-bibliotecario", {
+                    method: "POST",
+                    credentials: "same-origin"
+                });
+            } catch (_) {}
+            window.location.replace("index.html");
+        });
+
+        async function iniciar() {
+            const autenticado = await verificarSessao();
+            if (!autenticado) return;
+            await atualizarTudo();
+        }
+
+        iniciar();
+    </script>
+</body>
+</html> -->
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Área do Bibliotecário — TechBook</title>
+    <style>
+        @import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap");
+
+        :root {
+            --vinho: #481B27;
+            --bordo: #762F3B;
+            --creme: #F5EBDD;
+            --rosa: #C58CA5;
+            --dourado: #D6AE70;
+            --papel: #FFFCF7;
+            --texto: #38272C;
+            --suave: #78666B;
+            --borda: #E6D8CB;
+            --verde: #52776B;
+            --vermelho: #9A333B;
+            --sombra: 0 12px 30px rgba(72, 27, 39, 0.08);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: "DM Sans", sans-serif;
+            background: var(--creme);
+            color: var(--texto);
+            line-height: 1.6;
+        }
+
+        h1, h2, h3, .marca-texto {
+            font-family: "Playfair Display", Georgia, serif;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        button, input, select {
+            font: inherit;
+        }
+
+        :focus-visible {
+            outline: 3px solid var(--dourado);
+            outline-offset: 2px;
+        }
+
+        .topo {
+            position: sticky;
+            top: 0;
+            z-index: 20;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            flex-wrap: wrap;
+            padding: 15px 6%;
+            background: rgba(245, 235, 221, 0.96);
+            border-bottom: 1px solid var(--borda);
+            backdrop-filter: blur(8px);
+        }
+
+        .marca {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 700;
+        }
+
+        .marca-simbolo {
+            width: 38px;
+            height: 38px;
+            display: grid;
+            place-items: center;
+            border-radius: 10px;
+            background: var(--vinho);
+            color: var(--dourado);
+            font-weight: 700;
+        }
+
+        .marca-texto {
+            display: grid;
+            font-size: 1.2rem;
+            color: var(--vinho);
+            line-height: 1.05;
+        }
+
+        .marca-texto small {
+            font-family: "DM Sans", sans-serif;
+            font-size: 0.58rem;
+            letter-spacing: 0.16em;
+            color: var(--suave);
+        }
+
+        .admin-nav {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .admin-nav a {
+            padding: 8px 13px;
+            border-radius: 99px;
+            font-size: 0.88rem;
+            font-weight: 700;
+            color: var(--suave);
+            transition: background-color 0.2s, color 0.2s;
+        }
+
+        .admin-nav a:hover,
+        .admin-nav a.ativo {
+            background: rgba(197, 140, 165, 0.22);
+            color: var(--vinho);
+        }
+
+        .admin-nav a.destaque-scanner {
+            background: var(--dourado);
+            color: #291318;
+        }
+
+        .sair-btn {
+            border: 1px solid var(--borda);
+            background: var(--papel);
+            color: var(--vinho);
+            border-radius: 99px;
+            padding: 8px 16px;
+            font-size: 0.88rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background-color 0.2s, color 0.2s;
+        }
+
+        .sair-btn:hover {
+            background: var(--vinho);
+            color: #fff;
+        }
+
+        .aviso-demo {
+            padding: 10px 6%;
+            background: #D6AE70;
+            color: #291318;
+            text-align: center;
+            font-weight: 700;
+            font-size: 0.9rem;
+        }
+
+        .cabecalho-admin {
+            padding: 46px 6% 74px;
+            color: #FFF7EE;
+            background: radial-gradient(circle at 82% 28%, rgba(197, 140, 165, 0.25), transparent 42%),
+                        linear-gradient(125deg, #3D1420, var(--vinho) 58%, var(--bordo));
+        }
+
+        .cabecalho-conteudo {
+            width: min(1080px, 100%);
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .etiqueta {
+            display: inline-block;
+            font-size: 0.72rem;
+            font-weight: 700;
+            letter-spacing: 0.2em;
+            color: var(--dourado);
+            margin-bottom: 8px;
+        }
+
+        .cabecalho-admin h1 {
+            margin: 0 0 8px;
+            font-size: clamp(2rem, 4.4vw, 3.1rem);
+            line-height: 1.1;
+        }
+
+        .cabecalho-admin h1 em {
+            color: var(--dourado);
+            font-style: italic;
+        }
+
+        .cabecalho-admin p {
+            margin: 0;
+            color: rgba(255, 247, 238, 0.84);
+            max-width: 58ch;
+        }
+
+        .conteudo-principal {
+            width: min(1080px, 90%);
+            margin: -38px auto 56px;
+            position: relative;
+            z-index: 3;
+            display: grid;
+            gap: 24px;
+        }
+
+        .resumo-admin {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 14px;
+        }
+
+        .indicador {
+            background: var(--papel);
+            border: 1px solid var(--borda);
+            border-radius: 18px;
+            padding: 18px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            box-shadow: var(--sombra);
+        }
+
+        .indicador-icone {
+            width: 42px;
+            height: 42px;
+            border-radius: 12px;
+            display: grid;
+            place-items: center;
+            background: rgba(197, 140, 165, 0.22);
+            color: var(--vinho);
+            font-weight: 700;
+        }
+
+        .indicador strong {
+            display: block;
+            font-size: 1.55rem;
+            color: var(--vinho);
+            line-height: 1.1;
+        }
+
+        .indicador small {
+            color: var(--suave);
+            font-size: 0.85rem;
+        }
+
+        .painel {
+            background: var(--papel);
+            border: 1px solid var(--borda);
+            border-radius: 22px;
+            padding: 24px;
+            box-shadow: var(--sombra);
+        }
+
+        .painel h2 {
+            margin: 0 0 6px;
+            color: var(--vinho);
+            font-size: 1.65rem;
+        }
+
+        .painel .etiqueta {
+            color: var(--bordo);
+            margin-bottom: 4px;
+        }
+
+        .texto-suave {
+            margin: 0;
+            color: var(--suave);
+            font-size: 0.92rem;
+        }
+
+        .atalhos-rapidos {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        .card-atalho {
+            background: var(--papel);
+            border: 1px solid var(--borda);
+            border-radius: 20px;
+            padding: 22px;
+            box-shadow: var(--sombra);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+        }
+
+        .card-atalho h3 {
+            margin: 0 0 6px;
+            color: var(--vinho);
+            font-size: 1.3rem;
+        }
+
+        .formulario-livro {
+            display: grid;
+            grid-template-columns: 1.3fr 1.1fr 0.8fr 0.8fr 0.55fr;
+            gap: 14px;
+            align-items: end;
+            margin-top: 18px;
+        }
+
+        label {
+            display: block;
+            font-weight: 700;
+            font-size: 0.86rem;
+            color: var(--vinho);
+            margin-bottom: 6px;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 11px 13px;
+            border-radius: 12px;
+            border: 1px solid var(--borda);
+            background: #fff;
+            color: var(--texto);
+        }
+
+        .acoes-formulario {
+            margin-top: 16px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            flex-wrap: wrap;
+        }
+
+        .botao {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            border: 0;
+            border-radius: 99px;
+            padding: 12px 20px;
+            font-weight: 700;
+            font-size: 0.94rem;
+            cursor: pointer;
+            transition: transform 0.15s, background-color 0.2s;
+        }
+
+        .botao:hover {
+            transform: translateY(-1px);
+        }
+
+        .botao-vinho {
+            background: var(--vinho);
+            color: #fff;
+        }
+
+        .botao-dourado {
+            background: var(--dourado);
+            color: #291318;
+        }
+
+        .botao-perigo {
+            background: rgba(154, 51, 59, 0.12);
+            color: var(--vermelho);
+            border: 1px solid rgba(154, 51, 59, 0.28);
+            padding: 8px 14px;
+            font-size: 0.84rem;
+        }
+
+        .aviso {
+            margin-top: 14px;
+            padding: 12px 15px;
+            border-radius: 14px;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .aviso[hidden] {
+            display: none;
+        }
+
+        .aviso.sucesso {
+            background: rgba(82, 119, 107, 0.16);
+            color: var(--verde);
+            border: 1px solid rgba(82, 119, 107, 0.35);
+        }
+
+        .aviso.erro {
+            background: rgba(154, 51, 59, 0.12);
+            color: var(--vermelho);
+            border: 1px solid rgba(154, 51, 59, 0.3);
+        }
+
+        .lista-livros {
+            display: grid;
+            gap: 12px;
+            margin-top: 18px;
+        }
+
+        .item-livro {
+            border: 1px solid var(--borda);
+            border-radius: 16px;
+            padding: 16px 18px;
+            background: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .item-livro h3 {
+            margin: 0 0 4px;
+            color: var(--vinho);
+            font-size: 1.12rem;
+        }
+
+        .meta-livro {
+            margin: 0;
+            color: var(--suave);
+            font-size: 0.87rem;
+        }
+
+        .selo {
+            display: inline-block;
+            padding: 4px 11px;
+            border-radius: 99px;
+            font-size: 0.76rem;
+            font-weight: 700;
+            background: rgba(197, 140, 165, 0.24);
+            color: var(--vinho);
+            margin-right: 8px;
+        }
+
+        .vazio {
+            padding: 26px;
+            border-radius: 16px;
+            border: 1px dashed var(--borda);
+            background: rgba(245, 235, 221, 0.45);
+            text-align: center;
+            color: var(--suave);
+        }
+
+        footer {
+            padding: 26px 6%;
+            background: #2C0F18;
+            color: rgba(255, 247, 238, 0.8);
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            gap: 14px;
+            font-size: 0.86rem;
+        }
+
+        .marca-rodape .marca-texto {
+            color: #FFF7EE;
+        }
+
+        .rodape-detalhe {
+            color: var(--dourado);
+        }
+
+        @media (max-width: 960px) {
+            .resumo-admin,
+            .atalhos-rapidos {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .formulario-livro {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .resumo-admin,
+            .atalhos-rapidos,
+            .formulario-livro {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="aviso-demo" id="aviso-demo" hidden>
+        MODO DEMONSTRAÇÃO · dados fictícios · alterações temporárias nesta página
+    </div>
+    <header class="topo">
+        <a class="marca" href="index.html">
+            <span class="marca-simbolo" aria-hidden="true">TB</span>
+            <span class="marca-texto">
+                TechBook
+                <small>BIBLIOTECA INTELIGENTE</small>
+            </span>
+        </a>
+
+        <nav class="admin-nav" aria-label="Navegação administrativa">
+            <a class="ativo" href="bibliotecario.html">Acervo</a>
+            <a class="destaque-scanner" href="techbook.html">📷 Abrir TechScanner</a>
+            <a href="emprestimo.html">Empréstimos & Devoluções</a>
+            <a href="index.html">Catálogo Público</a>
+            <button class="sair-btn" id="sair-btn" type="button">Sair</button>
+        </nav>
+    </header>
+
+    <section class="cabecalho-admin">
+        <div class="cabecalho-conteudo">
+            <div>
+                <span class="etiqueta">ÁREA DO BIBLIOTECÁRIO</span>
+                <h1>Gestão do <em>acervo</em></h1>
+                <p>
+                    Cadastre novos livros manualmente ou pelo TechScanner, acompanhe a disponibilidade dos exemplares e gerencie empréstimos.
+                </p>
+            </div>
+            <a href="techbook.html" class="botao botao-dourado">📷 Abrir TechScanner (Leitor ISBN) →</a>
+        </div>
+    </section>
+
+    <main class="conteudo-principal">
+        <section class="resumo-admin" aria-label="Indicadores do acervo">
+            <article class="indicador">
+                <span class="indicador-icone" aria-hidden="true">▤</span>
+                <div>
+                    <strong id="total-livros">0</strong>
+                    <small>Títulos cadastrados</small>
+                </div>
+            </article>
+
+            <article class="indicador">
+                <span class="indicador-icone" aria-hidden="true">✓</span>
+                <div>
+                    <strong id="total-disponiveis">0</strong>
+                    <small>Exemplares disponíveis</small>
+                </div>
+            </article>
+
+            <article class="indicador">
+                <span class="indicador-icone" aria-hidden="true">↗</span>
+                <div>
+                    <strong id="total-emprestados">0</strong>
+                    <small>Empréstimos ativos</small>
+                </div>
+            </article>
+
+            <article class="indicador">
+                <span class="indicador-icone" aria-hidden="true">☺</span>
+                <div>
+                    <strong id="total-alunos">0</strong>
+                    <small>Alunos cadastrados</small>
+                </div>
+            </article>
+        </section>
+
+        <section class="atalhos-rapidos">
+            <article class="card-atalho">
+                <div>
+                    <span class="etiqueta">CADASTRO POR CÂMERA</span>
+                    <h3>TechScanner</h3>
+                    <p class="texto-suave">Leia o código de barras ISBN do livro pela câmera para preencher título e autor automaticamente.</p>
+                </div>
+                <a href="techbook.html" class="botao botao-dourado">Abrir Scanner →</a>
+            </article>
+
+            <article class="card-atalho">
+                <div>
+                    <span class="etiqueta">BALCÃO DA BIBLIOTECA</span>
+                    <h3>Empréstimos & Devoluções</h3>
+                    <p class="texto-suave">Registre novos empréstimos para alunos e confirme as devoluções solicitadas.</p>
+                </div>
+                <a href="emprestimo.html" class="botao botao-vinho">Abrir Controle →</a>
+            </article>
+        </section>
+
+        <section class="painel" aria-labelledby="titulo-novo-livro">
+            <span class="etiqueta">CADASTRO MANUAL</span>
+            <h2 id="titulo-novo-livro">Adicionar livro ao catálogo</h2>
+            <p class="texto-suave">
+                Os livros adicionados aparecem imediatamente no catálogo da página inicial para os alunos.
+            </p>
+
+            <form id="form-livro">
+                <div class="formulario-livro">
+                    <div>
+                        <label for="titulo">Título do livro</label>
+                        <input id="titulo" name="titulo" type="text" required placeholder="Ex.: O Pequeno Príncipe">
+                    </div>
+
+                    <div>
+                        <label for="autor">Autor</label>
+                        <input id="autor" name="autor" type="text" required placeholder="Ex.: Antoine de Saint-Exupéry">
+                    </div>
+
+                    <div>
+                        <label for="genero">Gênero</label>
+                        <select id="genero" name="genero">
+                            <option value="Fantasia">Fantasia</option>
+                            <option value="Mistério">Mistério</option>
+                            <option value="Aventura">Aventura</option>
+                            <option value="Ficção científica">Ficção científica</option>
+                            <option value="Romance">Romance</option>
+                            <option value="Outros">Outros</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label for="isbn">ISBN (opcional)</label>
+                        <input id="isbn" name="isbn" type="text" placeholder="Ex.: 9788595081512">
+                    </div>
+
+                    <div>
+                        <label for="quantidade">Qtd.</label>
+                        <input id="quantidade" name="quantidade" type="number" min="1" max="50" value="1" required>
+                    </div>
+                </div>
+
+                <div class="acoes-formulario">
+                    <button class="botao botao-vinho" id="salvar-livro-btn" type="submit">
+                        Adicionar ao acervo
+                    </button>
+                </div>
+            </form>
+
+            <p class="aviso" id="mensagem-admin" hidden role="status" aria-live="polite"></p>
+        </section>
+
+        <section class="painel" aria-labelledby="titulo-acervo">
+            <span class="etiqueta">CATÁLOGO ATUAL</span>
+            <h2 id="titulo-acervo">Livros cadastrados</h2>
+            <p class="texto-suave">
+                Gerencie os livros e exemplares disponíveis na biblioteca.
+            </p>
+
+            <div class="lista-livros" id="lista-livros">
+                <div class="vazio">Carregando acervo...</div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <a class="marca marca-rodape" href="index.html">
+            <span class="marca-simbolo" aria-hidden="true">TB</span>
+            <span class="marca-texto">
+                TechBook
+                <small>BIBLIOTECA INTELIGENTE</small>
+            </span>
+        </a>
+        <p>Projeto desenvolvido para a feira de ciências</p>
+        <span class="rodape-detalhe">Ler · Descobrir · Imaginar</span>
+    </footer>
+
+    <script>
+        // O modo visitante usa apenas dados fictícios mantidos na memória desta página.
+        // Ao atualizar ou fechar a página, as alterações são descartadas.
+        const MODO_VISITANTE = new URLSearchParams(window.location.search).get("modo") === "visitante";
+
+        if (MODO_VISITANTE) {
+            elementoDemoAviso();
+
+            const livrosDemo = [
+                { id_livro: 1, titulo: "O Pequeno Príncipe", autor: "Antoine de Saint-Exupéry", genero: "Fantasia", isbn: "9788522031437", quantidade: 4, disponiveis: 3 },
+                { id_livro: 2, titulo: "Dom Casmurro", autor: "Machado de Assis", genero: "Romance", isbn: "9788535902778", quantidade: 3, disponiveis: 2 },
+                { id_livro: 3, titulo: "Alice no País das Maravilhas", autor: "Lewis Carroll", genero: "Fantasia", isbn: "9788595201393", quantidade: 2, disponiveis: 2 },
+                { id_livro: 4, titulo: "A Menina que Roubava Livros", autor: "Markus Zusak", genero: "Drama", isbn: "9788532524849", quantidade: 3, disponiveis: 1 },
+                { id_livro: 5, titulo: "O Hobbit", autor: "J. R. R. Tolkien", genero: "Aventura", isbn: "9788595084742", quantidade: 4, disponiveis: 4 },
+                { id_livro: 6, titulo: "Extraordinário", autor: "R. J. Palacio", genero: "Drama", isbn: "9788580573015", quantidade: 2, disponiveis: 2 }
+            ];
+            let proximoIdDemo = 7;
+            const fetchOriginal = window.fetch.bind(window);
+
+            window.fetch = async (recurso, opcoes = {}) => {
+                const url = new URL(typeof recurso === "string" ? recurso : recurso.url, window.location.href);
+                if (!url.pathname.includes("/api/")) return fetchOriginal(recurso, opcoes);
+
+                const metodo = (opcoes.method || "GET").toUpperCase();
+                const json = (dados, status = 200) => new Response(JSON.stringify(dados), {
+                    status,
+                    headers: { "Content-Type": "application/json" }
+                });
+
+                if (url.pathname.endsWith("/api/sessao-bibliotecario")) {
+                    return json({ autenticado: true, visitante: true });
+                }
+                if (url.pathname.endsWith("/api/admin/resumo")) {
+                    return json({
+                        total_livros: livrosDemo.length,
+                        disponiveis: livrosDemo.reduce((soma, livro) => soma + livro.disponiveis, 0),
+                        emprestimos_ativos: 3,
+                        total_alunos: 24
+                    });
+                }
+                if (url.pathname.endsWith("/api/admin/livros") && metodo === "GET") {
+                    return json(livrosDemo);
+                }
+                if (url.pathname.endsWith("/api/admin/livros") && metodo === "POST") {
+                    const dados = JSON.parse(opcoes.body || "{}");
+                    const quantidade = Math.max(1, Number(dados.quantidade) || 1);
+                    livrosDemo.push({
+                        id_livro: proximoIdDemo++,
+                        titulo: dados.titulo || "Livro demonstrativo",
+                        autor: dados.autor || "Autor não informado",
+                        genero: dados.genero || "Outros",
+                        isbn: dados.isbn || "",
+                        quantidade,
+                        disponiveis: quantidade
+                    });
+                    return json({ mensagem: "Livro adicionado à demonstração!" }, 201);
+                }
+                const rotaRemover = url.pathname.match(/\/api\/admin\/livros\/(\d+)$/);
+                if (rotaRemover && metodo === "DELETE") {
+                    const id = Number(rotaRemover[1]);
+                    const indice = livrosDemo.findIndex(livro => livro.id_livro === id);
+                    if (indice < 0) return json({ erro: "Livro não encontrado." }, 404);
+                    livrosDemo.splice(indice, 1);
+                    return json({ mensagem: "Livro removido da demonstração." });
+                }
+                if (url.pathname.endsWith("/api/logout-bibliotecario")) {
+                    return json({ sucesso: true });
+                }
+                return json({ mensagem: "Ação simulada no modo visitante." });
+            };
+        }
+
+        function elementoDemoAviso() {
+            const aviso = document.getElementById("aviso-demo");
+            if (aviso) aviso.hidden = false;
+        }
+
+        function elemento(id) {
+            return document.getElementById(id);
+        }
+
+        function escapar(texto) {
+            return String(texto ?? "").replace(/[&<>"']/g, caractere => ({
+                "&": "&amp;",
+                "<": "&lt;",
+                ">": "&gt;",
+                '"': "&quot;",
+                "'": "&#39;"
+            })[caractere]);
+        }
+
+        function mostrarAviso(texto, tipo) {
+            const aviso = elemento("mensagem-admin");
+            aviso.hidden = false;
+            aviso.className = `aviso ${tipo}`;
+            aviso.textContent = texto;
+        }
+
+        async function verificarSessao() {
+            const resposta = await fetch("/api/sessao-bibliotecario", {
+                credentials: "same-origin"
+            });
+
+            if (!resposta.ok) {
+                window.location.href = "login-bibliotecario.html";
+                return false;
+            }
+
+            return true;
+        }
+
+        async function carregarResumo() {
+            try {
+                const resposta = await fetch("/api/admin/resumo", {
+                    credentials: "same-origin"
+                });
+                if (!resposta.ok) return;
+
+                const resumo = await resposta.json();
+                elemento("total-livros").textContent = resumo.total_livros ?? 0;
+                elemento("total-disponiveis").textContent = resumo.disponiveis ?? 0;
+                elemento("total-emprestados").textContent = resumo.emprestimos_ativos ?? 0;
+                elemento("total-alunos").textContent = resumo.total_alunos ?? 0;
+            } catch (_) {}
+        }
+
+        function renderizarLivros(livros) {
+            const lista = elemento("lista-livros");
+
+            if (!Array.isArray(livros) || livros.length === 0) {
+                lista.innerHTML = `<div class="vazio">Nenhum livro cadastrado ainda.</div>`;
+                return;
+            }
+
+            lista.innerHTML = livros.map(livro => `
+                <article class="item-livro">
+                    <div>
+                        <h3>${escapar(livro.titulo)}</h3>
+                        <p class="meta-livro">
+                            <span class="selo">${escapar(livro.genero || "Geral")}</span>
+                            ${escapar(livro.autor)} ·
+                            ISBN: ${escapar(livro.isbn || "não informado")} ·
+                            ${Number(livro.disponiveis || 0)} de ${Number(livro.quantidade || 0)} disponível(is)
+                        </p>
+                    </div>
+
+                    <button
+                        class="botao botao-perigo"
+                        type="button"
+                        data-remover="${escapar(livro.id_livro)}"
+                        data-titulo="${escapar(livro.titulo)}"
+                    >
+                        Remover
+                    </button>
+                </article>
+            `).join("");
+        }
+
+        async function carregarLivros() {
+            try {
+                const resposta = await fetch("/api/admin/livros", {
+                    credentials: "same-origin"
+                });
+                if (!resposta.ok) return;
+                const livros = await resposta.json();
+                renderizarLivros(livros);
+            } catch (_) {
+                elemento("lista-livros").innerHTML = `<div class="vazio">Erro ao carregar livros.</div>`;
+            }
+        }
+
+        async function atualizarTudo() {
+            await Promise.all([
+                carregarResumo(),
+                carregarLivros()
+            ]);
+        }
+
+        elemento("form-livro").addEventListener("submit", async evento => {
+            evento.preventDefault();
+
+            const dados = {
+                titulo: elemento("titulo").value.trim(),
+                autor: elemento("autor").value.trim(),
+                genero: elemento("genero").value,
+                isbn: elemento("isbn").value.trim(),
+                quantidade: Number(elemento("quantidade").value) || 1
+            };
+
+            const botao = elemento("salvar-livro-btn");
+            botao.disabled = true;
+            botao.textContent = "Salvando...";
+
+            try {
+                const resposta = await fetch("/api/admin/livros", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    credentials: "same-origin",
+                    body: JSON.stringify(dados)
+                });
+
+                const resultado = await resposta.json();
+
+                if (!resposta.ok) {
+                    throw new Error(resultado.erro || "Não foi possível salvar o livro.");
+                }
+
+                evento.target.reset();
+                elemento("quantidade").value = 1;
+                mostrarAviso(resultado.mensagem || "Livro adicionado ao acervo!", "sucesso");
+                await atualizarTudo();
+            } catch (erro) {
+                mostrarAviso(erro.message || "Erro ao salvar livro.", "erro");
+            } finally {
+                botao.disabled = false;
+                botao.textContent = "Adicionar ao acervo";
+            }
+        });
+
+        elemento("lista-livros").addEventListener("click", async evento => {
+            const botao = evento.target.closest("[data-remover]");
+            if (!botao) return;
+
+            const idLivro = Number(botao.dataset.remover);
+            const titulo = botao.dataset.titulo || "este livro";
+
+            if (!confirm(`Deseja remover "${titulo}" do catálogo?`)) return;
+
+            botao.disabled = true;
+            botao.textContent = "Removendo...";
+
+            try {
+                const resposta = await fetch(`/api/admin/livros/${idLivro}`, {
+                    method: "DELETE",
+                    credentials: "same-origin"
+                });
+
+                const resultado = await resposta.json();
+
+                if (!resposta.ok) {
+                    throw new Error(resultado.erro || "Não foi possível remover o livro.");
+                }
+
+                mostrarAviso(resultado.mensagem || "Livro removido.", "sucesso");
+                await atualizarTudo();
+            } catch (erro) {
+                mostrarAviso(erro.message || "Erro ao remover livro.", "erro");
+                botao.disabled = false;
+                botao.textContent = "Remover";
+            }
+        });
+
+        if (MODO_VISITANTE) {
+            elemento("sair-btn").textContent = "Sair da demonstração";
+        }
 
         elemento("sair-btn").addEventListener("click", async () => {
             try {

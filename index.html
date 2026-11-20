@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+ <!-- <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
@@ -244,5 +244,129 @@
       });
     }
   </script>
+</body>
+</html> --> 
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="TechBook: explore livros e descubra sua próxima leitura.">
+  <title>TechBook — Biblioteca Inteligente</title>
+  <link rel="stylesheet" href="assets/css/style.css">
+  <script src="assets/js/script.js" defer></script>
+</head>
+<body>
+  <a class="pular-conteudo" href="#conteudo">Pular para o conteúdo</a>
+
+  <header class="topo">
+    <a class="marca" href="index.html" aria-label="TechBook, página inicial">
+      <span class="marca-simbolo" aria-hidden="true">TB</span>
+      <span class="marca-texto">TechBook<small>BIBLIOTECA INTELIGENTE</small></span>
+    </a>
+
+    <button id="menu-btn" class="menu-btn" aria-label="Abrir menu" aria-expanded="false">☰</button>
+
+    <nav id="menu" aria-label="Navegação principal">
+      <a href="#catalogo">Livros</a>
+      <a href="#sobre">Sobre</a>
+    </nav>
+
+    <div class="acesso-aluno">
+      <a href="login.html" class="botao-entrar">Entrar</a>
+      <a href="cadastro.html" class="botao-cadastrar">Cadastrar-se</a>
+    </div>
+  </header>
+
+  <main id="conteudo">
+    <section class="hero" id="inicio">
+      <div class="hero-texto">
+        <span class="etiqueta">DESCUBRA SEU PRÓXIMO UNIVERSO</span>
+        <h1>Cada livro abre uma <em>nova porta.</em></h1>
+        <p>Explore histórias, encontre novos autores e descubra sua próxima leitura no catálogo do TechBook.</p>
+        <div class="hero-acoes">
+          <a class="botao botao-dourado" href="#catalogo">Explorar livros <span aria-hidden="true">↗</span></a>
+          <a class="botao botao-claro" href="login.html">Entrar</a>
+          <a class="link-claro" href="cadastro.html">Criar cadastro</a>
+        </div>
+        <div class="hero-nota">
+          <span aria-hidden="true">✦</span>
+          Catálogo aberto para navegação — sem precisar entrar.
+        </div>
+      </div>
+
+      <div class="hero-arte" aria-label="Ilustração decorativa de livros">
+        <div class="halo halo-um"></div><div class="halo halo-dois"></div>
+        <div class="livros-arte" aria-hidden="true">
+          <span class="livro livro-um">LEITURA</span>
+          <span class="livro livro-dois">IDEIAS</span>
+          <span class="livro livro-tres">MUNDOS</span>
+          <span class="livro-aberto">✦</span>
+        </div>
+        <div class="selo-arte"><span>UMA PÁGINA</span><strong>novas<br>possibilidades</strong></div>
+      </div>
+    </section>
+
+    <section class="resumo" aria-label="Resumo do catálogo">
+      <article class="indicador">
+        <span class="indicador-icone">▤</span>
+        <div><strong id="total-livros">8</strong><small>Livros no catálogo</small></div>
+      </article>
+      <article class="indicador">
+        <span class="indicador-icone">✧</span>
+        <div><strong id="total-generos">5</strong><small>Gêneros para explorar</small></div>
+      </article>
+    </section>
+
+    <section class="secao" id="catalogo">
+      <div class="cabecalho-secao cabecalho-linha">
+        <div>
+          <span class="etiqueta">EXPLORE A COLEÇÃO</span>
+          <h2>Catálogo de <em>livros</em></h2>
+          <p>Pesquise por título, autor ou gênero. Você não precisa fazer login para navegar.</p>
+        </div>
+        <span class="nota-secao">Sua próxima história está aqui <span aria-hidden="true">↘</span></span>
+      </div>
+
+      <label class="pesquisa">
+        <span aria-hidden="true">⌕</span>
+        <input id="busca" type="search" placeholder="Buscar livro, autor ou gênero..." aria-label="Pesquisar livros">
+      </label>
+
+      <div id="filtros" class="filtros" aria-label="Filtrar por gênero">
+        <button class="filtro ativo" data-genero="Todos" aria-pressed="true">Todos os livros</button>
+        <button class="filtro" data-genero="Fantasia" aria-pressed="false">Fantasia</button>
+        <button class="filtro" data-genero="Mistério" aria-pressed="false">Mistério</button>
+        <button class="filtro" data-genero="Aventura" aria-pressed="false">Aventura</button>
+        <button class="filtro" data-genero="Ficção científica" aria-pressed="false">Ficção científica</button>
+        <button class="filtro" data-genero="Romance" aria-pressed="false">Romance</button>
+      </div>
+
+      <p id="resultado-busca" class="texto-suave" aria-live="polite"></p>
+      <div id="grade-livros" class="grade-livros"></div>
+      <p id="vazio" class="vazio" hidden>Nenhum livro encontrado. Tente outra pesquisa.</p>
+    </section>
+
+    <section class="sobre" id="sobre">
+      <span class="etiqueta">NOSSA MISSÃO</span>
+      <h2>Tecnologia que conecta pessoas ao conhecimento.</h2>
+      <p>O TechBook é um projeto estudantil que une tecnologia, organização de biblioteca e incentivo à leitura.</p>
+      <div class="hero-acoes" style="justify-content:center; margin-top:22px;">
+        <a href="login.html" class="botao botao-dourado">Entrar</a>
+        <a href="cadastro.html" class="botao botao-claro">Cadastrar-se</a>
+      </div>
+      <p style="font-size:.85rem; margin-top:16px;">Login e cadastro aparecem apenas como demonstração nesta versão.</p>
+    </section>
+  </main>
+
+  <footer>
+    <a class="marca marca-rodape" href="#inicio">
+      <span class="marca-simbolo">TB</span>
+      <span class="marca-texto">TechBook<small>BIBLIOTECA INTELIGENTE</small></span>
+    </a>
+    <p>Projeto desenvolvido para a feira de ciências.</p>
+    <span class="rodape-detalhe">Ler · Descobrir · Imaginar</span>
+  </footer>
 </body>
 </html>
