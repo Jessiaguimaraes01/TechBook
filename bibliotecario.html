@@ -827,13 +827,15 @@
     </script>
 </body>
 </html> -->
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Área do Bibliotecário — TechBook</title>
+    <link rel="stylesheet" href="assets/css/tema-global.css">
+    <script src="assets/js/dados-visitante.js"></script>
+    <script src="assets/js/tema-global.js" defer></script>
     <style>
         @import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap");
 
@@ -971,15 +973,6 @@
         .sair-btn:hover {
             background: var(--vinho);
             color: #fff;
-        }
-
-        .aviso-demo {
-            padding: 10px 6%;
-            background: #D6AE70;
-            color: #291318;
-            text-align: center;
-            font-weight: 700;
-            font-size: 0.9rem;
         }
 
         .cabecalho-admin {
@@ -1304,12 +1297,21 @@
                 grid-template-columns: 1fr;
             }
         }
+        .form-reservado fieldset { border:0; padding:0; margin:0; min-width:0; }
+        .form-reservado :disabled { opacity:.72; cursor:not-allowed; }
+        .nota-integracao { margin-top:14px; font-size:.84rem; }
+        .busca-acervo { display:grid; gap:7px; margin-top:16px; }
+        .busca-acervo input { max-width:520px; }
+        .item-livro { background:var(--papel); }
+        .item-livro-conteudo { display:flex; align-items:center; gap:14px; flex:1; min-width:240px; }
+        .mini-capa { width:48px; height:68px; object-fit:cover; border-radius:6px; background:#eadfe4; }
+        .lista-atividades { display:grid; gap:10px; margin-top:16px; }
+        .linha-atividade { display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap; padding:13px 15px; background:var(--papel); border:1px solid var(--borda); border-radius:13px; }
+        .linha-atividade p { margin:3px 0 0; color:var(--suave); font-size:.85rem; }
+        @media(max-width:600px){ .item-livro-conteudo{min-width:100%;} }
     </style>
 </head>
 <body>
-    <div class="aviso-demo" id="aviso-demo" hidden>
-        MODO DEMONSTRAÇÃO · dados fictícios · alterações temporárias nesta página
-    </div>
     <header class="topo">
         <a class="marca" href="index.html">
             <span class="marca-simbolo" aria-hidden="true">TB</span>
@@ -1322,7 +1324,7 @@
         <nav class="admin-nav" aria-label="Navegação administrativa">
             <a class="ativo" href="bibliotecario.html">Acervo</a>
             <a class="destaque-scanner" href="techbook.html">📷 Abrir TechScanner</a>
-            <a href="emprestimo.html">Empréstimos & Devoluções</a>
+            <a href="emprestimos.html">Empréstimos & Devoluções</a>
             <a href="index.html">Catálogo Público</a>
             <button class="sair-btn" id="sair-btn" type="button">Sair</button>
         </nav>
@@ -1334,7 +1336,7 @@
                 <span class="etiqueta">ÁREA DO BIBLIOTECÁRIO</span>
                 <h1>Gestão do <em>acervo</em></h1>
                 <p>
-                    Cadastre novos livros manualmente ou pelo TechScanner, acompanhe a disponibilidade dos exemplares e gerencie empréstimos.
+                    Consulte a coleção de exemplos, acompanhe a disponibilidade dos exemplares e explore a organização das movimentações da biblioteca.
                 </p>
             </div>
             <a href="techbook.html" class="botao botao-dourado">📷 Abrir TechScanner (Leitor ISBN) →</a>
@@ -1392,72 +1394,51 @@
                     <h3>Empréstimos & Devoluções</h3>
                     <p class="texto-suave">Registre novos empréstimos para alunos e confirme as devoluções solicitadas.</p>
                 </div>
-                <a href="emprestimo.html" class="botao botao-vinho">Abrir Controle →</a>
+                <a href="emprestimos.html" class="botao botao-vinho">Abrir Controle →</a>
             </article>
         </section>
 
         <section class="painel" aria-labelledby="titulo-novo-livro">
-            <span class="etiqueta">CADASTRO MANUAL</span>
-            <h2 id="titulo-novo-livro">Adicionar livro ao catálogo</h2>
-            <p class="texto-suave">
-                Os livros adicionados aparecem imediatamente no catálogo da página inicial para os alunos.
-            </p>
-
-            <form id="form-livro">
-                <div class="formulario-livro">
-                    <div>
-                        <label for="titulo">Título do livro</label>
-                        <input id="titulo" name="titulo" type="text" required placeholder="Ex.: O Pequeno Príncipe">
+            <span class="etiqueta">PREPARAÇÃO PARA INTEGRAÇÃO FUTURA</span>
+            <h2 id="titulo-novo-livro">Cadastro do acervo escolar</h2>
+            <p class="texto-suave">Os campos abaixo já representam a estrutura prevista para os livros reais da escola. O cadastro permanece desativado até que a biblioteca autorize e disponibilize o acesso ao acervo.</p>
+            <form id="form-livro" class="form-reservado">
+                <fieldset disabled>
+                    <div class="formulario-livro">
+                        <div><label for="titulo">Nome do livro</label><input id="titulo" name="titulo" type="text" placeholder="Título da obra"></div>
+                        <div><label for="autor">Autor</label><input id="autor" name="autor" type="text" placeholder="Nome do autor"></div>
+                        <div><label for="editora">Editora</label><input id="editora" name="editora" type="text" placeholder="Editora"></div>
+                        <div><label for="genero">Gênero ou categoria</label><select id="genero" name="genero"><option>Selecione uma categoria</option><option>Fantasia</option><option>Mistério</option><option>Aventura</option><option>Ficção científica</option><option>Romance</option><option>Outros</option></select></div>
+                        <div><label for="ano">Ano de publicação</label><input id="ano" name="ano" type="number" placeholder="Ex.: 2024"></div>
+                        <div><label for="capa">Imagem da capa</label><input id="capa" name="capa" type="url" placeholder="Endereço da imagem"></div>
+                        <div><label for="quantidade">Quantidade de exemplares</label><input id="quantidade" name="quantidade" type="number" min="1" placeholder="Ex.: 3"></div>
+                        <div><label for="codigo">Código de identificação</label><input id="codigo" name="codigo" type="text" placeholder="Código da biblioteca"></div>
+                        <div><label for="disponibilidade">Disponibilidade</label><select id="disponibilidade" name="disponibilidade"><option>Disponível</option><option>Indisponível</option></select></div>
                     </div>
-
-                    <div>
-                        <label for="autor">Autor</label>
-                        <input id="autor" name="autor" type="text" required placeholder="Ex.: Antoine de Saint-Exupéry">
-                    </div>
-
-                    <div>
-                        <label for="genero">Gênero</label>
-                        <select id="genero" name="genero">
-                            <option value="Fantasia">Fantasia</option>
-                            <option value="Mistério">Mistério</option>
-                            <option value="Aventura">Aventura</option>
-                            <option value="Ficção científica">Ficção científica</option>
-                            <option value="Romance">Romance</option>
-                            <option value="Outros">Outros</option>
-                        </select>
-                    </div>
-
-                    <div>
-                        <label for="isbn">ISBN (opcional)</label>
-                        <input id="isbn" name="isbn" type="text" placeholder="Ex.: 9788595081512">
-                    </div>
-
-                    <div>
-                        <label for="quantidade">Qtd.</label>
-                        <input id="quantidade" name="quantidade" type="number" min="1" max="50" value="1" required>
-                    </div>
-                </div>
-
-                <div class="acoes-formulario">
-                    <button class="botao botao-vinho" id="salvar-livro-btn" type="submit">
-                        Adicionar ao acervo
-                    </button>
-                </div>
+                    <div class="acoes-formulario"><button class="botao botao-vinho" id="salvar-livro-btn" type="submit">Cadastrar livro</button></div>
+                </fieldset>
             </form>
-
-            <p class="aviso" id="mensagem-admin" hidden role="status" aria-live="polite"></p>
+            <p class="texto-suave nota-integracao">Quando a integração estiver autorizada, esses campos poderão ser conectados ao cadastro oficial sem misturar os registros da coleção de exemplos.</p>
         </section>
 
         <section class="painel" aria-labelledby="titulo-acervo">
             <span class="etiqueta">CATÁLOGO ATUAL</span>
-            <h2 id="titulo-acervo">Livros cadastrados</h2>
+            <h2 id="titulo-acervo">Coleção de livros de exemplo</h2>
             <p class="texto-suave">
-                Gerencie os livros e exemplares disponíveis na biblioteca.
+                Estes títulos são utilizados para explorar o catálogo e as ferramentas do TechBook. Eles ficam separados do futuro acervo escolar.
             </p>
 
+            <label class="busca-acervo" for="busca-acervo">Pesquisar nesta coleção<input id="busca-acervo" type="search" placeholder="Buscar título, autor ou gênero"></label>
             <div class="lista-livros" id="lista-livros">
                 <div class="vazio">Carregando acervo...</div>
             </div>
+        </section>
+
+        <section class="painel" aria-labelledby="titulo-atividades">
+            <span class="etiqueta">MOVIMENTAÇÕES</span>
+            <h2 id="titulo-atividades">Atividades recentes</h2>
+            <p class="texto-suave">Acompanhe solicitações e devoluções registradas nesta navegação.</p>
+            <div class="lista-atividades" id="lista-atividades"></div>
         </section>
     </main>
 
@@ -1474,278 +1455,47 @@
     </footer>
 
     <script>
-        // O modo visitante usa apenas dados fictícios mantidos na memória desta página.
-        // Ao atualizar ou fechar a página, as alterações são descartadas.
-        const MODO_VISITANTE = new URLSearchParams(window.location.search).get("modo") === "visitante";
-
-        if (MODO_VISITANTE) {
-            elementoDemoAviso();
-
-            const livrosDemo = [
-                { id_livro: 1, titulo: "O Pequeno Príncipe", autor: "Antoine de Saint-Exupéry", genero: "Fantasia", isbn: "9788522031437", quantidade: 4, disponiveis: 3 },
-                { id_livro: 2, titulo: "Dom Casmurro", autor: "Machado de Assis", genero: "Romance", isbn: "9788535902778", quantidade: 3, disponiveis: 2 },
-                { id_livro: 3, titulo: "Alice no País das Maravilhas", autor: "Lewis Carroll", genero: "Fantasia", isbn: "9788595201393", quantidade: 2, disponiveis: 2 },
-                { id_livro: 4, titulo: "A Menina que Roubava Livros", autor: "Markus Zusak", genero: "Drama", isbn: "9788532524849", quantidade: 3, disponiveis: 1 },
-                { id_livro: 5, titulo: "O Hobbit", autor: "J. R. R. Tolkien", genero: "Aventura", isbn: "9788595084742", quantidade: 4, disponiveis: 4 },
-                { id_livro: 6, titulo: "Extraordinário", autor: "R. J. Palacio", genero: "Drama", isbn: "9788580573015", quantidade: 2, disponiveis: 2 }
-            ];
-            let proximoIdDemo = 7;
-            const fetchOriginal = window.fetch.bind(window);
-
-            window.fetch = async (recurso, opcoes = {}) => {
-                const url = new URL(typeof recurso === "string" ? recurso : recurso.url, window.location.href);
-                if (!url.pathname.includes("/api/")) return fetchOriginal(recurso, opcoes);
-
-                const metodo = (opcoes.method || "GET").toUpperCase();
-                const json = (dados, status = 200) => new Response(JSON.stringify(dados), {
-                    status,
-                    headers: { "Content-Type": "application/json" }
-                });
-
-                if (url.pathname.endsWith("/api/sessao-bibliotecario")) {
-                    return json({ autenticado: true, visitante: true });
-                }
-                if (url.pathname.endsWith("/api/admin/resumo")) {
-                    return json({
-                        total_livros: livrosDemo.length,
-                        disponiveis: livrosDemo.reduce((soma, livro) => soma + livro.disponiveis, 0),
-                        emprestimos_ativos: 3,
-                        total_alunos: 24
-                    });
-                }
-                if (url.pathname.endsWith("/api/admin/livros") && metodo === "GET") {
-                    return json(livrosDemo);
-                }
-                if (url.pathname.endsWith("/api/admin/livros") && metodo === "POST") {
-                    const dados = JSON.parse(opcoes.body || "{}");
-                    const quantidade = Math.max(1, Number(dados.quantidade) || 1);
-                    livrosDemo.push({
-                        id_livro: proximoIdDemo++,
-                        titulo: dados.titulo || "Livro demonstrativo",
-                        autor: dados.autor || "Autor não informado",
-                        genero: dados.genero || "Outros",
-                        isbn: dados.isbn || "",
-                        quantidade,
-                        disponiveis: quantidade
-                    });
-                    return json({ mensagem: "Livro adicionado à demonstração!" }, 201);
-                }
-                const rotaRemover = url.pathname.match(/\/api\/admin\/livros\/(\d+)$/);
-                if (rotaRemover && metodo === "DELETE") {
-                    const id = Number(rotaRemover[1]);
-                    const indice = livrosDemo.findIndex(livro => livro.id_livro === id);
-                    if (indice < 0) return json({ erro: "Livro não encontrado." }, 404);
-                    livrosDemo.splice(indice, 1);
-                    return json({ mensagem: "Livro removido da demonstração." });
-                }
-                if (url.pathname.endsWith("/api/logout-bibliotecario")) {
-                    return json({ sucesso: true });
-                }
-                return json({ mensagem: "Ação simulada no modo visitante." });
-            };
+      (() => {
+        const demo = window.TechBookDemo;
+        const $ = id => document.getElementById(id);
+        const esc = texto => String(texto ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+        const fmt = value => {
+          if (!value) return "—";
+          const p = String(value).slice(0,10).split("-");
+          return p.length === 3 ? `${p[2]}/${p[1]}/${p[0]}` : value;
+        };
+        function renderizarLivros() {
+          const filtro = ($("busca-acervo")?.value || "").trim().toLocaleLowerCase("pt-BR");
+          const livros = demo.getLivros().filter(l => `${l.titulo} ${l.autor} ${l.genero}`.toLocaleLowerCase("pt-BR").includes(filtro));
+          $("lista-livros").innerHTML = livros.map(livro => {
+            const disponibilidade = demo.disponiveis(livro);
+            const capa = livro.isbn ? `https://covers.openlibrary.org/b/isbn/${encodeURIComponent(livro.isbn)}-S.jpg` : "";
+            return `<article class="item-livro"><div class="item-livro-conteudo">${capa ? `<img class="mini-capa" src="${capa}" alt="Capa de ${esc(livro.titulo)}" onerror="this.style.display='none'">` : `<span class="mini-capa" aria-hidden="true" style="display:grid;place-items:center">${esc(livro.emoji)}</span>`}<div><h3>${esc(livro.titulo)}</h3><p class="meta-livro"><span class="selo">${esc(livro.genero)}</span>${esc(livro.autor)} · ${esc(livro.editora)} · ${livro.ano}<br>Código ${esc(livro.codigo)} · ${disponibilidade} de ${livro.quantidade} disponível(is)</p></div></div></article>`;
+          }).join("") || '<div class="vazio">Nenhum título encontrado nesta coleção.</div>';
         }
-
-        function elementoDemoAviso() {
-            const aviso = document.getElementById("aviso-demo");
-            if (aviso) aviso.hidden = false;
+        function renderizarAtividades() {
+          const itens = demo.getEmprestimos().slice().sort((a,b) => String(b.solicitadoEm).localeCompare(String(a.solicitadoEm)));
+          $("lista-atividades").innerHTML = itens.slice(0,8).map(item => {
+            const livro = demo.getLivros().find(l => l.id === Number(item.livroId));
+            const status = item.devolvido ? "Devolvido" : item.status === "solicitado" ? "Aguardando análise" : item.status === "devolucao_solicitada" ? "Devolução solicitada" : item.status === "recusado" ? "Recusado" : "Em circulação";
+            return `<article class="linha-atividade"><div><strong>${esc(livro?.titulo || "Livro")}</strong><p>${esc(item.leitor || "Visitante")} · ${fmt(item.solicitadoEm)}</p></div><span class="selo">${status}</span></article>`;
+          }).join("") || '<div class="vazio">Nenhuma movimentação registrada.</div>';
         }
-
-        function elemento(id) {
-            return document.getElementById(id);
-        }
-
-        function escapar(texto) {
-            return String(texto ?? "").replace(/[&<>"']/g, caractere => ({
-                "&": "&amp;",
-                "<": "&lt;",
-                ">": "&gt;",
-                '"': "&quot;",
-                "'": "&#39;"
-            })[caractere]);
-        }
-
-        function mostrarAviso(texto, tipo) {
-            const aviso = elemento("mensagem-admin");
-            aviso.hidden = false;
-            aviso.className = `aviso ${tipo}`;
-            aviso.textContent = texto;
-        }
-
-        async function verificarSessao() {
-            const resposta = await fetch("/api/sessao-bibliotecario", {
-                credentials: "same-origin"
-            });
-
-            if (!resposta.ok) {
-                window.location.href = "login-bibliotecario.html";
-                return false;
-            }
-
-            return true;
-        }
-
-        async function carregarResumo() {
-            try {
-                const resposta = await fetch("/api/admin/resumo", {
-                    credentials: "same-origin"
-                });
-                if (!resposta.ok) return;
-
-                const resumo = await resposta.json();
-                elemento("total-livros").textContent = resumo.total_livros ?? 0;
-                elemento("total-disponiveis").textContent = resumo.disponiveis ?? 0;
-                elemento("total-emprestados").textContent = resumo.emprestimos_ativos ?? 0;
-                elemento("total-alunos").textContent = resumo.total_alunos ?? 0;
-            } catch (_) {}
-        }
-
-        function renderizarLivros(livros) {
-            const lista = elemento("lista-livros");
-
-            if (!Array.isArray(livros) || livros.length === 0) {
-                lista.innerHTML = `<div class="vazio">Nenhum livro cadastrado ainda.</div>`;
-                return;
-            }
-
-            lista.innerHTML = livros.map(livro => `
-                <article class="item-livro">
-                    <div>
-                        <h3>${escapar(livro.titulo)}</h3>
-                        <p class="meta-livro">
-                            <span class="selo">${escapar(livro.genero || "Geral")}</span>
-                            ${escapar(livro.autor)} ·
-                            ISBN: ${escapar(livro.isbn || "não informado")} ·
-                            ${Number(livro.disponiveis || 0)} de ${Number(livro.quantidade || 0)} disponível(is)
-                        </p>
-                    </div>
-
-                    <button
-                        class="botao botao-perigo"
-                        type="button"
-                        data-remover="${escapar(livro.id_livro)}"
-                        data-titulo="${escapar(livro.titulo)}"
-                    >
-                        Remover
-                    </button>
-                </article>
-            `).join("");
-        }
-
-        async function carregarLivros() {
-            try {
-                const resposta = await fetch("/api/admin/livros", {
-                    credentials: "same-origin"
-                });
-                if (!resposta.ok) return;
-                const livros = await resposta.json();
-                renderizarLivros(livros);
-            } catch (_) {
-                elemento("lista-livros").innerHTML = `<div class="vazio">Erro ao carregar livros.</div>`;
-            }
-        }
-
-        async function atualizarTudo() {
-            await Promise.all([
-                carregarResumo(),
-                carregarLivros()
-            ]);
-        }
-
-        elemento("form-livro").addEventListener("submit", async evento => {
-            evento.preventDefault();
-
-            const dados = {
-                titulo: elemento("titulo").value.trim(),
-                autor: elemento("autor").value.trim(),
-                genero: elemento("genero").value,
-                isbn: elemento("isbn").value.trim(),
-                quantidade: Number(elemento("quantidade").value) || 1
-            };
-
-            const botao = elemento("salvar-livro-btn");
-            botao.disabled = true;
-            botao.textContent = "Salvando...";
-
-            try {
-                const resposta = await fetch("/api/admin/livros", {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    credentials: "same-origin",
-                    body: JSON.stringify(dados)
-                });
-
-                const resultado = await resposta.json();
-
-                if (!resposta.ok) {
-                    throw new Error(resultado.erro || "Não foi possível salvar o livro.");
-                }
-
-                evento.target.reset();
-                elemento("quantidade").value = 1;
-                mostrarAviso(resultado.mensagem || "Livro adicionado ao acervo!", "sucesso");
-                await atualizarTudo();
-            } catch (erro) {
-                mostrarAviso(erro.message || "Erro ao salvar livro.", "erro");
-            } finally {
-                botao.disabled = false;
-                botao.textContent = "Adicionar ao acervo";
-            }
+        const stats = demo.estatisticas();
+        $("total-livros").textContent = stats.titulos;
+        $("total-disponiveis").textContent = stats.disponiveis;
+        $("total-emprestados").textContent = stats.emprestados;
+        $("total-alunos").textContent = stats.leitores;
+        $("lista-livros").innerHTML = "";
+        renderizarLivros();
+        renderizarAtividades();
+        $("busca-acervo")?.addEventListener("input", renderizarLivros);
+        $("form-livro")?.addEventListener("submit", evento => evento.preventDefault());
+        $("sair-btn")?.addEventListener("click", () => {
+          localStorage.removeItem("techbook-acesso-visitante");
+          window.location.href = "index.html";
         });
-
-        elemento("lista-livros").addEventListener("click", async evento => {
-            const botao = evento.target.closest("[data-remover]");
-            if (!botao) return;
-
-            const idLivro = Number(botao.dataset.remover);
-            const titulo = botao.dataset.titulo || "este livro";
-
-            if (!confirm(`Deseja remover "${titulo}" do catálogo?`)) return;
-
-            botao.disabled = true;
-            botao.textContent = "Removendo...";
-
-            try {
-                const resposta = await fetch(`/api/admin/livros/${idLivro}`, {
-                    method: "DELETE",
-                    credentials: "same-origin"
-                });
-
-                const resultado = await resposta.json();
-
-                if (!resposta.ok) {
-                    throw new Error(resultado.erro || "Não foi possível remover o livro.");
-                }
-
-                mostrarAviso(resultado.mensagem || "Livro removido.", "sucesso");
-                await atualizarTudo();
-            } catch (erro) {
-                mostrarAviso(erro.message || "Erro ao remover livro.", "erro");
-                botao.disabled = false;
-                botao.textContent = "Remover";
-            }
-        });
-
-        if (MODO_VISITANTE) {
-            elemento("sair-btn").textContent = "Sair da demonstração";
-        }
-
-        elemento("sair-btn").addEventListener("click", async () => {
-            try {
-                await fetch("/api/logout-bibliotecario", {
-                    method: "POST",
-                    credentials: "same-origin"
-                });
-            } catch (_) {}
-            window.location.replace("index.html");
-        });
-
-        async function iniciar() {
-            const autenticado = await verificarSessao();
-            if (!autenticado) return;
-            await atualizarTudo();
-        }
-
-        iniciar();
+      })();
     </script>
 </body>
 </html>

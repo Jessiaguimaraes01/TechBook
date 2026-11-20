@@ -1,4 +1,4 @@
-const $ = (seletor) => document.querySelector(seletor);
+/*const $ = (seletor) => document.querySelector(seletor);
 
 const alunoSelect = $("#alunoSelect");
 const exemplarSelect = $("#exemplarSelect");
@@ -427,4 +427,90 @@ $("#sairBtn").addEventListener("click", async () => {
 dataPrevista.min = hojeISO();
 dataPrevista.value = hojeISO();
 
-carregarTudo();
+carregarTudo(); */
+
+// Painel local de acompanhamento para o bibliotecário visitante.
+(() => {
+  "use strict";
+  const demo = window.TechBookDemo;
+  if (!demo) return;
+  const $ = id => document.getElementById(id);
+  const esc = value => String(value ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+  const hoje = demo.dataISO(new Date());
+  const fmt = value => {
+    if (!value) return "—";
+    const p = String(value).slice(0,10).split("-");
+    return p.length === 3 ? `${p[2]}/${p[1]}/${p[0]}` : value;
+  };
+  function status(item) {
+    if (item.devolvido || item.status === "devolvido") return ["Devolvido", "done"];
+    if (item.status === "solicitado") return ["Aguardando análise", "requested"];
+    if (item.status === "aprovado") return ["Aprovado", "requested"];
+    if (item.status === "devolucao_solicitada") return ["Devolução solicitada", "requested"];
+    if (item.status === "recusado") return ["Recusado", "late"];
+    if (item.dataDevolucao < hoje) return ["Em atraso", "late"];
+    return ["Em andamento", ""];
+  }
+  function mensagem(texto, erro = false) {
+    const area = $("mensagem");
+    area.textContent = texto;
+    area.className = `message show ${erro ? "error" : "success"}`;
+  }
+  function renderizar() {
+    const itens = demo.getEmprestimos();
+    const ativos = itens.filter(item => !item.devolvido && item.status !== "recusado");
+    const atrasados = ativos.filter(item => item.dataDevolucao < hoje);
+    const devolvidos = itens.filter(item => item.devolvido);
+    $("totalAtivos").textContent = ativos.length;
+    $("totalAtrasados").textContent = atrasados.length;
+    $("totalDevolvidos").textContent = devolvidos.length;
+    const termo = ($("buscaInput").value || "").trim().toLocaleLowerCase("pt-BR");
+    const filtro = $("filtroStatus").value;
+    const filtrados = itens.filter(item => {
+      const livro = demo.getLivros().find(book => book.id === Number(item.livroId));
+      const texto = `${item.leitor} ${livro?.titulo || ""} ${livro?.autor || ""}`.toLocaleLowerCase("pt-BR");
+      if (termo && !texto.includes(termo)) return false;
+      if (filtro === "pendente") return item.status === "solicitado";
+      if (filtro === "aprovado") return item.status === "aprovado";
+      if (filtro === "ativo") return item.status === "emprestado" && !item.devolvido && item.dataDevolucao >= hoje;
+      if (filtro === "atrasado") return !item.devolvido && item.status !== "recusado" && item.dataDevolucao < hoje;
+      if (filtro === "devolucao") return item.status === "devolucao_solicitada";
+      if (filtro === "devolvido") return item.devolvido;
+      if (filtro === "recusado") return item.status === "recusado";
+      return true;
+    }).slice().reverse();
+
+    $("emprestimosTabela").innerHTML = filtrados.length ? filtrados.map(item => {
+      const livro = demo.getLivros().find(book => book.id === Number(item.livroId));
+      const [rotulo, classe] = status(item);
+      let acao = "—";
+      if (item.status === "solicitado") acao = `<div class="acoes-tabela"><button class="button button-primary" data-status="emprestado" data-id="${item.id}">Aprovar</button><button class="button button-outline" data-status="recusado" data-id="${item.id}">Recusar</button></div>`;
+      else if (item.status === "devolucao_solicitada") acao = `<button class="button button-primary" data-status="devolvido" data-id="${item.id}">Confirmar devolução</button>`;
+      return `<tr><td>${esc(item.leitor || "Visitante")}</td><td><strong>${esc(livro?.titulo || "Livro")}</strong><br><small>${esc(livro?.autor || "")}</small></td><td>${fmt(item.solicitadoEm)}</td><td>${fmt(item.dataDevolucao)}</td><td><span class="status ${classe}">${rotulo}</span></td><td>${acao}</td></tr>`;
+    }).join("") : '<tr><td colspan="6" class="empty">Nenhuma movimentação encontrada com esses filtros.</td></tr>';
+  }
+
+  $("emprestimosTabela").addEventListener("click", evento => {
+    const botao = evento.target.closest("[data-status]");
+    if (!botao) return;
+    const id = Number(botao.dataset.id);
+    const novoStatus = botao.dataset.status;
+    if (!demo.atualizarStatusEmprestimo(id, novoStatus)) {
+      mensagem("Não foi possível atualizar este registro.", true);
+      return;
+    }
+    const texto = novoStatus === "emprestado" ? "Solicitação aprovada nesta experiência local." : novoStatus === "recusado" ? "Solicitação recusada. O exemplar voltou a ficar disponível." : "Devolução confirmada nesta experiência local.";
+    mensagem(texto);
+    renderizar();
+  });
+  $("buscaInput").addEventListener("input", renderizar);
+  $("filtroStatus").addEventListener("change", renderizar);
+  $("atualizarBtn").addEventListener("click", renderizar);
+  $("sairBtn").addEventListener("click", () => {
+    localStorage.removeItem("techbook-acesso-visitante");
+    window.location.href = "index.html";
+  });
+  $("emprestimoForm")?.addEventListener("submit", evento => evento.preventDefault());
+  renderizar();
+})();
+

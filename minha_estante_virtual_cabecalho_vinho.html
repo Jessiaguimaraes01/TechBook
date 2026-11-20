@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!--<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
@@ -690,6 +690,1088 @@ button, .botao, .nav-btn { transition: background-color .2s, color .2s, transfor
 </header>
 
 <section class="banner">
+  <!- Ilustração SVG de livros empilhados (estilo capa TechBook) --
+  <div class="banner-art" aria-hidden="true">
+    <svg width="108" height="96" viewBox="0 0 108 96" fill="none">
+      <circle cx="54" cy="48" r="42" stroke="#D6AE70" stroke-opacity="0.28" stroke-width="1.2"/>
+      <rect x="22" y="24" width="60" height="15" rx="3" fill="#531F2C" stroke="#D6AE70" stroke-width="1.4"/>
+      <rect x="26" y="42" width="60" height="15" rx="3" fill="#9E7363" stroke="#FFF7EE" stroke-opacity="0.5" stroke-width="1.2"/>
+      <rect x="18" y="60" width="64" height="15" rx="3" fill="#7C4454" stroke="#D6AE70" stroke-width="1.4"/>
+      <path d="M88 18L90 23L95 25L90 27L88 32L86 27L81 25L86 23L88 18Z" fill="#D6AE70"/>
+    </svg>
+  </div>
+
+  <div class="banner-center">
+    <span class="banner-etiqueta">COLEÇÃO PESSOAL</span>
+    <h1>Minha Estante <em>Virtual</em></h1>
+    <p>Organize seus livros, acompanhe suas metas de leitura e monte uma coleção do seu jeito.</p>
+  </div>
+
+  <!--Ilustração SVG botânica na paleta dourado/vinho/creme --
+  <div class="banner-art" aria-hidden="true">
+    <svg width="108" height="96" viewBox="0 0 108 96" fill="none">
+      <circle cx="54" cy="48" r="42" stroke="#D6AE70" stroke-opacity="0.28" stroke-width="1.2"/>
+      <path d="M54 55C54 39 41 29 31 32C34 43 42 51 54 55Z" fill="#7B9B89" stroke="#D6AE70" stroke-width="1.3"/>
+      <path d="M54 53C54 35 67 26 77 29C74 40 65 49 54 53Z" fill="#52776B" stroke="#D6AE70" stroke-width="1.3"/>
+      <path d="M54 55C51 39 52 24 54 18C57 26 58 40 54 55Z" fill="#9CB8A6" stroke="#D6AE70" stroke-width="1.3"/>
+      <path d="M39 56H69L64 78H44L39 56Z" fill="#D6AE70" stroke="#351018" stroke-width="1.5"/>
+      <rect x="36" y="52" width="36" height="5" rx="2.5" fill="#F6EFE6"/>
+    </svg>
+  </div>
+</section>
+
+<div class="page">
+  <div class="layout">
+    <aside class="left">
+      <section class="panel goal">
+        <div class="goal-title">
+          <span class="goal-title-left">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4"/></svg>
+            Meta de Leitura
+          </span>
+          <button class="goal-edit" id="editGoalBtn" type="button">Editar</button>
+        </div>
+        <div class="goal-number"><strong id="readCount">0</strong> de <strong id="goalCount">20</strong> livros</div>
+        <div class="progress"><span id="progressBar"></span></div>
+        <div class="percent" id="progressText">0%</div>
+      </section>
+
+      <nav class="panel menu" id="navigation" aria-label="Filtros da estante">
+        <button class="nav-btn active" data-filter="Todos">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>
+          Minha Estante
+        </button>
+        <button class="nav-btn" data-filter="Favoritos">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M12 20.5s-7-4.5-9-9a5.2 5.2 0 0 1 9-4.5 5.2 5.2 0 0 1 9 4.5c-2 4.5-9 9-9 9Z"/></svg>
+          Favoritos
+        </button>
+        <button class="nav-btn" data-filter="Lendo Agora">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M4 5h6a3 3 0 0 1 3 3v12a2 2 0 0 0-2-2H4V5Z"/><path d="M20 5h-6a3 3 0 0 0-3 3v12a2 2 0 0 1 2-2h7V5Z"/></svg>
+          Lendo Agora
+        </button>
+        <button class="nav-btn" data-filter="Quero Ler">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M6 3h12v18l-6-4-6 4V3Z"/></svg>
+          Quero Ler
+        </button>
+        <button class="nav-btn" data-filter="Lidos">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="m8.5 12.5 2.5 2.5 4.5-5"/></svg>
+          Lidos
+        </button>
+        <button class="nav-btn add" id="addOpen">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2.2"><path d="M12 5v14M5 12h14"/></svg>
+          Adicionar Livro
+        </button>
+        <button class="nav-btn" id="importCatalogOpen">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2Z"/></svg>
+          Do Catálogo Oficial
+        </button>
+      </nav>
+    </aside>
+
+    <main class="center">
+      <div class="filters" id="filters">
+        <button class="filter active" data-filter="Todos">Todos (<span id="allCount">0</span>)</button>
+        <button class="filter" data-filter="Lidos">Lidos (<span id="doneCount">0</span>)</button>
+        <button class="filter" data-filter="Lendo Agora">Lendo Agora (<span id="readingCount">0</span>)</button>
+        <button class="filter" data-filter="Quero Ler">Quero Ler (<span id="wantCount">0</span>)</button>
+        <button class="filter" data-filter="Favoritos">Favoritos (<span id="favCount">0</span>)</button>
+      </div>
+      <div class="shelf-wrap"><div class="shelf" id="shelf"></div></div>
+    </main>
+
+    <aside class="right">
+      <section class="panel profile">
+        <div class="avatar" id="profileAvatar">TB</div>
+        <h2 id="profileName">Leitor TechBook</h2>
+        <p id="profileClass">Biblioteca Inteligente</p>
+      </section>
+
+      <section class="panel achievements">
+        <h3>Conquistas</h3>
+        <div class="badges">
+          <div class="badge-item" id="badge1"><div class="badge-icon">1º</div>Primeiro<br>Livro</div>
+          <div class="badge-item" id="badge5"><div class="badge-icon">5x</div>5 Livros<br>Lidos</div>
+          <div class="badge-item" id="badgeFav"><div class="badge-icon">III</div>Curador<br>Favoritos</div>
+        </div>
+        <button class="see-all" id="achievements">Ver status das conquistas</button>
+      </section>
+    </aside>
+  </div>
+</div>
+
+<!-- Modal Adicionar Livro --
+<div class="modal-backdrop" id="modal">
+  <form class="modal" id="bookForm">
+    <h2>Adicionar livro à estante</h2>
+    <label for="title">Título do livro</label>
+    <input id="title" required placeholder="Ex.: O Pequeno Príncipe">
+    <label for="author">Autor</label>
+    <input id="author" required placeholder="Nome do autor">
+    <label for="status">Situação da leitura</label>
+    <select id="status">
+      <option>Quero Ler</option>
+      <option>Lendo Agora</option>
+      <option>Lidos</option>
+    </select>
+    <div class="modal-actions">
+      <button type="button" class="cancel" id="cancel">Cancelar</button>
+      <button class="save" type="submit">Salvar livro</button>
+    </div>
+  </form>
+</div>
+
+<!-- Modal Importar do Catálogo Oficial --
+<div class="modal-backdrop" id="catalogModal">
+  <form class="modal" id="catalogForm">
+    <h2>Importar do Catálogo Oficial</h2>
+    <p style="font-size:0.84rem;color:#6e4f47;margin:0 0 10px;">Escolha um livro cadastrado no acervo do TechBook para colocar na sua estante:</p>
+    <label for="catalogSelect">Livro do acervo</label>
+    <select id="catalogSelect" required>
+      <option value="">Carregando acervo...</option>
+    </select>
+    <label for="catalogStatus">Situação na sua estante</label>
+    <select id="catalogStatus">
+      <option>Quero Ler</option>
+      <option>Lendo Agora</option>
+      <option>Lidos</option>
+    </select>
+    <div class="modal-actions">
+      <button type="button" class="cancel" id="cancelCatalog">Cancelar</button>
+      <button class="save" type="submit">Adicionar à estante</button>
+    </div>
+  </form>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<footer>
+  <span>TechBook · Biblioteca Inteligente</span>
+  <span style="color:var(--dourado)">Ler · Descobrir · Imaginar</span>
+</footer>
+
+<script>
+const padraoLivros = [
+  { title: "Dom Casmurro", author: "Machado de Assis", status: "Lidos", sigla: "DC", cover: 1, fav: true },
+  { title: "O Pequeno Príncipe", author: "Antoine de Saint-Exupéry", status: "Lidos", sigla: "PP", cover: 2, fav: true },
+  { title: "O Hobbit", author: "J. R. R. Tolkien", status: "Lendo Agora", sigla: "OH", cover: 3, fav: false },
+  { title: "A Guerra dos Tronos", author: "George R. R. Martin", status: "Quero Ler", sigla: "GT", cover: 4, fav: false }
+];
+
+let storageKey = "techbook_estante_visitante";
+let goalKey = "techbook_meta_visitante";
+let books = [];
+let goalTarget = 20;
+let currentFilter = "Todos";
+let catalogoOficial = [];
+
+const shelf = document.getElementById("shelf");
+
+function toast(m) {
+  const t = document.getElementById("toast");
+  t.textContent = m;
+  t.classList.add("show");
+  setTimeout(() => t.classList.remove("show"), 2300);
+}
+
+function siglaLivro(titulo) {
+  return String(titulo || "TB").trim().split(/\s+/).slice(0, 2).map(p => p[0]).join("").toUpperCase();
+}
+
+function carregarDadosLocais() {
+  try {
+    const salvo = JSON.parse(localStorage.getItem(storageKey) || "null");
+    books = Array.isArray(salvo) ? salvo : [...padraoLivros];
+    goalTarget = Number(localStorage.getItem(goalKey)) || 20;
+  } catch {
+    books = [...padraoLivros];
+    goalTarget = 20;
+  }
+}
+
+function salvarDadosLocais() {
+  localStorage.setItem(storageKey, JSON.stringify(books));
+  localStorage.setItem(goalKey, String(goalTarget));
+}
+
+function render() {
+  const shown = books.filter(b => currentFilter === "Todos" || (currentFilter === "Favoritos" ? b.fav : b.status === currentFilter));
+  shelf.innerHTML = "";
+
+  if (!shown.length) {
+    shelf.innerHTML = '<div class="empty">Nenhum livro nesta categoria ainda.</div>';
+  }
+
+  shown.forEach(b => {
+    const card = document.createElement("article");
+    card.className = "book cover-" + ((Number(b.cover) - 1) % 8 + 1);
+    card.innerHTML = `
+      <button class="book-mark ${b.fav ? "liked" : ""}" title="Favoritar" aria-label="Favoritar">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="${b.fav ? 'currentColor' : 'none'}" stroke="currentColor" stroke-width="2.2">
+          <path d="M12 20.5s-7-4.5-9-9a5.2 5.2 0 0 1 9-4.5 5.2 5.2 0 0 1 9 4.5c-2 4.5-9 9-9 9Z"/>
+        </svg>
+      </button>
+      <div class="book-title"></div>
+      <div class="book-monogram"></div>
+      <span class="book-badge">${b.status}</span>
+      <div class="book-author"></div>
+    `;
+    card.querySelector(".book-title").textContent = b.title;
+    card.querySelector(".book-monogram").textContent = b.sigla || siglaLivro(b.title);
+    card.querySelector(".book-author").textContent = b.author;
+
+    card.querySelector(".book-mark").onclick = e => {
+      e.stopPropagation();
+      b.fav = !b.fav;
+      salvarDadosLocais();
+      render();
+      toast(b.fav ? "Adicionado aos favoritos!" : "Removido dos favoritos.");
+    };
+
+    card.onclick = () => {
+      const next = b.status === "Quero Ler" ? "Lendo Agora" : b.status === "Lendo Agora" ? "Lidos" : "Quero Ler";
+      const acao = prompt(`"${b.title}" (${b.status})\n\nDigite:\n1 - Mudar para "${next}"\n2 - Remover da estante`, "1");
+      if (acao === "1") {
+        b.status = next;
+        salvarDadosLocais();
+        render();
+        toast("Situação atualizada!");
+      } else if (acao === "2") {
+        const idx = books.indexOf(b);
+        if (idx > -1) books.splice(idx, 1);
+        salvarDadosLocais();
+        render();
+        toast("Livro removido da estante.");
+      }
+    };
+
+    shelf.appendChild(card);
+  });
+
+  const c = {
+    Todos: books.length,
+    Lidos: books.filter(b => b.status === "Lidos").length,
+    "Lendo Agora": books.filter(b => b.status === "Lendo Agora").length,
+    "Quero Ler": books.filter(b => b.status === "Quero Ler").length,
+    Favoritos: books.filter(b => b.fav).length
+  };
+
+  document.getElementById("allCount").textContent = c.Todos;
+  document.getElementById("doneCount").textContent = c.Lidos;
+  document.getElementById("readingCount").textContent = c["Lendo Agora"];
+  document.getElementById("wantCount").textContent = c["Quero Ler"];
+  document.getElementById("favCount").textContent = c.Favoritos;
+
+  const pct = Math.min(100, Math.round((c.Lidos / Math.max(1, goalTarget)) * 100));
+  document.getElementById("readCount").textContent = c.Lidos;
+  document.getElementById("goalCount").textContent = goalTarget;
+  document.getElementById("progressBar").style.width = pct + "%";
+  document.getElementById("progressText").textContent = pct + "%";
+
+  document.getElementById("badge1").classList.toggle("locked", c.Lidos < 1);
+  document.getElementById("badge5").classList.toggle("locked", c.Lidos < 5);
+  document.getElementById("badgeFav").classList.toggle("locked", c.Favoritos < 3);
+}
+
+function setFilter(f) {
+  currentFilter = f;
+  document.querySelectorAll("[data-filter]").forEach(e => e.classList.toggle("active", e.dataset.filter === f));
+  render();
+}
+
+document.querySelectorAll("[data-filter]").forEach(e => e.addEventListener("click", () => setFilter(e.dataset.filter)));
+
+document.getElementById("editGoalBtn").onclick = () => {
+  const nova = Number(prompt("Qual é a sua meta de livros lidos?", goalTarget));
+  if (nova > 0 && nova <= 500) {
+    goalTarget = nova;
+    salvarDadosLocais();
+    render();
+    toast("Meta de leitura atualizada!");
+  }
+};
+
+const modal = document.getElementById("modal");
+document.getElementById("addOpen").onclick = () => modal.classList.add("show");
+document.getElementById("cancel").onclick = () => modal.classList.remove("show");
+modal.onclick = e => { if (e.target === modal) modal.classList.remove("show"); };
+
+document.getElementById("bookForm").onsubmit = e => {
+  e.preventDefault();
+  const titulo = document.getElementById("title").value.trim();
+  books.push({
+    title: titulo,
+    author: document.getElementById("author").value.trim(),
+    status: document.getElementById("status").value,
+    sigla: siglaLivro(titulo),
+    cover: Math.floor(Math.random() * 8) + 1,
+    fav: false
+  });
+  salvarDadosLocais();
+  e.target.reset();
+  modal.classList.remove("show");
+  setFilter("Todos");
+  toast("Livro adicionado à estante!");
+};
+
+const catalogModal = document.getElementById("catalogModal");
+document.getElementById("importCatalogOpen").onclick = () => catalogModal.classList.add("show");
+document.getElementById("cancelCatalog").onclick = () => catalogModal.classList.remove("show");
+catalogModal.onclick = e => { if (e.target === catalogModal) catalogModal.classList.remove("show"); };
+
+document.getElementById("catalogForm").onsubmit = e => {
+  e.preventDefault();
+  const id = Number(document.getElementById("catalogSelect").value);
+  const escolhido = catalogoOficial.find(l => Number(l.id_livro) === id);
+  if (!escolhido) return;
+
+  books.push({
+    title: escolhido.titulo,
+    author: escolhido.autor || "Autor não informado",
+    status: document.getElementById("catalogStatus").value,
+    sigla: siglaLivro(escolhido.titulo),
+    cover: Math.floor(Math.random() * 8) + 1,
+    fav: false
+  });
+  salvarDadosLocais();
+  catalogModal.classList.remove("show");
+  setFilter("Todos");
+  toast(`"${escolhido.titulo}" importado do acervo!`);
+};
+
+document.getElementById("achievements").onclick = () => {
+  const lidos = books.filter(b => b.status === "Lidos").length;
+  const favs = books.filter(b => b.fav).length;
+  alert(`Suas Conquistas na Estante:\n\n• Primeiro Livro Lido: ${lidos >= 1 ? "Desbloqueada" : "Falta 1 livro"}\n• 5 Livros Lidos: ${lidos >= 5 ? "Desbloqueada" : `${lidos}/5 livros`}\n• Curador de Favoritos: ${favs >= 3 ? "Desbloqueada" : `${favs}/3 favoritos`}`);
+};
+
+async function iniciarEstante() {
+  try {
+    const resp = await fetch("/api/sessao-aluno", { credentials: "same-origin" });
+    if (resp.ok) {
+      const dados = await resp.json();
+      const aluno = dados.aluno || dados;
+      storageKey = `techbook_estante_${aluno.id}`;
+      goalKey = `techbook_meta_${aluno.id}`;
+      document.getElementById("profileName").textContent = aluno.nome;
+      document.getElementById("profileClass").textContent = aluno.turma ? `Turma: ${aluno.turma}` : `Matrícula ${aluno.matricula}`;
+      document.getElementById("profileAvatar").textContent = aluno.nome.trim().split(/\s+/).slice(0,2).map(p=>p[0]).join("").toUpperCase();
+    }
+  } catch (_) {}
+
+  carregarDadosLocais();
+  render();
+
+  try {
+    const catResp = await fetch("/api/livros", { cache: "no-store" });
+    if (catResp.ok) {
+      catalogoOficial = await catResp.json();
+      const sel = document.getElementById("catalogSelect");
+      sel.innerHTML = catalogoOficial.length
+        ? catalogoOficial.map(l => `<option value="${l.id_livro}">${l.titulo} — ${l.autor}</option>`).join("")
+        : '<option value="">Nenhum livro cadastrado no acervo</option>';
+    }
+  } catch (_) {}
+}
+
+iniciarEstante();
+</script>
+</body>
+</html> -->
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Minha Estante Virtual — TechBook</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;0,800;1,600&display=swap');
+
+:root {
+  --vinho: #481B27;
+  --vinho-escuro: #321018;
+  --bordo: #762F3B;
+  --creme: #F5EBDD;
+  --creme-borda: #E6D8CB;
+  --papel: #FFFCF7;
+  --rosa: #C58CA5;
+  --dourado: #D6AE70;
+  --texto: #38272C;
+  --suave: #78666B;
+  --borda: #E6D8CB;
+  --madeira-escura: #3C1812;
+  --madeira-media: #643322;
+  --madeira-clara: #9B6242;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  color: var(--texto);
+  font-family: 'DM Sans', sans-serif;
+  background: linear-gradient(90deg, var(--creme-borda) 0%, var(--creme) 18%, var(--creme) 82%, var(--creme-borda) 100%);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* TOPO CLARO IDÊNTICO AO INDEX */
+.topo {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 13px 5%;
+  background: var(--papel);
+  border-bottom: 1px solid var(--borda);
+  flex-wrap: wrap;
+}
+
+.marca {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  font-weight: 700;
+  text-decoration: none;
+  color: inherit;
+}
+
+.marca-simbolo {
+  width: 42px;
+  height: 42px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: #3B151E;
+  color: var(--dourado);
+  border: 2px solid var(--dourado);
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 0.95rem;
+  font-weight: 700;
+}
+
+.marca-texto {
+  display: grid;
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 1.25rem;
+  color: var(--vinho);
+  line-height: 1.05;
+}
+
+.marca-texto small {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.56rem;
+  letter-spacing: 0.16em;
+  color: var(--suave);
+  margin-top: 2px;
+}
+
+.topbar-nav {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.topbar-nav a {
+  color: var(--suave);
+  text-decoration: none;
+  font-size: 0.86rem;
+  font-weight: 700;
+  padding: 7px 13px;
+  border-radius: 10px;
+  transition: 0.2s;
+}
+
+.topbar-nav a:hover,
+.topbar-nav a.ativo {
+  background: rgba(197, 140, 165, 0.22);
+  color: var(--vinho);
+}
+
+/* BANNER VINHO FOSCO COM ILUSTRAÇÕES VETORIAIS */
+.banner {
+  min-height: 168px;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 24px 7%;
+  gap: 24px;
+  background: #431A24;
+  border-bottom: 3px solid var(--dourado);
+}
+
+.banner-center {
+  text-align: center;
+  flex: 1;
+  position: relative;
+  z-index: 1;
+}
+
+.banner-etiqueta {
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  color: var(--dourado);
+  margin-bottom: 6px;
+}
+
+.banner h1 {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: clamp(28px, 4vw, 42px);
+  margin: 0 0 6px;
+  color: #FFF7EE;
+}
+
+.banner h1 em {
+  color: var(--rosa);
+  font-style: italic;
+}
+
+.banner p {
+  margin: 0;
+  font-size: 0.92rem;
+  line-height: 1.45;
+  color: rgba(255, 247, 238, 0.86);
+}
+
+.banner-art {
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+}
+
+/* CONTEÚDO PRINCIPAL */
+.page {
+  width: min(1240px, 100%);
+  margin: 0 auto;
+  padding: 24px 20px 44px;
+  flex: 1;
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: 215px minmax(0, 1fr) 215px;
+  gap: 18px;
+  align-items: start;
+}
+
+.panel {
+  background: var(--papel);
+  border: 1px solid var(--borda);
+  border-radius: 18px;
+  box-shadow: 0 10px 26px rgba(69, 26, 36, 0.06);
+}
+
+.goal {
+  padding: 16px 15px;
+  margin-bottom: 16px;
+}
+
+.goal-title {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--vinho);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+}
+
+.goal-title-left {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.goal-edit {
+  border: 0;
+  background: transparent;
+  color: var(--bordo);
+  cursor: pointer;
+  font-size: 0.78rem;
+  text-decoration: underline;
+  font-weight: 700;
+}
+
+.goal-number {
+  font-size: 0.84rem;
+  font-weight: 600;
+  color: var(--texto);
+  margin: 9px 0 8px;
+}
+
+.progress {
+  height: 11px;
+  background: var(--creme-borda);
+  border-radius: 99px;
+  overflow: hidden;
+}
+
+.progress span {
+  display: block;
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, var(--vinho), var(--dourado));
+  border-radius: 99px;
+  transition: width 0.3s;
+}
+
+.percent {
+  text-align: right;
+  font-size: 0.76rem;
+  font-weight: 700;
+  color: var(--vinho);
+  margin-top: 5px;
+}
+
+.menu {
+  padding: 12px 10px;
+  display: grid;
+  gap: 4px;
+}
+
+.nav-btn {
+  border: 0;
+  background: transparent;
+  text-align: left;
+  padding: 9px 11px;
+  border-radius: 12px;
+  color: var(--texto);
+  font: 600 0.84rem 'DM Sans', sans-serif;
+  cursor: pointer;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  transition: 0.18s;
+}
+
+.nav-btn svg {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+  stroke: currentColor;
+}
+
+.nav-btn:hover,
+.nav-btn.active {
+  background: var(--vinho);
+  color: #FFF7EE;
+}
+
+.nav-btn.add {
+  margin-top: 8px;
+  border-top: 1px solid var(--borda);
+  border-radius: 0 0 12px 12px;
+  padding-top: 12px;
+  color: var(--vinho);
+}
+
+.nav-btn.add:hover {
+  color: #FFF7EE;
+}
+
+/* CENTRO E ESTANTE */
+.center {
+  min-width: 0;
+}
+
+.filters {
+  min-height: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding: 7px 10px;
+  background: var(--papel);
+  border: 1px solid var(--borda);
+  border-radius: 16px;
+  margin: 0 0 14px;
+  box-shadow: 0 6px 18px rgba(69, 26, 36, 0.05);
+}
+
+.filter {
+  border: 0;
+  background: transparent;
+  color: var(--suave);
+  border-radius: 10px;
+  padding: 7px 12px;
+  font: 700 0.8rem 'DM Sans', sans-serif;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: 0.2s;
+}
+
+.filter:hover,
+.filter.active {
+  background: var(--vinho);
+  color: #FFF7EE;
+}
+
+.shelf-wrap {
+  background: linear-gradient(90deg, var(--madeira-escura), var(--madeira-media) 14%, var(--madeira-escura) 50%, var(--madeira-media) 86%, var(--madeira-escura));
+  padding: 18px;
+  border: 7px solid #7E482D;
+  border-radius: 14px;
+  box-shadow: inset 0 0 22px rgba(24, 9, 6, 0.7), 0 12px 26px rgba(69, 26, 36, 0.16);
+  min-height: 330px;
+}
+
+.shelf {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px 12px;
+  padding: 6px 4px 18px;
+  border-bottom: 10px solid var(--madeira-clara);
+  box-shadow: 0 8px 6px -5px rgba(20, 8, 5, 0.8);
+}
+
+.book {
+  position: relative;
+  min-width: 0;
+  height: 152px;
+  border-radius: 4px 8px 8px 4px;
+  overflow: hidden;
+  box-shadow: 4px 5px 10px rgba(20, 8, 5, 0.45);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 11px 8px 9px;
+  text-align: center;
+  color: #FFF7EE;
+  border-left: 5px solid rgba(255, 255, 255, 0.24);
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.book:hover {
+  transform: translateY(-4px);
+}
+
+.book-title {
+  font-family: 'Playfair Display', serif;
+  font-weight: 700;
+  font-size: clamp(11px, 1.15vw, 13.5px);
+  line-height: 1.15;
+  padding-right: 18px;
+}
+
+.book-author {
+  font-size: 0.65rem;
+  opacity: 0.92;
+}
+
+.book-mark {
+  position: absolute;
+  right: 5px;
+  top: 5px;
+  border: 0;
+  background: rgba(24, 9, 6, 0.28);
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  color: #FFF7EE;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+}
+
+.book-mark.liked {
+  color: var(--dourado);
+  background: rgba(59, 21, 30, 0.72);
+}
+
+.book-monogram {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.25rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  opacity: 0.85;
+}
+
+.book-badge {
+  font-size: 0.64rem;
+  font-weight: 700;
+  background: rgba(24, 9, 6, 0.36);
+  padding: 2px 8px;
+  border-radius: 99px;
+  align-self: center;
+}
+
+/* CAPAS NA PALETA VINHO / CREME / DOURADO / TERROSO */
+.cover-1 { background: linear-gradient(145deg, #531F2C, #3B151E); border-color: var(--dourado); }
+.cover-2 { background: linear-gradient(145deg, #E8D5BE, #C4A482); color: #35181C; }
+.cover-3 { background: linear-gradient(145deg, #8B4A58, #5C2834); }
+.cover-4 { background: linear-gradient(145deg, #9C725B, #694737); }
+.cover-5 { background: linear-gradient(145deg, #4B6358, #2F4239); }
+.cover-6 { background: linear-gradient(145deg, #D9B47C, #A67E46); color: #2E1418; }
+.cover-7 { background: linear-gradient(145deg, #6E2B38, #451A24); }
+.cover-8 { background: linear-gradient(145deg, #B58396, #7A4B5E); }
+
+.empty {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 40px 14px;
+  color: #F6EFE6;
+  font-size: 0.92rem;
+}
+
+/* COLUNA DIREITA */
+.profile {
+  padding: 18px 12px;
+  text-align: center;
+  margin-bottom: 16px;
+}
+
+.avatar {
+  width: 74px;
+  height: 74px;
+  border-radius: 50%;
+  margin: 0 auto 10px;
+  display: grid;
+  place-items: center;
+  background: #3B151E;
+  color: var(--dourado);
+  font-family: 'Playfair Display', serif;
+  font-size: 1.5rem;
+  font-weight: 700;
+  border: 2.5px solid var(--dourado);
+}
+
+.profile h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.1rem;
+  color: var(--vinho);
+  margin: 4px 0;
+}
+
+.profile p {
+  font-size: 0.78rem;
+  margin: 0;
+  color: var(--suave);
+}
+
+.achievements {
+  padding: 16px 12px;
+}
+
+.achievements h3 {
+  font-family: 'Playfair Display', serif;
+  margin: 0 0 12px;
+  font-size: 1.08rem;
+  color: var(--vinho);
+  text-align: center;
+}
+
+.badges {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6px;
+  text-align: center;
+}
+
+.badge-item {
+  font-size: 0.68rem;
+  line-height: 1.25;
+  color: var(--texto);
+  font-weight: 600;
+}
+
+.badge-icon {
+  width: 40px;
+  height: 40px;
+  margin: 0 auto 6px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: var(--vinho);
+  color: var(--dourado);
+  border: 1.5px solid var(--dourado);
+  font-family: 'Playfair Display', serif;
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+.badge-item.locked {
+  opacity: 0.42;
+}
+
+.see-all {
+  border: 0;
+  background: var(--vinho);
+  color: #FFF7EE;
+  border-radius: 10px;
+  padding: 9px 12px;
+  font-weight: 700;
+  font-size: 0.78rem;
+  margin-top: 14px;
+  width: 100%;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.see-all:hover {
+  background: var(--bordo);
+}
+
+/* MODAIS E TOAST */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(35, 13, 19, 0.72);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 18px;
+  z-index: 30;
+}
+
+.modal-backdrop.show {
+  display: flex;
+}
+
+.modal {
+  background: var(--papel);
+  border: 1px solid var(--borda);
+  border-radius: 20px;
+  padding: 24px;
+  width: min(440px, 100%);
+  box-shadow: 0 18px 48px rgba(35, 13, 19, 0.35);
+}
+
+.modal h2 {
+  font-family: 'Playfair Display', serif;
+  color: var(--vinho);
+  margin: 0 0 12px;
+}
+
+.modal label {
+  display: block;
+  font-size: 0.84rem;
+  font-weight: 700;
+  color: var(--vinho);
+  margin: 10px 0 5px;
+}
+
+.modal input,
+.modal select {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid var(--borda);
+  border-radius: 10px;
+  background: #fff;
+  color: var(--texto);
+  font: 0.9rem 'DM Sans', sans-serif;
+}
+
+.modal-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 18px;
+}
+
+.modal-actions button {
+  flex: 1;
+  border: 0;
+  padding: 11px;
+  border-radius: 10px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.save {
+  background: var(--vinho);
+  color: #FFF7EE;
+}
+
+.cancel {
+  background: var(--creme-borda);
+  color: var(--vinho);
+}
+
+.toast {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #3B151E;
+  color: #FFF7EE;
+  border: 1px solid var(--dourado);
+  padding: 10px 18px;
+  border-radius: 99px;
+  font-size: 0.85rem;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s;
+  z-index: 40;
+}
+
+.toast.show {
+  opacity: 1;
+}
+
+footer {
+  padding: 22px 5%;
+  background: #2C0F18;
+  color: rgba(255, 247, 238, 0.82);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  font-size: 0.85rem;
+}
+
+@media (max-width: 900px) {
+  .layout { grid-template-columns: 1fr; }
+  .right { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .shelf { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .banner-art { display: none; }
+}
+
+/* Ajustes de identidade visual compartilhada do TechBook */
+body { background: var(--creme); }
+.topo { background: var(--papel); border-bottom-color: var(--borda); }
+.topbar-nav a { border-radius: 999px; }
+.topbar-nav a:hover, .topbar-nav a.ativo { background: rgba(197,140,165,.22); color: var(--vinho); }
+.painel, .book, .card, .stat-card { box-shadow: 0 12px 28px rgba(72,27,39,.07); }
+button, .botao, .nav-btn { transition: background-color .2s, color .2s, transform .2s; }
+:focus-visible { outline: 3px solid var(--dourado); outline-offset: 3px; }
+</style>
+  <link rel="stylesheet" href="assets/css/tema-global.css">
+  <script src="assets/js/tema-global.js" defer></script>
+</head>
+<body>
+
+<header class="topo">
+  <a class="marca" href="index.html">
+    <span class="marca-simbolo">TB</span>
+    <span class="marca-texto">
+      TechBook
+      <small>BIBLIOTECA INTELIGENTE</small>
+    </span>
+  </a>
+
+  <nav class="topbar-nav" aria-label="Navegação principal">
+    <a href="index.html">Início</a>
+    <a href="perfil-aluno.html">Minha Área</a>
+    <a href="emprestimo-aluno.html">Empréstimos</a>
+    <a class="ativo" href="minha_estante_virtual_cabecalho_vinho.html">Minha Estante</a>
+    <a href="amigos_de_leitura_completo.html">Amigos</a>
+    <a href="ranking.html">Ranking</a>
+  </nav>
+</header>
+
+<section class="banner">
   <!-- Ilustração SVG de livros empilhados (estilo capa TechBook) -->
   <div class="banner-art" aria-hidden="true">
     <svg width="108" height="96" viewBox="0 0 108 96" fill="none">
@@ -1044,33 +2126,22 @@ document.getElementById("achievements").onclick = () => {
   alert(`Suas Conquistas na Estante:\n\n• Primeiro Livro Lido: ${lidos >= 1 ? "Desbloqueada" : "Falta 1 livro"}\n• 5 Livros Lidos: ${lidos >= 5 ? "Desbloqueada" : `${lidos}/5 livros`}\n• Curador de Favoritos: ${favs >= 3 ? "Desbloqueada" : `${favs}/3 favoritos`}`);
 };
 
-async function iniciarEstante() {
-  try {
-    const resp = await fetch("/api/sessao-aluno", { credentials: "same-origin" });
-    if (resp.ok) {
-      const dados = await resp.json();
-      const aluno = dados.aluno || dados;
-      storageKey = `techbook_estante_${aluno.id}`;
-      goalKey = `techbook_meta_${aluno.id}`;
-      document.getElementById("profileName").textContent = aluno.nome;
-      document.getElementById("profileClass").textContent = aluno.turma ? `Turma: ${aluno.turma}` : `Matrícula ${aluno.matricula}`;
-      document.getElementById("profileAvatar").textContent = aluno.nome.trim().split(/\s+/).slice(0,2).map(p=>p[0]).join("").toUpperCase();
-    }
-  } catch (_) {}
+function iniciarEstante() {
+  // A Estante permanece pessoal e local; o catálogo oficial depende da futura integração.
+  document.getElementById("profileName").textContent = "Visitante";
+  document.getElementById("profileClass").textContent = "Leitor TechBook";
+  document.getElementById("profileAvatar").textContent = "TB";
 
   carregarDadosLocais();
   render();
 
-  try {
-    const catResp = await fetch("/api/livros", { cache: "no-store" });
-    if (catResp.ok) {
-      catalogoOficial = await catResp.json();
-      const sel = document.getElementById("catalogSelect");
-      sel.innerHTML = catalogoOficial.length
-        ? catalogoOficial.map(l => `<option value="${l.id_livro}">${l.titulo} — ${l.autor}</option>`).join("")
-        : '<option value="">Nenhum livro cadastrado no acervo</option>';
-    }
-  } catch (_) {}
+  const sel = document.getElementById("catalogSelect");
+  sel.innerHTML = '<option value="">Acervo escolar indisponível temporariamente</option>';
+  sel.disabled = true;
+  const submit = document.querySelector('#catalogForm button[type="submit"]');
+  if (submit) submit.disabled = true;
+  const intro = document.querySelector("#catalogModal .modal p");
+  if (intro) intro.textContent = "A importação do acervo escolar será liberada quando a integração com o banco de dados estiver disponível. Sua estante pessoal e seus livros continuam funcionando normalmente.";
 }
 
 iniciarEstante();

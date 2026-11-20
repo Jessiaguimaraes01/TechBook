@@ -290,7 +290,6 @@
 </body>
 </html> -->
 
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -382,24 +381,8 @@
         }
 
         .login-botao:disabled {
-            opacity: 0.55;
-            cursor: not-allowed;
-        }
-
-        .visitante-botao {
-            margin-top: 16px;
-            background: transparent;
-            color: var(--vinho, #481B27);
-            border: 1px solid var(--vinho, #481B27);
-        }
-
-        .visitante-botao:hover {
-            background: var(--creme, #F5EBDD);
-        }
-        .campo-login input:disabled {
-            background: #F3EEE9;
-            color: #78666B;
-            cursor: not-allowed;
+            opacity: 0.6;
+            cursor: wait;
         }
 
         #mensagem-login {
@@ -472,44 +455,95 @@
             color: white;
         }
 
+        .aviso-acesso { padding: 10px 12px; border-left: 3px solid var(--dourado, #D6AE70); background: rgba(214,174,112,.12); border-radius: 8px; font-size: .86rem; }
+        .login-botao:disabled { opacity: .55; cursor: not-allowed; }
+        .botao-visitante { margin-top: 12px; background: var(--dourado, #D6AE70); color: #32131d; }
+
         @media (max-width: 480px) {
             .login-cartao {
                 padding: 24px 20px;
             }
         }
     </style>
+  <link rel="stylesheet" href="assets/css/tema-global.css">
+  <script src="assets/js/tema-global.js" defer></script>
 </head>
 
 <body>
     <main class="login-pagina">
         <section class="login-cartao">
-            <p class="genero-livro">TECHBOOK · DEMONSTRAÇÃO</p>
-            <h1>Entrar</h1>
-            <p>Esta tela está disponível para visualização, mas o login está desativado nesta demonstração. Você pode explorar o catálogo sem entrar.</p>
+            <p class="genero-livro">TECHBOOK · ÁREA DO ALUNO</p>
 
-            <div style="margin:20px 0; padding:14px; border-radius:10px; background:var(--creme); border:1px solid var(--borda); color:var(--vinho); font-weight:600;">
-                Acesso demonstrativo — nenhum dado será enviado ou armazenado.
-            </div>
+            <h1>Bem-vindo de volta!</h1>
 
-            <form aria-disabled="true">
+            <p>Entre com sua matrícula para continuar sua jornada de leitura.</p>
+            <p class="aviso-acesso" role="note">O login e o cadastro estão temporariamente indisponíveis. Você ainda pode explorar a plataforma como visitante.</p>
+
+            <form id="form-login">
                 <div class="campo-login">
                     <label for="matricula">Identificação numérica</label>
-                    <input id="matricula" name="matricula" type="text" placeholder="Indisponível nesta versão" disabled>
+                    <input
+                        id="matricula"
+                        name="matricula"
+                        type="text"
+                        maxlength="30"
+                        autocomplete="username"
+                        required
+                        disabled
+                    >
                 </div>
+
                 <div class="campo-login">
                     <label for="senha">Senha</label>
-                    <input id="senha" name="senha" type="password" placeholder="Indisponível nesta versão" disabled>
+                    <input
+                        id="senha"
+                        name="senha"
+                        type="password"
+                        autocomplete="current-password"
+                        required
+                        disabled
+                    >
                 </div>
-                <button class="login-botao" type="button" disabled>Login desativado</button>
-            </form>
 
-            <a class="login-botao visitante-botao" href="index.html#catalogo">Entrar como visitante</a>
+                <button class="login-botao" id="botao-login" type="submit" disabled>
+                    Login temporariamente indisponível
+                </button>
+
+                <p id="mensagem-login" role="status" aria-live="polite"></p>
+            </form>
+            <button class="login-botao botao-visitante" id="botao-visitante" type="button">Entrar como visitante</button>
 
             <div class="login-links">
-                <a href="cadastro.html">Ver página de cadastro</a>
-                <a href="index.html">← Voltar para os livros</a>
+                <a href="cadastro.html">Ainda não tem conta? Cadastre-se</a>
+                <a href="index.html">← Voltar para a biblioteca</a>
             </div>
+
+            <div class="separador-login">OU</div>
+
+            <section class="acesso-bibliotecario">
+                <strong>É bibliotecário?</strong>
+
+                <p>
+                    Acesse a área administrativa para gerenciar o catálogo
+                    e os serviços da biblioteca.
+                </p>
+
+                <a
+                    class="botao-bibliotecario"
+                    href="login-bibliotecario.html"
+                >
+                    Entrar como bibliotecário →
+                </a>
+            </section>
         </section>
     </main>
+
+    <script>
+        document.querySelector("#form-login")?.addEventListener("submit", evento => evento.preventDefault());
+        document.querySelector("#botao-visitante")?.addEventListener("click", () => {
+            localStorage.setItem("techbook-acesso-visitante", "aluno");
+            window.location.href = "perfil-aluno.html";
+        });
+    </script>
 </body>
 </html>

@@ -22,6 +22,7 @@
       <a href="#catalogo">Catálogo</a>
       <a href="emprestimos-aluno.html">Empréstimos</a>
       <a href="minha_estante_virtual_cabecalho_vinho.html">Minha Estante</a>
+          <a href="clubes.html">Clubes de Leitura</a>
       <a href="amigos_de_leitura_completo.html">Amigos</a>
       <a href="ranking.html">Ranking</a>
       <a href="jogos.html">Joguinhos</a>
@@ -64,6 +65,12 @@
           <a href="ranking.html" class="botao botao-ranking">
             🏆 Acessar Ranking →
           </a>
+
+                 <a href="clubes.html" class="botao-clubes">
+    <span class="icone-clubes" aria-hidden="true">📚</span>
+    <span>Clubes de Leitura</span>
+    <span aria-hidden="true">→</span>
+</a>
         </div>
 
         <div class="hero-nota">
@@ -245,8 +252,7 @@
     }
   </script>
 </body>
-</html> --> 
-<!DOCTYPE html>
+</html> --><!DOCTYPE html>
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
@@ -254,8 +260,10 @@
   <meta name="description" content="TechBook: uma biblioteca inteligente para descobrir livros e acompanhar sua leitura.">
   <title>TechBook — Biblioteca Inteligente</title>
   <link rel="stylesheet" href="assets/css/style.css">
-  <script src="assets/js/demo-mode.js"></script>
+  <script src="assets/js/dados-visitante.js" defer></script>
+  <script src="assets/js/tema-global.js" defer></script>
   <script src="assets/js/script.js" defer></script>
+  <link rel="stylesheet" href="assets/css/tema-global.css">
 </head>
 
 <body>
@@ -269,10 +277,8 @@
     <button id="menu-btn" class="menu-btn" aria-label="Abrir menu" aria-expanded="false">☰</button>
     <nav id="menu" aria-label="Navegação principal">
       <a href="#catalogo">Catálogo</a>
-      <a href="perfil-aluno.html">Meu perfil</a>
       <a href="emprestimos-aluno.html">Empréstimos</a>
       <a href="minha_estante_virtual_cabecalho_vinho.html">Minha Estante</a>
-      <a href="clubes.html">Clubes de Leitura</a>
       <a href="amigos_de_leitura_completo.html">Amigos</a>
       <a href="ranking.html">Ranking</a>
       <a href="jogos.html">Joguinhos</a>
@@ -316,7 +322,7 @@
             🏆 Acessar Ranking →
           </a>
 
-         <a href="clubes.html" class="botao-clubes">
+          <a href="clubes.html" class="botao-clubes">
     <span class="icone-clubes" aria-hidden="true">✦</span>
     <span>Clubes de Leitura</span>
     <span aria-hidden="true">→</span>
@@ -452,11 +458,23 @@
     </section>
 
     <section class="secao" id="estatisticas">
-      <div class="cabecalho-secao"><span class="etiqueta">A BIBLIOTECA EM NÚMEROS</span><h2>Conhecimento em <em>dados</em></h2><p>Indicadores atualizados em tempo real a partir do acervo do TechBook.</p></div>
+      <div class="cabecalho-secao"><span class="etiqueta">A BIBLIOTECA EM NÚMEROS</span><h2>Conhecimento em <em>dados</em></h2><p>Um panorama do acervo, da circulação dos livros e da jornada de leitura.</p></div>
+      <div class="grade-indicadores-dados">
+        <article class="indicador-dados"><small>Títulos no catálogo</small><strong id="dados-total-titulos">8</strong><span>obras diferentes</span></article>
+        <article class="indicador-dados"><small>Exemplares cadastrados</small><strong id="dados-total-exemplares">18</strong><span>no acervo de exemplos</span></article>
+        <article class="indicador-dados"><small>Disponíveis</small><strong id="dados-disponiveis">15</strong><span>prontos para solicitação</span></article>
+        <article class="indicador-dados"><small>Emprestados</small><strong id="dados-emprestados">3</strong><span>em circulação ou aguardando análise</span></article>
+      </div>
       <div class="grade-estatisticas">
         <article class="painel painel-grafico"><h3>Livros por gênero</h3><div id="grafico-generos" class="grafico"></div></article>
         <article class="painel painel-grafico"><h3>Disponibilidade do acervo</h3><div id="grafico-disponibilidade" class="grafico"></div></article>
       </div>
+      <div class="grade-leitura-dados">
+        <article class="painel painel-dado-leitura"><span class="etiqueta">JORNADA DE LEITURA</span><h3><strong id="dados-lidos">3</strong> livros lidos</h3><p><strong id="dados-paginas">286</strong> páginas acompanhadas</p><p>Sequência atual: <strong id="dados-sequencia">4</strong> dias de leitura</p></article>
+        <article class="painel painel-dado-leitura"><span class="etiqueta">META ANUAL</span><h3 id="texto-meta-anual">3 de 12 livros</h3><div class="barra"><div id="barra-meta-anual" style="width:25%"></div></div><p class="texto-suave">Acompanhe sua evolução ao longo do ano.</p></article>
+        <article class="painel painel-dado-leitura"><span class="etiqueta">DESAFIOS CONCLUÍDOS</span><h3 id="texto-progresso-dados">1 de 4 concluídos</h3><div class="barra"><div id="barra-progresso-dados" style="width:25%"></div></div><p class="texto-suave">As conquistas são atualizadas conforme você completa atividades.</p></article>
+      </div>
+      <div class="painel painel-conquistas-dados"><span class="etiqueta">CONQUISTAS</span><h3>Marcos da sua jornada</h3><div id="lista-conquistas" class="lista-conquistas"></div></div>
     </section>
 
     <section class="secao secao-creme" id="desafios">
@@ -495,7 +513,7 @@
   <script>
     if ("serviceWorker" in navigator) {
       window.addEventListener("load", () => {
-        navigator.serviceWorker.register("/service-worker.js")
+        navigator.serviceWorker.register("./service-worker.js")
           .then(() => console.log("TechBook preparado para modo offline!"))
           .catch((erro) => console.error("Erro no modo offline:", erro));
       });

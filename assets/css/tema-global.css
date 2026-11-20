@@ -1,0 +1,63 @@
+/* Tema noturno compartilhado. A aparência clara original permanece inalterada. */
+body.alto-contraste {
+  color-scheme: dark !important;
+  background: #140b0e !important;
+  color: #fff6ec !important;
+}
+body.alto-contraste :is(header, .topo, nav, .painel, .panel, .cartao, .card, .login-cartao, .cadastro-cartao, .cartao-login, .stat, .stat-card, .loan, .item-livro, .item-emprestimo, .empty, .vazio, .modal, .dropdown, .menu) {
+  background-color: #221318 !important;
+  border-color: #57323d !important;
+  color: #fff6ec !important;
+}
+body.alto-contraste :is(main, section, article, div, p, span, small, li, td, th, label, strong, em, h1, h2, h3, h4) {
+  color: inherit;
+}
+body.alto-contraste :is(h1, h2, h3, h4, label, .marca-texto, .painel h2, .panel h2, .item-livro h3, .loan h3) {
+  color: #f2c97d !important;
+}
+body.alto-contraste :is(p, small, .texto-suave, .sub, .meta-livro, .loan p, .stat small, .description, .subtitle) {
+  color: #e0cec6 !important;
+}
+body.alto-contraste :is(input, select, textarea) {
+  background: #2b171e !important;
+  color: #fff6ec !important;
+  border-color: #805260 !important;
+}
+body.alto-contraste :is(input, select, textarea)::placeholder { color: #cbb6b0 !important; }
+body.alto-contraste :is(button, .botao, .button, .login-botao, .cadastro-botao) {
+  border-color: #f2c97d !important;
+}
+body.alto-contraste :is(a, button.link, .nav a) { color: #f2c97d; }
+body.alto-contraste :is(.hero, .cabecalho-aluno, .cabecalho-admin, footer, .footer, .rodape) {
+  background: #1e0e14 !important;
+  color: #fff6ec !important;
+}
+body.alto-contraste :is(table, thead, tbody, tr, td, th) { border-color: #57323d !important; }
+body.alto-contraste :is(.status, .selo, .genero-livro, .badge) {
+  background: #3b1f28 !important;
+  color: #f2c97d !important;
+}
+body.alto-contraste :focus-visible { outline-color: #f2c97d !important; }
+
+/* Cartões de páginas com estilos próprios também acompanham o tema noturno. */
+body.alto-contraste :is(.resumo, .participante, .classificacao, .linha-leitor, .rank-row, .rank-card, .desafio, .conquista, .painel-dado-leitura, .painel-grafico, .indicador, .indicador-dados, .book, .book-card, .amigo-card, .card-amigo, .modal-content, .modal-backdrop .modal) {
+  background-color: #221318 !important;
+  border-color: #57323d !important;
+  color: #fff6ec !important;
+}
+body.alto-contraste :is(.posicao, .regras-pill, .numero-posicao, .pts-pill, .badge, .tag, .filtro, .tab) {
+  background-color: #3b1f28 !important;
+  border-color: #805260 !important;
+  color: #f2c97d !important;
+}
+body.alto-contraste :is(.linha-leitor.voce, .conquista-alcancada, .desafio.concluido) {
+  background-color: #30202a !important;
+}
+body.alto-contraste :is(.empty, .vazio, .estado-vazio) {
+  background-color: #221318 !important;
+  border-color: #805260 !important;
+  color: #e0cec6 !important;
+}
+body.alto-contraste :is(button:disabled, input:disabled, select:disabled, textarea:disabled) {
+  opacity: .72;
+}

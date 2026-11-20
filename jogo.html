@@ -1,4 +1,4 @@
-
+<!--
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -183,4 +183,194 @@
     </div>
 
 </body>
+</html> -->
+
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Operação: Livro Perdido</title>
+<link rel="stylesheet" href="jogo.css">
+<script src="jogo.js" defer></script>
+  <link rel="stylesheet" href="assets/css/tema-global.css">
+  <script src="assets/js/tema-global.js" defer></script>
+</head>
+<body>
+    <div class="game-shell">
+
+        <header class="topbar">
+            <div class="brand">
+                <div class="brand-icon">📚</div>
+                <div>
+                    <p class="eyebrow">AVENTURA EDUCATIVA</p>
+                    <h1>Operação: <span>Livro Perdido</span></h1>
+                </div>
+            </div>
+
+            <div class="top-status">
+                <div class="status-pill">
+                    <span class="status-dot"></span>
+                    INVESTIGAÇÃO ATIVA
+                </div>
+                <button id="restartButton" class="restart-button" title="Reiniciar jogo">
+                    ↻ Reiniciar
+                </button>
+            </div>
+        </header>
+
+        <main class="game-layout">
+
+            <aside class="side-panel mission-panel">
+                <div class="panel-heading">
+                    <span class="panel-icon">🎯</span>
+                    <div>
+                        <p class="panel-label">SUA JORNADA</p>
+                        <h2>Missões</h2>
+                    </div>
+                </div>
+
+                <div class="phase-card">
+                    <div class="phase-top">
+                        <span id="phaseNumber">FASE 1 DE 6</span>
+                        <span class="phase-star">✦</span>
+                    </div>
+
+                    <h3 id="phaseTitle">O mistério começa</h3>
+                    <p id="phaseDescription">
+                        Um livro importante desapareceu da biblioteca.
+                    </p>
+
+                    <div class="progress-track">
+                        <div id="progressFill" class="progress-fill"></div>
+                    </div>
+                </div>
+
+                <div class="mission-section">
+                    <div class="section-title">
+                        <span>OBJETIVOS</span>
+                        <span class="tiny-icon">✧</span>
+                    </div>
+                    <div id="missionList" class="mission-list"></div>
+                </div>
+
+                <div class="points-card">
+                    <div class="points-icon">🏆</div>
+                    <div>
+                        <p>PONTUAÇÃO</p>
+                        <strong id="pointsValue">0</strong>
+                    </div>
+                </div>
+            </aside>
+
+            <section class="game-panel">
+                <div class="game-heading">
+                    <div>
+                        <p class="panel-label">LOCAL DA INVESTIGAÇÃO</p>
+                        <h2>Biblioteca Central</h2>
+                    </div>
+                    <div class="location-tag">
+                        <span class="location-dot"></span>
+                        <span id="locationName">Área principal</span>
+                    </div>
+                </div>
+
+                <div class="canvas-frame">
+                    <canvas id="gameCanvas" width="960" height="600">
+                        Seu navegador não suporta o jogo.
+                    </canvas>
+
+                    <div class="canvas-caption">
+                        <span>✦ Explore cada canto da biblioteca</span>
+                        <span>MAPA DE INVESTIGAÇÃO</span>
+                    </div>
+                </div>
+
+                <div id="interactionHint" class="interaction-hint">
+                    <span class="hint-key">E</span>
+                    <span>Explore a biblioteca e converse com os personagens.</span>
+                </div>
+
+                <div class="controls-bar">
+                    <div class="control-item">
+                        <span class="key-group">
+                            <kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd>
+                        </span>
+                        <span>Mover</span>
+                    </div>
+
+                    <div class="control-item">
+                        <span class="key-group"><kbd>↑</kbd><kbd>←</kbd><kbd>↓</kbd><kbd>→</kbd></span>
+                        <span>Movimentar</span>
+                    </div>
+
+                    <div class="control-item">
+                        <kbd class="single-key">E</kbd>
+                        <span>Interagir</span>
+                    </div>
+                </div>
+            </section>
+
+            <aside class="side-panel inventory-panel">
+                <div class="panel-heading">
+                    <span class="panel-icon">🎒</span>
+                    <div>
+                        <p class="panel-label">ITENS COLETADOS</p>
+                        <h2>Inventário</h2>
+                    </div>
+                </div>
+
+                <div class="inventory-summary">
+                    <span>Itens encontrados</span>
+                    <strong id="inventoryCount">0</strong>
+                </div>
+
+                <div id="inventoryList" class="inventory-list">
+                    <div class="empty-inventory">
+                        <span>📦</span>
+                        <p>Sua mochila está vazia.</p>
+                        <small>Os objetos encontrados aparecerão aqui.</small>
+                    </div>
+                </div>
+
+                <div class="tip-card">
+                    <span class="tip-icon">💡</span>
+                    <div>
+                        <strong>Dica do investigador</strong>
+                        <p>Observe bem os objetos. Algumas pistas podem ajudar a resolver enigmas mais adiante.</p>
+                    </div>
+                </div>
+
+                <div class="game-log">
+                    <p class="panel-label">REGISTRO</p>
+                    <p id="gameLog">Sua investigação está prestes a começar...</p>
+                </div>
+            </aside>
+
+        </main>
+
+        <footer class="footer">
+            <span>OPERAÇÃO: LIVRO PERDIDO</span>
+            <span>Uma aventura pela biblioteca <span class="footer-star">✦</span></span>
+        </footer>
+    </div>
+
+    <div id="dialogOverlay" class="dialog-overlay">
+        <div class="dialog-box">
+            <div class="dialog-top">
+                <span class="dialog-badge">💬</span>
+                <span class="dialog-label">DIÁLOGO</span>
+                <button id="dialogClose" class="dialog-x" aria-label="Fechar diálogo">×</button>
+            </div>
+
+            <h2 id="dialogTitle">Personagem</h2>
+            <p id="dialogText"></p>
+
+            <div id="dialogOptions" class="dialog-options"></div>
+        </div>
+    </div>
+
+</body>
 </html>
+

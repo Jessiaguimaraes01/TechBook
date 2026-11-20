@@ -734,13 +734,15 @@
     </script>
 </body>
 </html> -->
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Área do Aluno — TechBook</title>
+    <link rel="stylesheet" href="assets/css/tema-global.css">
+    <script src="assets/js/dados-visitante.js"></script>
+    <script src="assets/js/tema-global.js" defer></script>
     <style>
         @import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap");
 
@@ -1167,11 +1169,20 @@
                 grid-template-columns: 1fr;
             }
         }
+        .painel-jornada h2 { margin-top: 0; color: var(--vinho); }
+        .jornada-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:12px; margin:16px 0; }
+        .jornada-grid article { display:grid; gap:3px; padding:15px; background:var(--creme); border:1px solid var(--borda); border-radius:14px; }
+        .jornada-grid small, .jornada-grid span { color:var(--suave); }
+        .jornada-grid strong { color:var(--vinho); font:700 1.8rem "Playfair Display",Georgia,serif; }
+        .meta-perfil { display:grid; gap:9px; margin-top:18px; }
+        .meta-perfil > div:first-child { display:flex; justify-content:space-between; gap:12px; flex-wrap:wrap; }
+        .barra-perfil { height:11px; border-radius:99px; background:var(--creme); overflow:hidden; }
+        .barra-perfil span { display:block; height:100%; width:25%; border-radius:99px; background:linear-gradient(90deg,var(--vinho),var(--dourado)); }
+        .atalhos-jornada { display:flex; gap:18px; flex-wrap:wrap; margin-top:16px; color:var(--bordo); font-weight:700; font-size:.9rem; }
+        @media(max-width:600px){ .jornada-grid{grid-template-columns:1fr;} }
     </style>
-  <script src="assets/js/demo-mode.js"></script>
 </head>
 <body>
-  <div style="padding:9px;text-align:center;background:#D6AE70;color:#481B27;font-weight:700">MODO DEMONSTRAÇÃO · perfil de visitante · dados temporários nesta aba</div>
     <header class="topo">
         <a class="marca" href="index.html" aria-label="TechBook, página inicial">
             <span class="marca-simbolo" aria-hidden="true">TB</span>
@@ -1196,7 +1207,7 @@
         <div class="cabecalho-conteudo">
             <div>
                 <span class="etiqueta">ÁREA DO ALUNO</span>
-                <h1 id="saudacao-aluno">Olá, <em>leitor</em></h1>
+                <h1 id="saudacao-aluno">Olá, <em>visitante</em>!</h1>
                 <p class="subtitulo-aluno">
                     Acompanhe seus livros emprestados, prazos de devolução e sua estante virtual.
                 </p>
@@ -1292,6 +1303,18 @@
             </article>
         </section>
 
+        <section class="painel painel-jornada" aria-labelledby="titulo-jornada">
+            <span class="etiqueta">SUA JORNADA DE LEITURA</span>
+            <h2 id="titulo-jornada">Progresso e descobertas</h2>
+            <div class="jornada-grid">
+                <article><small>Livros lidos</small><strong id="perfil-livros-lidos">3</strong><span>nesta jornada</span></article>
+                <article><small>Páginas acompanhadas</small><strong id="perfil-paginas">286</strong><span>páginas</span></article>
+                <article><small>Sequência de leitura</small><strong id="perfil-sequencia">4</strong><span>dias</span></article>
+            </div>
+            <div class="meta-perfil"><div><strong>Meta anual</strong><span id="perfil-meta-texto">3 de 12 livros</span></div><div class="barra-perfil"><span id="perfil-meta-barra"></span></div></div>
+            <div class="atalhos-jornada"><a href="index.html#estatisticas">Ver conhecimento em dados →</a><a href="index.html#desafios">Acompanhar metas e desafios →</a></div>
+        </section>
+
         <section class="painel" aria-labelledby="titulo-meus-emprestimos">
             <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
                 <div>
@@ -1320,19 +1343,54 @@
     </footer>
 
     <script>
-      const $=id=>document.getElementById(id), demo=window.TB_DEMO;
-      const aluno=demo.student;
-      const first=aluno.nome.split(' ')[0];
-      $('saudacao-aluno').innerHTML=`Olá, <em>${demo.esc(first)}</em>`;
-      $('avatar-aluno').textContent='VT'; $('nome-aluno').textContent=aluno.nome;
-      $('matricula-aluno').textContent='Matrícula: '+aluno.matricula;
-      $('turma-aluno').textContent='Turma: '+aluno.turma;
-      function date(v){return v?new Date(v+'T12:00:00').toLocaleDateString('pt-BR'):'—'}
-      function render(){const list=demo.getLoans();const active=list.filter(x=>!x.data_devolucao);$('total-ativos').textContent=active.length;$('total-devolvidos').textContent=list.filter(x=>x.data_devolucao).length;$('total-atrasados').textContent=active.filter(x=>x.atrasado).length;
-        $('lista-emprestimos').innerHTML=list.length?list.map(x=>`<article class="item-emprestimo"><div><h3>${demo.esc(x.titulo)}</h3><p class="meta-emprestimo">Exemplar: ${demo.esc(x.codigo_exemplar)} · Empréstimo: ${date(x.data_emprestimo)} · Devolução prevista: ${date(x.data_prevista_devolucao)}</p></div><span class="selo-status ${x.data_devolucao?'devolvido':''}">${x.data_devolucao?'Devolvido em '+date(x.data_devolucao):'Em andamento'}</span></article>`).join(''):'<div class="vazio">Você ainda não tem empréstimos. Explore o catálogo para escolher um livro!</div>';
-      }
-      $('sair-btn').textContent='Voltar ao início'; $('sair-btn').addEventListener('click',()=>location.href='index.html');
-      render();
+      (() => {
+        const demo = window.TechBookDemo;
+        const $ = id => document.getElementById(id);
+        const hoje = demo.dataISO(new Date());
+        const formatar = valor => {
+          if (!valor) return "—";
+          const partes = String(valor).slice(0,10).split("-");
+          return partes.length === 3 ? `${partes[2]}/${partes[1]}/${partes[0]}` : valor;
+        };
+        const escapar = texto => String(texto ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+        const emprestimos = demo.getEmprestimos();
+        const ativos = emprestimos.filter(item => !item.devolvido && item.leitor === "Visitante");
+        const devolvidos = emprestimos.filter(item => item.devolvido && item.leitor === "Visitante");
+        const atrasados = ativos.filter(item => item.dataDevolucao < hoje);
+        $("saudacao-aluno").innerHTML = "Olá, <em>visitante</em>!";
+        $("avatar-aluno").textContent = "TB";
+        $("nome-aluno").textContent = "Visitante";
+        $("matricula-aluno").textContent = "Matrícula: —";
+        $("turma-aluno").textContent = "Turma: —";
+        $("total-ativos").textContent = ativos.length;
+        $("total-devolvidos").textContent = devolvidos.length;
+        $("total-atrasados").textContent = atrasados.length;
+
+        const leitura = demo.getLeitura();
+        $("perfil-livros-lidos").textContent = leitura.livrosLidos;
+        $("perfil-paginas").textContent = leitura.paginasLidas;
+        $("perfil-sequencia").textContent = leitura.sequenciaDias;
+        $("perfil-meta-texto").textContent = `${leitura.livrosLidos} de ${leitura.metaAnual} livros`;
+        $("perfil-meta-barra").style.width = `${Math.min(100, leitura.livrosLidos / leitura.metaAnual * 100)}%`;
+
+        const area = $("lista-emprestimos");
+        const itens = emprestimos.filter(item => item.leitor === "Visitante");
+        if (!itens.length) {
+          area.innerHTML = '<div class="vazio">Ainda não há movimentações vinculadas a este perfil. Explore o catálogo para escolher uma leitura.</div>';
+        } else {
+          area.innerHTML = itens.map(item => {
+            const livro = demo.getLivros().find(reg => reg.id === Number(item.livroId));
+            const status = item.devolvido ? "Devolvido" : item.status === "solicitado" ? "Solicitação aguardando" : item.status === "devolucao_solicitada" ? "Devolução solicitada" : "Em andamento";
+            const classe = item.devolvido ? "devolvido" : "";
+            return `<article class="item-emprestimo"><div><h3>${escapar(livro?.titulo || "Livro")}</h3><p class="meta-emprestimo">Solicitado em: ${formatar(item.solicitadoEm)} · Devolução prevista: ${formatar(item.dataDevolucao)}</p></div><span class="selo-status ${classe}">${status}</span></article>`;
+          }).join("");
+        }
+
+        $("sair-btn")?.addEventListener("click", () => {
+          localStorage.removeItem("techbook-acesso-visitante");
+          window.location.href = "index.html";
+        });
+      })();
     </script>
 </body>
 </html>

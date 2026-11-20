@@ -1,4 +1,4 @@
-
+/*
 const CACHE_NAME = "tecbook-offline-v4";
 
 const ARQUIVOS = [
@@ -214,4 +214,87 @@ self.addEventListener("fetch", (evento) => {
       }
     })()
   );
+}); */ 
+
+// Service worker compatível com GitHub Pages (inclusive publicação em /TechBook/).
+const CACHE_NAME = "techbook-offline-v5";
+const BASE = self.registration.scope;
+const URLS = [
+  "./", "./index.html", "./login.html", "./cadastro.html",
+  "./login-bibliotecario.html", "./perfil-aluno.html", "./bibliotecario.html",
+  "./emprestimos.html", "./emprestimos-aluno.html", "./emprestimo.html",
+  "./emprestimo-aluno.html", "./emprestimo-atalho.html", "./emprestimo-aluno-atalho.html",
+  "./clubes.html", "./ranking.html", "./minha_estante_virtual_cabecalho_vinho.html",
+  "./amigos_de_leitura_completo.html", "./quiz.html", "./jogos.html", "./jogo.html",
+  "./techbook.html", "./scanner.html", "./estatisticas.html",
+  "./assets/css/style.css", "./assets/css/emprestimos.css", "./assets/css/clubes.css",
+  "./assets/css/tema-global.css", "./jogo.css", "./emprestimos.css",
+  "./assets/js/dados-visitante.js", "./assets/js/script.js", "./assets/js/tema-global.js",
+  "./assets/js/emprestimos.js", "./assets/js/emprestimos-aluno.js", "./assets/js/clubes.js",
+  "./jogo.js"
+].map(path => new URL(path, BASE).href);
+
+const BASE_URL = new URL(BASE);
+const API_PATH = new URL("api/", BASE).pathname;
+const LOGIN_PATHS = [
+  new URL("login.html", BASE).pathname,
+  new URL("login-bibliotecario.html", BASE).pathname
+];
+const BIBLIOTECARIO_PATH = new URL("bibliotecario.html", BASE).pathname;
+const HOME_URL = new URL("index.html", BASE).href;
+
+self.addEventListener("install", evento => {
+  evento.waitUntil((async () => {
+    const cache = await caches.open(CACHE_NAME);
+    for (const url of URLS) {
+      try {
+        const resposta = await fetch(url, { cache: "no-store" });
+        if (resposta.ok && resposta.type === "basic") await cache.put(url, resposta);
+      } catch (_) {
+        // A instalação continua mesmo que algum recurso não esteja acessível.
+      }
+    }
+    await self.skipWaiting();
+  })());
 });
+
+self.addEventListener("activate", evento => {
+  evento.waitUntil((async () => {
+    const nomes = await caches.keys();
+    await Promise.all(nomes
+      .filter(nome => (nome.startsWith("techbook-offline-") || nome.startsWith("tecbook-offline-")) && nome !== CACHE_NAME)
+      .map(nome => caches.delete(nome)));
+    await self.clients.claim();
+  })());
+});
+
+self.addEventListener("fetch", evento => {
+  const requisicao = evento.request;
+  if (requisicao.method !== "GET") return;
+  const url = new URL(requisicao.url);
+  if (url.origin !== BASE_URL.origin || !url.pathname.startsWith(BASE_URL.pathname)) return;
+  if (url.pathname.startsWith(API_PATH)) return;
+
+  evento.respondWith((async () => {
+    try {
+      const resposta = await fetch(requisicao);
+      if (resposta.ok && resposta.type === "basic") {
+        const cache = await caches.open(CACHE_NAME);
+        await cache.put(requisicao, resposta.clone());
+      }
+      return resposta;
+    } catch (_) {
+      const guardada = await caches.match(requisicao);
+      if (guardada) return guardada;
+      if (requisicao.mode === "navigate") {
+        const inicio = await caches.match(HOME_URL);
+        if (inicio) return inicio;
+      }
+      return new Response("Este conteúdo ainda não foi salvo para uso offline.", {
+        status: 503,
+        headers: { "Content-Type": "text/plain; charset=utf-8" }
+      });
+    }
+  })());
+});
+

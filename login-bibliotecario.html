@@ -218,7 +218,6 @@
 </body>
 </html> -->
 
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -333,31 +332,14 @@
       cursor: wait;
     }
 
+    .aviso-acesso { padding: 10px 12px; border-left: 3px solid var(--dourado); background: rgba(214,174,112,.12); border-radius: 8px; font-size: .86rem; }
+    #botao-entrar:disabled { opacity: .55; cursor: not-allowed; }
+    .botao-visitante { width:100%; margin-top:12px; padding:13px 16px; border:1px solid var(--dourado); border-radius:12px; background:var(--dourado); color:#32131d; font-weight:700; cursor:pointer; }
+
     #mensagem {
       margin-top: 18px;
       line-height: 1.5;
       text-align: center;
-    }
-
-    .botao-visitante {
-      display: block;
-      width: 100%;
-      margin-top: 12px;
-      padding: 14px;
-      border: 1px solid var(--dourado);
-      border-radius: 9px;
-      background: transparent;
-      color: var(--vinho);
-      font-size: 15px;
-      font-weight: bold;
-      text-align: center;
-      text-decoration: none;
-      transition: background .2s, color .2s;
-    }
-
-    .botao-visitante:hover {
-      background: var(--dourado);
-      color: var(--vinho);
     }
 
     .voltar {
@@ -367,6 +349,8 @@
       color: var(--bordo);
     }
   </style>
+  <link rel="stylesheet" href="assets/css/tema-global.css">
+  <script src="assets/js/tema-global.js" defer></script>
 </head>
 
 <body>
@@ -376,8 +360,9 @@
 
     <h1>Área do bibliotecário</h1>
     <p class="descricao">
-      Entre com sua conta para acessar as ferramentas da biblioteca.
+      Acesse as ferramentas de organização e acompanhamento do acervo.
     </p>
+    <p class="aviso-acesso" role="note">A autenticação está temporariamente indisponível. Você pode conhecer a área do bibliotecário como visitante.</p>
 
     <form id="form-login">
       <label for="usuario">Nome de usuário</label>
@@ -387,6 +372,7 @@
         autocomplete="username"
         required
         maxlength="100"
+        disabled
       >
 
       <label for="senha">Senha</label>
@@ -396,18 +382,16 @@
         type="password"
         autocomplete="current-password"
         required
+        disabled
       >
 
-      <button id="botao-entrar" type="submit">
-        Entrar
+      <button id="botao-entrar" type="submit" disabled>
+        Login temporariamente indisponível
       </button>
 
       <p id="mensagem" role="status" aria-live="polite"></p>
     </form>
-
-    <a class="botao-visitante" href="bibliotecario.html?modo=visitante">
-      Entrar como bibliotecário visitante
-    </a>
+    <button class="botao-visitante" id="botao-bibliotecario-visitante" type="button">Entrar como bibliotecário visitante</button>
 
     <a class="voltar" href="index.html">
       Voltar para a biblioteca
@@ -415,49 +399,10 @@
   </main>
 
   <script>
-    const formulario = document.querySelector("#form-login");
-    const mensagem = document.querySelector("#mensagem");
-    const botao = document.querySelector("#botao-entrar");
-
-    formulario.addEventListener("submit", async (evento) => {
-      evento.preventDefault();
-
-      mensagem.textContent = "";
-      botao.disabled = true;
-      botao.textContent = "Verificando...";
-
-      const usuario = document.querySelector("#usuario").value.trim();
-      const senha = document.querySelector("#senha").value;
-
-      try {
-        const resposta = await fetch("/api/login-bibliotecario", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json"
-          },
-          credentials: "same-origin",
-          body: JSON.stringify({ usuario, senha })
-        });
-
-        const dados = await resposta.json();
-
-        if (!resposta.ok) {
-          mensagem.textContent =
-            dados.erro || "Não foi possível entrar.";
-          return;
-        }
-
-        mensagem.textContent = "Login realizado! Abrindo sua área...";
-
-        window.location.href = "/bibliotecario.html";
-
-      } catch (erro) {
-        mensagem.textContent =
-          "Não foi possível conectar ao servidor. Confira se ele está funcionando.";
-      } finally {
-        botao.disabled = false;
-        botao.textContent = "Entrar";
-      }
+    document.querySelector("#form-login")?.addEventListener("submit", evento => evento.preventDefault());
+    document.querySelector("#botao-bibliotecario-visitante")?.addEventListener("click", () => {
+      localStorage.setItem("techbook-acesso-visitante", "bibliotecario");
+      window.location.href = "bibliotecario.html";
     });
   </script>
 </body>

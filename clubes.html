@@ -1,3 +1,155 @@
+<!--<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Clubes Literários | TechBook</title>
+  <link rel="stylesheet" href="assets/css/clubes.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <header class="topbar">
+    <a class="brand" href="index.html">
+      <span class="brand-mark">T</span>
+      <span>TechBook</span>
+    </a>
+    <nav>
+      <a href="index.html">Início</a>
+      <a href="emprestimo-aluno.html">Empréstimos</a>
+      <a href="minha_estante_virtual_cabecalho_vinho.html">Minha estante</a>
+      <a href="amigos_de_leitura_completo.html">Amigos</a>
+      <a href="#explorar">Explorar clubes</a>
+      <a href="#meus-clubes">Meus clubes</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="hero-copy">
+        <span class="eyebrow">✦ LEITURA EM COMUNIDADE</span>
+        <h1>Leia, compartilhe<br>e discuta <em>ideias.</em></h1>
+        <p>Encontre pessoas que gostam dos mesmos livros que você. Participe de conversas, descubra histórias e faça novas leituras.</p>
+
+        <div class="hero-actions">
+          <button class="btn btn-gold" id="openCreate">＋ Criar novo clube</button>
+          <a class="btn btn-outline" href="#explorar">⌕ Explorar clubes</a>
+        </div>
+      </div>
+
+      <div class="hero-art" role="img" aria-label="Livros em uma biblioteca">
+        <div class="art-glow"></div>
+        <div class="book-stack">
+          <div class="book book-one"></div>
+          <div class="book book-two"></div>
+          <div class="book book-three"></div>
+          <div class="cup"><span></span></div>
+        </div>
+        <div class="art-caption">
+          Um livro abre caminhos.<br>
+          Um clube cria encontros.
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="explorar">
+      <div class="section-heading">
+        <div>
+          <span class="eyebrow dark">DESCUBRA NOVAS HISTÓRIAS</span>
+          <h2>Clubes em destaque</h2>
+        </div>
+        <span class="small-note" id="clubCount">4 clubes</span>
+      </div>
+
+      <div class="toolbar">
+        <label class="search">
+          <span>⌕</span>
+          <input id="searchInput" type="search" placeholder="Buscar por nome ou gênero...">
+        </label>
+
+        <select id="genreFilter" aria-label="Filtrar por gênero">
+          <option value="">Todos os gêneros</option>
+          <option>Clássicos</option>
+          <option>Fantasia</option>
+          <option>Mistério</option>
+          <option>Romance</option>
+          <option>Ficção</option>
+          <option>Poesia</option>
+        </select>
+      </div>
+
+      <div class="club-grid" id="clubGrid"></div>
+
+      <p class="empty-state" id="emptyState" hidden>
+        Nenhum clube encontrado. Tente outra busca ou crie um novo clube!
+      </p>
+    </section>
+
+    <section class="my-clubs" id="meus-clubes">
+      <div>
+        <span class="eyebrow">SUA JORNADA DE LEITURA</span>
+        <h2>Meus clubes</h2>
+        <p>Os clubes dos quais você participa aparecem aqui.</p>
+      </div>
+
+      <div class="my-club-list" id="myClubList">
+        <span class="empty-my">Você ainda não participa de nenhum clube.</span>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <a class="brand footer-brand" href="index.html">
+      <span class="brand-mark">T</span>
+      <span>TechBook</span>
+    </a>
+    <span>Compartilhando histórias e conhecimento.</span>
+  </footer>
+
+  <dialog id="createDialog">
+    <form id="createForm" method="dialog">
+      <button type="button" class="close" id="closeCreate" aria-label="Fechar">×</button>
+
+      <span class="eyebrow dark">COMECE UMA NOVA LEITURA</span>
+      <h2>Criar um clube</h2>
+      <p class="dialog-intro">Dê um nome ao seu grupo e convide outras pessoas para ler com você.</p>
+
+      <label>
+        Nome do clube
+        <input id="clubName" maxlength="45" required placeholder="Ex.: Clube dos leitores">
+      </label>
+
+      <label>
+        Gênero literário
+        <select id="clubGenre" required>
+          <option value="">Escolha um gênero</option>
+          <option>Clássicos</option>
+          <option>Fantasia</option>
+          <option>Mistério</option>
+          <option>Romance</option>
+          <option>Ficção</option>
+          <option>Poesia</option>
+          <option>Variados</option>
+        </select>
+      </label>
+
+      <label>
+        Descrição
+        <textarea id="clubDescription" maxlength="180" required placeholder="Conte um pouco sobre o seu clube..."></textarea>
+      </label>
+
+      <button class="btn btn-burgundy submit-btn" type="submit">Criar clube</button>
+    </form>
+  </dialog>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="assets/js/clubes.js"></script>
+</body>
+</html> -->
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -8,6 +160,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/tema-global.css">
+  <script src="assets/js/tema-global.js" defer></script>
 </head>
 <body>
 
