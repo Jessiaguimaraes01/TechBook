@@ -1342,3 +1342,19 @@ footer p, .rodape-detalhe { color: #D5BFC1; font-size: .78rem; }
 .capa-livro img[hidden] {
   display: none !important;
 }
+
+.botao-clubes {
+    display: inline-block;
+    background-color: var(--vinho);
+    color: var(--creme);
+    padding: 10px 18px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: 0.3s;
+}
+
+.botao-clubes:hover {
+    background-color: var(--bordo);
+    transform: translateY(-2px);
+}
