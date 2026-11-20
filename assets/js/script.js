@@ -592,7 +592,7 @@ const livrosIniciais = [
   { id: 1, titulo: "Alice no País das Maravilhas", autor: "Lewis Carroll", genero: "Fantasia", isbn: "9780141321073", emoji: "🐇", cor: "#e8e8fa", sinopse: "Uma aventura fantástica por um mundo cheio de surpresas.", quantidade: 3, duracao: "longa" },
   { id: 2, titulo: "Sherlock Holmes", autor: "Arthur Conan Doyle", genero: "Mistério", isbn: "9780141439563", emoji: "🔎", cor: "#eee2cb", sinopse: "Investigações, pistas e enigmas para desvendar.", quantidade: 2, duracao: "curta" },
   { id: 3, titulo: "Viagem ao Centro da Terra", autor: "Júlio Verne", genero: "Aventura", isbn: "9780141439976", emoji: "🌋", cor: "#f5dfd3", sinopse: "Uma expedição extraordinária às profundezas da Terra.", quantidade: 3, duracao: "longa" },
-  { id: 4, titulo: "A Máquina do Tempo", autor: "H. G. Wells", genero: "Ficção científica", isbn: "9780141439976", emoji: "⏳", cor: "#d8f0eb", sinopse: "Uma viagem imaginativa pelas possibilidades do tempo.", quantidade: 2, duracao: "curta" },
+  { id: 4, titulo: "A Máquina do Tempo", autor: "H. G. Wells", genero: "Ficção científica", isbn: "", emoji: "⏳", cor: "#d8f0eb", sinopse: "Uma viagem imaginativa pelas possibilidades do tempo.", quantidade: 2, duracao: "curta" },
   { id: 5, titulo: "O Mágico de Oz", autor: "L. Frank Baum", genero: "Fantasia", isbn: "9780141321028", emoji: "🌈", cor: "#f7e4f1", sinopse: "Uma jornada de amizade, coragem e descobertas.", quantidade: 2, duracao: "curta" },
   { id: 6, titulo: "A Ilha Misteriosa", autor: "Júlio Verne", genero: "Aventura", isbn: "9780140449441", emoji: "🏝️", cor: "#dceaf6", sinopse: "Sobrevivência e engenhosidade em uma ilha desconhecida.", quantidade: 2, duracao: "longa" },
   { id: 7, titulo: "Orgulho e Preconceito", autor: "Jane Austen", genero: "Romance", isbn: "9780141439518", emoji: "🌹", cor: "#f5e0e4", sinopse: "Uma história de relações, escolhas e primeiras impressões.", quantidade: 2, duracao: "longa" },
@@ -607,25 +607,48 @@ const desafiosIniciais = [
 ];
 
 function carregarDados() {
-  try {
-    const salvo = localStorage.getItem(CHAVE);
-    if (salvo) {
-      const dados = JSON.parse(salvo);
-      if (
-        Array.isArray(dados.livros) &&
-        Array.isArray(dados.emprestimos) &&
-        Array.isArray(dados.desafios)
-      ) return dados;
-    }
-  } catch (erro) {
-    console.warn("Não foi possível carregar os dados locais.", erro);
-  }
-
-  return {
+  const padrao = {
     livros: livrosIniciais.map(livro => ({ ...livro })),
     emprestimos: [],
-    desafios: desafiosIniciais.map(d => ({ ...d, concluido: false }))
+    desafios: desafiosIniciais.map(desafio => ({ ...desafio, concluido: false }))
   };
+
+  try {
+    const salvo = localStorage.getItem(CHAVE);
+    if (!salvo) return padrao;
+
+    const dadosSalvos = JSON.parse(salvo);
+    if (!dadosSalvos || typeof dadosSalvos !== "object") return padrao;
+
+    const livrosSalvos = Array.isArray(dadosSalvos.livros) ? dadosSalvos.livros : [];
+    const desafiosSalvos = Array.isArray(dadosSalvos.desafios) ? dadosSalvos.desafios : [];
+
+    return {
+      livros: padrao.livros.map(livroPadrao => {
+        const salvoLivro = livrosSalvos.find(item => Number(item.id) === livroPadrao.id);
+        return {
+          ...livroPadrao,
+          ...(salvoLivro || {}),
+          quantidade: Math.max(0, Number(salvoLivro?.quantidade ?? livroPadrao.quantidade) || 0)
+        };
+      }),
+      emprestimos: Array.isArray(dadosSalvos.emprestimos)
+        ? dadosSalvos.emprestimos.filter(item => item && typeof item === "object").map(item => ({
+            ...item,
+            id: Number(item.id) || Date.now() + Math.random(),
+            livroId: Number(item.livroId),
+            devolvido: Boolean(item.devolvido)
+          }))
+        : [],
+      desafios: padrao.desafios.map(desafioPadrao => {
+        const salvoDesafio = desafiosSalvos.find(item => Number(item.id) === desafioPadrao.id);
+        return { ...desafioPadrao, ...(salvoDesafio || {}), concluido: Boolean(salvoDesafio?.concluido) };
+      })
+    };
+  } catch (erro) {
+    console.warn("Não foi possível carregar os dados locais. Os dados iniciais serão usados.", erro);
+    return padrao;
+  }
 }
 
 let dados = carregarDados();
@@ -674,10 +697,10 @@ function capaHTML(livro) {
   const isbn = escapar(livro.isbn || "");
   const titulo = escapar(livro.titulo);
   const autor = escapar(livro.autor);
-  const temISBN = Boolean(isbn) && livro.id !== 4;
+  const temISBN = Boolean(isbn);
 
   return `
-    <div class="capa-livro" style="--cor-capa:${livro.cor}">
+    <div class="capa-livro" style="--cor-capa:${escapar(livro.cor || "#e8e8fa")}">
       <img
         src="${temISBN ? `https://covers.openlibrary.org/b/isbn/${isbn}-M.jpg?default=false` : "data:,"}"
         alt="Capa de ${titulo}"
@@ -778,6 +801,8 @@ function renderizarCatalogo() {
 
 function renderizarOpcoesEmprestimo() {
   const select = document.querySelector("#livro-emprestimo");
+  if (!select) return;
+
   const disponiveisLivros = dados.livros.filter(livro => disponiveis(livro) > 0);
 
   select.innerHTML = `
@@ -1105,18 +1130,21 @@ document.querySelector("#fonte-normal").addEventListener("click", () => {
   atualizarFonte();
 });
 
-document.querySelector("#contraste-btn").addEventListener("click", () => {
-  document.body.classList.toggle("alto-contraste");
+document.querySelector("#contraste-btn").addEventListener("click", evento => {
+  const ativo = document.body.classList.toggle("alto-contraste");
+  evento.currentTarget.setAttribute("aria-pressed", String(ativo));
 });
 
-document.querySelector("#menu-btn").addEventListener("click", () => {
+document.querySelector("#menu-btn").addEventListener("click", evento => {
   const menu = document.querySelector("#menu");
-  menu.classList.toggle("aberto");
+  const aberto = menu.classList.toggle("aberto");
+  evento.currentTarget.setAttribute("aria-expanded", String(aberto));
 });
 
 document.querySelectorAll("#menu a").forEach(link => {
   link.addEventListener("click", () => {
     document.querySelector("#menu").classList.remove("aberto");
+    document.querySelector("#menu-btn").setAttribute("aria-expanded", "false");
   });
 });
 
