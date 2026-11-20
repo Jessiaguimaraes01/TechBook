@@ -224,7 +224,7 @@ const URLS = [
   "./login-bibliotecario.html", "./perfil-aluno.html", "./bibliotecario.html",
   "./emprestimos.html", "./emprestimos-aluno.html", "./emprestimo.html",
   "./emprestimo-aluno.html", "./emprestimo-atalho.html", "./emprestimo-aluno-atalho.html",
-  "./clubes.html", "./ranking.html", "./minha_estante_virtual_cabecalho_vinho.html",
+  "./clubes.html", "./Ranking.html", "./minha_estante_virtual_cabecalho_vinho.html",
   "./amigos_de_leitura_completo.html", "./quiz.html", "./jogos.html", "./jogo.html",
   "./techbook.html", "./scanner.html", "./estatisticas.html",
   "./assets/css/style.css", "./assets/css/emprestimos.css", "./assets/css/clubes.css",
