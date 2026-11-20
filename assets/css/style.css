@@ -2581,3 +2581,22 @@ body.alto-contraste footer {
         max-width: 270px;
     }
 }
+
+
+/* AJUSTE FINO DA ILUSTRAÇÃO ORIGINAL */
+
+.livro-um {
+  transform: rotate(-0.3deg);
+}
+
+.livro-dois {
+  transform: rotate(0.4deg);
+}
+
+.livro-tres {
+  transform: rotate(-0.4deg);
+}
+
+.selo-arte {
+  transform: rotate(1deg);
+}
