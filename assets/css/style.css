@@ -2301,11 +2301,20 @@ body.alto-contraste footer {
 .secao-historia {
     margin: 65px 0 0;
     padding: 65px 25px;
-    background: linear-gradient(
-        135deg,
-        #481B27,
-        #762F3B
-    );
+
+    background:
+        radial-gradient(
+            circle at 85% 20%,
+            rgba(197, 140, 165, 0.22),
+            transparent 38%
+        ),
+        linear-gradient(
+            115deg,
+            #481B27 0%,
+            #762F3B 48%,
+            #A85D70 100%
+        );
+
     border-radius: 22px;
     text-align: center;
     color: #FFF8EF;
@@ -2366,6 +2375,7 @@ body.alto-contraste footer {
     transform: translateY(-3px);
     box-shadow: 0 10px 24px #00000040;
 }
+
 
 
 /* =========================================
