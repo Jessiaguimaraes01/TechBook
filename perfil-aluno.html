@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!--<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
@@ -731,6 +731,608 @@
         }
 
         iniciar();
+    </script>
+</body>
+</html> -->
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Área do Aluno — TechBook</title>
+    <style>
+        @import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap");
+
+        :root {
+            --vinho: #481B27;
+            --bordo: #762F3B;
+            --creme: #F5EBDD;
+            --rosa: #C58CA5;
+            --dourado: #D6AE70;
+            --papel: #FFFCF7;
+            --texto: #38272C;
+            --suave: #78666B;
+            --borda: #E6D8CB;
+            --verde: #52776B;
+            --vermelho: #9A333B;
+            --sombra: 0 12px 30px rgba(72, 27, 39, 0.08);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: "DM Sans", sans-serif;
+            background: var(--creme);
+            color: var(--texto);
+            line-height: 1.6;
+        }
+
+        h1, h2, h3, .marca-texto {
+            font-family: "Playfair Display", Georgia, serif;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        button {
+            font: inherit;
+        }
+
+        :focus-visible {
+            outline: 3px solid var(--dourado);
+            outline-offset: 2px;
+        }
+
+        .topo {
+            position: sticky;
+            top: 0;
+            z-index: 20;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            flex-wrap: wrap;
+            padding: 15px 6%;
+            background: rgba(245, 235, 221, 0.96);
+            border-bottom: 1px solid var(--borda);
+            backdrop-filter: blur(8px);
+        }
+
+        .marca {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 700;
+        }
+
+        .marca-simbolo {
+            width: 38px;
+            height: 38px;
+            display: grid;
+            place-items: center;
+            border-radius: 10px;
+            background: var(--vinho);
+            color: var(--dourado);
+            font-weight: 700;
+        }
+
+        .marca-texto {
+            display: grid;
+            font-size: 1.2rem;
+            color: var(--vinho);
+            line-height: 1.05;
+        }
+
+        .marca-texto small {
+            font-family: "DM Sans", sans-serif;
+            font-size: 0.58rem;
+            letter-spacing: 0.16em;
+            color: var(--suave);
+        }
+
+        .perfil-nav {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .perfil-nav a {
+            padding: 8px 13px;
+            border-radius: 99px;
+            font-size: 0.88rem;
+            font-weight: 700;
+            color: var(--suave);
+            transition: background-color 0.2s, color 0.2s;
+        }
+
+        .perfil-nav a:hover {
+            background: rgba(197, 140, 165, 0.22);
+            color: var(--vinho);
+        }
+
+        .sair-btn {
+            border: 1px solid var(--borda);
+            background: var(--papel);
+            color: var(--vinho);
+            border-radius: 99px;
+            padding: 8px 16px;
+            font-size: 0.88rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background-color 0.2s, color 0.2s;
+        }
+
+        .sair-btn:hover {
+            background: var(--vinho);
+            color: #fff;
+        }
+
+        .cabecalho-aluno {
+            padding: 46px 6% 74px;
+            color: #FFF7EE;
+            background: radial-gradient(circle at 82% 28%, rgba(197, 140, 165, 0.25), transparent 42%),
+                        linear-gradient(125deg, #3D1420, var(--vinho) 58%, var(--bordo));
+        }
+
+        .cabecalho-conteudo {
+            width: min(1060px, 100%);
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 24px;
+            flex-wrap: wrap;
+        }
+
+        .etiqueta {
+            display: inline-block;
+            font-size: 0.72rem;
+            font-weight: 700;
+            letter-spacing: 0.2em;
+            color: var(--dourado);
+            margin-bottom: 8px;
+        }
+
+        .cabecalho-aluno h1 {
+            margin: 0 0 8px;
+            font-size: clamp(2rem, 4.4vw, 3.1rem);
+            line-height: 1.1;
+        }
+
+        .cabecalho-aluno h1 em {
+            color: var(--dourado);
+            font-style: italic;
+        }
+
+        .subtitulo-aluno {
+            margin: 0;
+            color: rgba(255, 247, 238, 0.84);
+        }
+
+        .cartao-identidade {
+            min-width: 240px;
+            padding: 18px 20px;
+            border-radius: 18px;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(214, 174, 112, 0.35);
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .avatar-aluno {
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            display: grid;
+            place-items: center;
+            background: var(--dourado);
+            color: var(--vinho);
+            font-family: "Playfair Display", Georgia, serif;
+            font-size: 1.25rem;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        .cartao-identidade strong {
+            display: block;
+            font-size: 1rem;
+        }
+
+        .cartao-identidade span {
+            display: block;
+            font-size: 0.84rem;
+            color: rgba(255, 247, 238, 0.8);
+        }
+
+        .conteudo-principal {
+            width: min(1060px, 90%);
+            margin: -38px auto 56px;
+            position: relative;
+            z-index: 3;
+            display: grid;
+            gap: 24px;
+        }
+
+        .resumo-aluno {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+        }
+
+        .indicador {
+            background: var(--papel);
+            border: 1px solid var(--borda);
+            border-radius: 18px;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            box-shadow: var(--sombra);
+        }
+
+        .indicador-icone {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            display: grid;
+            place-items: center;
+            background: rgba(197, 140, 165, 0.22);
+            color: var(--vinho);
+            font-weight: 700;
+        }
+
+        .indicador strong {
+            display: block;
+            font-size: 1.7rem;
+            color: var(--vinho);
+            line-height: 1.1;
+        }
+
+        .indicador small {
+            color: var(--suave);
+            font-size: 0.88rem;
+        }
+
+        .grade-painel {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .painel {
+            background: var(--papel);
+            border: 1px solid var(--borda);
+            border-radius: 22px;
+            padding: 24px;
+            box-shadow: var(--sombra);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            gap: 16px;
+        }
+
+        .painel h2 {
+            margin: 0 0 6px;
+            color: var(--vinho);
+            font-size: 1.55rem;
+        }
+
+        .painel .etiqueta {
+            color: var(--bordo);
+            margin-bottom: 4px;
+        }
+
+        .texto-suave {
+            margin: 0;
+            color: var(--suave);
+            font-size: 0.92rem;
+        }
+
+        .card-ilustrado {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+        }
+
+        .ilustracao-box {
+            width: 84px;
+            height: 84px;
+            border-radius: 18px;
+            background: linear-gradient(135deg, #481B27, #762F3B);
+            border: 2px solid var(--dourado);
+            display: grid;
+            place-items: center;
+            flex-shrink: 0;
+        }
+
+        .botao {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            border: 0;
+            border-radius: 99px;
+            padding: 12px 20px;
+            font-weight: 700;
+            font-size: 0.94rem;
+            cursor: pointer;
+            transition: transform 0.15s, background-color 0.2s;
+            align-self: flex-start;
+        }
+
+        .botao:hover {
+            transform: translateY(-1px);
+        }
+
+        .botao-vinho {
+            background: var(--vinho);
+            color: #fff;
+        }
+
+        .botao-dourado {
+            background: var(--dourado);
+            color: #291318;
+        }
+
+        .lista-emprestimos {
+            display: grid;
+            gap: 14px;
+        }
+
+        .item-emprestimo {
+            border: 1px solid var(--borda);
+            border-radius: 16px;
+            padding: 18px;
+            background: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .item-emprestimo h3 {
+            margin: 0 0 4px;
+            color: var(--vinho);
+            font-size: 1.15rem;
+        }
+
+        .meta-emprestimo {
+            margin: 0;
+            color: var(--suave);
+            font-size: 0.88rem;
+        }
+
+        .selo-status {
+            display: inline-block;
+            padding: 5px 12px;
+            border-radius: 99px;
+            font-size: 0.78rem;
+            font-weight: 700;
+            background: rgba(82, 119, 107, 0.16);
+            color: var(--verde);
+        }
+
+        .selo-status.atrasado {
+            background: rgba(154, 51, 59, 0.14);
+            color: var(--vermelho);
+        }
+
+        .selo-status.devolvido {
+            background: rgba(120, 102, 107, 0.15);
+            color: var(--suave);
+        }
+
+        .vazio {
+            padding: 26px;
+            border-radius: 16px;
+            border: 1px dashed var(--borda);
+            background: rgba(245, 235, 221, 0.45);
+            text-align: center;
+            color: var(--suave);
+        }
+
+        footer {
+            padding: 26px 6%;
+            background: #2C0F18;
+            color: rgba(255, 247, 238, 0.8);
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            gap: 14px;
+            font-size: 0.86rem;
+        }
+
+        .marca-rodape .marca-texto {
+            color: #FFF7EE;
+        }
+
+        .rodape-detalhe {
+            color: var(--dourado);
+        }
+
+        @media (max-width: 820px) {
+            .resumo-aluno,
+            .grade-painel {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+  <script src="assets/js/demo-mode.js"></script>
+</head>
+<body>
+  <div style="padding:9px;text-align:center;background:#D6AE70;color:#481B27;font-weight:700">MODO DEMONSTRAÇÃO · perfil de visitante · dados temporários nesta aba</div>
+    <header class="topo">
+        <a class="marca" href="index.html" aria-label="TechBook, página inicial">
+            <span class="marca-simbolo" aria-hidden="true">TB</span>
+            <span class="marca-texto">
+                TechBook
+                <small>BIBLIOTECA INTELIGENTE</small>
+            </span>
+        </a>
+
+        <nav class="perfil-nav" aria-label="Navegação principal">
+            <a href="index.html">Início</a>
+            <a href="emprestimos-aluno.html">Empréstimos</a>
+            <a href="minha_estante_virtual_cabecalho_vinho.html">Minha Estante</a>
+            <a href="amigos_de_leitura_completo.html">Amigos</a>
+            <a href="ranking.html">Ranking</a>
+            <a href="jogos.html">Joguinhos</a>
+            <button class="sair-btn" id="sair-btn" type="button">Sair</button>
+        </nav>
+    </header>
+
+    <section class="cabecalho-aluno">
+        <div class="cabecalho-conteudo">
+            <div>
+                <span class="etiqueta">ÁREA DO ALUNO</span>
+                <h1 id="saudacao-aluno">Olá, <em>leitor</em></h1>
+                <p class="subtitulo-aluno">
+                    Acompanhe seus livros emprestados, prazos de devolução e sua estante virtual.
+                </p>
+            </div>
+
+            <div class="cartao-identidade" aria-label="Dados da conta">
+                <div class="avatar-aluno" id="avatar-aluno">TB</div>
+                <div>
+                    <strong id="nome-aluno">Carregando...</strong>
+                    <span id="matricula-aluno">Matrícula —</span>
+                    <span id="turma-aluno">Turma —</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <main class="conteudo-principal">
+        <section class="resumo-aluno" aria-label="Resumo das suas leituras">
+            <article class="indicador">
+                <span class="indicador-icone" aria-hidden="true">▤</span>
+                <div>
+                    <strong id="total-ativos">0</strong>
+                    <small>Empréstimos ativos</small>
+                </div>
+            </article>
+
+            <article class="indicador">
+                <span class="indicador-icone" aria-hidden="true">✓</span>
+                <div>
+                    <strong id="total-devolvidos">0</strong>
+                    <small>Livros devolvidos</small>
+                </div>
+            </article>
+
+            <article class="indicador">
+                <span class="indicador-icone" aria-hidden="true">!</span>
+                <div>
+                    <strong id="total-atrasados">0</strong>
+                    <small>Em atraso</small>
+                </div>
+            </article>
+        </section>
+
+        <section class="grade-painel">
+            <article class="painel">
+                <div class="card-ilustrado">
+                    <div>
+                        <span class="etiqueta">EMPRÉSTIMOS E DEVOLUÇÕES</span>
+                        <h2>Solicitar empréstimo</h2>
+                        <p class="texto-suave">
+                            Acesse a página exclusiva de empréstimos para escolher um livro disponível, definir o prazo e acompanhar devoluções.
+                        </p>
+                    </div>
+
+                    <div class="ilustracao-box" aria-hidden="true">
+                        <svg width="46" height="46" viewBox="0 0 48 48" fill="none">
+                            <path d="M8 10C8 7.8 9.8 6 12 6H36C38.2 6 40 7.8 40 10V38C40 40.2 38.2 42 36 42H12C9.8 42 8 40.2 8 38V10Z" fill="#762F3B" stroke="#D6AE70" stroke-width="2.5"/>
+                            <path d="M14 6V42" stroke="#D6AE70" stroke-width="2.5"/>
+                            <rect x="20" y="14" width="13" height="4" rx="2" fill="#FFF6EC"/>
+                            <rect x="20" y="22" width="9" height="3" rx="1.5" fill="#D6AE70"/>
+                        </svg>
+                    </div>
+                </div>
+
+                <a class="botao botao-vinho" href="emprestimos-aluno.html">
+                    Ir para página de empréstimos →
+                </a>
+            </article>
+
+            <article class="painel">
+                <div class="card-ilustrado">
+                    <div>
+                        <span class="etiqueta">SUA COLEÇÃO PESSOAL</span>
+                        <h2>Minha Estante Virtual</h2>
+                        <p class="texto-suave">
+                            Organize seus favoritos, marque os livros que você está lendo agora e acompanhe sua meta anual de leitura.
+                        </p>
+                    </div>
+
+                    <div class="ilustracao-box" aria-hidden="true">
+                        <svg width="46" height="46" viewBox="0 0 48 48" fill="none">
+                            <rect x="9" y="10" width="8" height="28" rx="2" fill="#D6AE70"/>
+                            <rect x="20" y="14" width="8" height="24" rx="2" fill="#FFF6EC"/>
+                            <rect x="31" y="8" width="8" height="30" rx="2" fill="#C58CA5"/>
+                            <line x1="6" y1="40" x2="42" y2="40" stroke="#D6AE70" stroke-width="3" stroke-linecap="round"/>
+                        </svg>
+                    </div>
+                </div>
+
+                <a class="botao botao-dourado" href="minha_estante_virtual_cabecalho_vinho.html">
+                    Acessar minha estante →
+                </a>
+            </article>
+        </section>
+
+        <section class="painel" aria-labelledby="titulo-meus-emprestimos">
+            <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
+                <div>
+                    <span class="etiqueta">HISTÓRICO RECENTE</span>
+                    <h2 id="titulo-meus-emprestimos">Meus empréstimos</h2>
+                </div>
+                <a href="emprestimos-aluno.html" class="botao botao-vinho">Gerenciar empréstimos e devoluções</a>
+            </div>
+
+            <div class="lista-emprestimos" id="lista-emprestimos">
+                <div class="vazio">Carregando seus empréstimos...</div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <a class="marca marca-rodape" href="index.html">
+            <span class="marca-simbolo" aria-hidden="true">TB</span>
+            <span class="marca-texto">
+                TechBook
+                <small>BIBLIOTECA INTELIGENTE</small>
+            </span>
+        </a>
+        <p>Projeto desenvolvido para a feira de ciências</p>
+        <span class="rodape-detalhe">Ler · Descobrir · Imaginar</span>
+    </footer>
+
+    <script>
+      const $=id=>document.getElementById(id), demo=window.TB_DEMO;
+      const aluno=demo.student;
+      const first=aluno.nome.split(' ')[0];
+      $('saudacao-aluno').innerHTML=`Olá, <em>${demo.esc(first)}</em>`;
+      $('avatar-aluno').textContent='VT'; $('nome-aluno').textContent=aluno.nome;
+      $('matricula-aluno').textContent='Matrícula: '+aluno.matricula;
+      $('turma-aluno').textContent='Turma: '+aluno.turma;
+      function date(v){return v?new Date(v+'T12:00:00').toLocaleDateString('pt-BR'):'—'}
+      function render(){const list=demo.getLoans();const active=list.filter(x=>!x.data_devolucao);$('total-ativos').textContent=active.length;$('total-devolvidos').textContent=list.filter(x=>x.data_devolucao).length;$('total-atrasados').textContent=active.filter(x=>x.atrasado).length;
+        $('lista-emprestimos').innerHTML=list.length?list.map(x=>`<article class="item-emprestimo"><div><h3>${demo.esc(x.titulo)}</h3><p class="meta-emprestimo">Exemplar: ${demo.esc(x.codigo_exemplar)} · Empréstimo: ${date(x.data_emprestimo)} · Devolução prevista: ${date(x.data_prevista_devolucao)}</p></div><span class="selo-status ${x.data_devolucao?'devolvido':''}">${x.data_devolucao?'Devolvido em '+date(x.data_devolucao):'Em andamento'}</span></article>`).join(''):'<div class="vazio">Você ainda não tem empréstimos. Explore o catálogo para escolher um livro!</div>';
+      }
+      $('sair-btn').textContent='Voltar ao início'; $('sair-btn').addEventListener('click',()=>location.href='index.html');
+      render();
     </script>
 </body>
 </html>

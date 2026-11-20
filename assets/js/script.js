@@ -582,6 +582,9 @@ verificarSessaoTopo(); */
 // ========================================
 // CONFIGURAÇÕES E DADOS
 // ========================================
+// ========================================
+// CONFIGURAÇÕES E DADOS
+// ========================================
 
 const CHAVE = "tecbook-demo-v2";
 const CHAVE_CONTRASTE = "techbook-alto-contraste";
@@ -652,23 +655,16 @@ let carregandoLivros = true;
 // CARREGAMENTO DOS LIVROS DO BANCO SQLITE
 // ========================================
 
-const livrosDemonstracao = [
-  { id: 1, titulo: "O Pequeno Príncipe", autor: "Antoine de Saint-Exupéry", genero: "Aventura", isbn: "", emoji: "🌟", cor: "#E9DCE5", sinopse: "Uma história sensível sobre amizade, afeto e o jeito de enxergar o mundo.", quantidade: 5, disponiveisBanco: 4, duracao: "curta" },
-  { id: 2, titulo: "Dom Casmurro", autor: "Machado de Assis", genero: "Romance", isbn: "", emoji: "📖", cor: "#E8D8C5", sinopse: "Um clássico da literatura brasileira sobre memória, ciúme e dúvidas.", quantidade: 4, disponiveisBanco: 3, duracao: "longa" },
-  { id: 3, titulo: "Alice no País das Maravilhas", autor: "Lewis Carroll", genero: "Fantasia", isbn: "", emoji: "🐇", cor: "#DCE8D9", sinopse: "Uma aventura fantástica por um mundo cheio de personagens inesperados.", quantidade: 4, disponiveisBanco: 4, duracao: "curta" },
-  { id: 4, titulo: "A Menina que Roubava Livros", autor: "Markus Zusak", genero: "Romance", isbn: "", emoji: "📚", cor: "#E8D9D9", sinopse: "Uma narrativa emocionante sobre livros, coragem e humanidade.", quantidade: 3, disponiveisBanco: 2, duracao: "longa" },
-  { id: 5, titulo: "O Hobbit", autor: "J. R. R. Tolkien", genero: "Fantasia", isbn: "", emoji: "🧙", cor: "#E5DFC9", sinopse: "Bilbo Bolseiro parte para uma jornada inesperada por terras fantásticas.", quantidade: 5, disponiveisBanco: 4, duracao: "longa" },
-  { id: 6, titulo: "Extraordinário", autor: "R. J. Palacio", genero: "Romance", isbn: "", emoji: "💛", cor: "#F0E2C9", sinopse: "Uma história sobre empatia, respeito, amizade e gentileza.", quantidade: 4, disponiveisBanco: 3, duracao: "curta" },
-  { id: 7, titulo: "Sherlock Holmes: Um Estudo em Vermelho", autor: "Arthur Conan Doyle", genero: "Mistério", isbn: "", emoji: "🔎", cor: "#E5D9D0", sinopse: "O início das investigações do famoso detetive Sherlock Holmes.", quantidade: 3, disponiveisBanco: 3, duracao: "longa" },
-  { id: 8, titulo: "A Máquina do Tempo", autor: "H. G. Wells", genero: "Ficção científica", isbn: "", emoji: "⏳", cor: "#D9E2E8", sinopse: "Uma viagem extraordinária que explora o futuro da humanidade.", quantidade: 3, disponiveisBanco: 2, duracao: "curta" }
-];
-
-function carregarLivrosDoBanco() {
-  // Modo demonstrativo: não depende de API, servidor ou banco de dados.
-  carregandoLivros = false;
-  erroCarregamentoLivros = false;
+async function carregarLivrosDoBanco() {
+  // Catálogo local demonstrativo: não depende de API ou banco de dados.
+  const catalogo = window.TB_DEMO ? window.TB_DEMO.getBooks() : [];
+  dados.livros = catalogo.map(livro => ({
+    ...livro, id:Number(livro.id), quantidade:Number(livro.quantidade)||0,
+    disponiveisBanco:Number(livro.disponiveis)||0, emoji:"📚", cor:"#E9DCE5"
+  }));
   bancoCarregado = true;
-  dados.livros = livrosDemonstracao.map(livro => ({ ...livro }));
+  erroCarregamentoLivros = false;
+  carregandoLivros = false;
   renderizarTudo();
 }
 
@@ -708,23 +704,10 @@ function capaHTML(livro) {
   const titulo = escapar(livro.titulo);
   const emoji = escapar(livro.emoji);
 
-  if (!isbn) {
-    return `
-      <div class="capa-livro" style="--cor-capa:${livro.cor}">
-        <span class="capa-emoji" aria-hidden="true">${emoji}</span>
-      </div>
-    `;
-  }
-
+  const capa = escapar(livro.capa || "assets/img/capas/livro-1.svg");
   return `
     <div class="capa-livro" style="--cor-capa:${livro.cor}">
-      <img
-        src="https://covers.openlibrary.org/b/isbn/${isbn}-M.jpg"
-        alt="Capa de ${titulo}"
-        loading="lazy"
-        onerror="this.hidden=true;this.nextElementSibling.hidden=false"
-      >
-      <span class="capa-emoji" hidden aria-hidden="true">${emoji}</span>
+      <img src="${capa}" alt="Capa ilustrativa de ${titulo}" loading="lazy">
     </div>
   `;
 }
@@ -841,7 +824,7 @@ function renderizarEstatisticas() {
   const totalDesafios = document.querySelector("#total-desafios");
 
   if (totalLivros) totalLivros.textContent = totalExemplares;
-  if (totalEmprestimos) totalEmprestimos.textContent = emprestados;
+  if (totalEmprestimos) totalEmprestimos.textContent = window.TB_DEMO ? window.TB_DEMO.getLoans().filter(x => !x.data_devolucao).length : emprestados;
   if (totalGeneros) totalGeneros.textContent = generos.length;
   if (totalDesafios) totalDesafios.textContent = dados.desafios.filter(d => d.concluido).length;
 
@@ -850,11 +833,6 @@ function renderizarEstatisticas() {
 
   if (!graficoGeneros || !graficoDisponibilidade) return;
 
-  if (!bancoCarregado) {
-    graficoGeneros.textContent = "Estatísticas aguardando os dados do catálogo.";
-    graficoDisponibilidade.textContent = "Disponibilidade aguardando os dados do catálogo.";
-    return;
-  }
 
   const contagem = generos.map(genero => ({
     genero,
@@ -981,10 +959,6 @@ function recomendar() {
 
   if (!campoGenero || !campoEstilo || !area) return;
 
-  if (!bancoCarregado) {
-    area.textContent = "As recomendações estarão disponíveis quando o catálogo carregar.";
-    return;
-  }
 
   const genero = campoGenero.value;
   const estilo = campoEstilo.value;
@@ -1102,31 +1076,13 @@ if (menuBotao && menu) {
 // VERIFICAÇÃO DE SESSÃO NO TOPO
 // ========================================
 
-async function verificarSessaoTopo() {
+function verificarSessaoTopo() {
   const area = document.querySelector("#acesso-aluno-area");
   if (!area) return;
-
-  try {
-    const resp = await fetch("/api/sessao-aluno", { credentials: "same-origin" });
-    if (resp.ok) {
-      const dados = await resp.json();
-      const aluno = dados.aluno || dados;
-      const primeiroNome = String(aluno.nome || "Leitor").split(" ")[0];
-      area.innerHTML = `
-        <a href="perfil-aluno.html" class="botao-entrar">👤 ${escapar(primeiroNome)}</a>
-        <a href="emprestimos-aluno.html" class="botao-cadastrar">Empréstimos</a>
-      `;
-      return;
-    }
-
-    const respBib = await fetch("/api/sessao-bibliotecario", { credentials: "same-origin" });
-    if (respBib.ok) {
-      area.innerHTML = `
-        <a href="bibliotecario.html" class="botao-entrar">🛠️ Painel Admin</a>
-        <a href="emprestimos.html" class="botao-cadastrar">Empréstimos</a>
-      `;
-    }
-  } catch (_) {}
+  area.innerHTML = `
+    <a href="perfil-aluno.html" class="botao-entrar">👤 Meu perfil visitante</a>
+    <a href="emprestimos-aluno.html" class="botao-cadastrar">Empréstimos</a>
+  `;
 }
 
 // ========================================
@@ -1136,3 +1092,4 @@ async function verificarSessaoTopo() {
 aplicarContrasteSalvo();
 renderizarTudo();
 carregarLivrosDoBanco();
+verificarSessaoTopo();
