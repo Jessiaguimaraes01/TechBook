@@ -2226,3 +2226,45 @@ body.alto-contraste footer {
     outline: 3px solid #D6AE70;
     outline-offset: 4px;
 }
+/* BOTÃO DE EXPANSÃO TECHBOOK */
+
+.btn-expansao {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+
+    padding: 15px 22px;
+    border-radius: 11px;
+
+    background: linear-gradient(135deg, #6E2B38, #451A24);
+    color: #F5EBDD;
+
+    border: 1px solid #D6AE70;
+    box-shadow: 0 7px 20px #451A2430;
+
+    font-size: 14px;
+    font-weight: 800;
+    text-decoration: none;
+
+    transition: all .3s ease;
+}
+
+.icone-expansao {
+    color: #D6AE70;
+    font-size: 19px;
+}
+
+.seta-expansao {
+    transition: transform .3s ease;
+}
+
+.btn-expansao:hover {
+    background: linear-gradient(135deg, #8A3949, #5A1E30);
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px #451A2450;
+}
+
+.btn-expansao:hover .seta-expansao {
+    transform: translateX(5px);
+}
