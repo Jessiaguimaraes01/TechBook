@@ -2652,5 +2652,5 @@ body.alto-contraste footer {
 }
 /* AJUSTE DE CENTRALIZAÇÃO DOS LIVROS DO HERO */
 .livros-arte {
-  transform: translateY(-40px) scale(.86);
+  transform: translateY(-35px) scale(.86);
 }
