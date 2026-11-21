@@ -2607,77 +2607,69 @@ body.alto-contraste footer {
   transform: rotate(1deg);
 }*/
 
+/* ==========================================
+   RESTAURAÇÃO DA ILUSTRAÇÃO ORIGINAL DO HERO
+   ========================================== */
 
-/* RESTAURAÇÃO DA ILUSTRAÇÃO ANTIGA DO HERO */
-.livros-arte {
-  transform: scale(.86);
+/* Centralização do conjunto */
+.hero-arte .livros-arte {
+  position: relative;
+  top: 0;
+  transform: none;
 }
 
-.livro-um {
-  width: 205px;
+/* PRIMEIRA PLACA — LEITURA */
+.hero-arte .livro-um {
+  width: 175px;
+  left: 48px;
+  top: 46px;
+  bottom: auto;
+  background: #531F2C;
+  color: #FFF7EE;
+  transform: rotate(-1deg);
+  font-size: 1rem;
+}
+
+/* SEGUNDA PLACA — IDEIAS */
+.hero-arte .livro-dois {
+  width: 175px;
+  left: 56px;
+  top: 98px;
+  bottom: auto;
+  background: #9E7363;
+  color: #FFF7EE;
+  transform: rotate(1.5deg);
+  font-size: 1rem;
+}
+
+/* TERCEIRA PLACA — MUNDOS */
+.hero-arte .livro-tres {
+  width: 185px;
+  left: 34px;
+  top: 150px;
+  bottom: auto;
+  background: #7C4454;
+  color: #FFF7EE;
+  transform: rotate(-1.5deg);
+  font-size: 1rem;
+}
+
+/* Símbolo decorativo */
+.hero-arte .livro-aberto {
+  right: 14px;
+  top: 32px;
+  font-size: 2.2rem;
+}
+
+/* Selo de possibilidades */
+.hero-arte .selo-arte {
+  right: 4px;
   bottom: 22px;
-  top: auto;
-  left: 24px;
-  background: #8A4650;
-  transform: rotate(-5deg);
-  font-size: 1rem;
-}
-
-.livro-dois {
-  width: 225px;
-  bottom: 78px;
-  top: auto;
-  left: 43px;
-  background: #B17B62;
-  transform: rotate(4deg);
-  font-size: 1rem;
-
-}
-
-.livro-tres {
-  width: 190px;
-  bottom: 134px;
-  top: auto;
-  left: 62px;
-  background: #5D2936;
-  transform: rotate(-2deg);
-  font-size: 1rem;
-}
-
-.livro-aberto {
-  right: 3px;
-  top: -1px;
-  font-size: 3rem;
-}
-
-.selo-arte {
-  right: -10px;
-  bottom: 0;
-  padding: 12px 16px;
+  padding: 14px 18px;
   transform: rotate(3deg);
 }
-/* TOM MAIS ESCURO PARA NOSSA MISSÃO */
+
+/* Tom da seção Nossa Missão */
 .sobre {
   background: #390712;
-}
-/* CENTRALIZAÇÃO DOS LIVROS DA ILUSTRAÇÃO PRINCIPAL 
-.hero-arte .livros-arte {
-  position: relative;
-  top: -35px;
-  transform: scale(.86); }*/
-
-/* CENTRALIZAÇÃO DOS LIVROS DA ILUSTRAÇÃO PRINCIPAL */
-.hero-arte .livros-arte {
-  position: relative;
-  top: -35px;
-  transform: scale(.98);
-}
-
-/* AJUSTE FINAL DAS PLACAS DO HERO */
-.hero-arte .livro {
-  font-size: 1.1rem;
-}
-
-.hero-arte .livros-arte {
-  transform: translateY(-35px) scale(.95);
 }
