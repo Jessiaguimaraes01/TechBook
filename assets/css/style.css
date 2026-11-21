@@ -2650,7 +2650,9 @@ body.alto-contraste footer {
 .sobre {
   background: #390712;
 }
-/* AJUSTE DE CENTRALIZAÇÃO DOS LIVROS DO HERO */
-.livros-arte {
-  transform: translateY(-35px) scale(.86);
+/* CENTRALIZAÇÃO DOS LIVROS DA ILUSTRAÇÃO PRINCIPAL */
+.hero-arte .livros-arte {
+  position: relative;
+  top: -35px;
+  transform: scale(.86);
 }
