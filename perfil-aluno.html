@@ -1252,48 +1252,36 @@
 .comunidade-botao span {
     font-size: 1.2rem;
 }
+
+/* Ilustração especial da TEBy's */
+
 .comunidade-ilustracao {
-    min-width: 200px;
-    min-height: 180px;
+    min-width: 240px;
+    min-height: 190px;
     display: flex;
     align-items: center;
     justify-content: center;
     position: relative;
 }
 
-/* Livros centralizados */
-.comunidade-livro {
-    font-size: 8rem;
-    transform: rotate(-5deg);
-    position: relative;
-    z-index: 2;
+.ilustracao-livros {
+    width: 240px;
+    max-width: 100%;
+    height: auto;
+    overflow: visible;
+    filter: drop-shadow(0 12px 10px rgba(0, 0, 0, 0.18));
 }
 
-/* Estrela principal */
-.comunidade-pessoas {
-    position: absolute;
-    top: 12px;
-    right: 22px;
-    color: #F6C375;
-    font-size: 2.8rem;
-}
+/* Ajuste para telas menores */
+@media (max-width: 650px) {
+    .comunidade-ilustracao {
+        min-width: 100%;
+        min-height: 160px;
+    }
 
-/* Estrelas decorativas */
-.comunidade-brilho {
-    position: absolute;
-    color: #D6AE70;
-}
-
-.brilho-1 {
-    top: 25px;
-    left: 15px;
-    font-size: 2rem;
-}
-
-.brilho-2 {
-    bottom: 18px;
-    right: 18px;
-    font-size: 2.4rem;
+    .ilustracao-livros {
+        width: 210px;
+    }
 }
 
 /* Responsividade */
@@ -1460,13 +1448,72 @@
             </a>
         </div>
 
-       <div class="comunidade-ilustracao" aria-hidden="true">
-    <span class="comunidade-livro">📚</span>
+<div class="comunidade-ilustracao" aria-hidden="true">
 
-    <span class="comunidade-pessoas">✦</span>
-    <span class="comunidade-brilho brilho-1">✧</span>
-    <span class="comunidade-brilho brilho-2">✦</span>
+    <svg class="ilustracao-livros" viewBox="0 0 240 190"
+         xmlns="http://www.w3.org/2000/svg">
+
+        <!-- Estrelas decorativas -->
+        <path d="M36 36 L41 48 L53 53 L41 58 L36 70 L31 58 L19 53 L31 48 Z"
+              fill="#D6AE70"/>
+
+        <path d="M190 18 L194 28 L204 32 L194 36 L190 46 L186 36 L176 32 L186 28 Z"
+              fill="#F5EBDD"/>
+
+        <path d="M210 125 L214 135 L224 139 L214 143 L210 153 L206 143 L196 139 L206 135 Z"
+              fill="#D6AE70"/>
+
+        <path d="M58 145 L61 152 L68 155 L61 158 L58 165 L55 158 L48 155 L55 152 Z"
+              fill="#C58CA5"/>
+
+        <!-- Brilhos pequenos -->
+        <circle cx="77" cy="29" r="3" fill="#F5EBDD"/>
+        <circle cx="176" cy="83" r="2.5" fill="#D6AE70"/>
+        <circle cx="32" cy="112" r="2.5" fill="#D6AE70"/>
+        <circle cx="183" cy="166" r="3" fill="#F5EBDD"/>
+
+        <!-- Livro inferior -->
+        <g transform="translate(25 111) rotate(-7 95 25)">
+            <rect x="15" y="10" width="165" height="42"
+                  rx="7" fill="#D6AE70"/>
+            <path d="M20 15 H178 V45 H20 Q13 45 13 38 V22 Q13 15 20 15Z"
+                  fill="#F5EBDD"/>
+            <path d="M98 15 V45" stroke="#C58CA5" stroke-width="3"/>
+            <path d="M24 20 H88" stroke="#D8C5AD" stroke-width="2"/>
+            <path d="M108 20 H169" stroke="#D8C5AD" stroke-width="2"/>
+        </g>
+
+        <!-- Livro do meio -->
+        <g transform="translate(35 76) rotate(5 90 24)">
+            <rect x="10" y="10" width="165" height="40"
+                  rx="7" fill="#C58CA5"/>
+            <path d="M16 14 H170 V43 H16 Q10 43 10 36 V21 Q10 14 16 14Z"
+                  fill="#762F3B"/>
+            <path d="M95 14 V43" stroke="#D6AE70" stroke-width="3"/>
+            <path d="M20 20 H85" stroke="#E9C9D1" stroke-width="2"/>
+            <path d="M105 20 H161" stroke="#E9C9D1" stroke-width="2"/>
+        </g>
+
+        <!-- Livro superior -->
+        <g transform="translate(42 43) rotate(-4 85 23)">
+            <rect x="10" y="9" width="155" height="39"
+                  rx="7" fill="#D6AE70"/>
+            <path d="M16 13 H160 V41 H16 Q10 41 10 34 V20 Q10 13 16 13Z"
+                  fill="#481B27"/>
+            <path d="M89 13 V41" stroke="#F5EBDD" stroke-width="2.5"/>
+            <path d="M21 19 H80" stroke="#C58CA5" stroke-width="2"/>
+            <path d="M98 19 H151" stroke="#C58CA5" stroke-width="2"/>
+            <path d="M21 35 H80" stroke="#D6AE70" stroke-width="2"/>
+        </g>
+
+        <!-- Pequeno detalhe dourado -->
+        <path d="M118 48 L121 55 L128 58 L121 61 L118 68 L115 61 L108 58 L115 55 Z"
+              fill="#D6AE70"/>
+
+    </svg>
+
 </div>
+
 
     </div>
 
