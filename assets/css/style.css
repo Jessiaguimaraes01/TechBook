@@ -1435,7 +1435,7 @@ h2 em {
   color: #FFF7EE;
   border: 1px solid rgba(214, 174, 112, .55);
   transform: rotate(-1deg);
-  font-size: 1.1rem;
+  font-size: 1rem;
 }
 
 .livro-dois {
@@ -1445,7 +1445,7 @@ h2 em {
   color: #FFF7EE;
   border: 1px solid rgba(255, 247, 238, .35);
   transform: rotate(1.5deg);
-  font-size: 1.1rem;
+  font-size: 1rem;
 }
 
 .livro-tres {
@@ -1456,7 +1456,7 @@ h2 em {
   color: #FFF7EE;
   border: 1px solid rgba(214, 174, 112, .45);
   transform: rotate(-1.5deg);
-  font-size: 1.1rem;
+  font-size: 1rem;
 }
 
 .livro-aberto {
@@ -2500,20 +2500,20 @@ body.alto-contraste footer {
 .livro-um {
     transform: rotate(-17deg) translate(-55px, 5px);
     background: #762F3B;
-    font-size: 1.1rem;
+    font-size: 1rem;
 }
 
 .livro-dois {
     z-index: 2;
     transform: translate(0, -10px);
     background: #F5EBDD;
-    font-size: 1.1rem;
+    font-size: 1rem;
 }
 
 .livro-tres {
     transform: rotate(17deg) translate(55px, 5px);
     background: #D6AE70;
-    font-size: 1.1rem;
+    font-size: 1rem;
 }
 
 .doacoes-home-selo {
@@ -2620,7 +2620,7 @@ body.alto-contraste footer {
   left: 24px;
   background: #8A4650;
   transform: rotate(-5deg);
-  font-size: 1.1rem;
+  font-size: 1rem;
 }
 
 .livro-dois {
@@ -2630,7 +2630,7 @@ body.alto-contraste footer {
   left: 43px;
   background: #B17B62;
   transform: rotate(4deg);
-  font-size: 1.1rem;
+  font-size: 1rem;
 
 }
 
@@ -2641,7 +2641,7 @@ body.alto-contraste footer {
   left: 62px;
   background: #5D2936;
   transform: rotate(-2deg);
-  font-size: 1.1rem;
+  font-size: 1rem;
 }
 
 .livro-aberto {
