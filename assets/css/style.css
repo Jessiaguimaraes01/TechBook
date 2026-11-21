@@ -2648,5 +2648,10 @@ body.alto-contraste footer {
 }
 /* TOM MAIS ESCURO PARA NOSSA MISSÃO */
 .sobre {
-  background: #5A1726;
+  background: #390712;
+}
+
+/* CENTRALIZAR OS LIVROS DENTRO DOS CÍRCULOS */
+.livros-arte {
+  transform: translateY(-25px) scale(.86);
 }
