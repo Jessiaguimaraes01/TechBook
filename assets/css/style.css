@@ -2599,4 +2599,54 @@ body.alto-contraste footer {
 
 .selo-arte {
   transform: rotate(1deg);
+}*/
+
+
+/* RESTAURAÇÃO DA ILUSTRAÇÃO ANTIGA DO HERO */
+.livros-arte {
+  transform: scale(.86);
+}
+
+.livro-um {
+  width: 205px;
+  bottom: 22px;
+  top: auto;
+  left: 24px;
+  background: #8A4650;
+  transform: rotate(-5deg);
+}
+
+.livro-dois {
+  width: 225px;
+  bottom: 78px;
+  top: auto;
+  left: 43px;
+  background: #B17B62;
+  transform: rotate(4deg);
+}
+
+.livro-tres {
+  width: 190px;
+  bottom: 134px;
+  top: auto;
+  left: 62px;
+  background: #5D2936;
+  transform: rotate(-2deg);
+}
+
+.livro-aberto {
+  right: 3px;
+  top: -1px;
+  font-size: 3rem;
+}
+
+.selo-arte {
+  right: -10px;
+  bottom: 0;
+  padding: 12px 16px;
+  transform: rotate(3deg);
+}
+/* TOM MAIS ESCURO PARA NOSSA MISSÃO */
+.sobre {
+  background: #5A1726;
 }
