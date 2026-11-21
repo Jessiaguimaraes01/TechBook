@@ -1252,37 +1252,48 @@
 .comunidade-botao span {
     font-size: 1.2rem;
 }
-
 .comunidade-ilustracao {
-    min-width: 180px;
-    min-height: 160px;
+    min-width: 200px;
+    min-height: 180px;
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 8px;
     position: relative;
 }
 
+/* Livros centralizados */
 .comunidade-livro {
     font-size: 8rem;
-    transform: rotate(-10deg);
+    transform: rotate(-5deg);
+    position: relative;
+    z-index: 2;
 }
 
+/* Estrela principal */
 .comunidade-pessoas {
     position: absolute;
-    top: 8px;
-    right: 15px;
-    color: #f6c375;
-    font-size: 4rem;
-    
+    top: 12px;
+    right: 22px;
+    color: #F6C375;
+    font-size: 2.8rem;
 }
 
+/* Estrelas decorativas */
 .comunidade-brilho {
     position: absolute;
-    top: 8px;
-    right: 15px;
     color: #D6AE70;
+}
+
+.brilho-1 {
+    top: 25px;
+    left: 15px;
     font-size: 2rem;
+}
+
+.brilho-2 {
+    bottom: 18px;
+    right: 18px;
+    font-size: 2.4rem;
 }
 
 /* Responsividade */
@@ -1449,11 +1460,13 @@
             </a>
         </div>
 
-        <div class="comunidade-ilustracao" aria-hidden="true">
-            <span class="comunidade-livro">📚</span>
-            <span class="comunidade-pessoas">✦</span>
-            <span class="comunidade-brilho">✦</span>
-        </div>
+       <div class="comunidade-ilustracao" aria-hidden="true">
+    <span class="comunidade-livro">📚</span>
+
+    <span class="comunidade-pessoas">✦</span>
+    <span class="comunidade-brilho brilho-1">✧</span>
+    <span class="comunidade-brilho brilho-2">✦</span>
+</div>
 
     </div>
 
