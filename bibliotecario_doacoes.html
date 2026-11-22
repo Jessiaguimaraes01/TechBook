@@ -1,0 +1,208 @@
+
+<!doctype html>
+<html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Caderno de Doações | TechBook</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap" rel="stylesheet">
+<style>
+:root{--wine:#512538;--dark:#321622;--rose:#ad7483;--cream:#f8f4ec;--paper:#fffdfa;--gold:#d3b27e;--muted:#8a797c;--line:#e9dfd8;--green:#467665}*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--cream);font:14px 'DM Sans',sans-serif;color:var(--dark)}button,input,textarea,select{font:inherit}button{cursor:pointer}button:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible{outline:3px solid #d3b27e;outline-offset:2px}button:disabled{opacity:.5;cursor:not-allowed}.serif,h1,h2,h3{font-family:'Playfair Display',serif;font-weight:500}.hidden{display:none!important}.mast{height:66px;display:flex;align-items:center;justify-content:space-between;padding:0 max(5%,calc((100vw - 1250px)/2));border-bottom:1px solid var(--line);background:#fffdf9}.brand{font:600 25px 'Playfair Display',serif;color:var(--wine);text-decoration:none}.brand span{font:700 9px 'DM Sans',sans-serif;letter-spacing:.18em;display:block;color:var(--muted)}.mast-right{font-size:11px;color:var(--muted);letter-spacing:.09em;text-transform:uppercase}.layout{max-width:1250px;margin:auto;padding:30px 24px 90px}.intro{display:grid;grid-template-columns:1.15fr .85fr;min-height:340px;background:var(--wine);border-radius:6px 70px 6px 6px;overflow:hidden;color:#fff;position:relative}.intro-copy{padding:52px 56px;position:relative;z-index:1}.eyebrow{font-size:10px;letter-spacing:.25em;text-transform:uppercase;font-weight:800;color:var(--rose)}.intro .eyebrow{color:#e1bb83}.intro h1{font-size:clamp(46px,6vw,76px);line-height:1.07;margin:18px 0}.intro h1 em{font-weight:400;color:#e6c598}.intro p{line-height:1.8;color:#f0dfe3;max-width:430px}.art{position:relative;min-height:300px;background:radial-gradient(circle at 65% 38%,#a5687a 0,#733a50 40%,transparent 72%);display:grid;place-items:center}.art .circle{width:265px;height:265px;border:1px solid #ffffff5c;border-radius:50%;display:grid;place-items:center;position:relative}.art .circle:before{content:'';position:absolute;inset:20px;border:1px dashed #ffffff40;border-radius:50%}.art .book-art{font:italic 120px 'Playfair Display',serif;color:#efd5b4;transform:rotate(-14deg);text-shadow:12px 15px 0 #341a2666}.art .orbit{position:absolute;font:italic 20px 'Playfair Display',serif;color:#f3d4a9;top:30px;right:20px}.intro:after{content:'CURADORIA / 2026';position:absolute;bottom:18px;right:30px;color:#f7e9e988;font-size:10px;letter-spacing:.2em}.section-title{display:flex;align-items:end;justify-content:space-between;gap:14px;margin:35px 0 18px}.section-title h2{font-size:34px;margin:5px 0 0}.sub{font-size:12px;color:var(--muted);line-height:1.7}.btn{border:1px solid var(--wine);background:var(--wine);color:white;padding:12px 17px;border-radius:7px;font-size:12px;font-weight:800;transition:.2s}.btn:hover{filter:brightness(1.16);transform:translateY(-1px)}.btn.outline{background:transparent;color:var(--wine)}.btn.light{background:#fff;color:var(--wine);border-color:#e9dcd7}.btn.danger{background:#fff;color:#a54d58;border-color:#d6a9ae}.btn.tiny{padding:8px 11px;font-size:11px}.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}.stat{padding:21px 22px;background:var(--paper);border:1px solid var(--line);position:relative;overflow:hidden;min-height:133px}.stat:before{content:'';position:absolute;width:60px;height:60px;border-radius:50%;background:#f7eee9;right:-22px;top:-22px}.stat .num{font:500 43px 'Playfair Display',serif;color:var(--wine);margin:12px 0 3px}.stat .lab{color:var(--muted);font-size:11px}.stat .sym{color:var(--rose);font-size:18px}.editorial{display:grid;grid-template-columns:1.5fr 1fr;gap:14px;margin-top:14px}.sheet{background:var(--paper);border:1px solid var(--line);padding:27px}.sheet h3{font-size:26px;margin:5px 0}.chart{height:185px;display:flex;align-items:flex-end;gap:13px;border-bottom:1px solid var(--line);padding:0 8px 0;margin:30px 0 27px}.chartcol{flex:1;height:100%;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;position:relative}.chartbar{width:65%;max-width:54px;min-height:4px;background:linear-gradient(0deg,#663047,#bb8290);border-radius:4px 4px 0 0}.chartcol small{position:absolute;bottom:-23px;color:var(--muted);font-size:10px}.chartcol b{font-size:10px;color:var(--wine);margin-bottom:5px}.donut{height:162px;width:162px;border-radius:50%;margin:22px auto;background:conic-gradient(#b78393 0 40%,#d5b27e 40% 60%,#568473 60% 80%,#d9d0d0 80%);display:grid;place-items:center}.donut:after{content:'doações';width:110px;height:110px;background:var(--paper);border-radius:50%;display:grid;place-items:center;font:italic 22px 'Playfair Display',serif;color:var(--wine)}.legend{display:grid;grid-template-columns:1fr 1fr;gap:10px;font-size:11px;color:var(--muted)}.dot{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:6px}.workspace{margin-top:32px}.toolbar{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}.tabs{display:flex;gap:6px;flex-wrap:wrap;margin:20px 0}.tab{background:#fffdfa;color:#78656b;border:1px solid var(--line);padding:10px 13px;border-radius:6px;font-weight:700;font-size:11px}.tab.active{background:var(--wine);color:#fff;border-color:var(--wine)}.tab b{opacity:.6;margin-left:5px}.searchrow{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:18px}.searchrow input{flex:1;min-width:190px}.searchrow select{min-width:150px}.input{border:1px solid var(--line);padding:12px 13px;border-radius:6px;background:#fffdfa;color:var(--dark);width:100%}.cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.card{background:var(--paper);border:1px solid var(--line);padding:20px;display:grid;grid-template-columns:82px 1fr;gap:18px;transition:box-shadow .2s}.card:hover{box-shadow:0 12px 32px #51253814}.cover{width:82px;height:119px;background:linear-gradient(135deg,#613045,#b27e8c);color:#e6c69a;display:flex;align-items:center;justify-content:center;font:italic 38px 'Playfair Display',serif;border-radius:2px 9px 9px 2px;box-shadow:inset 7px 0 #ffffff14,5px 6px 0 #38202b15}.cover.green{background:linear-gradient(135deg,#456d62,#a3b8a2)}.cover.gold{background:linear-gradient(135deg,#8c674b,#d0ae7e)}.status{font-size:10px;font-weight:800;letter-spacing:.05em;text-transform:uppercase;display:inline-block;padding:6px 9px;border-radius:3px;background:#f4e8dc;color:#946a2c}.status.approved{background:#e7edf5;color:#4e6688}.status.received{background:#e5f0e8;color:#42735a}.status.rejected{background:#f6e5e5;color:#a34b54}.card h3{font-size:23px;margin:10px 0 2px}.card .author{font-size:11px;color:var(--muted)}.card p{font-size:12px;color:#6d5b60;line-height:1.7}.card .meta{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0}.chip{font-size:10px;background:#f6f0e9;border:1px solid var(--line);padding:6px 8px;color:#79666c}.card .actions{display:flex;gap:7px;flex-wrap:wrap;margin-top:14px}.tagline{padding:12px 16px;border-left:3px solid var(--gold);background:#f6efe7;color:#84676a;font-size:11px;line-height:1.6;margin-top:15px}.login-wrap{display:grid;grid-template-columns:1fr 1fr;background:var(--paper);border:1px solid var(--line);margin-top:26px}.login-info{padding:45px;background:#efe4db;position:relative;overflow:hidden}.login-info:after{content:'✳';position:absolute;font-size:250px;right:-55px;bottom:-100px;color:#c6a9a535}.login-info h2{font-size:43px;line-height:1.12;max-width:350px}.login-form{padding:45px;display:flex;flex-direction:column;justify-content:center;gap:13px}.login-form h3{font-size:27px;margin:0}.login-form label{font-size:11px;font-weight:800}.login-form .btn{width:100%}.login-form .divider{text-align:center;color:var(--muted);font-size:11px}.mode{background:#f3e8e6;color:var(--wine);padding:8px 11px;font-size:11px;font-weight:800}.empty{grid-column:1/-1;text-align:center;padding:55px;border:1px dashed #d7c5c2;color:var(--muted)}.overlay{position:fixed;inset:0;background:#1e1116ad;display:grid;place-items:center;padding:18px;z-index:5}.modal{background:var(--paper);width:min(570px,100%);max-height:90vh;overflow:auto;padding:30px;box-shadow:0 24px 100px #0004}.modal h2{font-size:32px;margin:5px 0}.modal .formgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.modal label{display:block;font-size:11px;font-weight:800;margin:12px 0 6px}.modal textarea{min-height:90px;resize:vertical}.modal-footer{display:flex;gap:10px;justify-content:flex-end;margin-top:20px}.notice{font-size:11px;color:#876f76;line-height:1.7;margin-top:14px}.foot{text-align:center;color:var(--muted);font-size:11px;margin:55px 0 0}.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--wine);color:#fff;padding:13px 20px;border-radius:7px;z-index:9;box-shadow:0 10px 30px #0003}.topbar{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}.line{height:1px;background:var(--line);margin:20px 0}@media(max-width:820px){.intro{grid-template-columns:1fr}.intro-copy{padding:36px 30px}.art{min-height:150px}.art .circle{width:125px;height:125px}.art .book-art{font-size:70px}.art .orbit{font-size:13px}.editorial,.login-wrap{grid-template-columns:1fr}.cards{grid-template-columns:1fr}.stats{grid-template-columns:1fr 1fr}.login-info,.login-form{padding:26px}.section-title h2{font-size:28px}}@media(max-width:440px){.layout{padding:16px 12px 60px}.mast{padding:0 15px}.intro h1{font-size:48px}.card{grid-template-columns:64px 1fr;padding:13px;gap:11px}.cover{width:64px;height:94px}.card h3{font-size:20px}.stat{padding:13px}.stat .num{font-size:35px}.modal{padding:20px}.modal .formgrid{grid-template-columns:1fr}.mast-right{display:none}}
+</style>
+<style>
+/* Identidade renovada: azul profundo, azul vibrante, turquesa e amarelo solar */
+:root{--wine:#1746a2;--dark:#11234b;--rose:#39b6c8;--cream:#f3f8ff;--paper:#ffffff;--gold:#ffd76a;--muted:#637695;--line:#dce7f5;--green:#008e80}
+body{background:var(--cream);color:var(--dark)}
+.mast{background:#fff;border-bottom:2px solid #dceafa}
+.brand{color:#1746a2}.brand span{color:#5485a5}
+.intro{background:linear-gradient(120deg,#102a65 0%,#1753c1 62%,#1777cb 100%);border-radius:26px;min-height:370px;box-shadow:0 18px 44px #1746a21a}
+.intro-copy{padding:58px 55px}.intro .eyebrow{color:#9af0f1}
+.intro h1{font-size:clamp(46px,6vw,75px);letter-spacing:-.025em}.intro h1 em{color:#ffdf76}
+.intro p{color:#dbefff;font-size:14px}.intro:after{color:#b5e7ff}
+.art{background:radial-gradient(circle at 60% 48%,#39c4d3 0%,#1684c3 38%,transparent 74%)}
+.librarian-scene{position:relative;width:310px;height:280px;display:flex;align-items:center;justify-content:center}
+.shelf{position:absolute;bottom:67px;left:34px;display:flex;align-items:flex-end;gap:8px;transform:rotate(-5deg)}
+.spine{display:block;width:42px;border-radius:6px 6px 2px 2px;box-shadow:inset -6px 0 #00000017,4px 7px 0 #0b387d30;position:relative}
+.spine:before{content:'';position:absolute;top:16px;left:8px;right:8px;border-top:3px solid #ffffffa8;border-bottom:3px solid #ffffffa8;height:9px}
+.spine.a{height:125px;background:#ffdc76}.spine.b{height:158px;background:#7ae2d5}.spine.c{height:143px;background:#f7fbff}.spine.d{height:174px;background:#ff9b84}.spine.e{height:133px;background:#9dbdff}
+.shelf-base{position:absolute;bottom:57px;left:15px;right:10px;height:14px;border-radius:10px;background:#d8f5ff;transform:rotate(-5deg);box-shadow:0 9px 0 #0d458c}
+.stamp{position:absolute;top:16px;right:2px;width:112px;height:112px;border:3px solid #fff4c9;background:#ffdb72;border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;transform:rotate(13deg);box-shadow:0 10px 30px #0d458c55;color:#113c76;z-index:2}
+.stamp span{font-size:37px;font-weight:800;line-height:1}.stamp small{font-size:9px;text-align:center;font-weight:800;letter-spacing:.08em}
+.spark{position:absolute;color:#d7ffff;font-size:30px}.spark1{top:18px;left:30px}.spark2{bottom:35px;right:5px}
+.stat{border-radius:17px;box-shadow:0 5px 20px #1746a209}.stat:before{background:#e8f6ff}.stat .num{color:#1746a2}.stat .sym{color:#00a9ba}
+.sheet{border-radius:19px;box-shadow:0 5px 20px #1746a209}.sheet h3{color:#173f87}
+.chartbar{background:linear-gradient(0deg,#1746a2,#3cc6d0)}
+.donut{background:conic-gradient(#1e60ca 0 40%,#ffd76a 40% 60%,#00a99c 60% 80%,#d9e4f2 80%)}.donut:after{color:#1746a2}
+.legend .dot{filter:saturate(1.5)}.legend span:nth-child(1) .dot{background:#1e60ca!important}.legend span:nth-child(2) .dot{background:#ffd76a!important}.legend span:nth-child(3) .dot{background:#00a99c!important}.legend span:nth-child(4) .dot{background:#d9e4f2!important}
+.btn{border-radius:10px;background:#1756bd;border-color:#1756bd}.btn.outline{color:#1756bd;border-color:#1756bd}.btn.light{color:#1756bd}.tab{border-radius:12px}.tab.active{background:#1756bd;border-color:#1756bd}
+.card{border-radius:17px;box-shadow:0 5px 20px #1746a20b}.card:hover{box-shadow:0 16px 36px #1746a21b}
+.cover{background:linear-gradient(135deg,#18459c,#38c4ce);color:#e9fcff;box-shadow:inset 7px 0 #ffffff20,5px 6px 0 #163b7415}.cover.green{background:linear-gradient(135deg,#007d82,#5ed9cb)}.cover.gold{background:linear-gradient(135deg,#e49b39,#ffe2a3)}
+.status{background:#fff4d6;color:#946b08}.status.approved{background:#e1eeff;color:#2457a7}.status.received{background:#d9f7ef;color:#00796d}.status.rejected{background:#ffe4e4;color:#ae3f53}
+.chip{background:#f0f7ff;color:#506b8e}.tagline{background:#e6f5ff;border-left-color:#1ab7c4;color:#3b6a91}
+.login-wrap{border-radius:23px;overflow:hidden;box-shadow:0 8px 25px #1746a211}.login-info{background:linear-gradient(150deg,#e2f5ff,#d8eaff)}.login-info:after{color:#8ec6ec55}.login-info h2{color:#1746a2}
+.mode{background:#dff7f4;color:#007f7a;border-radius:9px}
+.overlay{background:#071b41b3}.modal{border-radius:19px}.toast{background:#1746a2}
+@media(max-width:820px){.intro-copy{padding:38px 28px}.art{min-height:240px}.librarian-scene{transform:scale(.78)}}
+@media(max-width:440px){.intro h1{font-size:47px}}
+</style>
+
+<style id="editorial-redesign">
+:root{--wine:#720D46;--dark:#341028;--rose:#C24B88;--cream:#FFF9EF;--paper:#FFFEFA;--gold:#D8AD63;--muted:#806D77;--line:#E9DDE1;--green:#477A60}
+body{background:var(--cream);color:var(--dark)}
+.mast{height:75px;background:#fffcf6;border-bottom:1px solid #e7d6dc}
+.brand{color:#720D46}.brand span{color:#806D77}
+.layout{max-width:1320px;padding-top:22px}
+.intro{min-height:445px;grid-template-columns:1.1fr .9fr;border-radius:0;background:#720D46;box-shadow:none;position:relative}
+.intro:before{content:"";position:absolute;inset:13px;border:1px solid #ffffff35;pointer-events:none;z-index:2}
+.intro-copy{padding:70px 65px;display:flex;flex-direction:column;justify-content:center}
+.intro .eyebrow{color:#E7B8CC;letter-spacing:.32em}
+.intro h1{font-size:clamp(54px,6.3vw,91px);line-height:1.04;letter-spacing:-.04em;margin:27px 0 22px}
+.intro h1 em{color:#FFE5B7}
+.intro p{color:#F5DCE7;font-size:14px;max-width:490px;line-height:1.85}
+.intro:after{content:"TECHBOOK     •     BIBLIOTECA";bottom:26px;right:30px;letter-spacing:.2em;color:#ffffffb0}
+.art{min-height:445px;background:#F1DFD8;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.art:before{content:"";position:absolute;width:440px;height:440px;border:1px solid #b7768e44;border-radius:50%;top:-140px;right:-90px}
+.art:after{content:"";position:absolute;width:260px;height:260px;border:1px solid #b7768e55;border-radius:50%;bottom:-160px;left:-80px}
+.catalog-scene{background:#FFF9EF;border:1px solid #8C4B6A;width:min(335px,80%);min-height:310px;padding:24px 28px 20px;box-shadow:16px 17px 0 #B9879A,25px 26px 0 #7D3A5C;transform:rotate(-5deg);position:relative;z-index:1;color:#682042}
+.catalog-head{display:flex;justify-content:space-between;gap:12px;font-size:9px;font-weight:800;letter-spacing:.17em;border-bottom:2px solid #682042;padding-bottom:12px}
+.catalog-number{font:italic 37px 'Playfair Display',serif;text-align:right;margin:10px 0}
+.catalog-rule{border-top:1px solid #d5b5be}
+.catalog-book{display:flex;align-items:center;gap:16px;font:600 29px/1.12 'Playfair Display',serif;margin:19px 0}
+.catalog-book small{font:700 9px 'DM Sans',sans-serif;letter-spacing:.17em;color:#a27283}
+.book-icon{font-size:65px;line-height:1;color:#9B346B}
+.catalog-lines{display:grid;gap:12px;margin:16px 0 18px}.catalog-lines i{height:1px;background:#cdaebb}.catalog-lines i:nth-child(2){width:83%}.catalog-lines i:nth-child(3){width:65%}
+.catalog-stamp{position:absolute;right:21px;bottom:32px;width:84px;height:84px;border:2px solid #a84d74;border-radius:50%;display:flex;flex-direction:column;justify-content:center;align-items:center;font-size:9px;font-weight:800;letter-spacing:.1em;transform:rotate(17deg);color:#9b346b}
+.catalog-stamp:first-line{font-size:9px}
+.catalog-foot{font-size:8px;letter-spacing:.15em;font-weight:800;color:#9d7282}
+.folio{position:absolute;bottom:18px;left:20px;color:#884c65;font-size:9px;letter-spacing:.16em}
+.section-title{margin-top:47px}.section-title h2{font-size:40px;letter-spacing:-.03em}
+.eyebrow{color:#A4386E}
+.stat{border-radius:0;box-shadow:none;border-top:3px solid #720D46;background:#fffdfa;padding:24px}
+.stat:before{background:#F8E9F0;border-radius:0;transform:rotate(30deg)}
+.stat .num{color:#720D46;font-size:52px}.stat .sym{color:#A4386E}
+.sheet{border-radius:0;box-shadow:none;padding:32px}
+.sheet h3{color:#720D46;font-size:31px}
+.chartbar{background:linear-gradient(0deg,#720D46,#C24B88);border-radius:0}
+.donut{background:conic-gradient(#720D46 0 40%,#D8AD63 40% 60%,#477A60 60% 80%,#DCCDD3 80%)}
+.donut:after{color:#720D46}
+.legend span:nth-child(1) .dot{background:#720D46!important}.legend span:nth-child(2) .dot{background:#D8AD63!important}.legend span:nth-child(3) .dot{background:#477A60!important}.legend span:nth-child(4) .dot{background:#DCCDD3!important}
+.btn{border-radius:0;background:#720D46;border-color:#720D46;letter-spacing:.025em}.btn.outline{color:#720D46;border-color:#720D46}.btn.light{color:#720D46}
+.tab{border-radius:0;border:0;border-bottom:2px solid #E5D4DC;background:transparent;padding:12px 15px}.tab.active{background:transparent;color:#720D46;border-color:#720D46}
+.card{border-radius:0;box-shadow:none;position:relative;border-left:4px solid #C24B88;background:#fffefa;padding:25px}
+.card:before{content:"FICHA / ACERVO";position:absolute;top:12px;right:14px;color:#AE8B9B;font-size:8px;letter-spacing:.16em}
+.card:hover{box-shadow:8px 8px 0 #ead8e1}
+.card h3{color:#511032}.cover{background:linear-gradient(140deg,#720D46,#B8417B);color:#ffe7bd;box-shadow:inset 7px 0 #ffffff19,5px 6px 0 #4e143014}
+.cover.green{background:linear-gradient(140deg,#385b47,#92b69d)}.cover.gold{background:linear-gradient(140deg,#8b5c38,#d9ac75)}
+.status{border-radius:0;background:#FFF1D8;color:#87601C}.status.approved{background:#F1E3F0;color:#813C79}.status.received{background:#E7F0E8;color:#3D6E50}.status.rejected{background:#F9E3E8;color:#B63E5C}
+.chip{background:#FFF8F1;color:#79616D}
+.tagline{background:#F9EAF1;border-left-color:#A4386E;color:#7A4861}
+.login-wrap{border-radius:0;box-shadow:none}.login-info{background:#F5E7E2}.login-info:after{color:#B9849A40}.login-info h2{color:#720D46}
+.mode{border-radius:0;background:#F4E4EB;color:#720D46}
+.modal{border-radius:0}.overlay{background:#250E20b3}.toast{background:#720D46}
+.input{border-radius:0}.mast-right{color:#806D77}
+@media(max-width:820px){.intro-copy{padding:48px 30px}.intro{grid-template-columns:1fr}.art{min-height:340px}.catalog-scene{transform:rotate(-4deg) scale(.87)}.section-title h2{font-size:32px}}
+@media(max-width:440px){.intro h1{font-size:51px}.intro-copy{padding:48px 27px}.catalog-scene{transform:rotate(-4deg) scale(.8)}.art{min-height:305px}.card{padding:16px}}
+</style>
+
+<style id="palette-wine-cream-coffee-final">
+:root{--wine:#650735;--dark:#321b25;--rose:#8b5a48;--cream:#fff9f0;--paper:#fffdf8;--gold:#c49c68;--muted:#796c68;--line:#e8ddd2;--green:#50755c}
+body{background:#fff9f0;color:#321b25}
+.mast{background:#fffdf8;border-bottom-color:#e7dbd2}
+.brand,.section-title h2,.sheet h3,.card h3,.login-info h2{color:#650735}
+.intro{background:#650735}
+.intro .eyebrow{color:#f2cfac}.intro h1 em{color:#ffe7c6}.intro p{color:#f6e7dd}
+.art{background:#f5e9dd}
+.art:before,.art:after{border-color:#a87d6240}
+.catalog-scene{background:#fffdf5;border-color:#744334;color:#650735;box-shadow:16px 17px 0 #b49a83,25px 26px 0 #775346;min-height:320px}
+.catalog-head{border-bottom-color:#650735}
+.catalog-rule{border-top-color:#d5c2b3}
+.catalog-book small{color:#846a59}.book-icon{color:#650735}
+.catalog-lines i{background:#d2c0af}
+.catalog-stamp{border-color:#650735;color:#650735;right:20px;bottom:19px;width:76px;height:76px}
+.catalog-stamp small{font-size:8px}
+.intro:after{color:#f8e8dc}
+.eyebrow{color:#7e3d2c}
+.stat{border-top-color:#650735;background:#fffdf8}.stat:before{background:#f1e9de}.stat .num,.stat .sym{color:#650735}
+.sheet,.card{background:#fffdf8}.chartbar{background:linear-gradient(0deg,#650735,#9c6a55)}
+.donut{background:conic-gradient(#650735 0 40%,#c49c68 40% 60%,#50755c 60% 80%,#ddd1c5 80%)}
+.donut:after{color:#650735}
+.legend span:nth-child(1) .dot{background:#650735!important}.legend span:nth-child(2) .dot{background:#c49c68!important}.legend span:nth-child(3) .dot{background:#50755c!important}.legend span:nth-child(4) .dot{background:#ddd1c5!important}
+.btn{background:#650735;border-color:#650735}.btn.outline,.btn.light{color:#650735;border-color:#650735}
+.tab.active{color:#650735;border-color:#650735}
+.card{border-left-color:#650735}.card:before{color:#957f73}.card:hover{box-shadow:8px 8px 0 #eadfd2}
+.cover{background:linear-gradient(140deg,#650735,#8c4d41)}.cover.green{background:linear-gradient(140deg,#47644d,#9cae8a)}.cover.gold{background:linear-gradient(140deg,#775039,#cba16e)}
+.chip{background:#f8f1e8;color:#6e5c54}.tagline{background:#f7eee4;border-left-color:#650735;color:#715748}
+.login-info{background:#f0e6d8}.login-info:after{color:#b8a18b40}.mode{background:#f4e7db;color:#650735}
+.toast{background:#650735}.overlay{background:#29151db8}
+.status.approved{background:#eee5ed;color:#693c68}.status.rejected{background:#f7e5e4;color:#9b4552}
+@media(max-width:440px){.catalog-scene{min-height:320px}.catalog-stamp{bottom:18px;right:17px}}
+</style>
+
+<style id="palette-referencia-final">
+:root{--wine:#3B1319;--dark:#280B0F;--rose:#8D3A3C;--cream:#F8F1E6;--paper:#FFFBF4;--gold:#C6B39A;--muted:#7B694E;--line:#E4D7C6;--green:#526B56}
+body{background:#F8F1E6;color:#280B0F}
+.mast{background:#FFFBF4;border-bottom-color:#D8C7B4}.brand,.section-title h2,.sheet h3,.card h3{color:#3B1319}
+.intro{background:#3B1319}.intro .eyebrow{color:#D9C3AB}.intro h1 em{color:#E9D4BA}.intro p{color:#E8D9CA}
+.art{background:#C6B39A}.art:before,.art:after{border-color:#7B694E40}
+.catalog-scene{background:#F8F1E6;border-color:#3B1319;color:#3B1319;box-shadow:16px 17px 0 #9A8169,25px 26px 0 #5B3E32}
+.catalog-head{border-bottom-color:#3B1319}.catalog-rule{border-top-color:#C6B39A}
+.catalog-book small{color:#7B694E}.book-icon{color:#3B1319}.catalog-lines i{background:#C6B39A}.catalog-stamp{border-color:#3B1319;color:#3B1319}
+.eyebrow{color:#8D3A3C}
+.stat{border-top-color:#3B1319;background:#FFFBF4}.stat:before{background:#EFE4D6}.stat .num,.stat .sym{color:#3B1319}
+.sheet,.card{background:#FFFBF4}.chartbar{background:linear-gradient(0deg,#3B1319,#8D3A3C)}
+.donut{background:conic-gradient(#3B1319 0 40%,#C6B39A 40% 60%,#526B56 60% 80%,#E1D5C7 80%)}.donut:after{color:#3B1319}
+.legend span:nth-child(1) .dot{background:#3B1319!important}.legend span:nth-child(2) .dot{background:#C6B39A!important}.legend span:nth-child(3) .dot{background:#526B56!important}.legend span:nth-child(4) .dot{background:#E1D5C7!important}
+.btn{background:#3B1319;border-color:#3B1319}.btn.outline,.btn.light{color:#3B1319;border-color:#3B1319}
+.tab.active{color:#3B1319;border-color:#3B1319}
+.card{border-left-color:#3B1319}.card:before{color:#947B67}.card:hover{box-shadow:8px 8px 0 #D8C7B4}
+.cover{background:linear-gradient(140deg,#280B0F,#8D3A3C)}.cover.green{background:linear-gradient(140deg,#435C48,#9DAA8C)}.cover.gold{background:linear-gradient(140deg,#7B694E,#C6B39A)}
+.chip{background:#F4EBDD;color:#6F5947}.tagline{background:#EFE3D5;border-left-color:#3B1319;color:#6F5947}
+.mode{background:#EDE0D2;color:#3B1319}.toast{background:#3B1319}.overlay{background:#280B0FC9}
+</style>
+
+  <link rel="stylesheet" href="assets/css/tema-global.css">
+  <script src="assets/js/tema-global.js" defer></script>
+</head><body>
+<header class="mast"><a class="brand" href="https://jessiaguimaraes01.github.io/TechBook/">TechBook<span>BIBLIOTECA INTELIGENTE</span></a><span class="mast-right">Curadoria e circulação · Gestão de doações</span></header>
+<main class="layout"><section class="intro"><div class="intro-copy"><div class="eyebrow">Caderno de acervo · Nº 01 / 2026</div><h1>O cuidado<br><em>também se lê.</em></h1><p>Entre páginas, nomes e novas possibilidades, cada doação encontra seu lugar no acervo. Um espaço para cuidar do que chega e acompanhar o que permanece.</p></div><div class="art" aria-hidden="true"><div class="catalog-scene"><div class="catalog-head">FICHA DE CATALOGAÇÃO <span>Nº 026</span></div><div class="catalog-number">025.2</div><div class="catalog-rule"></div><div class="catalog-book"><span class="book-icon">▤</span><span>DOAÇÕES<br><small>ACERVO TECHBOOK</small></span></div><div class="catalog-lines"><i></i><i></i><i></i></div><div class="catalog-stamp">RECEBIDO<br>✳</div></div></div></section>
+<section id="dashboard"><div class="section-title"><div><div class="eyebrow">Visão do acervo</div><h2>Um retrato do acervo.</h2><p class="sub">Uma visão de tudo que foi oferecido à biblioteca.</p></div><div class="topbar"><span class="mode">● Painel demonstrativo</span><button class="btn outline tiny" id="reset">Restaurar exemplos</button></div></div>
+<div class="stats"><div class="stat"><div class="sym">✦</div><div class="num" id="total">0</div><div class="lab">Solicitações registradas</div></div><div class="stat"><div class="sym">◷</div><div class="num" id="pending">0</div><div class="lab">Aguardando análise</div></div><div class="stat"><div class="sym">✓</div><div class="num" id="approved">0</div><div class="lab">Doações aprovadas</div></div><div class="stat"><div class="sym">♡</div><div class="num" id="received">0</div><div class="lab">Exemplares recebidos</div></div></div>
+<div class="editorial"><div class="sheet"><div class="eyebrow">01 / Ritmo da biblioteca</div><h3>Livros que chegaram.</h3><p class="sub">Exemplares recebidos nos últimos seis meses, dados ilustrativos.</p><div class="chart" id="chart"></div></div><div class="sheet"><div class="eyebrow">02 / Acompanhamento</div><h3>Em que etapa estão?</h3><div class="donut" id="donut"></div><div class="legend"><span><i class="dot" style="background:#b78393"></i>Pendentes</span><span><i class="dot" style="background:#d5b27e"></i>Aprovadas</span><span><i class="dot" style="background:#568473"></i>Recebidas</span><span><i class="dot" style="background:#d9d0d0"></i>Negadas</span></div></div></div>
+<div class="workspace"><div class="toolbar"><div><div class="eyebrow">03 / Curadoria do acervo</div><h2 style="font-size:36px;margin:8px 0">O destino de cada exemplar.</h2><p class="sub">Abra os detalhes, filtre por etapa ou simule uma doação presencial.</p></div><button class="btn" id="new">+ Registrar doação presencial</button></div>
+<div class="tabs" id="tabs"></div><div class="searchrow"><input class="input" id="search" placeholder="Pesquisar título, autor ou doador..." aria-label="Pesquisar"><select class="input" id="condition"><option value="">Todas as conservações</option><option value="Novo">Novo</option><option value="Bom">Bom</option><option value="Regular">Regular</option></select><button class="btn light" id="csv">Exportar CSV</button></div><div id="cards" class="cards"></div><div class="tagline">✳ Esta é uma demonstração. Você pode experimentar os botões, aprovar, negar e registrar recebimentos. As alterações ficam somente neste navegador e não representam doações reais.</div></div></section>
+<footer class="foot">TechBook · Caderno de Doações · 2026</footer></main>
+<div class="overlay hidden" id="overlay"><div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle"><div class="eyebrow" id="modalEyebrow">Detalhes</div><h2 id="modalTitle"></h2><div id="modalBody"></div><div class="modal-footer"><button class="btn outline" id="close">Fechar</button><button class="btn hidden" id="confirm">Confirmar</button></div></div></div><div class="toast hidden" id="toast" role="status"></div>
+<script>
+const seed=[
+{id:'1',title:'O Pequeno Príncipe',author:'Antoine de Saint-Exupéry',donor:'Mariana S.',quantity:2,condition:'Bom',description:'Edição ilustrada com páginas preservadas. Uma dedicatória na primeira folha e pequenas marcas de leitura.',origin:'Pelo site',status:'pending',date:'2026-11-19',reason:''},
+{id:'2',title:'Dom Casmurro',author:'Machado de Assis',donor:'Lucas R.',quantity:1,condition:'Novo',description:'Exemplar sem marcas de uso, capa original e folhas em perfeito estado.',origin:'Pelo site',status:'approved',date:'2026-11-16',reason:''},
+{id:'3',title:'A Bolsa Amarela',author:'Lygia Bojunga',donor:'Ana M.',quantity:3,condition:'Bom',description:'Três exemplares em bom estado, prontos para circular entre novos leitores.',origin:'Presencial',status:'received',date:'2026-10-28',reason:''},
+{id:'4',title:'Capitães da Areia',author:'Jorge Amado',donor:'Carlos F.',quantity:4,condition:'Regular',description:'Capa desgastada, páginas soltas e sinais de umidade. Necessita restauração.',origin:'Pelo site',status:'rejected',date:'2026-11-12',reason:'Conservação inadequada para empréstimos.'},
+{id:'5',title:'Extraordinário',author:'R. J. Palacio',donor:'Beatriz L.',quantity:4,condition:'Novo',description:'Quatro exemplares novos, ainda embalados, para incentivar a leitura.',origin:'Presencial',status:'received',date:'2026-10-18',reason:''},
+{id:'6',title:'A Menina que Roubava Livros',author:'Markus Zusak',donor:'Clara P.',quantity:1,condition:'Bom',description:'Edição de capa comum, lombada firme e páginas completas.',origin:'Pelo site',status:'pending',date:'2026-11-20',reason:''}
+];
+const $=id=>document.getElementById(id);const escapeHTML=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));const statuses={pending:'Pendente',approved:'Aprovada',received:'Recebida',rejected:'Negada'};let rows,filter='all',modalAction=null;
+try{rows=JSON.parse(localStorage.getItem('techbook_demo_editorial_v1'))||structuredClone(seed)}catch{rows=structuredClone(seed)}
+function save(){try{localStorage.setItem('techbook_demo_editorial_v1',JSON.stringify(rows))}catch{}}
+function notify(t){$('toast').textContent=t;$('toast').classList.remove('hidden');setTimeout(()=>$('toast').classList.add('hidden'),2800)}
+
+$('reset').onclick=()=>{if(confirm('Restaurar todos os dados demonstrativos?')){rows=structuredClone(seed);save();render();notify('Demonstração restaurada.')}};
+$('search').oninput=render;$('condition').onchange=render;
+const types=[['all','Todas'],['pending','Pendentes'],['approved','Aprovadas'],['received','Recebidas'],['rejected','Negadas']];
+function render(){const counts=Object.fromEntries(types.map(([k])=>[k,k==='all'?rows.length:rows.filter(x=>x.status===k).length]));$('total').textContent=rows.length;$('pending').textContent=counts.pending;$('approved').textContent=counts.approved;$('received').textContent=rows.filter(x=>x.status==='received').reduce((n,x)=>n+x.quantity,0);
+$('tabs').innerHTML=types.map(([k,n])=>`<button class="tab ${filter===k?'active':''}" data-filter="${k}">${n}<b>${counts[k]}</b></button>`).join('');$('tabs').querySelectorAll('button').forEach(b=>b.onclick=()=>{filter=b.dataset.filter;render()});
+let term=$('search').value.toLocaleLowerCase('pt-BR'),condition=$('condition').value;const selected=rows.filter(r=>(filter==='all'||r.status===filter)&&(!condition||r.condition===condition)&&[r.title,r.author,r.donor,r.description].some(s=>String(s).toLocaleLowerCase('pt-BR').includes(term)));
+$('cards').innerHTML=selected.length?selected.map((r,i)=>`<article class="card"><div class="cover ${i%3===1?'green':i%3===2?'gold':''}">✦</div><div><span class="status ${r.status}">${statuses[r.status]}</span><h3>${escapeHTML(r.title)}</h3><div class="author">${escapeHTML(r.author)}</div><p>${escapeHTML(r.description)}</p><div class="meta"><span class="chip">${escapeHTML(r.origin)}</span><span class="chip">${r.quantity} ${r.quantity===1?'exemplar':'exemplares'}</span><span class="chip">${escapeHTML(r.condition)}</span></div><div class="actions"><button class="btn tiny outline" data-action="details" data-id="${r.id}">Ver detalhes</button>${r.status==='pending'?`<button class="btn tiny" data-action="approve" data-id="${r.id}">Aprovar</button><button class="btn tiny danger" data-action="reject" data-id="${r.id}">Negar</button>`:''}${r.status==='approved'?`<button class="btn tiny" data-action="receive" data-id="${r.id}">Confirmar recebimento</button>`:''}</div></div></article>`).join(''):'<div class="empty">Nenhuma doação encontrada nesta categoria.</div>';
+$('cards').querySelectorAll('[data-action]').forEach(b=>b.onclick=()=>action(b.dataset.action,b.dataset.id));
+const n=['pending','approved','received','rejected'].map(k=>counts[k]);const sum=n.reduce((a,b)=>a+b,0)||1;let a=0;const colors=['#3B1319','#C6B39A','#526B56','#E1D5C7'];$('donut').style.background='conic-gradient('+n.map((v,i)=>{let start=a;a+=v/sum*100;return `${colors[i]} ${start}% ${a}%`}).join(',')+')';
+const months=['Jun','Jul','Ago','Set','Out','Nov'],vals=[2,4,3,6,5,rows.filter(r=>r.status==='received').reduce((n,r)=>n+r.quantity,0)];let max=Math.max(8,...vals);$('chart').innerHTML=months.map((m,i)=>`<div class="chartcol"><b>${vals[i]}</b><div class="chartbar" style="height:${Math.max(4,vals[i]/max*100)}%"></div><small>${m}</small></div>`).join('')}
+function openModal(title,eyebrow,body,button,callback){$('modalTitle').textContent=title;$('modalEyebrow').textContent=eyebrow;$('modalBody').innerHTML=body;$('overlay').classList.remove('hidden');$('confirm').classList.toggle('hidden',!button);$('confirm').textContent=button||'';modalAction=callback;document.body.style.overflow='hidden'}
+function closeModal(){$('overlay').classList.add('hidden');document.body.style.overflow='';modalAction=null}
+$('close').onclick=closeModal;$('overlay').onclick=e=>{if(e.target===$('overlay'))closeModal()};document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal()});
+$('confirm').onclick=()=>{if(modalAction)modalAction()};
+function action(type,id){let r=rows.find(x=>x.id===id);if(!r)return;const details=`<div class="line"></div><p><b>Autor:</b> ${escapeHTML(r.author)}</p><p><b>Doador:</b> ${escapeHTML(r.donor)}</p><p><b>Origem:</b> ${escapeHTML(r.origin)}</p><p><b>Quantidade:</b> ${r.quantity}</p><p><b>Conservação:</b> ${escapeHTML(r.condition)}</p><p><b>Data do registro:</b> ${new Date(r.date+'T12:00:00').toLocaleDateString('pt-BR')}</p><p><b>Etapa:</b> ${statuses[r.status]}</p><p><b>Descrição:</b> ${escapeHTML(r.description)}</p>${r.reason?`<p><b>Motivo da recusa:</b> ${escapeHTML(r.reason)}</p>`:''}`;
+if(type==='details'){openModal(r.title,'Ficha da doação',details,null,null);return}
+if(type==='reject'){openModal('Por que negar?','Decisão de curadoria',`<p class="sub">Escolha um motivo ou escreva sua justificativa. O motivo é obrigatório.</p><label for="reasonType">Motivo da recusa *</label><select class="input" id="reasonType"><option value="">Selecione...</option><option>Conservação inadequada</option><option>Acervo já possui exemplares suficientes</option><option>Material incompatível com a biblioteca</option><option value="Outro">Outro motivo</option></select><label for="reasonText">Observações adicionais</label><textarea class="input" id="reasonText" placeholder="Explique a decisão, se necessário..."></textarea>`, 'Confirmar recusa',()=>{let reason=$('reasonType').value,extra=$('reasonText').value.trim();if(!reason||(reason==='Outro'&&!extra)){notify('Informe o motivo da recusa.');return}r.reason=reason==='Outro'?extra:reason+(extra?' — '+extra:'');r.status='rejected';save();closeModal();render();notify('Doação negada na demonstração.')});return}
+let next=type==='approve'?'approved':'received';openModal(type==='approve'?'Aprovar esta doação?':'O livro já chegou?','Confirmação',`<p class="sub">${escapeHTML(r.title)} · ${r.quantity} ${r.quantity===1?'exemplar':'exemplares'}</p><p>${type==='approve'?'A aprovação indica que a biblioteca aceita a oferta. O livro só será contabilizado como recebido depois da entrega.':'Confirme apenas quando os exemplares tiverem sido entregues fisicamente à biblioteca.'}</p>`,type==='approve'?'Sim, aprovar':'Confirmar recebimento',()=>{r.status=next;if(next==='received')r.receivedDate=new Date().toISOString().slice(0,10);save();closeModal();render();notify('Etapa atualizada na demonstração.')})}
+$('new').onclick=()=>openModal('Um novo livro chegou.','Registro presencial',`<p class="sub">Cadastre um livro entregue diretamente na biblioteca. Tudo ficará apenas nesta demonstração.</p><div class="formgrid"><div><label for="fTitle">Título *</label><input class="input" id="fTitle" maxlength="180"></div><div><label for="fAuthor">Autor *</label><input class="input" id="fAuthor" maxlength="160"></div><div><label for="fDonor">Nome do doador *</label><input class="input" id="fDonor" maxlength="120"></div><div><label for="fQty">Quantidade *</label><input class="input" id="fQty" type="number" min="1" max="100" value="1"></div><div><label for="fCondition">Conservação</label><select class="input" id="fCondition"><option>Novo</option><option selected>Bom</option><option>Regular</option></select></div><div><label for="fStatus">Situação inicial</label><select class="input" id="fStatus"><option value="received">Recebida (já conferida)</option><option value="pending">Pendente (aguarda análise)</option></select></div></div><label for="fDesc">Descrição do livro *</label><textarea class="input" id="fDesc" maxlength="600" placeholder="Edição, capa, páginas, observações..."></textarea>`,'Registrar doação',()=>{let title=$('fTitle').value.trim(),author=$('fAuthor').value.trim(),donor=$('fDonor').value.trim(),description=$('fDesc').value.trim(),qty=Number($('fQty').value);if(!title||!author||!donor||!description||!Number.isInteger(qty)||qty<1||qty>100){notify('Preencha os campos obrigatórios.');return}rows.unshift({id:String(Date.now()),title,author,donor,quantity:qty,condition:$('fCondition').value,description,origin:'Presencial',status:$('fStatus').value,date:new Date().toISOString().slice(0,10),reason:''});filter='all';save();closeModal();render();notify('Doação presencial registrada na demonstração.')});
+$('csv').onclick=()=>{let cols=['title','author','donor','origin','quantity','condition','description','status','reason','date'];let csv=[cols.join(';'),...rows.map(r=>cols.map(k=>'"'+String(r[k]??'').replace(/"/g,'""')+'"').join(';'))].join('\r\n');let url=URL.createObjectURL(new Blob(['\ufeff'+csv],{type:'text/csv;charset=utf-8'}));let a=document.createElement('a');a.href=url;a.download='techbook_doacoes_demonstracao.csv';a.click();setTimeout(()=>URL.revokeObjectURL(url),1500)};
+render();
+</script></body></html>

@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
@@ -21,7 +21,7 @@
       <a href="index.html">Início</a>
       <a href="bibliotecario.html">Acervo & Scanner</a>
       <a class="active" href="emprestimos.html">Empréstimos</a>
-      <a href="ranking.html">Ranking</a>
+      <a href="Ranking.html">Ranking</a>
     </nav>
 
     <button class="button button-outline" id="sairBtn">
@@ -35,8 +35,8 @@
         <span class="eyebrow">CONTROLE DA BIBLIOTECA</span>
         <h1>Empréstimos <em>& devoluções</em></h1>
         <p>
-          Registre empréstimos, acompanhe os prazos
-          e confirme as devoluções dos livros.
+          Analise solicitações, registre a entrega física,
+          acompanhe os prazos e confirme as devoluções.
         </p>
       </div>
       <div class="hero-icon">📚</div>
@@ -128,10 +128,13 @@
 
         <select id="filtroStatus">
           <option value="todos">Todas as situações</option>
+          <option value="pendente">Aguardando aprovação</option>
+          <option value="aprovado">Aprovados / aguardando retirada</option>
           <option value="ativo">Em andamento</option>
           <option value="atrasado">Em atraso</option>
-          <option value="solicitado">Devolução solicitada</option>
+          <option value="devolucao">Devolução solicitada</option>
           <option value="devolvido">Devolvidos</option>
+          <option value="recusado">Recusados</option>
         </select>
       </div>
 
@@ -163,6 +166,182 @@
       <p class="table-help">
         A devolução pode ser confirmada após a solicitação do aluno.
       </p>
+    </section>
+  </main>
+
+  <footer>
+    TechBook · Organização que aproxima você da leitura.
+  </footer>
+</body>
+</html> -->
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Empréstimos | TechBook</title>
+  <link rel="stylesheet" href="assets/css/emprestimos.css">
+  <link rel="stylesheet" href="assets/css/tema-global.css">
+  <script src="assets/js/dados-visitante.js" defer></script>
+  <script src="assets/js/tema-global.js" defer></script>
+  <script src="assets/js/emprestimos.js" defer></script>
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="index.html">
+      <span class="brand-mark">TB</span>
+      <span>
+        <strong>TechBook</strong>
+        <small>BIBLIOTECA INTELIGENTE</small>
+      </span>
+    </a>
+
+    <nav class="nav">
+      <a href="index.html">Início</a>
+      <a href="bibliotecario.html">Acervo & Scanner</a>
+      <a class="active" href="emprestimos.html">Empréstimos</a>
+      <a href="Ranking.html">Ranking</a>
+    </nav>
+
+    <button class="button button-outline" id="sairBtn">
+      Sair
+    </button>
+  </header>
+
+  <main class="container">
+    <section class="hero">
+      <div>
+        <span class="eyebrow">CONTROLE DA BIBLIOTECA</span>
+        <h1>Empréstimos <em>& devoluções</em></h1>
+        <p>
+          Analise solicitações, registre a entrega física,
+          acompanhe os prazos e confirme as devoluções.
+        </p>
+      </div>
+      <div class="hero-icon">📚</div>
+    </section>
+
+    <section class="stats">
+      <article class="stat-card">
+        <span class="stat-icon">📖</span>
+        <div>
+          <small>Empréstimos ativos</small>
+          <strong id="totalAtivos">—</strong>
+        </div>
+      </article>
+
+      <article class="stat-card">
+        <span class="stat-icon">⏰</span>
+        <div>
+          <small>Em atraso</small>
+          <strong id="totalAtrasados">—</strong>
+        </div>
+      </article>
+
+      <article class="stat-card">
+        <span class="stat-icon">✓</span>
+        <div>
+          <small>Devolvidos</small>
+          <strong id="totalDevolvidos">—</strong>
+        </div>
+      </article>
+    </section>
+
+    <section class="panel">
+      <div class="section-heading">
+        <div>
+          <span class="eyebrow">NOVO REGISTRO</span>
+          <h2>Registrar empréstimo</h2>
+        </div>
+        <span class="heading-book">＋</span>
+      </div>
+
+      <form id="emprestimoForm">
+        <label>
+          Aluno
+          <select id="alunoSelect" required disabled>
+            <option value="">Cadastro local de alunos indisponível</option>
+          </select>
+        </label>
+
+        <label>
+          Livro disponível
+          <select id="exemplarSelect" required disabled>
+            <option value="">Selecione no catálogo público</option>
+          </select>
+        </label>
+
+        <label>
+          Data prevista para devolução
+          <input id="dataPrevista" type="date" required disabled>
+        </label>
+
+        <button class="button button-primary" type="submit" disabled>Cadastro real indisponível</button>
+      </form>
+
+      <p class="form-note">
+        O registro de empréstimos pelo balcão será habilitado quando a integração com o acervo escolar estiver disponível. As solicitações locais podem ser analisadas na tabela abaixo.
+      </p>
+    </section>
+
+    <section class="panel">
+      <div class="section-heading list-heading">
+        <div>
+          <span class="eyebrow">ACOMPANHAMENTO</span>
+          <h2>Todos os empréstimos</h2>
+        </div>
+
+        <button class="button button-outline" id="atualizarBtn">
+          ↻ Atualizar
+        </button>
+      </div>
+
+      <div class="filters">
+        <input
+          id="buscaInput"
+          type="search"
+          placeholder="Buscar aluno ou livro..."
+        >
+
+        <select id="filtroStatus">
+          <option value="todos">Todas as situações</option>
+          <option value="pendente">Aguardando aprovação</option>
+          <option value="aprovado">Aprovados / aguardando retirada</option>
+          <option value="ativo">Em andamento</option>
+          <option value="atrasado">Em atraso</option>
+          <option value="devolucao">Devolução solicitada</option>
+          <option value="devolvido">Devolvidos</option>
+          <option value="recusado">Recusados</option>
+        </select>
+      </div>
+
+      <div id="mensagem" class="message"></div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Aluno</th>
+              <th>Livro</th>
+              <th>Empréstimo</th>
+              <th>Devolução prevista</th>
+              <th>Situação</th>
+              <th>Ação</th>
+            </tr>
+          </thead>
+
+          <tbody id="emprestimosTabela">
+            <tr>
+              <td colspan="6" class="empty">
+                Carregando registros...
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p class="table-help">As ações desta página atualizam somente os registros locais de exemplo e solicitações feitas nesta navegação.</p>
     </section>
   </main>
 

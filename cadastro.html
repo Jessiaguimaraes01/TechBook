@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -101,19 +100,25 @@
       margin-top: 20px;
       text-align: center;
     }
+    .aviso-acesso { padding: 10px 12px; border-left: 3px solid #D6AE70; background: rgba(214,174,112,.12); border-radius: 8px; font-size: .86rem; }
+    .cadastro-botao:disabled { opacity: .55; cursor: not-allowed; }
+    .botao-visitante { display:block; text-align:center; background:#D6AE70; color:#32131d; text-decoration:none; }
   </style>
+  <link rel="stylesheet" href="assets/css/tema-global.css">
+  <script src="assets/js/tema-global.js" defer></script>
 </head>
 
 <body>
   <main class="cadastro-pagina">
     <section class="cadastro-cartao">
-      <p class="genero-livro">TECHBOOK · ÁREA DO ALUNO</p>
+      <p class="genero-livro">TECHBOOK · CADASTRO DE ALUNO</p>
 
       <h1>Crie sua conta</h1>
 
       <p>
-        Cadastre-se para fazer parte da nossa comunidade de leitores.
+        Crie sua conta de aluno para fazer parte da nossa comunidade de leitores.
       </p>
+      <p class="aviso-acesso" role="note">O cadastro está temporariamente indisponível enquanto a autenticação não está conectada.</p>
 
       <form id="form-cadastro">
         <div class="campo-cadastro">
@@ -125,19 +130,26 @@
             maxlength="100"
             autocomplete="name"
             required
+            disabled
           >
         </div>
 
         <div class="campo-cadastro">
-          <label for="matricula">Matrícula escolar</label>
+          <label for="matricula">Identificação numérica</label>
           <input
             id="matricula"
             name="matricula"
             type="text"
-            maxlength="30"
+            inputmode="numeric"
+            pattern="[0-9]{6,12}"
+            minlength="6"
+            maxlength="12"
+            title="Digite de 6 a 12 números."
             autocomplete="username"
             required
+            disabled
           >
+          <small>Crie uma sequência de 6 a 12 números. Ela será usada no login.</small>
         </div>
 
         <div class="campo-cadastro">
@@ -149,6 +161,7 @@
             maxlength="30"
             placeholder="Ex.: 2º ano B"
             required
+            disabled
           >
         </div>
 
@@ -162,68 +175,28 @@
             maxlength="128"
             autocomplete="new-password"
             required
+            disabled
           >
           <small>Use pelo menos 8 caracteres.</small>
         </div>
 
-        <button class="cadastro-botao" id="botao-cadastro" type="submit">
-          Criar minha conta
+        <button class="cadastro-botao" id="botao-cadastro" type="submit" disabled>
+          Cadastro temporariamente indisponível
         </button>
 
         <p id="mensagem-cadastro" role="status" aria-live="polite"></p>
       </form>
 
-      <a class="cadastro-voltar" href="index.html">
-        ← Voltar para a biblioteca
-      </a>
+      <a class="cadastro-botao botao-visitante" href="perfil-aluno.html" id="cadastro-visitante">Entrar como visitante</a>
+      <a class="cadastro-voltar" href="login.html">← Voltar para o login</a>
+      <a class="cadastro-voltar" href="index.html">← Voltar para a biblioteca</a>
     </section>
   </main>
 
   <script>
-    const formulario = document.querySelector("#form-cadastro");
-    const mensagem = document.querySelector("#mensagem-cadastro");
-    const botao = document.querySelector("#botao-cadastro");
-
-    formulario.addEventListener("submit", async (evento) => {
-      evento.preventDefault();
-
-      mensagem.textContent = "";
-      botao.disabled = true;
-      botao.textContent = "Enviando cadastro...";
-
-      const dados = {
-        nome: document.querySelector("#nome").value.trim(),
-        matricula: document.querySelector("#matricula").value.trim(),
-        turma: document.querySelector("#turma").value.trim(),
-        senha: document.querySelector("#senha").value
-      };
-
-      try {
-        const resposta = await fetch("/api/cadastro", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify(dados)
-        });
-
-        const resultado = await resposta.json();
-
-        if (!resposta.ok) {
-          throw new Error(resultado.erro || "Não foi possível realizar o cadastro.");
-        }
-
-        mensagem.textContent = "Cadastro realizado com sucesso! 🎉";
-        formulario.reset();
-      } catch (erro) {
-        mensagem.textContent =
-          erro.message === "Failed to fetch"
-            ? "Não foi possível conectar ao servidor. Confira se ele está funcionando."
-            : erro.message;
-      } finally {
-        botao.disabled = false;
-        botao.textContent = "Criar minha conta";
-      }
+    document.querySelector("#form-cadastro")?.addEventListener("submit", evento => evento.preventDefault());
+    document.querySelector("#cadastro-visitante")?.addEventListener("click", () => {
+      localStorage.setItem("techbook-acesso-visitante", "aluno");
     });
   </script>
 </body>

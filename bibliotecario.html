@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
@@ -824,6 +824,708 @@
         }
 
         iniciar();
+    </script>
+</body>
+</html> -->
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Área do Bibliotecário — TechBook</title>
+    <link rel="stylesheet" href="assets/css/tema-global.css">
+    <script src="assets/js/dados-visitante.js"></script>
+    <script src="assets/js/tema-global.js" defer></script>
+    <style>
+        @import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap");
+
+        :root {
+            --vinho: #481B27;
+            --bordo: #762F3B;
+            --creme: #F5EBDD;
+            --rosa: #C58CA5;
+            --dourado: #D6AE70;
+            --papel: #FFFCF7;
+            --texto: #38272C;
+            --suave: #78666B;
+            --borda: #E6D8CB;
+            --verde: #52776B;
+            --vermelho: #9A333B;
+            --sombra: 0 12px 30px rgba(72, 27, 39, 0.08);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: "DM Sans", sans-serif;
+            background: var(--creme);
+            color: var(--texto);
+            line-height: 1.6;
+        }
+
+        h1, h2, h3, .marca-texto {
+            font-family: "Playfair Display", Georgia, serif;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        button, input, select {
+            font: inherit;
+        }
+
+        :focus-visible {
+            outline: 3px solid var(--dourado);
+            outline-offset: 2px;
+        }
+
+        .topo {
+            position: sticky;
+            top: 0;
+            z-index: 20;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            flex-wrap: wrap;
+            padding: 15px 6%;
+            background: rgba(245, 235, 221, 0.96);
+            border-bottom: 1px solid var(--borda);
+            backdrop-filter: blur(8px);
+        }
+
+        .marca {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 700;
+        }
+
+        .marca-simbolo {
+            width: 38px;
+            height: 38px;
+            display: grid;
+            place-items: center;
+            border-radius: 10px;
+            background: var(--vinho);
+            color: var(--dourado);
+            font-weight: 700;
+        }
+
+        .marca-texto {
+            display: grid;
+            font-size: 1.2rem;
+            color: var(--vinho);
+            line-height: 1.05;
+        }
+
+        .marca-texto small {
+            font-family: "DM Sans", sans-serif;
+            font-size: 0.58rem;
+            letter-spacing: 0.16em;
+            color: var(--suave);
+        }
+
+        .admin-nav {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .admin-nav a {
+            padding: 8px 13px;
+            border-radius: 99px;
+            font-size: 0.88rem;
+            font-weight: 700;
+            color: var(--suave);
+            transition: background-color 0.2s, color 0.2s;
+        }
+
+        .admin-nav a:hover,
+        .admin-nav a.ativo {
+            background: rgba(197, 140, 165, 0.22);
+            color: var(--vinho);
+        }
+
+        .admin-nav a.destaque-scanner {
+            background: var(--dourado);
+            color: #291318;
+        }
+
+        .sair-btn {
+            border: 1px solid var(--borda);
+            background: var(--papel);
+            color: var(--vinho);
+            border-radius: 99px;
+            padding: 8px 16px;
+            font-size: 0.88rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background-color 0.2s, color 0.2s;
+        }
+
+        .sair-btn:hover {
+            background: var(--vinho);
+            color: #fff;
+        }
+
+        .cabecalho-admin {
+            padding: 46px 6% 74px;
+            color: #FFF7EE;
+            background: radial-gradient(circle at 82% 28%, rgba(197, 140, 165, 0.25), transparent 42%),
+                        linear-gradient(125deg, #3D1420, var(--vinho) 58%, var(--bordo));
+        }
+
+        .cabecalho-conteudo {
+            width: min(1080px, 100%);
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .etiqueta {
+            display: inline-block;
+            font-size: 0.72rem;
+            font-weight: 700;
+            letter-spacing: 0.2em;
+            color: var(--dourado);
+            margin-bottom: 8px;
+        }
+
+        .cabecalho-admin h1 {
+            margin: 0 0 8px;
+            font-size: clamp(2rem, 4.4vw, 3.1rem);
+            line-height: 1.1;
+        }
+
+        .cabecalho-admin h1 em {
+            color: var(--dourado);
+            font-style: italic;
+        }
+
+        .cabecalho-admin p {
+            margin: 0;
+            color: rgba(255, 247, 238, 0.84);
+            max-width: 58ch;
+        }
+
+        .conteudo-principal {
+            width: min(1080px, 90%);
+            margin: -38px auto 56px;
+            position: relative;
+            z-index: 3;
+            display: grid;
+            gap: 24px;
+        }
+
+        .resumo-admin {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 14px;
+        }
+
+        .indicador {
+            background: var(--papel);
+            border: 1px solid var(--borda);
+            border-radius: 18px;
+            padding: 18px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            box-shadow: var(--sombra);
+        }
+
+        .indicador-icone {
+            width: 42px;
+            height: 42px;
+            border-radius: 12px;
+            display: grid;
+            place-items: center;
+            background: rgba(197, 140, 165, 0.22);
+            color: var(--vinho);
+            font-weight: 700;
+        }
+
+        .indicador strong {
+            display: block;
+            font-size: 1.55rem;
+            color: var(--vinho);
+            line-height: 1.1;
+        }
+
+        .indicador small {
+            color: var(--suave);
+            font-size: 0.85rem;
+        }
+
+        .painel {
+            background: var(--papel);
+            border: 1px solid var(--borda);
+            border-radius: 22px;
+            padding: 24px;
+            box-shadow: var(--sombra);
+        }
+
+        .painel h2 {
+            margin: 0 0 6px;
+            color: var(--vinho);
+            font-size: 1.65rem;
+        }
+
+        .painel .etiqueta {
+            color: var(--bordo);
+            margin-bottom: 4px;
+        }
+
+        .texto-suave {
+            margin: 0;
+            color: var(--suave);
+            font-size: 0.92rem;
+        }
+
+        .atalhos-rapidos {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        .card-atalho {
+            background: var(--papel);
+            border: 1px solid var(--borda);
+            border-radius: 20px;
+            padding: 22px;
+            box-shadow: var(--sombra);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+        }
+
+        .card-atalho h3 {
+            margin: 0 0 6px;
+            color: var(--vinho);
+            font-size: 1.3rem;
+        }
+
+        .formulario-livro {
+            display: grid;
+            grid-template-columns: 1.3fr 1.1fr 0.8fr 0.8fr 0.55fr;
+            gap: 14px;
+            align-items: end;
+            margin-top: 18px;
+        }
+
+        label {
+            display: block;
+            font-weight: 700;
+            font-size: 0.86rem;
+            color: var(--vinho);
+            margin-bottom: 6px;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 11px 13px;
+            border-radius: 12px;
+            border: 1px solid var(--borda);
+            background: #fff;
+            color: var(--texto);
+        }
+
+        .acoes-formulario {
+            margin-top: 16px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            flex-wrap: wrap;
+        }
+
+        .botao {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            border: 0;
+            border-radius: 99px;
+            padding: 12px 20px;
+            font-weight: 700;
+            font-size: 0.94rem;
+            cursor: pointer;
+            transition: transform 0.15s, background-color 0.2s;
+        }
+
+        .botao:hover {
+            transform: translateY(-1px);
+        }
+
+        .botao-vinho {
+            background: var(--vinho);
+            color: #fff;
+        }
+
+        .botao-dourado {
+            background: var(--dourado);
+            color: #291318;
+        }
+
+        .botao-perigo {
+            background: rgba(154, 51, 59, 0.12);
+            color: var(--vermelho);
+            border: 1px solid rgba(154, 51, 59, 0.28);
+            padding: 8px 14px;
+            font-size: 0.84rem;
+        }
+
+        .aviso {
+            margin-top: 14px;
+            padding: 12px 15px;
+            border-radius: 14px;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .aviso[hidden] {
+            display: none;
+        }
+
+        .aviso.sucesso {
+            background: rgba(82, 119, 107, 0.16);
+            color: var(--verde);
+            border: 1px solid rgba(82, 119, 107, 0.35);
+        }
+
+        .aviso.erro {
+            background: rgba(154, 51, 59, 0.12);
+            color: var(--vermelho);
+            border: 1px solid rgba(154, 51, 59, 0.3);
+        }
+
+        .lista-livros {
+            display: grid;
+            gap: 12px;
+            margin-top: 18px;
+        }
+
+        .item-livro {
+            border: 1px solid var(--borda);
+            border-radius: 16px;
+            padding: 16px 18px;
+            background: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .item-livro h3 {
+            margin: 0 0 4px;
+            color: var(--vinho);
+            font-size: 1.12rem;
+        }
+
+        .meta-livro {
+            margin: 0;
+            color: var(--suave);
+            font-size: 0.87rem;
+        }
+
+        .selo {
+            display: inline-block;
+            padding: 4px 11px;
+            border-radius: 99px;
+            font-size: 0.76rem;
+            font-weight: 700;
+            background: rgba(197, 140, 165, 0.24);
+            color: var(--vinho);
+            margin-right: 8px;
+        }
+
+        .vazio {
+            padding: 26px;
+            border-radius: 16px;
+            border: 1px dashed var(--borda);
+            background: rgba(245, 235, 221, 0.45);
+            text-align: center;
+            color: var(--suave);
+        }
+
+        footer {
+            padding: 26px 6%;
+            background: #2C0F18;
+            color: rgba(255, 247, 238, 0.8);
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            gap: 14px;
+            font-size: 0.86rem;
+        }
+
+        .marca-rodape .marca-texto {
+            color: #FFF7EE;
+        }
+
+        .rodape-detalhe {
+            color: var(--dourado);
+        }
+
+        @media (max-width: 960px) {
+            .resumo-admin,
+            .atalhos-rapidos {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .formulario-livro {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .resumo-admin,
+            .atalhos-rapidos,
+            .formulario-livro {
+                grid-template-columns: 1fr;
+            }
+        }
+        .form-reservado fieldset { border:0; padding:0; margin:0; min-width:0; }
+        .form-reservado :disabled { opacity:.72; cursor:not-allowed; }
+        .nota-integracao { margin-top:14px; font-size:.84rem; }
+        .busca-acervo { display:grid; gap:7px; margin-top:16px; }
+        .busca-acervo input { max-width:520px; }
+        .item-livro { background:var(--papel); }
+        .item-livro-conteudo { display:flex; align-items:center; gap:14px; flex:1; min-width:240px; }
+        .mini-capa { width:48px; height:68px; object-fit:cover; border-radius:6px; background:#eadfe4; }
+        .lista-atividades { display:grid; gap:10px; margin-top:16px; }
+        .linha-atividade { display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap; padding:13px 15px; background:var(--papel); border:1px solid var(--borda); border-radius:13px; }
+        .linha-atividade p { margin:3px 0 0; color:var(--suave); font-size:.85rem; }
+        @media(max-width:600px){ .item-livro-conteudo{min-width:100%;} }
+    </style>
+</head>
+<body>
+    <header class="topo">
+        <a class="marca" href="index.html">
+            <span class="marca-simbolo" aria-hidden="true">TB</span>
+            <span class="marca-texto">
+                TechBook
+                <small>BIBLIOTECA INTELIGENTE</small>
+            </span>
+        </a>
+
+<nav class="admin-nav" aria-label="Navegação administrativa">
+    <a class="ativo" href="bibliotecario.html">Acervo</a>
+
+    <a class="destaque-scanner" href="techbook.html">
+        📷 Abrir TechScanner
+    </a>
+
+    <a href="emprestimos.html">Empréstimos &amp; Devoluções</a>
+    <a href="doacoes.html">Caderno de Doações</a>
+    <a href="estatisticas.html">Estatísticas</a>
+    <a href="Ranking.html">Ranking</a>
+    <a href="index.html">Catálogo Público</a>
+
+    <button class="sair-btn" id="sair-btn" type="button">
+        Sair
+    </button>
+</nav>
+
+    </header>
+
+    <section class="cabecalho-admin">
+        <div class="cabecalho-conteudo">
+            <div>
+                <span class="etiqueta">ÁREA DO BIBLIOTECÁRIO</span>
+                <h1>Gestão do <em>acervo</em></h1>
+                <p>
+                    Consulte a coleção de exemplos, acompanhe a disponibilidade dos exemplares e explore a organização das movimentações da biblioteca.
+                </p>
+            </div>
+            <a href="techbook.html" class="botao botao-dourado">📷 Abrir TechScanner (Leitor ISBN) →</a>
+        </div>
+    </section>
+
+    <main class="conteudo-principal">
+        <section class="resumo-admin" aria-label="Indicadores do acervo">
+            <article class="indicador">
+                <span class="indicador-icone" aria-hidden="true">▤</span>
+                <div>
+                    <strong id="total-livros">0</strong>
+                    <small>Títulos cadastrados</small>
+                </div>
+            </article>
+
+            <article class="indicador">
+                <span class="indicador-icone" aria-hidden="true">✓</span>
+                <div>
+                    <strong id="total-disponiveis">0</strong>
+                    <small>Exemplares disponíveis</small>
+                </div>
+            </article>
+
+            <article class="indicador">
+                <span class="indicador-icone" aria-hidden="true">↗</span>
+                <div>
+                    <strong id="total-emprestados">0</strong>
+                    <small>Empréstimos ativos</small>
+                </div>
+            </article>
+
+            <article class="indicador">
+                <span class="indicador-icone" aria-hidden="true">☺</span>
+                <div>
+                    <strong id="total-alunos">0</strong>
+                    <small>Alunos cadastrados</small>
+                </div>
+            </article>
+        </section>
+
+        <section class="atalhos-rapidos">
+            <article class="card-atalho">
+    <div>
+        <span class="etiqueta">SOLIDARIEDADE E LEITURA</span>
+        <h3>Caderno de Doações</h3>
+        <p class="texto-suave">
+            Acompanhe solicitações, organize doações de livros
+            e registre os exemplares recebidos pela biblioteca.
+        </p>
+    </div>
+
+    <a
+        href="doacoes.html"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="botao botao-vinho">
+        Gerenciar Doações →
+    </a>
+</article>
+            <article class="card-atalho">
+                <div>
+                    <span class="etiqueta">CADASTRO POR CÂMERA</span>
+                    <h3>TechScanner</h3>
+                    <p class="texto-suave">Leia o código de barras ISBN do livro pela câmera para preencher título e autor automaticamente.</p>
+                </div>
+                <a href="techbook.html" class="botao botao-dourado">Abrir Scanner →</a>
+            </article>
+
+            <article class="card-atalho">
+                <div>
+                    <span class="etiqueta">BALCÃO DA BIBLIOTECA</span>
+                    <h3>Empréstimos & Devoluções</h3>
+                    <p class="texto-suave">Registre novos empréstimos para alunos e confirme as devoluções solicitadas.</p>
+                </div>
+                <a href="emprestimos.html" class="botao botao-vinho">Abrir Controle →</a>
+            </article>
+        </section>
+
+        <section class="painel" aria-labelledby="titulo-novo-livro">
+            <span class="etiqueta">PREPARAÇÃO PARA INTEGRAÇÃO FUTURA</span>
+            <h2 id="titulo-novo-livro">Cadastro do acervo escolar</h2>
+            <p class="texto-suave">Os campos abaixo já representam a estrutura prevista para os livros reais da escola. O cadastro permanece desativado até que a biblioteca autorize e disponibilize o acesso ao acervo.</p>
+            <form id="form-livro" class="form-reservado">
+                <fieldset disabled>
+                    <div class="formulario-livro">
+                        <div><label for="titulo">Nome do livro</label><input id="titulo" name="titulo" type="text" placeholder="Título da obra"></div>
+                        <div><label for="autor">Autor</label><input id="autor" name="autor" type="text" placeholder="Nome do autor"></div>
+                        <div><label for="editora">Editora</label><input id="editora" name="editora" type="text" placeholder="Editora"></div>
+                        <div><label for="genero">Gênero ou categoria</label><select id="genero" name="genero"><option>Selecione uma categoria</option><option>Fantasia</option><option>Mistério</option><option>Aventura</option><option>Ficção científica</option><option>Romance</option><option>Outros</option></select></div>
+                        <div><label for="ano">Ano de publicação</label><input id="ano" name="ano" type="number" placeholder="Ex.: 2024"></div>
+                        <div><label for="capa">Imagem da capa</label><input id="capa" name="capa" type="url" placeholder="Endereço da imagem"></div>
+                        <div><label for="quantidade">Quantidade de exemplares</label><input id="quantidade" name="quantidade" type="number" min="1" placeholder="Ex.: 3"></div>
+                        <div><label for="codigo">Código de identificação</label><input id="codigo" name="codigo" type="text" placeholder="Código da biblioteca"></div>
+                        <div><label for="disponibilidade">Disponibilidade</label><select id="disponibilidade" name="disponibilidade"><option>Disponível</option><option>Indisponível</option></select></div>
+                    </div>
+                    <div class="acoes-formulario"><button class="botao botao-vinho" id="salvar-livro-btn" type="submit">Cadastrar livro</button></div>
+                </fieldset>
+            </form>
+            <p class="texto-suave nota-integracao">Quando a integração estiver autorizada, esses campos poderão ser conectados ao cadastro oficial sem misturar os registros da coleção de exemplos.</p>
+        </section>
+
+        <section class="painel" aria-labelledby="titulo-acervo">
+            <span class="etiqueta">CATÁLOGO ATUAL</span>
+            <h2 id="titulo-acervo">Coleção de livros de exemplo</h2>
+            <p class="texto-suave">
+                Estes títulos são utilizados para explorar o catálogo e as ferramentas do TechBook. Eles ficam separados do futuro acervo escolar.
+            </p>
+
+            <label class="busca-acervo" for="busca-acervo">Pesquisar nesta coleção<input id="busca-acervo" type="search" placeholder="Buscar título, autor ou gênero"></label>
+            <div class="lista-livros" id="lista-livros">
+                <div class="vazio">Carregando acervo...</div>
+            </div>
+        </section>
+
+        <section class="painel" aria-labelledby="titulo-atividades">
+            <span class="etiqueta">MOVIMENTAÇÕES</span>
+            <h2 id="titulo-atividades">Atividades recentes</h2>
+            <p class="texto-suave">Acompanhe solicitações e devoluções registradas nesta navegação.</p>
+            <div class="lista-atividades" id="lista-atividades"></div>
+        </section>
+    </main>
+
+    <footer>
+        <a class="marca marca-rodape" href="index.html">
+            <span class="marca-simbolo" aria-hidden="true">TB</span>
+            <span class="marca-texto">
+                TechBook
+                <small>BIBLIOTECA INTELIGENTE</small>
+            </span>
+        </a>
+        <p>Projeto desenvolvido para a feira de ciências</p>
+        <span class="rodape-detalhe">Ler · Descobrir · Imaginar</span>
+    </footer>
+
+    <script>
+      (() => {
+        const demo = window.TechBookDemo;
+        const $ = id => document.getElementById(id);
+        const esc = texto => String(texto ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+        const fmt = value => {
+          if (!value) return "—";
+          const p = String(value).slice(0,10).split("-");
+          return p.length === 3 ? `${p[2]}/${p[1]}/${p[0]}` : value;
+        };
+        function renderizarLivros() {
+          const filtro = ($("busca-acervo")?.value || "").trim().toLocaleLowerCase("pt-BR");
+          const livros = demo.getLivros().filter(l => `${l.titulo} ${l.autor} ${l.genero}`.toLocaleLowerCase("pt-BR").includes(filtro));
+          $("lista-livros").innerHTML = livros.map(livro => {
+            const disponibilidade = demo.disponiveis(livro);
+            const capa = livro.isbn ? `https://covers.openlibrary.org/b/isbn/${encodeURIComponent(livro.isbn)}-S.jpg` : "";
+            return `<article class="item-livro"><div class="item-livro-conteudo">${capa ? `<img class="mini-capa" src="${capa}" alt="Capa de ${esc(livro.titulo)}" onerror="this.style.display='none'">` : `<span class="mini-capa" aria-hidden="true" style="display:grid;place-items:center">${esc(livro.emoji)}</span>`}<div><h3>${esc(livro.titulo)}</h3><p class="meta-livro"><span class="selo">${esc(livro.genero)}</span>${esc(livro.autor)} · ${esc(livro.editora)} · ${livro.ano}<br>Código ${esc(livro.codigo)} · ${disponibilidade} de ${livro.quantidade} disponível(is)</p></div></div></article>`;
+          }).join("") || '<div class="vazio">Nenhum título encontrado nesta coleção.</div>';
+        }
+        function renderizarAtividades() {
+          const itens = demo.getEmprestimos().slice().sort((a,b) => String(b.solicitadoEm).localeCompare(String(a.solicitadoEm)));
+          $("lista-atividades").innerHTML = itens.slice(0,8).map(item => {
+            const livro = demo.getLivros().find(l => l.id === Number(item.livroId));
+            const status = item.devolvido ? "Devolvido" : item.status === "solicitado" ? "Aguardando análise" : item.status === "devolucao_solicitada" ? "Devolução solicitada" : item.status === "recusado" ? "Recusado" : "Em circulação";
+            return `<article class="linha-atividade"><div><strong>${esc(livro?.titulo || "Livro")}</strong><p>${esc(item.leitor || "Visitante")} · ${fmt(item.solicitadoEm)}</p></div><span class="selo">${status}</span></article>`;
+          }).join("") || '<div class="vazio">Nenhuma movimentação registrada.</div>';
+        }
+        const stats = demo.estatisticas();
+        $("total-livros").textContent = stats.titulos;
+        $("total-disponiveis").textContent = stats.disponiveis;
+        $("total-emprestados").textContent = stats.emprestados;
+        $("total-alunos").textContent = stats.leitores;
+        $("lista-livros").innerHTML = "";
+        renderizarLivros();
+        renderizarAtividades();
+        $("busca-acervo")?.addEventListener("input", renderizarLivros);
+        $("form-livro")?.addEventListener("submit", evento => evento.preventDefault());
+        $("sair-btn")?.addEventListener("click", () => {
+          localStorage.removeItem("techbook-acesso-visitante");
+          window.location.href = "index.html";
+        });
+      })();
     </script>
 </body>
 </html>

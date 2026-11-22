@@ -1,0 +1,113 @@
+
+<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Doações | TechBook</title><style>
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap");
+:root{--vinho:#481B27;--bordo:#762F3B;--creme:#F5EBDD;--rosa:#C58CA5;--dourado:#D6AE70;--papel:#FFFCF7;--texto:#38272C;--suave:#78666B;--borda:#E6D8CB;--verde:#52776B;--vermelho:#9A333B;--sombra:0 12px 30px rgba(72,27,39,.08)}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;font-family:"DM Sans",sans-serif;background:var(--creme);color:var(--texto);line-height:1.6}h1,h2,h3,.marca-texto{font-family:"Playfair Display",Georgia,serif}a{color:inherit;text-decoration:none}button,input,select,textarea{font:inherit}:focus-visible{outline:3px solid var(--dourado);outline-offset:2px}
+.topo{position:sticky;top:0;z-index:20;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;padding:15px 6%;background:rgba(245,235,221,.96);border-bottom:1px solid var(--borda);backdrop-filter:blur(8px)}
+.marca{display:flex;align-items:center;gap:10px;font-weight:700}.marca-simbolo{width:38px;height:38px;display:grid;place-items:center;border-radius:10px;background:var(--vinho);color:var(--dourado);font-weight:700}.marca-texto{display:grid;font-size:1.2rem;color:var(--vinho);line-height:1.05}.marca-texto small{font-family:"DM Sans",sans-serif;font-size:.58rem;letter-spacing:.16em;color:var(--suave)}
+.admin-nav{display:flex;align-items:center;gap:10px;flex-wrap:wrap}.admin-nav a{padding:8px 13px;border-radius:99px;font-size:.88rem;font-weight:700;color:var(--suave);transition:background-color .2s,color .2s}.admin-nav a:hover,.admin-nav a.ativo{background:rgba(197,140,165,.22);color:var(--vinho)}.admin-nav a.destaque-scanner{background:var(--dourado);color:#291318}.sair-btn{border:1px solid var(--borda);background:var(--papel);color:var(--vinho);border-radius:99px;padding:8px 16px;font-size:.88rem;font-weight:700;cursor:pointer}.sair-btn:hover{background:var(--vinho);color:#fff}
+.cabecalho-admin{padding:46px 6% 74px;color:#FFF7EE;background:radial-gradient(circle at 82% 28%,rgba(197,140,165,.25),transparent 42%),linear-gradient(125deg,#3D1420,var(--vinho) 58%,var(--bordo))}
+.cabecalho-conteudo{width:min(1080px,100%);margin:auto;display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap}.etiqueta{display:inline-block;font-size:.72rem;font-weight:700;letter-spacing:.2em;color:var(--dourado);margin-bottom:8px}.cabecalho-admin h1{margin:0 0 8px;font-size:clamp(2rem,4.4vw,3.1rem);line-height:1.1}.cabecalho-admin h1 em{color:var(--dourado)}.cabecalho-admin p{margin:0;color:rgba(255,247,238,.84);max-width:58ch}
+.conteudo-principal{width:min(1080px,90%);margin:-38px auto 56px;position:relative;z-index:3;display:grid;gap:24px}.resumo-admin{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}.indicador{background:var(--papel);border:1px solid var(--borda);border-radius:18px;padding:18px;display:flex;align-items:center;gap:12px;box-shadow:var(--sombra)}.indicador-icone{width:42px;height:42px;border-radius:12px;display:grid;place-items:center;background:rgba(197,140,165,.22);color:var(--vinho);font-weight:700;flex-shrink:0}.indicador strong{display:block;font-size:1.55rem;color:var(--vinho);line-height:1.1}.indicador small{color:var(--suave);font-size:.85rem}
+.painel{background:var(--papel);border:1px solid var(--borda);border-radius:22px;padding:24px;box-shadow:var(--sombra)}.painel h2{margin:0 0 6px;color:var(--vinho);font-size:1.65rem}.painel .etiqueta{color:var(--bordo);margin-bottom:4px}.texto-suave{margin:0;color:var(--suave);font-size:.92rem}.atalhos-rapidos{display:grid;grid-template-columns:1fr 1fr;gap:16px}.card-atalho{background:var(--papel);border:1px solid var(--borda);border-radius:20px;padding:22px;box-shadow:var(--sombra);display:flex;align-items:center;justify-content:space-between;gap:16px}.card-atalho h3{margin:0 0 6px;color:var(--vinho);font-size:1.3rem}
+.formulario-livro{display:grid;grid-template-columns:1.3fr 1.1fr .8fr .8fr .55fr;gap:14px;align-items:end;margin-top:18px}label{display:block;font-weight:700;font-size:.86rem;color:var(--vinho);margin-bottom:6px}input,select,textarea{width:100%;padding:11px 13px;border-radius:12px;border:1px solid var(--borda);background:#fff;color:var(--texto)}textarea{resize:vertical;min-height:86px}.acoes-formulario{margin-top:16px;display:flex;align-items:center;gap:14px;flex-wrap:wrap}.botao{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:0;border-radius:99px;padding:12px 20px;font-weight:700;font-size:.94rem;cursor:pointer;transition:transform .15s,background-color .2s}.botao:hover{transform:translateY(-1px)}.botao-vinho{background:var(--vinho);color:#fff}.botao-dourado{background:var(--dourado);color:#291318}.botao-perigo{background:rgba(154,51,59,.12);color:var(--vermelho);border:1px solid rgba(154,51,59,.28);padding:8px 14px;font-size:.84rem}.botao-secundario{background:#f2e8e2;color:var(--vinho);padding:8px 14px;font-size:.84rem}
+.aviso{margin-top:14px;padding:12px 15px;border-radius:14px;font-size:.9rem;font-weight:500}.aviso[hidden]{display:none}.aviso.sucesso{background:rgba(82,119,107,.16);color:var(--verde);border:1px solid rgba(82,119,107,.35)}.aviso.erro{background:rgba(154,51,59,.12);color:var(--vermelho);border:1px solid rgba(154,51,59,.3)}
+.lista-livros{display:grid;gap:12px;margin-top:18px}.item-livro{border:1px solid var(--borda);border-radius:16px;padding:16px 18px;background:var(--papel);display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}.item-livro h3{margin:0 0 4px;color:var(--vinho);font-size:1.12rem}.meta-livro{margin:0;color:var(--suave);font-size:.87rem}.selo{display:inline-block;padding:4px 11px;border-radius:99px;font-size:.76rem;font-weight:700;background:rgba(197,140,165,.24);color:var(--vinho);margin-right:8px}.vazio{padding:26px;border-radius:16px;border:1px dashed var(--borda);background:rgba(245,235,221,.45);text-align:center;color:var(--suave)}
+footer{padding:26px 6%;background:#2C0F18;color:rgba(255,247,238,.8);display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:14px;font-size:.86rem}.marca-rodape .marca-texto{color:#FFF7EE}.rodape-detalhe{color:var(--dourado)}
+.form-reservado fieldset{border:0;padding:0;margin:0;min-width:0}.form-reservado :disabled{opacity:.72;cursor:not-allowed}.nota-integracao{margin-top:14px;font-size:.84rem}.busca-acervo{display:grid;gap:7px;margin-top:16px}.busca-acervo input{max-width:520px}.item-livro-conteudo{display:flex;align-items:center;gap:14px;flex:1;min-width:240px}.mini-capa{width:48px;height:68px;object-fit:cover;border-radius:6px;background:#eadfe4}.lista-atividades{display:grid;gap:10px;margin-top:16px}.linha-atividade{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;padding:13px 15px;background:var(--papel);border:1px solid var(--borda);border-radius:13px}.linha-atividade p{margin:3px 0 0;color:var(--suave);font-size:.85rem}
+@media(max-width:960px){.resumo-admin,.atalhos-rapidos{grid-template-columns:repeat(2,1fr)}.formulario-livro{grid-template-columns:1fr 1fr}}
+@media(max-width:600px){.resumo-admin,.atalhos-rapidos,.formulario-livro{grid-template-columns:1fr}.item-livro-conteudo{min-width:100%}}
+/* Acrescentado: doações. O estilo anterior e seus seletores permanecem. */
+#doacoes{scroll-margin-top:112px}.doacoes-cabecalho{background:linear-gradient(120deg,#481B27,#762F3B);border-radius:18px;padding:25px;color:#fff7ee;display:flex;gap:22px;align-items:center;justify-content:space-between;flex-wrap:wrap}.doacoes-cabecalho .etiqueta{color:var(--dourado)}.doacoes-cabecalho h2{color:#fff7ee;font-size:clamp(1.6rem,3vw,2.3rem);margin:0 0 8px}.doacoes-cabecalho h2 em{color:var(--dourado)}.doacoes-cabecalho p{color:#f4dfe4;max-width:65ch;margin:0;font-size:.9rem}.doacoes-ilustracao{font-size:3.6rem;line-height:1;filter:drop-shadow(0 5px 8px #270c18)}.doacoes-resumo{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:18px}.doacoes-numero{background:#f7f0e8;border:1px solid var(--borda);border-radius:14px;padding:15px}.doacoes-numero strong{font-size:1.65rem;display:block;color:var(--vinho)}.doacoes-numero span{font-size:.82rem;color:var(--suave)}.form-doacoes{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin-top:22px}.form-doacoes .largura-total{grid-column:1/-1}.doacoes-acoes{display:flex;gap:9px;flex-wrap:wrap;margin-top:12px}.doacao-item{display:flex;justify-content:space-between;align-items:flex-start;gap:15px;flex-wrap:wrap;padding:17px;border:1px solid var(--borda);border-radius:15px;background:#fff;margin-top:12px}.doacao-item h3{font-size:1.1rem;margin:0 0 4px;color:var(--vinho)}.doacao-item p{font-size:.84rem;color:var(--suave);margin:4px 0}.doacao-item .doacao-acoes{display:flex;gap:8px;flex-wrap:wrap}.selo-aprovada{background:#e5f1e9;color:#38624e}.selo-recusada{background:#f8e4e4;color:#923d44}.selo-pendente{background:#f7ebcb;color:#765b24}.filtros-doacoes{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:18px}.filtros-doacoes input{flex:2 1 230px}.filtros-doacoes select{flex:1 1 160px}.doacao-nota{background:#f7efe2;border-left:3px solid var(--dourado);border-radius:8px;padding:12px 14px;font-size:.84rem;color:#6f5960;margin-top:16px}.doacao-vazio{margin-top:14px}
+@media(max-width:600px){.form-doacoes,.doacoes-resumo{grid-template-columns:1fr}.doacoes-cabecalho{padding:20px}.doacoes-ilustracao{display:none}}
+
+/* Apenas layout da nova página, mantendo a identidade do TechBook */
+.conteudo-principal{margin:-32px auto 56px;display:block}.doacoes-pagina{padding:24px}.doacoes-pagina .doacoes-cabecalho{margin-bottom:18px}.topo{justify-content:space-between}.admin-nav a.ativo{color:var(--vinho);background:rgba(197,140,165,.22)}@media(max-width:640px){.doacoes-pagina{padding:16px}.admin-nav{gap:3px}.admin-nav a{padding:6px 9px}}
+</style>
+  <link rel="stylesheet" href="assets/css/tema-global.css">
+  <script src="assets/js/tema-global.js" defer></script>
+</head><body><header class="topo"><a class="marca" href="index.html"><span class="marca-simbolo">TB</span><span class="marca-texto">TechBook<small>BIBLIOTECA INTELIGENTE</small></span></a><nav class="admin-nav" aria-label="Menu principal"><a href="index.html">Início</a><a href="bibliotecario.html">Acervo &amp; Scanner</a><a href="emprestimos.html">Empréstimos</a><a href="Ranking.html">Ranking</a><a class="ativo" href="doacoes.html" aria-current="page">Doações</a></nav></header><section class="cabecalho-admin"><div class="cabecalho-conteudo"><div><span class="etiqueta">CONTROLE DA BIBLIOTECA</span><h1>Doações de <em>livros</em></h1><p>Receba novas histórias, acompanhe as doações e ajude os livros a encontrarem novos leitores.</p></div></div></section><main class="conteudo-principal"><section class="painel doacoes-pagina" id="doacoes" aria-labelledby="titulo-doacoes">
+<section class="painel" id="doacoes" aria-labelledby="titulo-doacoes">
+<div class="doacoes-cabecalho"><div><span class="etiqueta">✦ DOAÇÕES DE LIVROS</span><h2 id="titulo-doacoes">Histórias que <em>merecem continuar.</em></h2><p>Um livro que já fez parte da história de alguém pode começar uma nova história nas mãos de outro leitor.</p></div><div class="doacoes-ilustracao" aria-hidden="true">📖 ✦</div></div>
+<div class="doacoes-resumo" aria-label="Resumo das doações"><div class="doacoes-numero"><strong id="doacoes-total">0</strong><span>Doações registradas</span></div><div class="doacoes-numero"><strong id="doacoes-pendentes">0</strong><span>Aguardando avaliação</span></div><div class="doacoes-numero"><strong id="doacoes-aprovadas">0</strong><span>Doações aprovadas</span></div></div>
+<div class="doacao-nota"><strong>Modo demonstrativo:</strong> os registros são salvos somente neste navegador. Aprovar uma doação não adiciona o livro ao acervo oficial. A integração com o banco de dados poderá ser feita depois.</div>
+<h3 style="margin:27px 0 5px;color:var(--vinho)">Registrar nova doação</h3><p class="texto-suave">Preencha os dados do livro recebido para que o bibliotecário possa avaliar.</p>
+<form id="form-doacao" class="form-doacoes">
+<div><label for="doacao-titulo">Título do livro *</label><input id="doacao-titulo" name="titulo" required maxlength="160" placeholder="Nome da obra"></div>
+<div><label for="doacao-autor">Autor *</label><input id="doacao-autor" name="autor" required maxlength="120" placeholder="Nome do autor"></div>
+<div><label for="doacao-doador">Nome do doador (opcional)</label><input id="doacao-doador" name="doador" maxlength="100" placeholder="Ex.: Doação anônima"></div>
+<div><label for="doacao-data">Data do recebimento *</label><input id="doacao-data" name="data" type="date" required></div>
+<div><label for="doacao-quantidade">Quantidade de exemplares *</label><input id="doacao-quantidade" name="quantidade" type="number" min="1" max="999" value="1" required></div>
+<div><label for="doacao-estado">Estado de conservação *</label><select id="doacao-estado" name="estado" required><option value="">Selecione</option><option value="Novo">Novo</option><option value="Bom">Bom</option><option value="Regular">Regular</option><option value="Precisa de reparos">Precisa de reparos</option></select></div>
+<div class="largura-total"><label for="doacao-observacoes">Observações (opcional)</label><textarea id="doacao-observacoes" name="observacoes" maxlength="400" placeholder="Ex.: páginas conservadas, capa danificada, edição..."></textarea></div>
+<div class="largura-total"><button class="botao botao-vinho" type="submit">♡ Registrar doação</button><div id="aviso-doacao" class="aviso" role="status" aria-live="polite" hidden></div></div>
+</form>
+<h3 style="margin:32px 0 5px;color:var(--vinho)">Histórico e avaliação</h3><p class="texto-suave">Analise os livros recebidos e acompanhe as decisões registradas.</p>
+<div class="filtros-doacoes"><input type="search" id="buscar-doacao" aria-label="Pesquisar doações" placeholder="Pesquisar título, autor ou doador"><select id="filtrar-doacao" aria-label="Filtrar situação"><option value="todas">Todas as doações</option><option value="pendente">Aguardando avaliação</option><option value="aprovada">Aprovadas</option><option value="recusada">Recusadas</option></select><button class="botao botao-secundario" id="exportar-doacoes" type="button">Exportar CSV ↓</button></div>
+<div id="lista-doacoes" aria-live="polite"><div class="vazio doacao-vazio">Nenhuma doação registrada ainda.</div></div>
+</section></main><footer><a class="marca marca-rodape" href="https://jessiaguimaraes01.github.io/TechBook/index.html"><span class="marca-simbolo">TB</span><span class="marca-texto">TechBook<small>BIBLIOTECA INTELIGENTE</small></span></a><p>Projeto desenvolvido para a feira de ciências</p><span class="rodape-detalhe">Ler · Descobrir · Imaginar</span></footer><script>/* Novo módulo isolado: doações, sem modificar TechBookDemo nem o acervo oficial. */
+(() => {
+"use strict";
+const KEY="techbook-doacoes-demo-v1";
+const $=id=>document.getElementById(id);
+const esc=text=>String(text??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const dataBR=date=>{if(!date)return"—";const [a,m,d]=String(date).split("-");return a&&m&&d?`${d}/${m}/${a}`:date};
+let doacoes=[];
+function aviso(msg,tipo="sucesso"){const el=$("aviso-doacao");el.textContent=msg;el.className="aviso "+tipo;el.hidden=false}
+function carregar(){try{const saved=JSON.parse(localStorage.getItem(KEY)||"[]");doacoes=Array.isArray(saved)?saved.filter(x=>x&&typeof x==="object"):[]}catch(e){doacoes=[];aviso("Não foi possível ler os registros salvos neste navegador.","erro")}}
+function salvar(){
+try{localStorage.setItem(KEY,JSON.stringify(doacoes));return true}
+catch(e){aviso("Não foi possível salvar neste navegador. Verifique o espaço disponível ou as permissões.","erro");return false}
+}
+function atualizar(){
+$("doacoes-total").textContent=doacoes.length;
+$("doacoes-pendentes").textContent=doacoes.filter(x=>x.status==="pendente").length;
+$("doacoes-aprovadas").textContent=doacoes.filter(x=>x.status==="aprovada").length;
+const termo=$("buscar-doacao").value.trim().toLocaleLowerCase("pt-BR"),filtro=$("filtrar-doacao").value;
+const filtradas=doacoes.filter(x=>(filtro==="todas"||x.status===filtro)&&`${x.titulo} ${x.autor} ${x.doador}`.toLocaleLowerCase("pt-BR").includes(termo));
+const ordem={pendente:0,aprovada:1,recusada:2};
+filtradas.sort((a,b)=>(ordem[a.status]??9)-(ordem[b.status]??9)||String(b.criadoEm).localeCompare(String(a.criadoEm)));
+$("lista-doacoes").innerHTML=filtradas.map(x=>{
+const label={pendente:"Aguardando avaliação",aprovada:"Aprovada",recusada:"Recusada"}[x.status]||"Pendente";
+const statusClass={pendente:"selo-pendente",aprovada:"selo-aprovada",recusada:"selo-recusada"}[x.status]||"selo-pendente";
+return `<article class="doacao-item"><div><span class="selo ${statusClass}">${label}</span><h3>${esc(x.titulo)}</h3><p>${esc(x.autor)} · ${Number(x.quantidade)} ${Number(x.quantidade)===1?"exemplar":"exemplares"} · ${esc(x.estado)}</p><p>Doador: ${esc(x.doador||"Não informado")} · Recebido em ${dataBR(x.data)}</p>${x.observacoes?`<p>Observações: ${esc(x.observacoes)}</p>`:""}</div><div class="doacao-acoes">${x.status==="pendente"?`<button type="button" class="botao botao-secundario" data-action="aprovar" data-id="${esc(x.id)}">✓ Aprovar</button><button type="button" class="botao botao-perigo" data-action="recusar" data-id="${esc(x.id)}">Recusar</button>`:`<button type="button" class="botao botao-secundario" data-action="reavaliar" data-id="${esc(x.id)}">Reavaliar</button>`}<button type="button" class="botao botao-perigo" data-action="excluir" data-id="${esc(x.id)}">Excluir</button></div></article>`;
+}).join("")||'<div class="vazio doacao-vazio">Nenhuma doação encontrada.</div>';
+}
+$("doacao-data").value=new Date().toLocaleDateString("en-CA");
+$("form-doacao").addEventListener("submit",e=>{
+e.preventDefault();const f=e.currentTarget;if(!f.reportValidity())return;
+const values=Object.fromEntries(new FormData(f).entries());
+const qtd=Number(values.quantidade);
+if(!Number.isInteger(qtd)||qtd<1||qtd>999){aviso("Informe uma quantidade válida de 1 a 999.","erro");return}
+const registro={id:(typeof crypto!=="undefined"&&crypto.randomUUID?crypto.randomUUID():`${Date.now()}-${Math.random().toString(36).slice(2)}`),titulo:values.titulo.trim(),autor:values.autor.trim(),doador:values.doador.trim(),data:values.data,quantidade:qtd,estado:values.estado,observacoes:values.observacoes.trim(),status:"pendente",criadoEm:new Date().toISOString()};
+if(!registro.titulo||!registro.autor||!registro.data||!registro.estado){aviso("Preencha os campos obrigatórios.","erro");return}
+doacoes.unshift(registro);
+if(!salvar()){doacoes.shift();return}
+f.reset();$("doacao-data").value=new Date().toLocaleDateString("en-CA");$("doacao-quantidade").value=1;
+aviso("Doação registrada! Ela está aguardando avaliação.");atualizar();
+});
+$("lista-doacoes").addEventListener("click",e=>{
+const button=e.target.closest("button[data-action]");if(!button)return;
+const index=doacoes.findIndex(x=>x.id===button.dataset.id);if(index<0)return;
+const action=button.dataset.action;const before=JSON.parse(JSON.stringify(doacoes));
+if(action==="excluir"){if(!confirm("Excluir este registro de doação? Esta ação não pode ser desfeita."))return;doacoes.splice(index,1)}
+else if(action==="aprovar"){if(!confirm("Aprovar esta doação? Isso NÃO adicionará o livro ao acervo oficial."))return;doacoes[index].status="aprovada"}
+else if(action==="recusar"){if(!confirm("Marcar esta doação como recusada?"))return;doacoes[index].status="recusada"}
+else if(action==="reavaliar"){doacoes[index].status="pendente"}
+else return;
+if(!salvar()){doacoes=before;return}
+aviso(action==="excluir"?"Registro excluído.":"Situação da doação atualizada.");atualizar();
+});
+$("buscar-doacao").addEventListener("input",atualizar);
+$("filtrar-doacao").addEventListener("change",atualizar);
+$("exportar-doacoes").addEventListener("click",()=>{
+if(!doacoes.length){aviso("Não há doações para exportar.","erro");return}
+const fields=["titulo","autor","doador","data","quantidade","estado","observacoes","status"];
+const cell=v=>'"'+String(v??"").replace(/"/g,'""').replace(/^[=+\-@\t\r]/,"'$&")+'"';
+const csv="\uFEFF"+[fields.join(";"),...doacoes.map(x=>fields.map(k=>cell(x[k])).join(";"))].join("\r\n");
+const url=URL.createObjectURL(new Blob([csv],{type:"text/csv;charset=utf-8"}));
+const a=document.createElement("a");a.href=url;a.download="techbook-doacoes.csv";document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1000);
+});
+carregar();atualizar();
+})();
+</script></body></html>

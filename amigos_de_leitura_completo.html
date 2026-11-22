@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
@@ -138,7 +138,7 @@ footer{
     <a href="perfil-aluno.html">Minha Área</a>
     <a href="minha_estante_virtual_cabecalho_vinho.html">Minha Estante</a>
     <a class="ativo" href="amigos_de_leitura_completo.html">Amigos de Leitura</a>
-    <a href="ranking.html">Ranking Geral</a>
+    <a href="Ranking.html">Ranking Geral</a>
   </nav>
 </header>
 
@@ -155,12 +155,12 @@ footer{
     <button class="tab" data-tab="ranking">Ranking da Turma</button>
   </div>
 
-  <!-- ABA 1: MEUS AMIGOS -->
+  <!-- ABA 1: MEUS AMIGOS --
   <section id="sec-amigos">
     <div class="grid" id="gridAmigos"></div>
   </section>
 
-  <!-- ABA 2: ENCONTRAR AMIGOS -->
+  <!-- ABA 2: ENCONTRAR AMIGOS --
   <section id="sec-encontrar" hidden>
     <div class="search-bar">
       <input type="search" id="buscaLeitor" placeholder="Pesquisar colega por nome ou turma...">
@@ -168,7 +168,7 @@ footer{
     <div class="grid" id="gridEncontrar"></div>
   </section>
 
-  <!-- ABA 3: RANKING DA TURMA -->
+  <!-- ABA 3: RANKING DA TURMA --
   <section id="sec-ranking" hidden>
     <div class="ranking-list" id="listaRanking"></div>
   </section>
@@ -420,6 +420,548 @@ async function carregarDadosServidor() {
     }
   } catch {}
 
+  renderRanking();
+}
+
+carregarDadosServidor();
+</script>
+</body>
+</html> -->
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Amigos de Leitura — TechBook</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;0,800;1,600&display=swap');
+:root{--wine:#481B27;--wine2:#762F3B;--cream:#F5EBDD;--paper:#FFFCF7;--ink:#38272C;--gold:#D6AE70;--border:#E6D8CB;--suave:#78666B}
+*{box-sizing:border-box}
+body{margin:0;font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--ink)}
+
+.topo{
+  position:sticky;top:0;z-index:20;
+  display:flex;align-items:center;justify-content:space-between;
+  gap:14px;padding:14px 5%;
+  background:var(--paper);border-bottom:1px solid var(--border);
+  flex-wrap:wrap;
+}
+.marca{display:flex;align-items:center;gap:11px;font-weight:700;text-decoration:none;color:inherit}
+.marca-simbolo{
+  width:42px;height:42px;display:grid;place-items:center;
+  border-radius:50%;background:#3B151E;color:var(--gold);
+  border:2px solid var(--gold);font-family:'Playfair Display',serif;
+  font-size:.95rem;font-weight:700;
+}
+.marca-texto{display:grid;font-family:'Playfair Display',serif;font-size:1.25rem;color:var(--wine);line-height:1.05}
+.marca-texto small{font-family:'DM Sans',sans-serif;font-size:.56rem;letter-spacing:.16em;color:var(--suave);margin-top:2px}
+.nav-links{display:flex;gap:10px;flex-wrap:wrap}
+.nav-links a{text-decoration:none;color:var(--suave);font-size:.86rem;font-weight:700;padding:7px 13px;border-radius:10px;transition:.2s}
+.nav-links a:hover,.nav-links a.ativo{background:rgba(197,140,165,.22);color:var(--wine)}
+
+.hero{
+  padding:46px 6% 52px;text-align:center;color:#FFF7EE;
+  background:#431A24;border-bottom:3px solid var(--gold);
+}
+.hero .etiqueta{display:inline-block;font-size:.72rem;font-weight:700;letter-spacing:.2em;color:var(--gold);margin-bottom:8px}
+.hero h1{font-family:'Playfair Display',serif;font-size:clamp(2rem,4vw,3.1rem);margin:0 0 8px}
+.hero h1 em{color:#C58CA5;font-style:italic}
+.hero p{margin:0 auto;max-width:54ch;color:rgba(255,247,238,.86);font-size:.96rem}
+
+.container{width:min(1080px,92%);margin:28px auto 52px}
+.tabs{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-bottom:24px}
+.tab{
+  border:1px solid var(--border);background:var(--paper);color:var(--ink);
+  border-radius:99px;padding:10px 20px;font-weight:700;font-size:.88rem;cursor:pointer;transition:.2s;
+}
+.tab.active,.tab:hover{background:var(--wine);color:#FFF7EE;border-color:var(--wine)}
+
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(275px,1fr));gap:18px}
+.card{
+  background:var(--paper);border:1px solid var(--border);border-radius:20px;
+  padding:20px;box-shadow:0 10px 24px rgba(69,26,36,.06);
+  display:flex;flex-direction:column;gap:12px;
+}
+.card-head{display:flex;align-items:center;gap:13px}
+.avatar-iniciais{
+  width:50px;height:50px;border-radius:50%;flex-shrink:0;
+  display:grid;place-items:center;background:var(--wine);color:var(--gold);
+  border:2px solid var(--gold);font-family:'Playfair Display',serif;
+  font-weight:700;font-size:1.05rem;
+}
+.card h3{margin:0;font-family:'Playfair Display',serif;font-size:1.15rem;color:var(--wine)}
+.sub{font-size:.82rem;color:var(--suave)}
+.lendo-box{
+  background:#F6EFE6;border:1px solid var(--border);border-radius:12px;
+  padding:10px 12px;font-size:.85rem;
+}
+.lendo-box span{display:block;font-size:.7rem;letter-spacing:.12em;font-weight:700;color:var(--wine2);margin-bottom:2px}
+.actions{display:flex;gap:8px;margin-top:auto}
+.btn{
+  flex:1;border:0;border-radius:10px;padding:10px 12px;font-weight:700;
+  font-size:.84rem;cursor:pointer;transition:.15s;
+}
+.btn:hover{transform:translateY(-1px)}
+.btn-wine{background:var(--wine);color:#FFF7EE}
+.btn-gold{background:var(--gold);color:#2B1318}
+.btn-outline{background:var(--cream);color:var(--wine);border:1px solid var(--border)}
+
+.search-bar{
+  display:flex;gap:10px;margin-bottom:18px;
+}
+.search-bar input{
+  flex:1;padding:12px 16px;border-radius:12px;border:1px solid var(--border);
+  background:var(--paper);font:inherit;color:var(--ink);
+}
+
+.ranking-list{display:grid;gap:12px}
+.rank-row{
+  background:var(--paper);border:1px solid var(--border);border-radius:16px;
+  padding:15px 20px;display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;
+}
+.rank-left{display:flex;align-items:center;gap:14px}
+.pos-badge{
+  width:38px;height:38px;border-radius:50%;display:grid;place-items:center;
+  font-weight:800;font-size:.92rem;background:#EFE3D2;color:var(--wine);
+}
+.pos-1{background:var(--gold);color:#2B1318}
+.pos-2{background:#D8D2CC;color:#2B1318}
+.pos-3{background:#C89B7B;color:#2B1318}
+.pts-pill{
+  background:var(--wine);color:var(--gold);padding:6px 14px;
+  border-radius:99px;font-weight:700;font-size:.85rem;
+}
+
+.toast{
+  position:fixed;bottom:20px;left:50%;transform:translateX(-50%);
+  background:#2B1318;color:#FFF7EE;padding:11px 18px;border-radius:99px;
+  font-size:.86rem;opacity:0;pointer-events:none;transition:opacity .25s;z-index:40;
+}
+.toast.show{opacity:1}
+
+footer{
+  padding:24px 6%;background:#2C0F18;color:rgba(255,247,238,.82);
+  display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:14px;font-size:.85rem;
+}
+
+/* Ajustes de identidade visual compartilhada do TechBook */
+.hero { background: radial-gradient(circle at 82% 20%, rgba(197,140,165,.22), transparent 36%), linear-gradient(125deg,#321018,var(--wine) 60%,var(--wine2)); }
+.card, .rank-row { box-shadow: 0 12px 28px rgba(72,27,39,.07); }
+.nav-links a { border-radius: 999px; }
+.nav-links a:hover, .nav-links a.ativo { background: rgba(197,140,165,.22); color: var(--wine); }
+:focus-visible { outline: 3px solid var(--gold); outline-offset: 3px; }
+
+[hidden] { display:none !important; }
+/* Layout responsivo para Chromebook, celular e zoom */
+html { max-width:100%; overflow-x:hidden; }
+body { min-width:0; overflow-x:hidden; }
+.topo { flex-wrap:nowrap; gap:12px; }
+.marca { min-width:0; }
+.marca-texto { min-width:0; }
+.nav-links { flex:0 0 auto; }
+.container { width:min(1080px, 92%); }
+.grid { grid-template-columns:repeat(auto-fit,minmax(min(100%,275px),1fr)); }
+.card, .rank-row, .card-head, .rank-left { min-width:0; }
+.card-head > div:last-child, .rank-left > div:last-child { min-width:0; overflow-wrap:anywhere; }
+.actions { flex-wrap:wrap; }
+.actions .btn { min-width:120px; }
+.search-bar input { min-width:0; width:100%; }
+.tabs { max-width:100%; }
+.tab { max-width:100%; }
+@media (max-width:480px) {
+ .topo { padding:12px 4%; }
+ .marca-simbolo { width:36px; height:36px; flex-shrink:0; }
+ .marca-texto { font-size:1.05rem; }
+ .marca-texto small { font-size:.47rem; letter-spacing:.1em; }
+ .nav-links a { padding:9px 12px; }
+ .hero { padding:35px 5% 40px; }
+ .container { width:92%; margin-top:22px; }
+ .card { padding:16px; }
+ .rank-row { padding:14px; }
+ .rank-left { flex-wrap:wrap; }
+ footer { justify-content:center; text-align:center; }
+}
+
+
+/* TechBook | Clube literário editorial */
+:root {--wine:#521f30;--wine2:#73384a;--cream:#f7f2ea;--paper:#fffdf9;--ink:#30272a;--gold:#b18a56;--border:#e7ddd1;--suave:#756b6d}
+body {background:var(--cream);background-image:radial-gradient(circle at 1px 1px,rgba(82,31,48,.035) 1px,transparent 0);background-size:24px 24px}
+.topo {padding:12px max(4%,calc((100% - 1220px)/2));min-height:74px;box-shadow:0 1px 12px rgba(35,20,24,.045)}
+.marca-simbolo {border-radius:9px;width:39px;height:39px;background:var(--wine);border:1px solid var(--gold);box-shadow:inset 0 0 0 3px var(--wine),inset 0 0 0 4px rgba(255,255,255,.2)}
+.marca-texto {font-size:1.2rem}
+.nav-links a {border:1px solid var(--border);border-radius:6px;background:#faf7f2;color:var(--wine);padding:9px 19px}
+.nav-links a:hover {background:var(--wine);color:white}
+.hero {position:relative;overflow:hidden;text-align:left;padding:32px max(4%,calc((100% - 1220px)/2)) 34px;border:0;background:linear-gradient(110deg,#4b1c2b,#682b40 75%,#793a4b);min-height:0}
+.hero::after {content:'A  ·  L';position:absolute;right:7%;top:50%;transform:translateY(-50%);font-family:'Playfair Display',serif;font-size:clamp(5rem,13vw,11rem);letter-spacing:-.1em;color:rgba(255,255,255,.055);pointer-events:none}
+.hero .etiqueta {display:block;letter-spacing:.2em;font-size:.64rem;color:#e8cfa7;margin:0 0 9px}
+.hero h1 {font-size:clamp(2.05rem,3.6vw,3.35rem);line-height:1.12;margin:0 0 9px;position:relative;z-index:1}
+.hero h1 em {color:#e4bd9a}
+.hero p {margin:0;max-width:64ch;font-size:.87rem;line-height:1.55;position:relative;z-index:1}
+.container {width:min(1220px,92%);margin:27px auto 56px}
+.editorial-heading {display:flex;align-items:end;justify-content:space-between;gap:16px;margin-bottom:20px;padding-bottom:14px;border-bottom:1px solid var(--border)}
+.editorial-heading h2 {font-family:'Playfair Display',serif;font-size:clamp(1.35rem,2.2vw,1.75rem);color:var(--wine);margin:3px 0 0;font-weight:700}
+.editorial-heading .eyebrow {font-size:.64rem;letter-spacing:.18em;color:var(--wine2);font-weight:700}
+.editorial-heading p {font-size:.8rem;color:var(--suave);margin:0;max-width:38ch;text-align:right}
+.tabs {justify-content:flex-start;gap:7px;margin:0 0 23px;padding:5px;background:#ece3d9;border:1px solid #e3d6c9;border-radius:9px;width:max-content;max-width:100%}
+.tab {border:1px solid transparent;background:transparent;border-radius:6px;padding:10px 17px;font-family:'DM Sans',sans-serif;color:#665459;font-size:.81rem;white-space:normal}
+.tab.active {background:var(--paper);color:var(--wine);border-color:#e8ded4;box-shadow:0 2px 6px rgba(55,28,30,.08)}
+.tab:hover:not(.active) {background:#f6eee5;color:var(--wine);border-color:transparent}
+.grid {gap:16px;grid-template-columns:repeat(auto-fit,minmax(min(100%,285px),1fr))}
+.card {border-radius:10px;padding:20px;gap:15px;border:1px solid #e6dcd0;box-shadow:0 4px 18px rgba(52,29,35,.045);position:relative;overflow:hidden}
+.card::before {content:'';position:absolute;inset:0 auto 0 0;width:3px;background:var(--gold);opacity:.75}
+.card-head {align-items:center;gap:12px}
+.avatar-iniciais {border-radius:9px;width:48px;height:48px;border:1px solid #a9865e;background:#663247;color:#f4dfbd;font-size:1rem}
+.card h3 {font-size:1.17rem;line-height:1.2}
+.sub {font-size:.75rem;line-height:1.5;margin-top:4px}
+.lendo-box {border-radius:6px;background:#f7f2ea;border:1px solid #eae1d7;padding:12px 13px;line-height:1.5}
+.lendo-box span {font-size:.63rem;letter-spacing:.13em;color:#825b46;margin-bottom:5px}
+.actions {gap:8px}
+.btn {border-radius:6px;padding:11px 12px;font-family:'DM Sans',sans-serif}
+.btn-gold {background:#e9d8ba;color:#4b2b27}
+.btn-outline {background:#fffdf9;border:1px solid #d9c7b7}
+.btn:focus-visible,.tab:focus-visible,.nav-links a:focus-visible {outline:3px solid var(--gold);outline-offset:2px}
+.rank-row {border-radius:9px;box-shadow:0 3px 12px rgba(52,29,35,.04)}
+.pos-badge {border-radius:7px}
+.pts-pill {border-radius:6px}
+.search-bar input {border-radius:7px}
+footer {background:#351723;padding:22px max(4%,calc((100% - 1220px)/2))}
+@media(max-width:650px) {
+ .topo {min-height:64px;padding:10px 4%}
+ .hero {padding:26px 5% 29px}
+ .hero::after {right:0;font-size:6rem}
+ .hero p {font-size:.82rem}
+ .container {margin-top:22px}
+ .editorial-heading {align-items:start;flex-direction:column;gap:6px}
+ .editorial-heading p {text-align:left}
+ .tabs {display:grid;grid-template-columns:repeat(3,minmax(0,1fr));width:100%;gap:3px;padding:4px}
+ .tab {padding:10px 5px;font-size:.73rem}
+ .grid {grid-template-columns:1fr}
+ .card {padding:17px}
+}
+@media(max-width:350px) {.marca-texto small {letter-spacing:0}.nav-links a{padding:8px 10px}.tab{font-size:.69rem}}
+
+
+/* NOVA IDENTIDADE: vinho intenso, pergaminho orgânico, livros e dourado */
+:root{--wine:#500b1b;--wine2:#791d32;--cream:#f5e9d7;--paper:#fff5e7;--ink:#3b1420;--gold:#d8a55b;--border:#d6b98d;--suave:#866f67}
+html{background:#4a0917}
+body{background:radial-gradient(ellipse at 75% 18%,#8b233b 0%,#620f26 38%,#3d0815 100%);color:#fff1dc;min-height:100vh;background-attachment:fixed}
+.topo{position:relative;background:#4b0c1c;border-bottom:1px solid #b17b4e;padding:13px 5%;box-shadow:0 3px 18px #23061055}
+.marca,.marca-texto{color:#fff1d8}.marca-texto small{color:#e4c8a4}.marca-simbolo{background:#4b0c1c;border-color:#d7a45c;color:#f3d3a1}
+.nav-links a{background:#f6e8d4;border:1px solid #d6ac72;color:#4b0c1c;border-radius:14px;padding:10px 19px}
+.nav-links a:hover{background:#e4bd82;color:#4b0c1c}
+.hero{min-height:278px;padding:28px 4% 24px;background:transparent;border:0;display:flex;align-items:center;justify-content:center;position:relative;overflow:visible;text-align:center;isolation:isolate}
+.hero::before{content:'';position:absolute;inset:0;z-index:-2;background:radial-gradient(ellipse at 45% 30%,#982c45 0%,transparent 70%)}
+.hero::after{content:none}
+.hero-scroll{width:min(790px,72%);margin-left:15%;position:relative;padding:35px 48px 31px;color:#4b1420;background:radial-gradient(ellipse at 50% 35%,#fff9ed,#f3d9b5 85%,#d5ad79);border:2px solid #dfb477;border-radius:48% 31% 43% 27% / 31% 49% 34% 45%;box-shadow:0 0 0 5px #e0ad6140,0 13px 34px #25050f88,inset 0 0 28px #ae75402b;transform:rotate(-1deg)}
+.hero-scroll>*{transform:rotate(1deg)}
+.hero .etiqueta{color:#723142;letter-spacing:.28em;font-size:.7rem;font-weight:800}
+.hero h1{font-family:'Playfair Display',Georgia,serif;font-size:clamp(2.15rem,4.3vw,4.25rem);color:#4c1120;line-height:1.1;margin:10px 0}
+.hero h1 em{color:#70233c}
+.hero-rule{display:flex;align-items:center;gap:14px;justify-content:center;color:#9c683b;margin:7px auto;font-size:1rem}
+.hero-rule::before,.hero-rule::after{content:'';height:1px;width:min(120px,22%);background:#ad7b4b}
+.hero p{color:#512634;font-family:Georgia,serif;font-size:clamp(.85rem,1.15vw,1.04rem);line-height:1.55;max-width:60ch;margin:0 auto}
+.hero-shelf{position:absolute;left:4%;bottom:19px;width:27%;height:190px;z-index:1;transform:rotate(-7deg);filter:drop-shadow(0 13px 12px #21020a9c)}
+.old-book{position:absolute;left:8%;height:32px;border:2px solid #c18d52;border-radius:5px 9px 9px 5px;box-shadow:inset 0 3px 5px #ffffff22,0 7px 5px #23071299}
+.old-book::after{content:'';position:absolute;right:9px;top:0;bottom:0;border-left:2px solid #e1b66d}
+.b1{bottom:0;width:93%;background:linear-gradient(#98522d,#512318);transform:rotate(4deg)}
+.b2{bottom:31px;width:86%;left:12%;background:linear-gradient(#c39043,#765024);transform:rotate(-3deg)}
+.b3{bottom:65px;width:80%;left:5%;background:linear-gradient(#654053,#301929);transform:rotate(3deg)}
+.b4{bottom:98px;width:68%;left:17%;background:linear-gradient(#734123,#3d2219);transform:rotate(-5deg)}
+.globe{position:absolute;left:17%;bottom:121px;font-size:78px;line-height:1;color:#edc37b;text-shadow:0 0 9px #f0c47e7a}
+.container{width:min(1250px,93%);margin:10px auto 48px}
+.editorial-heading{display:none}
+.tabs{margin:0 auto 18px;background:#f8e6cf;border:1px solid #d9a968;border-radius:30px;justify-content:center;padding:5px;width:max-content;max-width:100%;box-shadow:0 6px 15px #25070e55}
+.tab{border-radius:25px;color:#572035;background:transparent;font-family:Georgia,serif;font-size:.92rem;padding:11px 19px}
+.tab.active,.tab:hover{background:linear-gradient(110deg,#6c1128,#420a18);color:#fff0d8;border-color:#bb8b54}
+.grid{grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:17px}
+.card{background:linear-gradient(155deg,#fff8ec,#f4dfc4);border:1px solid #d3a96e;border-radius:17px;padding:19px;box-shadow:0 10px 0 -6px #bf8d52,0 16px 30px #1f030c88;color:#4c1b2a;position:relative}
+.card::before{content:'✦';position:absolute;right:13px;top:10px;color:#c09255;font-size:1.05rem}
+.card h3{color:#521728;font-size:1.2rem}
+.avatar-iniciais{background:#68162c;border:2px solid #c99454;color:#ffe1a8}
+.sub{color:#75554b}
+.lendo-box{background:#f3d9b9;border-color:#e1ba88;color:#4c2530}
+.lendo-box span{color:#72243b}
+.btn-gold{background:#68162c;color:#fff1df}.btn-outline{background:#fff0da;color:#5b1d30;border-color:#b78654}
+.rank-row{background:#fff1de;border:1px solid #d3a96e;color:#4c1b2a}
+.rank-row .sub{color:#735c57}
+.search-bar input{background:#fff3e3;border-color:#c99454;color:#4c1b2a}
+footer{background:#320714;color:#eac99e;border-top:1px solid #b0804c}
+:focus-visible{outline:3px solid #ffd48a;outline-offset:3px}
+@media(max-width:760px){.hero{min-height:250px;padding:23px 3%}.hero-scroll{width:86%;margin-left:8%;padding:30px 24px}.hero-shelf{opacity:.22;left:-5%;bottom:0;width:38%;transform:scale(.8) rotate(-7deg)}.hero h1{font-size:clamp(2rem,7vw,3rem)}.tabs{width:100%;flex-wrap:wrap}.tab{flex:1 1 auto;white-space:normal}.container{margin-top:14px}}
+@media(max-width:450px){.topo{gap:8px}.hero-scroll{width:96%;margin-left:0;border-radius:37% 28% 35% 24% / 21% 32% 23% 29%;padding:29px 19px}.hero-shelf{display:none}.hero{min-height:245px}.hero h1{font-size:2.05rem}.hero p{font-size:.83rem}.card{padding:16px}.tab{padding:9px 10px;font-size:.83rem}}
+</style>
+  <link rel="stylesheet" href="assets/css/tema-global.css">
+  <script src="assets/js/tema-global.js" defer></script>
+</head>
+<body>
+
+<header class="topo">
+  <a class="marca" href="https://jessiaguimaraes01.github.io/TechBook/index.html">
+    <span class="marca-simbolo">TB</span>
+    <span class="marca-texto">
+      TechBook
+      <small>BIBLIOTECA INTELIGENTE</small>
+    </span>
+  </a>
+  <nav class="nav-links" aria-label="Navegação principal">
+    <a href="https://jessiaguimaraes01.github.io/TechBook/index.html">Início</a>
+  </nav>
+</header>
+
+<section class="hero" aria-labelledby="titulo-amigos">
+  <div class="hero-shelf" aria-hidden="true"><div class="globe">✧</div><div class="old-book b1"></div><div class="old-book b2"></div><div class="old-book b3"></div><div class="old-book b4"></div></div>
+  <div class="hero-scroll">
+    <span class="etiqueta">CLUBE LITERÁRIO</span>
+    <h1 id="titulo-amigos">Amigos de <em>Leitura</em></h1>
+    <div class="hero-rule" aria-hidden="true">✦</div>
+    <p>Conecte-se com colegas da escola, descubra o que eles estão lendo e compartilhe o amor pelos livros.</p>
+  </div>
+</section>
+
+<main class="container">
+  <div class="editorial-heading"><div><span class="eyebrow">NOSSA COMUNIDADE</span><h2>Um lugar para compartilhar histórias.</h2></div><p>Descubra leitores, troque indicações e acompanhe novas conquistas.</p></div>
+  <div class="tabs" aria-label="Seções da comunidade">
+    <button class="tab active" data-tab="amigos">Meus Amigos (<span id="countAmigos">0</span>)</button>
+    <button class="tab" data-tab="encontrar">Encontrar Amigos</button>
+    <button class="tab" data-tab="ranking">Ranking da Turma</button>
+  </div>
+
+  <!-- ABA 1: MEUS AMIGOS -->
+  <section id="sec-amigos">
+    <div class="grid" id="gridAmigos"></div>
+  </section>
+
+  <!-- ABA 2: ENCONTRAR AMIGOS -->
+  <section id="sec-encontrar" hidden>
+    <div class="search-bar">
+      <input type="search" id="buscaLeitor" placeholder="Pesquisar colega por nome ou turma...">
+    </div>
+    <div class="grid" id="gridEncontrar"></div>
+  </section>
+
+  <!-- ABA 3: RANKING DA TURMA -->
+  <section id="sec-ranking" hidden>
+    <div class="ranking-list" id="listaRanking"></div>
+  </section>
+</main>
+
+<div class="toast" id="toast"></div>
+
+<footer>
+  <span>TechBook · Biblioteca Inteligente</span>
+  <span style="color:var(--gold)">Ler · Descobrir · Imaginar</span>
+</footer>
+
+<script>
+const CHAVE_AMIGOS = "techbook_amigos_salvos_v2";
+
+const amigosBase = [
+  { id: "demo-1", nome: "Ana Clara Martins", turma: "2º Ano B", lendo: "O Pequeno Príncipe", livrosLidos: 8 },
+  { id: "demo-2", nome: "Lucas Henrique Silva", turma: "3º Ano A", lendo: "Dom Casmurro", livrosLidos: 6 },
+  { id: "demo-3", nome: "Mariana Costa", turma: "1º Ano C", lendo: "O Hobbit", livrosLidos: 10 }
+];
+
+let amigos = [];
+let todosAlunos = [];
+let rankingReal = [];
+
+function toast(msg) {
+  const t = document.getElementById("toast");
+  t.textContent = msg;
+  t.classList.add("show");
+  setTimeout(() => t.classList.remove("show"), 2400);
+}
+
+function iniciais(nome) {
+  return String(nome || "TB").trim().split(/\s+/).slice(0, 2).map(p => p[0]).join("").toUpperCase();
+}
+
+function escapar(str) {
+  return String(str ?? "").replace(/[&<>"']/g, c => ({ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;" }[c]));
+}
+
+function carregarAmigos() {
+  try {
+    const salvo = JSON.parse(localStorage.getItem(CHAVE_AMIGOS) || "null");
+    amigos = Array.isArray(salvo) ? salvo : [...amigosBase];
+  } catch {
+    amigos = [...amigosBase];
+  }
+}
+
+function salvarAmigos() {
+  localStorage.setItem(CHAVE_AMIGOS, JSON.stringify(amigos));
+}
+
+function renderAmigos() {
+  document.getElementById("countAmigos").textContent = amigos.length;
+  const grid = document.getElementById("gridAmigos");
+
+  if (!amigos.length) {
+    grid.innerHTML = `<div class="card"><p>Você ainda não adicionou amigos. Clique em <strong>Encontrar Amigos</strong> para conhecer outros leitores!</p></div>`;
+    return;
+  }
+
+  grid.innerHTML = amigos.map(a => `
+    <article class="card">
+      <div class="card-head">
+        <div class="avatar-iniciais">${iniciais(a.nome)}</div>
+        <div>
+          <h3>${escapar(a.nome)}</h3>
+          <div class="sub">${escapar(a.turma || "Leitor TechBook")} · ${a.livrosLidos || 1} livro(s) lido(s)</div>
+        </div>
+      </div>
+      <div class="lendo-box">
+        <span>LENDO ATUALMENTE</span>
+        <strong>${escapar(a.lendo || "Explorando o catálogo")}</strong>
+      </div>
+      <div class="actions">
+        <button class="btn btn-gold" type="button" onclick="recomendarPara('${escapar(a.nome)}')">Indicar livro</button>
+        <button class="btn btn-outline" type="button" onclick="removerAmigo('${escapar(a.id)}')">Remover</button>
+      </div>
+    </article>
+  `).join("");
+}
+
+function renderEncontrar() {
+  const termo = (document.getElementById("buscaLeitor").value || "").trim().toLowerCase();
+  const grid = document.getElementById("gridEncontrar");
+
+  const candidatos = todosAlunos.filter(al => {
+    const texto = `${al.nome} ${al.turma || ""}`.toLowerCase();
+    return texto.includes(termo);
+  });
+
+  if (!candidatos.length) {
+    grid.innerHTML = `<div class="card"><p>Nenhum leitor encontrado com esse filtro.</p></div>`;
+    return;
+  }
+
+  grid.innerHTML = candidatos.map(al => {
+    const jaAmigo = amigos.some(am => String(am.id) === String(al.id));
+    return `
+      <article class="card">
+        <div class="card-head">
+          <div class="avatar-iniciais">${iniciais(al.nome)}</div>
+          <div>
+            <h3>${escapar(al.nome)}</h3>
+            <div class="sub">${escapar(al.turma || "Estudante")}</div>
+          </div>
+        </div>
+        <div class="lendo-box">
+          <span>LEITURA ATUAL</span>
+          <strong>${escapar(al.lendo || "Explorando o acervo TechBook")}</strong>
+        </div>
+        <div class="actions">
+          <button
+            class="btn ${jaAmigo ? "btn-outline" : "btn-wine"}"
+            type="button"
+            ${jaAmigo ? "disabled" : ""}
+            onclick="adicionarAmigo('${escapar(al.id)}')"
+          >
+            ${jaAmigo ? "Já é seu amigo" : "+ Adicionar amigo"}
+          </button>
+        </div>
+      </article>
+    `;
+  }).join("");
+}
+
+function renderRanking() {
+  const lista = document.getElementById("listaRanking");
+  const baseRanking = rankingReal.length
+    ? rankingReal
+    : [...amigos].sort((a, b) => (b.livrosLidos || 0) - (a.livrosLidos || 0)).map(a => ({
+        nome: a.nome,
+        turma: a.turma,
+        livros_lidos: a.livrosLidos || 1,
+        pontos: (a.livrosLidos || 1) * 50
+      }));
+
+  if (!baseRanking.length) {
+    lista.innerHTML = `<div class="card"><p>Ainda não há leituras registradas no ranking.</p></div>`;
+    return;
+  }
+
+  lista.innerHTML = baseRanking.map((item, idx) => {
+    const pos = idx + 1;
+    const cls = pos === 1 ? "pos-1" : pos === 2 ? "pos-2" : pos === 3 ? "pos-3" : "";
+    return `
+      <div class="rank-row">
+        <div class="rank-left">
+          <div class="pos-badge ${cls}">${pos}º</div>
+          <div class="avatar-iniciais" style="width:42px;height:42px;font-size:.9rem;">${iniciais(item.nome)}</div>
+          <div>
+            <strong style="color:var(--wine);font-size:1rem;">${escapar(item.nome)}</strong>
+            <div class="sub">${escapar(item.turma || "Estudante")} · ${Number(item.livros_lidos || 0)} livro(s)</div>
+          </div>
+        </div>
+        <span class="pts-pill">${Number(item.pontos || 0)} pts</span>
+      </div>
+    `;
+  }).join("");
+}
+
+window.adicionarAmigo = function(id) {
+  const leitor = todosAlunos.find(a => String(a.id) === String(id));
+  if (!leitor) return;
+  if (amigos.some(a => String(a.id) === String(id))) return;
+
+  amigos.push({
+    id: String(leitor.id),
+    nome: leitor.nome,
+    turma: leitor.turma || "Estudante",
+    lendo: leitor.lendo || "Explorando o acervo",
+    livrosLidos: leitor.livrosLidos || 1
+  });
+  salvarAmigos();
+  renderAmigos();
+  renderEncontrar();
+  toast(`${leitor.nome} adicionado(a) aos seus amigos!`);
+};
+
+window.removerAmigo = function(id) {
+  amigos = amigos.filter(a => String(a.id) !== String(id));
+  salvarAmigos();
+  renderAmigos();
+  renderEncontrar();
+  toast("Amigo removido da lista.");
+};
+
+window.recomendarPara = function(nome) {
+  const livro = prompt(`Qual livro você quer indicar para ${nome}?`);
+  if (livro && livro.trim()) {
+    toast(`Indicação de "${livro.trim()}" enviada para ${nome}!`);
+  }
+};
+
+document.querySelectorAll(".tab").forEach(btn => {
+  btn.addEventListener("click", () => {
+    document.querySelectorAll(".tab").forEach(b => b.classList.remove("active"));
+    btn.classList.add("active");
+    const alvo = btn.dataset.tab;
+    document.getElementById("sec-amigos").hidden = alvo !== "amigos";
+    document.getElementById("sec-encontrar").hidden = alvo !== "encontrar";
+    document.getElementById("sec-ranking").hidden = alvo !== "ranking";
+  });
+});
+
+document.getElementById("buscaLeitor").addEventListener("input", renderEncontrar);
+
+function carregarDadosServidor() {
+  // A página mantém seus exemplos e a lista pessoal salva no navegador.
+  // Nenhuma chamada ao servidor é feita enquanto a integração estiver indisponível.
+  carregarAmigos();
+  renderAmigos();
+
+  todosAlunos = [
+    ...amigosBase,
+    { id: "demo-4", nome: "Gabriel Almeida", turma: "2º Ano A", lendo: "1984", livrosLidos: 7 },
+    { id: "demo-5", nome: "Sofia Ribeiro", turma: "3º Ano B", lendo: "A Revolução dos Bichos", livrosLidos: 9 }
+  ];
+
+  renderEncontrar();
+  rankingReal = [];
   renderRanking();
 }
 

@@ -1,7 +1,7 @@
 // ========================================
 // CONFIGURAÇÕES E DADOS
 // ========================================
-
+/*
 const CHAVE = "tecbook-demo-v2";
 const CHAVE_CONTRASTE = "techbook-alto-contraste";
 
@@ -575,4 +575,239 @@ async function verificarSessaoTopo() {
 aplicarContrasteSalvo();
 renderizarTudo();
 carregarLivrosDoBanco();
-verificarSessaoTopo();
+verificarSessaoTopo(); */
+
+// TechBook — catálogo demonstrativo, sem servidor e sem banco de dados.
+// A lista existe apenas neste arquivo e não é salva no navegador.
+// ========================================
+// CONFIGURAÇÕES E DADOS
+// ========================================
+// ========================================
+// CONFIGURAÇÕES E DADOS
+// ========================================
+// TechBook — página inicial, catálogo, estatísticas e desafios locais.
+(() => {
+  "use strict";
+
+  const demo = window.TechBookDemo;
+  if (!demo) {
+    console.error("A camada de dados locais do TechBook não foi carregada.");
+    return;
+  }
+
+  let generoSelecionado = "Todos";
+
+  const $ = seletor => document.querySelector(seletor);
+  const escapar = texto => String(texto ?? "").replace(/[&<>"']/g, caractere => ({
+    "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
+  })[caractere]);
+
+  function capaHTML(livro) {
+    const isbn = escapar(livro.isbn || "");
+    const titulo = escapar(livro.titulo);
+    const autor = escapar(livro.autor);
+    return `
+      <div class="capa-livro" style="--cor-capa:${escapar(livro.cor || "#eadfe4")}">
+        <img src="${isbn ? `https://covers.openlibrary.org/b/isbn/${isbn}-M.jpg?default=false` : "data:,"}"
+          alt="Capa de ${titulo}" loading="lazy" data-titulo="${titulo}" data-autor="${autor}"
+          onerror="buscarCapaAlternativa(this)">
+        <span class="capa-fallback" hidden aria-hidden="true">
+          <span class="capa-fallback-icone">${escapar(livro.emoji || "📚")}</span>
+          <strong>${titulo}</strong>
+          <small>${autor}</small>
+        </span>
+      </div>`;
+  }
+
+  async function buscarCapaAlternativa(imagem) {
+    if (!imagem || imagem.dataset.tentativa === "sim") {
+      if (imagem) { imagem.hidden = true; if (imagem.nextElementSibling) imagem.nextElementSibling.hidden = false; }
+      return;
+    }
+    imagem.dataset.tentativa = "sim";
+    try {
+      const params = new URLSearchParams({ title: imagem.dataset.titulo || "", author: imagem.dataset.autor || "", limit: "5", fields: "cover_i" });
+      const resposta = await fetch(`https://openlibrary.org/search.json?${params}`);
+      if (!resposta.ok) throw new Error("Capa não localizada");
+      const resultado = await resposta.json();
+      const capa = resultado.docs?.find(item => item.cover_i)?.cover_i;
+      if (capa) imagem.src = `https://covers.openlibrary.org/b/id/${capa}-M.jpg`;
+      else throw new Error("Capa não localizada");
+    } catch (_) {
+      imagem.hidden = true;
+      if (imagem.nextElementSibling) imagem.nextElementSibling.hidden = false;
+    }
+  }
+  window.buscarCapaAlternativa = buscarCapaAlternativa;
+
+  function renderizarCatalogo() {
+    const campoBusca = $("#busca"), grade = $("#grade-livros"), resultado = $("#resultado-busca"), vazio = $("#vazio");
+    if (!campoBusca || !grade || !resultado || !vazio) return;
+    const busca = campoBusca.value.trim().toLocaleLowerCase("pt-BR");
+    const encontrados = demo.getLivros().filter(livro => {
+      const texto = `${livro.titulo} ${livro.autor} ${livro.genero} ${livro.sinopse}`.toLocaleLowerCase("pt-BR");
+      return texto.includes(busca) && (generoSelecionado === "Todos" || livro.genero === generoSelecionado);
+    });
+    resultado.textContent = `${encontrados.length} livro(s) encontrado(s).`;
+    vazio.hidden = encontrados.length > 0;
+    vazio.textContent = encontrados.length ? "" : "Nenhum livro encontrado com essa pesquisa.";
+    grade.innerHTML = encontrados.map(livro => {
+      const qtd = demo.disponiveis(livro);
+      return `
+        <article class="cartao-livro">
+          ${capaHTML(livro)}
+          <div class="info-livro">
+            <span class="genero-livro">${escapar(livro.genero)}</span>
+            <h3>${escapar(livro.titulo)}</h3>
+            <p class="autor">${escapar(livro.autor)}</p>
+            <p class="sinopse">${escapar(livro.sinopse)}</p>
+            <span class="disponibilidade ${qtd ? "" : "esgotado"}">${qtd ? `${qtd} disponível(is)` : "Indisponível"}</span>
+            <div class="acoes-cartao-livro">
+              <a class="botao botao-vinho acao-cartao" href="emprestimos-aluno.html?livro=${livro.id}" ${qtd ? "" : 'aria-disabled="true" tabindex="-1"'}>${qtd ? "Solicitar empréstimo" : "Sem exemplares"}</a>
+              <button class="botao botao-claro acao-cartao" type="button" data-acao="recomendar-livro" data-id="${livro.id}">Ver semelhantes</button>
+            </div>
+          </div>
+        </article>`;
+    }).join("");
+    document.querySelectorAll(".filtro").forEach(botao => {
+      const ativo = botao.dataset.genero === generoSelecionado;
+      botao.classList.toggle("ativo", ativo);
+      botao.setAttribute("aria-pressed", String(ativo));
+    });
+  }
+
+  function renderizarEstatisticas() {
+    const s = demo.estatisticas();
+    const leitura = demo.getLeitura();
+    const desafios = demo.getDesafios();
+    const concluidos = desafios.filter(item => item.concluido).length;
+    const percentualDesafios = desafios.length ? Math.round(concluidos / desafios.length * 100) : 0;
+    const percentualMeta = leitura.metaAnual ? Math.min(100, Math.round(leitura.livrosLidos / leitura.metaAnual * 100)) : 0;
+
+    const mapa = {
+      "#total-livros": s.totalExemplares,
+      "#total-emprestimos": s.emprestimosAtivos,
+      "#total-generos": s.generos,
+      "#total-desafios": concluidos,
+      "#dados-total-titulos": s.titulos,
+      "#dados-total-exemplares": s.totalExemplares,
+      "#dados-disponiveis": s.disponiveis,
+      "#dados-emprestados": s.emprestados,
+      "#dados-lidos": leitura.livrosLidos,
+      "#dados-paginas": leitura.paginasLidas,
+      "#dados-sequencia": leitura.sequenciaDias
+    };
+    Object.entries(mapa).forEach(([seletor, valor]) => { const el = $(seletor); if (el) el.textContent = valor; });
+
+    const generos = [...new Set(demo.getLivros().map(livro => livro.genero))].map(genero => ({ genero, total: demo.getLivros().filter(livro => livro.genero === genero).length }));
+    const max = Math.max(1, ...generos.map(item => item.total));
+    const graficoGeneros = $("#grafico-generos");
+    if (graficoGeneros) graficoGeneros.innerHTML = generos.map(item => `
+      <div class="barra-dado"><span>${escapar(item.genero)}</span><div class="trilho"><span style="width:${item.total / max * 100}%"></span></div><strong>${item.total}</strong></div>`).join("");
+
+    const graficoDisp = $("#grafico-disponibilidade");
+    if (graficoDisp) {
+      const total = Math.max(1, s.totalExemplares);
+      graficoDisp.innerHTML = `
+        <div class="barra-dado"><span>Disponíveis</span><div class="trilho"><span style="width:${s.disponiveis / total * 100}%"></span></div><strong>${s.disponiveis}</strong></div>
+        <div class="barra-dado"><span>Emprestados</span><div class="trilho"><span style="width:${s.emprestados / total * 100}%"></span></div><strong>${s.emprestados}</strong></div>`;
+    }
+
+    const textoMeta = $("#texto-meta-anual");
+    if (textoMeta) textoMeta.textContent = `${leitura.livrosLidos} de ${leitura.metaAnual} livros`;
+    const barraMeta = $("#barra-meta-anual");
+    if (barraMeta) barraMeta.style.width = `${percentualMeta}%`;
+    const textoDesafios = $("#texto-progresso-dados");
+    if (textoDesafios) textoDesafios.textContent = `${concluidos} de ${desafios.length} concluídos`;
+    const barraDesafios = $("#barra-progresso-dados");
+    if (barraDesafios) barraDesafios.style.width = `${percentualDesafios}%`;
+    const listaConquistas = $("#lista-conquistas");
+    if (listaConquistas) listaConquistas.innerHTML = demo.getConquistas().map(item => `
+      <article class="conquista ${item.alcancada ? "conquista-alcancada" : "conquista-bloqueada"}">
+        <span class="conquista-icone" aria-hidden="true">${item.icone}</span>
+        <div><strong>${escapar(item.titulo)}</strong><small>${escapar(item.descricao)}</small><em>${item.alcancada ? "Conquista alcançada" : "Ainda não alcançada"}</em></div>
+      </article>`).join("");
+  }
+
+  function renderizarDesafios() {
+    const lista = $("#lista-desafios");
+    if (!lista) return;
+    lista.innerHTML = demo.getDesafios().map(item => `
+      <label class="desafio ${item.concluido ? "concluido" : ""}">
+        <input type="checkbox" data-acao="desafio" data-id="${item.id}" ${item.concluido ? "checked" : ""}>
+        <div><h3>${escapar(item.titulo)}</h3><p>${escapar(item.descricao)}</p><span class="genero-livro">${item.pontos} pontos</span></div>
+      </label>`).join("");
+    const feitos = demo.getDesafios().filter(item => item.concluido).length;
+    const total = demo.getDesafios().length;
+    const percentual = total ? Math.round(feitos / total * 100) : 0;
+    if ($("#texto-progresso")) $("#texto-progresso").textContent = `${feitos} de ${total} concluídos`;
+    if ($("#barra-progresso")) $("#barra-progresso").style.width = `${percentual}%`;
+    if ($("#valor-medidor")) $("#valor-medidor").textContent = `${percentual}%`;
+    if ($("#barra-medidor")) $("#barra-medidor").style.width = `${percentual}%`;
+    if ($("#legenda-medidor")) $("#legenda-medidor").textContent = percentual === 100 ? "Todos os desafios foram concluídos. Que jornada!" : percentual > 0 ? "Cada descoberta ilumina o caminho!" : "Toda grande descoberta começa pela primeira página.";
+    renderizarEstatisticas();
+  }
+
+  function recomendar() {
+    const campoGenero = $("#genero-preferido"), campoEstilo = $("#estilo-preferido"), area = $("#resultado-recomendacao");
+    if (!campoGenero || !campoEstilo || !area) return;
+    const genero = campoGenero.value;
+    const estilo = campoEstilo.value;
+    let resultados = demo.getLivros().filter(livro => genero === "Todos" || livro.genero === genero);
+    if (estilo === "curta") {
+      const curtos = resultados.filter(livro => livro.duracao === "curta");
+      if (curtos.length) resultados = curtos;
+    } else if (estilo === "aventura") {
+      const aventuras = resultados.filter(livro => ["Aventura", "Fantasia"].includes(livro.genero));
+      if (aventuras.length) resultados = aventuras;
+    } else if (estilo === "reflexao") {
+      const reflexivos = resultados.filter(livro => ["Romance", "Ficção científica"].includes(livro.genero));
+      if (reflexivos.length) resultados = reflexivos;
+    }
+    resultados = resultados.slice(0, 3);
+    area.innerHTML = resultados.length ? resultados.map(livro => `
+      <article class="cartao-livro">${capaHTML(livro)}<div class="info-livro"><span class="genero-livro">${escapar(livro.genero)}</span><h3>${escapar(livro.titulo)}</h3><p class="autor">${escapar(livro.autor)}</p><p class="sinopse">${escapar(livro.sinopse)}</p></div></article>`).join("") : "Não encontramos sugestões para essa combinação.";
+    demo.concluirDesafio(4, true);
+    renderizarDesafios();
+  }
+
+  $("#busca")?.addEventListener("input", () => {
+    renderizarCatalogo();
+    if ($("#busca").value.trim()) demo.concluirDesafio(3, true);
+  });
+  document.querySelectorAll(".filtro").forEach(botao => botao.addEventListener("click", () => { generoSelecionado = botao.dataset.genero || "Todos"; renderizarCatalogo(); }));
+  $("#grade-livros")?.addEventListener("click", evento => {
+    const botao = evento.target.closest("[data-acao='recomendar-livro']");
+    if (!botao) return;
+    const livro = demo.getLivros().find(item => item.id === Number(botao.dataset.id));
+    if (!livro) return;
+    const campoGenero = $("#genero-preferido");
+    if (campoGenero) campoGenero.value = [...campoGenero.options].some(option => option.value === livro.genero) ? livro.genero : "Todos";
+    $("#recomendador")?.scrollIntoView({ behavior: "smooth" });
+    recomendar();
+  });
+  $("#recomendar-btn")?.addEventListener("click", recomendar);
+  $("#lista-desafios")?.addEventListener("change", evento => {
+    const input = evento.target.closest("[data-acao='desafio']");
+    if (!input) return;
+    demo.concluirDesafio(input.dataset.id, input.checked);
+    renderizarDesafios();
+  });
+
+  $("#acessibilidade-btn")?.addEventListener("click", () => $("#acessibilidade")?.scrollIntoView({ behavior: "smooth" }));
+  const menuBotao = $("#menu-btn"), menu = $("#menu");
+  if (menuBotao && menu) {
+    menuBotao.addEventListener("click", evento => {
+      const aberto = menu.classList.toggle("aberto");
+      evento.currentTarget.setAttribute("aria-expanded", String(aberto));
+    });
+    menu.querySelectorAll("a").forEach(link => link.addEventListener("click", () => {
+      menu.classList.remove("aberto"); menuBotao.setAttribute("aria-expanded", "false");
+    }));
+  }
+
+  // A página inicial funciona sem sessão e não consulta endpoints do servidor.
+  renderizarCatalogo();
+  renderizarDesafios();
+  renderizarEstatisticas();
+})();
