@@ -1313,6 +1313,51 @@
         
 /* MENU RESPONSIVO DO BIBLIOTECÁRIO */
 
+
+/* AJUSTE DO MENU NO COMPUTADOR */
+@media (min-width: 901px) {
+    .topo {
+        flex-wrap: nowrap;
+        padding: 12px 4%;
+        gap: 12px;
+    }
+
+    .marca {
+        flex-shrink: 0;
+        gap: 8px;
+    }
+
+    .marca-simbolo {
+        width: 35px;
+        height: 35px;
+    }
+
+    .marca-texto {
+        font-size: 1.1rem;
+    }
+
+    .admin-nav {
+        flex: 1;
+        justify-content: flex-end;
+        flex-wrap: nowrap;
+        gap: 3px;
+        min-width: 0;
+    }
+
+    .admin-nav a {
+        padding: 7px 9px;
+        font-size: 0.78rem;
+        white-space: nowrap;
+    }
+
+    .sair-btn {
+        padding: 7px 13px;
+        font-size: 0.82rem;
+        flex-shrink: 0;
+    }
+}
+
+
 .menu-btn {
     display: none;
     border: 1px solid var(--borda);
