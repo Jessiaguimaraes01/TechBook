@@ -289,14 +289,14 @@
     </script>
 </body>
 </html> -->
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login — TechBook</title>
+    <title>Acesso — TechBook</title>
     <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/tema-global.css">
 
     <style>
         .login-pagina {
@@ -308,7 +308,7 @@
 
         .login-cartao {
             width: 100%;
-            max-width: 460px;
+            max-width: 560px;
             padding: 32px;
             background: var(--papel, #FFFCF7);
             color: var(--texto, #38272C);
@@ -320,7 +320,7 @@
         .login-cartao h1 {
             color: var(--vinho, #481B27);
             margin: 10px 0 14px;
-            font-size: clamp(2.2rem, 5vw, 2.9rem);
+            font-size: clamp(2rem, 5vw, 2.7rem);
             line-height: 1.12;
         }
 
@@ -329,10 +329,88 @@
             line-height: 1.7;
         }
 
-        .campo-login label,
-        .campo-login input,
-        .login-botao {
-            font-size: 1rem;
+        .selecao-acesso {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 14px;
+            margin: 24px 0 18px;
+        }
+
+        .opcao-acesso {
+            min-width: 0;
+            min-height: 190px;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 12px;
+            padding: 18px;
+            border: 1px solid var(--borda, #E6D8CB);
+            border-radius: 15px;
+            background: var(--creme, #F5EBDD);
+            color: var(--texto, #38272C);
+            text-decoration: none;
+            transition: transform .2s ease, box-shadow .2s ease, background .2s ease;
+        }
+
+        .opcao-acesso:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px #481B2718;
+        }
+
+        .opcao-acesso:focus-visible {
+            outline: 3px solid var(--rosa, #C58CA5);
+            outline-offset: 3px;
+        }
+
+        .opcao-acesso-bibliotecario {
+            border: 2px solid var(--bordo, #762F3B);
+            background: var(--vinho, #481B27);
+            color: #fff;
+        }
+
+        .icone-acesso {
+            display: grid;
+            place-items: center;
+            width: 42px;
+            height: 42px;
+            border-radius: 12px;
+            background: rgba(72, 27, 39, .09);
+            font-size: 22px;
+        }
+
+        .opcao-acesso-bibliotecario .icone-acesso {
+            background: rgba(255,255,255,.14);
+        }
+
+        .opcao-acesso h2 {
+            margin: 0 0 5px;
+            font-size: 1.15rem;
+            color: inherit;
+        }
+
+        .opcao-acesso p {
+            margin: 0;
+            font-size: .88rem;
+            line-height: 1.45;
+            opacity: .86;
+        }
+
+        .texto-acao-acesso {
+            font-size: .9rem;
+            font-weight: 700;
+        }
+
+        .login-links {
+            display: grid;
+            gap: 12px;
+            margin-top: 18px;
+            text-align: center;
+        }
+
+        .painel-login[hidden],
+        #selecao-acesso[hidden] {
+            display: none !important;
         }
 
         .campo-login {
@@ -353,6 +431,7 @@
             background: white;
             color: #38272C;
             font: inherit;
+            font-size: 1rem;
         }
 
         .campo-login input:focus {
@@ -368,178 +447,149 @@
             background: var(--vinho, #481B27);
             color: white;
             font: inherit;
+            font-size: 1rem;
             font-weight: 700;
             cursor: pointer;
             text-align: center;
             text-decoration: none;
             display: block;
-            transition: background 0.2s, transform 0.2s;
+            transition: background .2s ease;
         }
 
-        .login-botao:hover {
-            background: var(--bordo, #762F3B);
+        .login-botao:hover { background: var(--bordo, #762F3B); }
+        .login-botao:disabled { opacity: .55; cursor: not-allowed; }
+
+        .aviso-acesso {
+            padding: 10px 12px;
+            border-left: 3px solid var(--dourado, #D6AE70);
+            background: rgba(214,174,112,.12);
+            border-radius: 8px;
+            font-size: .86rem;
+            line-height: 1.5;
         }
 
-        .login-botao:disabled {
-            opacity: 0.6;
-            cursor: wait;
+        .botao-visitante {
+            margin-top: 12px;
+            background: var(--dourado, #D6AE70);
+            color: #32131d;
         }
 
-        #mensagem-login {
-            margin-top: 18px;
-            font-weight: 600;
-        }
-
-        .login-links {
-            display: grid;
-            gap: 14px;
-            margin-top: 22px;
-            text-align: center;
-        }
-
-        .separador-login {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            margin: 24px 0 18px;
-            color: var(--suave, #78666B);
-            font-size: 12px;
-        }
-
-        .separador-login::before,
-        .separador-login::after {
-            content: "";
-            height: 1px;
-            background: var(--borda, #E6D8CB);
-            flex: 1;
-        }
-
-        .acesso-bibliotecario {
-            display: grid;
-            gap: 8px;
-            padding: 16px;
-            border: 1px solid var(--borda, #E6D8CB);
-            border-radius: 13px;
-            background: var(--creme, #F5EBDD);
-        }
-
-        .acesso-bibliotecario strong {
-            color: var(--vinho, #481B27);
-            font-size: 14px;
-        }
-
-        .acesso-bibliotecario p {
-            color: var(--suave, #78666B);
-            font-size: 12px;
-            line-height: 1.6;
-        }
-
-        .botao-bibliotecario {
+        .botao-voltar-escolha {
             display: block;
             width: 100%;
-            padding: 12px;
-            border: 1px solid var(--vinho, #481B27);
+            margin: 18px 0 0;
+            padding: 10px;
+            border: 1px solid var(--borda, #E6D8CB);
             border-radius: 9px;
-            color: var(--vinho, #481B27);
             background: transparent;
+            color: var(--vinho, #481B27);
             font: inherit;
-            font-size: 13px;
-            font-weight: 700;
-            text-align: center;
-            text-decoration: none;
-            transition: background 0.2s, color 0.2s;
+            font-weight: 600;
+            cursor: pointer;
         }
 
-        .botao-bibliotecario:hover {
-            background: var(--vinho, #481B27);
-            color: white;
-        }
-
-        .aviso-acesso { padding: 10px 12px; border-left: 3px solid var(--dourado, #D6AE70); background: rgba(214,174,112,.12); border-radius: 8px; font-size: .86rem; }
-        .login-botao:disabled { opacity: .55; cursor: not-allowed; }
-        .botao-visitante { margin-top: 12px; background: var(--dourado, #D6AE70); color: #32131d; }
+        #mensagem-login { margin-top: 18px; font-weight: 600; }
 
         @media (max-width: 480px) {
-            .login-cartao {
-                padding: 24px 20px;
-            }
+            .login-cartao { padding: 24px 18px; }
+            .selecao-acesso { gap: 10px; }
+            .opcao-acesso { min-height: 180px; padding: 14px 12px; }
+            .opcao-acesso h2 { font-size: 1rem; }
+            .opcao-acesso p { font-size: .8rem; }
+            .texto-acao-acesso { font-size: .82rem; }
         }
     </style>
-  <link rel="stylesheet" href="assets/css/tema-global.css">
-  <script src="assets/js/tema-global.js" defer></script>
+    <script src="assets/js/tema-global.js" defer></script>
 </head>
 
 <body>
     <main class="login-pagina">
-        <section class="login-cartao">
-            <p class="genero-livro">TECHBOOK · ÁREA DO ALUNO</p>
+        <section class="login-cartao" aria-labelledby="titulo-acesso">
+            <div id="selecao-acesso">
+                <p class="genero-livro">TECHBOOK · BIBLIOTECA INTELIGENTE</p>
+                <h1 id="titulo-acesso">Como deseja entrar?</h1>
+                <p>Escolha o tipo de acesso para continuar.</p>
 
-            <h1>Bem-vindo de volta!</h1>
+                <div class="selecao-acesso" aria-label="Tipos de acesso">
+                    <a class="opcao-acesso" href="#painel-aluno" id="escolher-aluno">
+                        <span class="icone-acesso" aria-hidden="true">👤</span>
+                        <div>
+                            <h2>Aluno</h2>
+                            <p>Acesse sua conta e sua área de leitura.</p>
+                        </div>
+                        <span class="texto-acao-acesso">Entrar como aluno →</span>
+                    </a>
 
-            <p>Entre com sua matrícula para continuar sua jornada de leitura.</p>
-            <p class="aviso-acesso" role="note">O login e o cadastro estão temporariamente indisponíveis. Você ainda pode explorar a plataforma como visitante.</p>
-
-            <form id="form-login">
-                <div class="campo-login">
-                    <label for="matricula">Identificação numérica</label>
-                    <input
-                        id="matricula"
-                        name="matricula"
-                        type="text"
-                        maxlength="30"
-                        autocomplete="username"
-                        required
-                        disabled
-                    >
+                    <a class="opcao-acesso opcao-acesso-bibliotecario" href="login-bibliotecario.html">
+                        <span class="icone-acesso" aria-hidden="true">📚</span>
+                        <div>
+                            <h2>Bibliotecário</h2>
+                            <p>Acesse as ferramentas de administração da biblioteca.</p>
+                        </div>
+                        <span class="texto-acao-acesso">Entrar como bibliotecário →</span>
+                    </a>
                 </div>
 
-                <div class="campo-login">
-                    <label for="senha">Senha</label>
-                    <input
-                        id="senha"
-                        name="senha"
-                        type="password"
-                        autocomplete="current-password"
-                        required
-                        disabled
-                    >
+                <div class="login-links">
+                    <a href="cadastro.html">Ainda não tem conta? Cadastre-se como aluno</a>
+                    <a href="index.html">← Voltar para a biblioteca</a>
                 </div>
-
-                <button class="login-botao" id="botao-login" type="submit" disabled>
-                    Login temporariamente indisponível
-                </button>
-
-                <p id="mensagem-login" role="status" aria-live="polite"></p>
-            </form>
-            <button class="login-botao botao-visitante" id="botao-visitante" type="button">Entrar como visitante</button>
-
-            <div class="login-links">
-                <a href="cadastro.html">Ainda não tem conta? Cadastre-se</a>
-                <a href="index.html">← Voltar para a biblioteca</a>
             </div>
 
-            <div class="separador-login">OU</div>
+            <section class="painel-login" id="painel-aluno" hidden aria-labelledby="titulo-login-aluno">
+                <p class="genero-livro">TECHBOOK · ÁREA DO ALUNO</p>
+                <h1 id="titulo-login-aluno" tabindex="-1">Login do aluno</h1>
+                <p>Entre com sua identificação para continuar sua jornada de leitura.</p>
+                <p class="aviso-acesso" role="note">O login está temporariamente indisponível enquanto a autenticação não está conectada. Você ainda pode explorar a plataforma como visitante.</p>
 
-            <section class="acesso-bibliotecario">
-                <strong>É bibliotecário?</strong>
+                <form id="form-login">
+                    <div class="campo-login">
+                        <label for="matricula">Identificação numérica</label>
+                        <input id="matricula" name="matricula" type="text" maxlength="30" autocomplete="username" required disabled>
+                    </div>
 
-                <p>
-                    Acesse a área administrativa para gerenciar o catálogo
-                    e os serviços da biblioteca.
-                </p>
+                    <div class="campo-login">
+                        <label for="senha">Senha</label>
+                        <input id="senha" name="senha" type="password" autocomplete="current-password" required disabled>
+                    </div>
 
-                <a
-                    class="botao-bibliotecario"
-                    href="login-bibliotecario.html"
-                >
-                    Entrar como bibliotecário →
-                </a>
+                    <button class="login-botao" id="botao-login" type="submit" disabled>
+                        Login temporariamente indisponível
+                    </button>
+                    <p id="mensagem-login" role="status" aria-live="polite"></p>
+                </form>
+
+                <button class="login-botao botao-visitante" id="botao-visitante" type="button">Entrar como visitante</button>
+
+                <div class="login-links">
+                    <a href="cadastro.html">Ainda não tem conta? Cadastre-se</a>
+                    <a href="index.html">← Voltar para a biblioteca</a>
+                </div>
+
+                <button class="botao-voltar-escolha" id="voltar-escolha" type="button">← Escolher outro tipo de acesso</button>
             </section>
         </section>
     </main>
 
     <script>
-        document.querySelector("#form-login")?.addEventListener("submit", evento => evento.preventDefault());
+        const selecaoAcesso = document.querySelector("#selecao-acesso");
+        const painelAluno = document.querySelector("#painel-aluno");
+        const botaoEscolherAluno = document.querySelector("#escolher-aluno");
+
+        botaoEscolherAluno?.addEventListener("click", (evento) => {
+            evento.preventDefault();
+            selecaoAcesso.hidden = true;
+            painelAluno.hidden = false;
+            document.querySelector("#titulo-login-aluno")?.focus();
+        });
+
+        document.querySelector("#voltar-escolha")?.addEventListener("click", () => {
+            painelAluno.hidden = true;
+            selecaoAcesso.hidden = false;
+        });
+
+        document.querySelector("#form-login")?.addEventListener("submit", (evento) => evento.preventDefault());
+
         document.querySelector("#botao-visitante")?.addEventListener("click", () => {
             localStorage.setItem("techbook-acesso-visitante", "aluno");
             window.location.href = "perfil-aluno.html";
