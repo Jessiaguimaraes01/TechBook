@@ -1301,36 +1301,87 @@
     }
 }
 
+/* MENU RESPONSIVO DO ALUNO */
+.menu-btn {
+    display: none;
+    border: 1px solid var(--borda);
+    background: var(--vinho);
+    color: var(--creme);
+    border-radius: 9px;
+    padding: 8px 13px;
+    font-size: 1.3rem;
+    cursor: pointer;
+}
+
+@media (max-width: 900px) {
+    .topo {
+        position: sticky;
+        flex-wrap: wrap;
+    }
+
+    .menu-btn {
+        display: block;
+    }
+
+    .perfil-nav {
+        display: none;
+        width: 100%;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 6px;
+        padding-top: 12px;
+    }
+
+    .perfil-nav.aberto {
+        display: flex;
+    }
+
+    .perfil-nav a,
+    .perfil-nav .sair-btn {
+        width: 100%;
+        text-align: left;
+        box-sizing: border-box;
+    }
+}
+
     </style>
 </head>
 <body>
     <header class="topo">
-        <a class="marca" href="index.html" aria-label="TechBook, página inicial">
-            <span class="marca-simbolo" aria-hidden="true">TB</span>
-            <span class="marca-texto">
-                TechBook
-                <small>BIBLIOTECA INTELIGENTE</small>
-            </span>
-        </a>
+    <a class="marca" href="index.html" aria-label="TechBook, página inicial">
+        <span class="marca-simbolo" aria-hidden="true">TB</span>
+        <span class="marca-texto">
+            TechBook
+            <small>BIBLIOTECA INTELIGENTE</small>
+        </span>
+    </a>
 
-
-<nav class="perfil-nav" aria-label="Navegação principal">
-    <a href="index.html">Início</a>
-    <a href="emprestimos-aluno.html">Empréstimos</a>
-    <a href="minha_estante_virtual_cabecalho_vinho.html">Minha Estante</a>
-    <a href="amigos_de_leitura_completo.html">Amigos</a>
-    <a href="tebys.html">Comunidade</a>
-    <a href="clubes.html">Clubes</a>
-    <a href="Ranking.html">Ranking</a>
-    <a href="jogos.html">Joguinhos</a>
-    <a href="quiz.html">Quiz</a>
-
-    <button class="sair-btn" id="sair-btn" type="button">
-        Sair
+    <button
+        class="menu-btn"
+        id="menu-aluno-btn"
+        type="button"
+        aria-label="Abrir menu do aluno"
+        aria-expanded="false"
+    >
+        ☰
     </button>
-</nav>
 
-    </header>
+    <nav class="perfil-nav" aria-label="Navegação principal">
+        <a href="index.html">Início</a>
+        <a href="emprestimos-aluno.html">Empréstimos</a>
+        <a href="minha_estante_virtual_cabecalho_vinho.html">Minha Estante</a>
+        <a href="amigos_de_leitura_completo.html">Amigos</a>
+        <a href="tebys.html">Comunidade</a>
+        <a href="clubes.html">Clubes</a>
+        <a href="Ranking.html">Ranking</a>
+        <a href="jogos.html">Joguinhos</a>
+        <a href="quiz.html">Quiz</a>
+
+        <button class="sair-btn" id="sair-btn" type="button">
+            Sair
+        </button>
+    </nav>
+</header>
 
     <section class="cabecalho-aluno">
         <div class="cabecalho-conteudo">
@@ -1615,6 +1666,27 @@
           localStorage.removeItem("techbook-acesso-visitante");
           window.location.href = "index.html";
         });
+        // Menu responsivo do aluno
+const menuAlunoBtn = document.getElementById("menu-aluno-btn");
+const menuAluno = document.querySelector(".perfil-nav");
+
+if (menuAlunoBtn && menuAluno) {
+    menuAlunoBtn.addEventListener("click", () => {
+        const aberto = menuAluno.classList.toggle("aberto");
+
+        menuAlunoBtn.setAttribute(
+            "aria-expanded",
+            String(aberto)
+        );
+    });
+
+    menuAluno.querySelectorAll("a").forEach(link => {
+        link.addEventListener("click", () => {
+            menuAluno.classList.remove("aberto");
+            menuAlunoBtn.setAttribute("aria-expanded", "false");
+        });
+    });
+}
       })();
     </script>
 </body>

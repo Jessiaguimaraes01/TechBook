@@ -1310,37 +1310,88 @@
         .linha-atividade { display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap; padding:13px 15px; background:var(--papel); border:1px solid var(--borda); border-radius:13px; }
         .linha-atividade p { margin:3px 0 0; color:var(--suave); font-size:.85rem; }
         @media(max-width:600px){ .item-livro-conteudo{min-width:100%;} }
+        /* MENU RESPONSIVO DO BIBLIOTECÁRIO */
+.menu-btn {
+    display: none;
+    border: 1px solid var(--borda);
+    background: var(--vinho);
+    color: var(--creme);
+    border-radius: 9px;
+    padding: 8px 13px;
+    font-size: 1.3rem;
+    cursor: pointer;
+}
+
+@media (max-width: 900px) {
+    .topo {
+        position: sticky;
+        flex-wrap: wrap;
+    }
+
+    .menu-btn {
+        display: block;
+    }
+
+    .admin-nav {
+        display: none;
+        width: 100%;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 6px;
+        padding-top: 12px;
+    }
+
+    .admin-nav.aberto {
+        display: flex;
+    }
+
+    .admin-nav a,
+    .admin-nav .sair-btn {
+        width: 100%;
+        text-align: left;
+        box-sizing: border-box;
+    }
+}
     </style>
 </head>
 <body>
     <header class="topo">
-        <a class="marca" href="index.html">
-            <span class="marca-simbolo" aria-hidden="true">TB</span>
-            <span class="marca-texto">
-                TechBook
-                <small>BIBLIOTECA INTELIGENTE</small>
-            </span>
-        </a>
-
-<nav class="admin-nav" aria-label="Navegação administrativa">
-    <a class="ativo" href="bibliotecario.html">Acervo</a>
-
-    <a class="destaque-scanner" href="techbook.html">
-        📷 Abrir TechScanner
+    <a class="marca" href="index.html">
+        <span class="marca-simbolo" aria-hidden="true">TB</span>
+        <span class="marca-texto">
+            TechBook
+            <small>BIBLIOTECA INTELIGENTE</small>
+        </span>
     </a>
 
-    <a href="emprestimos.html">Empréstimos &amp; Devoluções</a>
-    <a href="doacoes.html">Caderno de Doações</a>
-    <a href="estatisticas.html">Estatísticas</a>
-    <a href="Ranking.html">Ranking</a>
-    <a href="index.html">Catálogo Público</a>
-
-    <button class="sair-btn" id="sair-btn" type="button">
-        Sair
+    <button
+        class="menu-btn"
+        id="menu-admin-btn"
+        type="button"
+        aria-label="Abrir menu do bibliotecário"
+        aria-expanded="false"
+    >
+        ☰
     </button>
-</nav>
 
-    </header>
+    <nav class="admin-nav" aria-label="Navegação administrativa">
+        <a class="ativo" href="bibliotecario.html">Acervo</a>
+
+        <a class="destaque-scanner" href="techbook.html">
+            📷 Abrir TechScanner
+        </a>
+
+        <a href="emprestimos.html">Empréstimos &amp; Devoluções</a>
+        <a href="doacoes.html">Caderno de Doações</a>
+        <a href="estatisticas.html">Estatísticas</a>
+        <a href="Ranking.html">Ranking</a>
+        <a href="index.html">Catálogo Público</a>
+
+        <button class="sair-btn" id="sair-btn" type="button">
+            Sair
+        </button>
+    </nav>
+</header>
 
     <section class="cabecalho-admin">
         <div class="cabecalho-conteudo">
@@ -1521,9 +1572,31 @@
         renderizarAtividades();
         $("busca-acervo")?.addEventListener("input", renderizarLivros);
         $("form-livro")?.addEventListener("submit", evento => evento.preventDefault());
+
         $("sair-btn")?.addEventListener("click", () => {
           localStorage.removeItem("techbook-acesso-visitante");
           window.location.href = "index.html";
+          // Menu responsivo do bibliotecário
+const menuAdminBtn = document.getElementById("menu-admin-btn");
+const menuAdmin = document.querySelector(".admin-nav");
+
+if (menuAdminBtn && menuAdmin) {
+    menuAdminBtn.addEventListener("click", () => {
+        const aberto = menuAdmin.classList.toggle("aberto");
+
+        menuAdminBtn.setAttribute(
+            "aria-expanded",
+            String(aberto)
+        );
+    });
+
+    menuAdmin.querySelectorAll("a").forEach(link => {
+        link.addEventListener("click", () => {
+            menuAdmin.classList.remove("aberto");
+            menuAdminBtn.setAttribute("aria-expanded", "false");
+        });
+    });
+}
         });
       })();
     </script>
