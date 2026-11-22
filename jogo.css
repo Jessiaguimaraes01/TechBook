@@ -935,3 +935,15 @@ button:focus-visible {
     outline: 3px solid #d6ae70;
     outline-offset: 3px;
 }
+
+
+/* Controles direcionais por toque — exibidos somente em telas pequenas. */
+.touch-controls { display:none; }
+@media(max-width:700px){
+ .touch-controls{display:flex;flex-direction:column;align-items:center;gap:10px;margin:16px auto 4px;padding:14px;width:min(100%,270px);border:1px solid var(--border);border-radius:16px;background:rgba(27,10,18,.45);touch-action:none;user-select:none}
+ .touch-controls-label{color:var(--gold);font-size:9px;letter-spacing:1.4px;font-weight:800}
+ .touch-pad{display:grid;grid-template-columns:repeat(3,54px);grid-template-rows:repeat(2,48px);gap:6px}
+ .touch-pad button,.touch-interact{border:1px solid var(--gold);border-radius:11px;color:var(--text);background:linear-gradient(145deg,var(--panel-light),var(--panel));box-shadow:0 3px 0 rgba(0,0,0,.3);font-weight:800;font-size:21px;touch-action:none;-webkit-tap-highlight-color:transparent}
+ .touch-pad button:active,.touch-pad button.pressed,.touch-interact:active{background:var(--gold);color:#2b111c;transform:translateY(2px);box-shadow:none}
+ .touch-interact{padding:9px 22px;font-size:11px;letter-spacing:.8px;text-transform:uppercase}
+}

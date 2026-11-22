@@ -1,5 +1,5 @@
 /*
-const CACHE_NAME = "tecbook-offline-v4";
+const CACHE_NAME = "techbook-offline-v8-recovery";
 
 const ARQUIVOS = [
   "/",
@@ -228,8 +228,8 @@ const URLS = [
   "./amigos_de_leitura_completo.html", "./quiz.html", "./jogos.html", "./jogo.html",
   "./techbook.html", "./scanner.html", "./estatisticas.html",
   "./assets/css/style.css", "./assets/css/emprestimos.css", "./assets/css/clubes.css",
-  "./assets/css/tema-global.css", "./jogo.css", "./emprestimos.css",
-  "./assets/js/dados-visitante.js", "./assets/js/script.js", "./assets/js/tema-global.js",
+  "./assets/css/tema-global.css", "./assets/css/navegacao-secundaria.css", "./jogo.css", "./emprestimos.css",
+  "./assets/js/dados-visitante.js", "./assets/js/script.js", "./assets/js/tema-global.js", "./assets/js/navegacao-secundaria.js",
   "./assets/js/emprestimos.js", "./assets/js/emprestimos-aluno.js", "./assets/js/clubes.js",
   "./jogo.js"
 ].map(path => new URL(path, BASE).href);

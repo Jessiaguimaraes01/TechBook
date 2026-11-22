@@ -385,29 +385,6 @@ td strong {
   cursor: pointer;
 }
 
-
-.status.approved {
-  color: #285b75;
-  background: #e4f1f7;
-}
-
-.status.refused {
-  color: #7a4545;
-  background: #f5e8e8;
-}
-
-.actions-cell {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-}
-
-.action-refuse {
-  border-color: #d7b8b8;
-  color: #87444a;
-  background: #fff7f7;
-}
-
 .action-button:disabled {
   opacity: .45;
   cursor: not-allowed;

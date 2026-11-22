@@ -758,6 +758,40 @@ document.addEventListener("keyup", event => {
     keys[event.key.toLowerCase()] = false;
 });
 
+// Os controles de toque reutilizam as mesmas teclas do movimento por teclado.
+const touchControls = document.getElementById("touchControls");
+if (touchControls) {
+    touchControls.querySelectorAll("[data-move]").forEach(button => {
+        const key = button.dataset.move;
+        const press = event => {
+            event.preventDefault();
+            keys[key] = true;
+            button.classList.add("pressed");
+            if (button.setPointerCapture && event.pointerId !== undefined) {
+                try { button.setPointerCapture(event.pointerId); } catch (_) {}
+            }
+        };
+        const release = event => {
+            if (event) event.preventDefault();
+            keys[key] = false;
+            button.classList.remove("pressed");
+        };
+        button.addEventListener("pointerdown", press);
+        ["pointerup", "pointercancel", "pointerleave", "lostpointercapture"].forEach(type => button.addEventListener(type, release));
+        button.addEventListener("contextmenu", event => event.preventDefault());
+    });
+    touchControls.querySelector("[data-interact]")?.addEventListener("click", event => {
+        event.preventDefault();
+        interact();
+    });
+    document.addEventListener("visibilitychange", () => {
+        if (document.hidden) touchControls.querySelectorAll("[data-move]").forEach(button => {
+            keys[button.dataset.move] = false;
+            button.classList.remove("pressed");
+        });
+    });
+}
+
 function isBlocked(x, y) {
     const radius = 12;
 

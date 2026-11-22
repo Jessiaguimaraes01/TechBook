@@ -7,6 +7,7 @@
     <title>Operação: Livro Perdido</title>
 <link rel="stylesheet" href="jogo.css">
 <script src="jogo.js" defer></script>
+  <link rel="stylesheet" href="assets/css/navegacao-secundaria.css">
 </head>
 <body>
     <div class="game-shell">
@@ -103,6 +104,18 @@
                     <span>Explore a biblioteca e converse com os personagens.</span>
                 </div>
 
+                <div class="touch-controls" id="touchControls" aria-label="Controles de movimentação para celular">
+                    <span class="touch-controls-label">CONTROLES DE TOQUE</span>
+                    <div class="touch-pad">
+                        <span aria-hidden="true"></span>
+                        <button type="button" data-move="arrowup" aria-label="Mover para cima">↑</button>
+                        <span aria-hidden="true"></span>
+                        <button type="button" data-move="arrowleft" aria-label="Mover para a esquerda">←</button>
+                        <button type="button" data-move="arrowdown" aria-label="Mover para baixo">↓</button>
+                        <button type="button" data-move="arrowright" aria-label="Mover para a direita">→</button>
+                    </div>
+                    <button type="button" class="touch-interact" data-interact="true">Interagir</button>
+                </div>
                 <div class="controls-bar">
                     <div class="control-item">
                         <span class="key-group">

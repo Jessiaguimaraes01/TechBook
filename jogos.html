@@ -42,6 +42,7 @@
   background: var(--bordo);
 }
   </style>
+  <link rel="stylesheet" href="assets/css/navegacao-secundaria.css">
 </head>
 <body>
   <header><a class="brand" href="index.html"><span class="mark">TB</span><span><strong>TechBook</strong><small>BIBLIOTECA INTELIGENTE</small></span></a></header>
@@ -135,10 +136,10 @@
       if (document.referrer && origem.origin === window.location.origin) {
         window.history.back();
       } else {
-        window.location.href = "index.html";
+        window.location.href = "perfil-aluno.html";
       }
     } catch {
-      window.location.href = "index.html";
+      window.location.href = "perfil-aluno.html";
     }
   });
 })();

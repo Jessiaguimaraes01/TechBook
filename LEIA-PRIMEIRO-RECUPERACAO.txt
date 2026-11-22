@@ -1,0 +1,20 @@
+TECHBOOK — RECUPERAÇÃO COMPLETA
+
+Base: versão completa de recuperação, preservando as pastas, arquivos, banco de dados e recursos do projeto.
+
+O que foi ajustado:
+- Menus principais preservados em index.html, perfil-aluno.html e bibliotecario.html.
+- Páginas secundárias com cabeçalho discreto e botão Voltar inteligente.
+- Jogo: botão Voltar aos Jogos preservado; controles direcionais por toque restaurados para celular; teclado continua funcionando.
+- Acessibilidade global: painel, tamanho do texto e modo noturno mantidos entre páginas.
+- Contraste reforçado em botões, carrosséis e cartões nos temas claro e escuro.
+- Cache do service worker atualizado para evitar servir arquivos antigos.
+
+INSTALAÇÃO:
+1. Guarde uma cópia do repositório atual.
+2. Extraia o ZIP e mantenha a pasta TechBook-integrar-github e todas as subpastas.
+3. Envie os arquivos mantendo os caminhos originais (especialmente assets/css, assets/js, Dados e ferramentas).
+4. Faça o commit e aguarde o GitHub Pages publicar.
+5. Abra o site e atualize com Ctrl+Shift+R.
+
+Não substitua apenas arquivos isolados nem apague a pasta Dados.

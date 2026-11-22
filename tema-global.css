@@ -208,3 +208,20 @@ body.alto-contraste a.botao-Ranking,
 body.alto-contraste a.botao-clubes {
   color: #F5D69D !important;
 }
+
+
+/* AJUSTES FINAIS DE LEGIBILIDADE PARA BOTÕES, CARROSSEL E CARTÕES. */
+body:not(.alto-contraste) :is(a.botao-dourado, .btn-expansao, .botao-cadastrar) { color:#2B1318 !important; }
+body:not(.alto-contraste) :is(a.botao-vinho, a.botao-Ranking, .botao-ranking, .play-button, .primary) { color:#FFF7EE !important; }
+body:not(.alto-contraste) :is(a.botao-claro, .botao-entrar, .secondary) { color:#481B27 !important; }
+body:not(.alto-contraste) .btn-expansao .texto-expansao strong { color:#4B102C !important; }
+body:not(.alto-contraste) .btn-expansao .texto-expansao small { color:#704354 !important; }
+body:not(.alto-contraste) .botao-clubes { color:#F5EBDD !important; }
+body:not(.alto-contraste) :is(.featured h3, .featured p, .carousel h3, .carousel p, .carousel-card h3, .carousel-card p, #bookTitle, #bookDesc) { color:#38272C !important; }
+body:not(.alto-contraste) :is(.featured .arrow, .carousel .arrow, .carousel-card .arrow) { color:#481B27 !important; border-color:#762F3B !important; }
+body.alto-contraste :is(a.botao-dourado, .btn-expansao, .botao-cadastrar) { background:#F2C97D !important; color:#1A0B0F !important; border-color:#F2C97D !important; }
+body.alto-contraste :is(a.botao-vinho, a.botao-Ranking, .botao-ranking, .play-button, .primary) { background:#3A1D26 !important; color:#FFF6EC !important; border-color:#F2C97D !important; }
+body.alto-contraste :is(a.botao-claro, .botao-entrar, .secondary) { background:#2B171E !important; color:#FFF6EC !important; border-color:#805260 !important; }
+body.alto-contraste :is(.featured, .carousel, .carousel-card) { background:#21191E !important; border-color:#57434B !important; color:#FFF6EC !important; }
+body.alto-contraste :is(.featured h3, .featured p, .carousel h3, .carousel p, .carousel-card h3, .carousel-card p, #bookTitle, #bookDesc) { color:#FFF6EC !important; }
+body.alto-contraste :is(.featured .arrow, .carousel .arrow, .carousel-card .arrow) { background:#392832 !important; color:#F2C97D !important; border-color:#F2C97D !important; }
