@@ -85,12 +85,53 @@
     .resumo-solicitacao p { margin:5px 0 0; color:var(--suave); }
     #btnSolicitar { margin-top:5px; }
     @media(max-width:700px){.form-grid,.form-grid-detalhado,.stats{grid-template-columns:1fr}.topo{justify-content:center}.panel{padding:18px}.preview-livro{align-items:flex-start}}
+  
+    /* NAVEGAÇÃO DA PÁGINA DE EMPRÉSTIMOS DO ALUNO */
+.botao-voltar {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 9px 16px;
+    border: 1px solid var(--borda);
+    border-radius: 99px;
+    background: var(--papel);
+    color: var(--vinho);
+    font: inherit;
+    font-size: .9rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: .2s;
+}
+
+.botao-voltar:hover {
+    background: var(--vinho);
+    color: white;
+}
+
+@media (max-width: 700px) {
+    .topo {
+        justify-content: space-between;
+        flex-direction: row;
+        gap: 10px;
+    }
+}
+
   </style>
 </head>
 <body>
-  <header class="topo"><a class="marca" href="index.html"><span class="marca-simbolo">TB</span><span class="marca-texto">TechBook<small>BIBLIOTECA INTELIGENTE</small></span></a>
-    <nav aria-label="Navegação"><a href="perfil-aluno.html">Minha área</a><a class="ativo" href="emprestimos-aluno.html">Empréstimos</a><a href="minha_estante_virtual_cabecalho_vinho.html">Minha estante</a><a href="amigos_de_leitura_completo.html">Amigos</a></nav>
-  </header>
+<header class="topo">
+    <a class="marca" href="index.html">
+        <span class="marca-simbolo">TB</span>
+        <span class="marca-texto">
+            TechBook
+            <small>BIBLIOTECA INTELIGENTE</small>
+        </span>
+    </a>
+
+    <button class="botao-voltar" id="voltar-pagina" type="button">
+        ← Voltar
+    </button>
+</header>
   <section class="hero"><div class="hero-inner"><span class="eyebrow">SUA LEITURA, SEU TEMPO</span><h1>Empréstimos <em>& devoluções</em></h1><p>Solicite um livro do acervo e acompanhe seus prazos. Quando terminar, solicite a devolução e entregue o exemplar ao bibliotecário para a confirmação.</p></div></section>
   <main>
     <section class="stats"><article class="stat"><small>Empréstimos ativos</small><strong id="totalAtivos">—</strong></article><article class="stat"><small>Livros devolvidos</small><strong id="totalDevolvidos">—</strong></article><article class="stat"><small>Em atraso</small><strong id="totalAtrasados">—</strong></article></section>
@@ -115,5 +156,18 @@
   </main>
   <footer>TechBook · Ler, descobrir e imaginar.</footer>
   <script src="assets/js/emprestimos-aluno.js" defer></script>
+
+  <script>
+document.getElementById("voltar-pagina")?.addEventListener("click", () => {
+    const origem = document.referrer;
+
+    if (origem && new URL(origem).origin === window.location.origin) {
+        window.history.back();
+    } else {
+        window.location.href = "perfil-aluno.html";
+    }
+});
+</script>
+
 </body>
 </html>

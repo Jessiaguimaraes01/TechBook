@@ -689,6 +689,37 @@ footer{background:#320714;color:#eac99e;border-top:1px solid #b0804c}
 :focus-visible{outline:3px solid #ffd48a;outline-offset:3px}
 @media(max-width:760px){.hero{min-height:250px;padding:23px 3%}.hero-scroll{width:86%;margin-left:8%;padding:30px 24px}.hero-shelf{opacity:.22;left:-5%;bottom:0;width:38%;transform:scale(.8) rotate(-7deg)}.hero h1{font-size:clamp(2rem,7vw,3rem)}.tabs{width:100%;flex-wrap:wrap}.tab{flex:1 1 auto;white-space:normal}.container{margin-top:14px}}
 @media(max-width:450px){.topo{gap:8px}.hero-scroll{width:96%;margin-left:0;border-radius:37% 28% 35% 24% / 21% 32% 23% 29%;padding:29px 19px}.hero-shelf{display:none}.hero{min-height:245px}.hero h1{font-size:2.05rem}.hero p{font-size:.83rem}.card{padding:16px}.tab{padding:9px 10px;font-size:.83rem}}
+
+/* Botão de voltar */
+.botao-voltar {
+  background: #4b0c1c;
+  color: #fff1d8;
+  border: 1px solid var(--gold);
+  border-radius: 14px;
+  padding: 10px 19px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: .86rem;
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: .2s;
+}
+
+.botao-voltar:hover {
+  background: #e4bd82;
+  color: #4b0c1c;
+}
+
+@media (max-width: 480px) {
+  .topo {
+    flex-wrap: wrap;
+  }
+
+  .nav-links {
+    flex-wrap: wrap;
+  }
+}
+
 </style>
   <link rel="stylesheet" href="assets/css/tema-global.css">
   <script src="assets/js/tema-global.js" defer></script>
@@ -696,15 +727,19 @@ footer{background:#320714;color:#eac99e;border-top:1px solid #b0804c}
 <body>
 
 <header class="topo">
-  <a class="marca" href="https://jessiaguimaraes01.github.io/TechBook/index.html">
+  <a class="marca" href="index.html">
     <span class="marca-simbolo">TB</span>
     <span class="marca-texto">
       TechBook
       <small>BIBLIOTECA INTELIGENTE</small>
     </span>
   </a>
-  <nav class="nav-links" aria-label="Navegação principal">
-    <a href="https://jessiaguimaraes01.github.io/TechBook/index.html">Início</a>
+
+  <nav class="nav-links" aria-label="Navegação da página">
+    <button class="botao-voltar" id="voltar-pagina" type="button">
+      ← Voltar
+    </button>
+    <a href="index.html">Início</a>
   </nav>
 </header>
 
@@ -966,6 +1001,20 @@ function carregarDadosServidor() {
 }
 
 carregarDadosServidor();
+
+carregarDadosServidor();
+
+document.getElementById("voltar-pagina")?.addEventListener("click", () => {
+  const origem = document.referrer;
+
+  if (origem && new URL(origem).origin === window.location.origin) {
+    window.history.back();
+  } else {
+    window.location.href = "perfil-aluno.html";
+  }
+});
+</script>
+
 </script>
 </body>
 </html>

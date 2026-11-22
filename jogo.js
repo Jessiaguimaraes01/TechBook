@@ -757,6 +757,33 @@ document.addEventListener("keydown", event => {
 document.addEventListener("keyup", event => {
     keys[event.key.toLowerCase()] = false;
 });
+// CONTROLES DE MOVIMENTO PARA CELULAR
+document.querySelectorAll(".move-btn").forEach(button => {
+    const key = button.dataset.key;
+
+    button.addEventListener("pointerdown", event => {
+        event.preventDefault();
+        keys[key] = true;
+        button.setPointerCapture(event.pointerId);
+    });
+
+    button.addEventListener("pointerup", () => {
+        keys[key] = false;
+    });
+
+    button.addEventListener("pointercancel", () => {
+        keys[key] = false;
+    });
+
+    button.addEventListener("lostpointercapture", () => {
+        keys[key] = false;
+    });
+});
+
+// BOTÃO DE INTERAÇÃO DO CELULAR
+document.getElementById("interact-mobile")?.addEventListener("click", () => {
+    interact();
+});
 
 function isBlocked(x, y) {
     const radius = 12;

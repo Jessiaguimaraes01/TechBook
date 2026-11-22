@@ -462,3 +462,40 @@ footer {
     padding: 20px;
   }
 }
+
+/* NAVEGAÇÃO DA PÁGINA DE EMPRÉSTIMOS */
+.acoes-secundarias {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.botao-voltar {
+    padding: 9px 15px;
+    border: 1px solid var(--gold);
+    border-radius: 8px;
+    background: transparent;
+    color: var(--wine);
+    font: inherit;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: .2s;
+}
+
+.botao-voltar:hover {
+    background: var(--wine);
+    color: white;
+}
+
+@media (max-width: 600px) {
+    .topbar {
+        align-items: center;
+        gap: 12px;
+    }
+
+    .acoes-secundarias {
+        width: 100%;
+        justify-content: flex-start;
+    }
+}

@@ -209,15 +209,20 @@
                 </div>
             </div>
 
-            <div class="top-status">
-                <div class="status-pill">
-                    <span class="status-dot"></span>
-                    INVESTIGAÇÃO ATIVA
-                </div>
-                <button id="restartButton" class="restart-button" title="Reiniciar jogo">
-                    ↻ Reiniciar
-                </button>
-            </div>
+        <div class="top-status">
+    <div class="status-pill">
+        <span class="status-dot"></span>
+        INVESTIGAÇÃO ATIVA
+    </div>
+
+    <a href="jogos.html" class="back-games">
+        ← Voltar aos Jogos
+    </a>
+
+    <button id="restartButton" class="restart-button" title="Reiniciar jogo">
+        ↻ Reiniciar
+    </button>
+</div>
         </header>
 
         <main class="game-layout">
@@ -299,6 +304,20 @@
                         </span>
                         <span>Mover</span>
                     </div>
+
+                    <!-- CONTROLES PARA CELULAR -->
+<div class="mobile-controls">
+    <div class="direction-pad">
+        <button class="move-btn up" data-key="arrowup" aria-label="Mover para cima">▲</button>
+        <button class="move-btn left" data-key="arrowleft" aria-label="Mover para esquerda">◀</button>
+        <button class="move-btn down" data-key="arrowdown" aria-label="Mover para baixo">▼</button>
+        <button class="move-btn right" data-key="arrowright" aria-label="Mover para direita">▶</button>
+    </div>
+
+    <button class="interact-mobile" id="interact-mobile">
+        ✦ INTERAGIR
+    </button>
+</div>
 
                     <div class="control-item">
                         <span class="key-group"><kbd>↑</kbd><kbd>←</kbd><kbd>↓</kbd><kbd>→</kbd></span>

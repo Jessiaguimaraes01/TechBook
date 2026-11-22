@@ -190,24 +190,23 @@
 <body>
   <header class="topbar">
     <a class="brand" href="index.html">
-      <span class="brand-mark">TB</span>
-      <span>
-        <strong>TechBook</strong>
-        <small>BIBLIOTECA INTELIGENTE</small>
-      </span>
+        <span class="brand-mark">TB</span>
+        <span>
+            <strong>TechBook</strong>
+            <small>BIBLIOTECA INTELIGENTE</small>
+        </span>
     </a>
 
-    <nav class="nav">
-      <a href="index.html">Início</a>
-      <a href="bibliotecario.html">Acervo & Scanner</a>
-      <a class="active" href="emprestimos.html">Empréstimos</a>
-      <a href="Ranking.html">Ranking</a>
-    </nav>
+    <div class="acoes-secundarias">
+        <button class="botao-voltar" id="voltar-pagina" type="button">
+            ← Voltar
+        </button>
 
-    <button class="button button-outline" id="sairBtn">
-      Sair
-    </button>
-  </header>
+        <button class="button button-outline" id="sairBtn">
+            Sair
+        </button>
+    </div>
+</header>
 
   <main class="container">
     <section class="hero">
@@ -348,5 +347,18 @@
   <footer>
     TechBook · Organização que aproxima você da leitura.
   </footer>
+
+  <script>
+document.getElementById("voltar-pagina")?.addEventListener("click", () => {
+    const origem = document.referrer;
+
+    if (origem && new URL(origem).origin === window.location.origin) {
+        window.history.back();
+    } else {
+        window.location.href = "bibliotecario.html";
+    }
+});
+</script>
+
 </body>
 </html>

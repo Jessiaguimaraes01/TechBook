@@ -28,8 +28,55 @@ body{background:linear-gradient(145deg,#320b1d,#561b30 55%,#310c1c)!important}.w
 .banner-choice{position:relative}
 .banner-choice.chosen:after{content:'✓';position:absolute;right:6px;top:3px;color:white;font-size:18px;text-shadow:0 1px 3px #000}
 @media(max-width:700px){.avatar-live{flex-direction:column;align-items:center;text-align:center}}
-.avatar-live{position:sticky;top:0;background:#fff7e9;border:1px solid #e8d4bd;border-radius:14px;padding:12px;z-index:2}.avatar-live #avatarPreview{width:145px;max-width:100%;height:180px}.avatar-live #avatarPreview svg{height:100%;width:100%}.avatar-options{padding:6px 2px}.swatch{min-width:35px;min-height:35px}#bannerPreview{min-height:72px} </style><style id="wizardStyle">.wizard-panel[hidden]{display:none!important}.avatar-wizard{display:block}.wizard-steps{display:flex;justify-content:space-between;gap:12px;background:#f9eddd;padding:13px 16px;border-radius:12px;margin-bottom:20px;color:#5b2032;font-weight:700}.wizard-panel h3{font-family:Georgia,serif;font-size:25px;margin:6px 0}.wizard-panel>p{color:#806a6c;margin:0 0 22px}.wizard-cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:16px 0}.wizard-cards button{background:#fff9ef;border:2px solid #e8d7c1;color:#4d1d2c;border-radius:17px;padding:22px 12px;display:flex;flex-direction:column;align-items:center;gap:9px;font-size:26px}.wizard-cards button strong{font-size:18px}.wizard-cards button small{font-size:12px}.wizard-cards button:hover,.wizard-cards button:focus-visible{border-color:#8e3652;background:#f9e9e5}.body-cards{grid-template-columns:repeat(4,minmax(0,1fr))}.body-cards button{font-size:15px;padding:18px 5px}@media(max-width:540px){.body-cards{grid-template-columns:repeat(2,minmax(0,1fr))}}</style></head><body>
-<header class="top"><div class="wrap topin"><a class="brand" href="https://jessiaguimaraes01.github.io/TechBook/index.html"><b>TB</b><span>TechBook<small>BIBLIOTECA INTELIGENTE</small></span></a><nav class="nav"><a href="https://jessiaguimaraes01.github.io/TechBook/index.html">⌂ Início</a><a href="#perfil">Meu perfil literário</a></nav></div></header>
+.avatar-live{position:sticky;top:0;background:#fff7e9;border:1px solid #e8d4bd;border-radius:14px;padding:12px;z-index:2}.avatar-live #avatarPreview{width:145px;max-width:100%;height:180px}.avatar-live #avatarPreview svg{height:100%;width:100%}.avatar-options{padding:6px 2px}.swatch{min-width:35px;min-height:35px}#bannerPreview{min-height:72px} 
+/* Botão de voltar */
+.botao-voltar {
+    background: transparent;
+    color: #fff8ef;
+    border: 1px solid var(--gold);
+    padding: 9px 16px;
+    border-radius: 9px;
+    font-size: 13px;
+    font-weight: 700;
+    white-space: nowrap;
+    transition: .2s;
+}
+
+.botao-voltar:hover {
+    background: var(--gold);
+    color: var(--deep);
+}
+
+@media (max-width: 600px) {
+    .topin {
+        flex-wrap: wrap;
+        padding: 10px 0;
+    }
+
+    .nav {
+        display: flex;
+        flex-wrap: wrap;
+    }
+}
+</style><style id="wizardStyle">.wizard-panel[hidden]{display:none!important}.avatar-wizard{display:block}.wizard-steps{display:flex;justify-content:space-between;gap:12px;background:#f9eddd;padding:13px 16px;border-radius:12px;margin-bottom:20px;color:#5b2032;font-weight:700}.wizard-panel h3{font-family:Georgia,serif;font-size:25px;margin:6px 0}.wizard-panel>p{color:#806a6c;margin:0 0 22px}.wizard-cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:16px 0}.wizard-cards button{background:#fff9ef;border:2px solid #e8d7c1;color:#4d1d2c;border-radius:17px;padding:22px 12px;display:flex;flex-direction:column;align-items:center;gap:9px;font-size:26px}.wizard-cards button strong{font-size:18px}.wizard-cards button small{font-size:12px}.wizard-cards button:hover,.wizard-cards button:focus-visible{border-color:#8e3652;background:#f9e9e5}.body-cards{grid-template-columns:repeat(4,minmax(0,1fr))}.body-cards button{font-size:15px;padding:18px 5px}@media(max-width:540px){.body-cards{grid-template-columns:repeat(2,minmax(0,1fr))}}</style></head><body>
+<header class="top">
+    <div class="wrap topin">
+        <a class="brand" href="index.html">
+            <b>TB</b>
+            <span>
+                TechBook
+                <small>BIBLIOTECA INTELIGENTE</small>
+            </span>
+        </a>
+
+        <nav class="nav" aria-label="Navegação da página">
+            <button class="botao-voltar" id="voltar-pagina" type="button">
+                ← Voltar
+            </button>
+            <a href="#perfil">Meu perfil literário</a>
+        </nav>
+    </div>
+</header>
 <section class="hero" id="banner"><div class="wrap hero-copy"><div class="eyebrow">TECHBOOK · MEU UNIVERSO LITERÁRIO</div><h1>Seu universo literário</h1><p>Um perfil com a sua cara, suas leituras e suas descobertas.</p></div></section>
 <main class="wrap" id="perfil"><section class="profile"><div class="profile-main"><div class="avatar-ring" id="avatar"></div><div class="who"><h2 id="profileName"></h2><div class="handle" id="profileHandle"></div><p id="profileBio"></p></div></div><button class="btn" onclick="openProfile()">✎ Editar perfil</button></section>
 <section class="stats"><div class="stat"><b id="sRead">0</b><small>Livros lidos</small></div><div class="stat"><b id="sComments">0</b><small>Comentários no TEBYS</small></div><div class="stat"><b id="sFav">0</b><small>Favoritos</small></div><div class="stat"><b id="sGoal">0%</b><small>Meta mensal</small></div></section>
@@ -151,4 +198,13 @@ function openBook(id){const b=data.books.find(x=>x.id===id)||{id:'',title:'',aut
 async function saveBook(id){const title=$('bt').value.trim();if(!title){alert('Informe o título do livro.');return}const b=data.books.find(x=>x.id===id)||{id:'b'+Date.now()};const prev=b.status;b.title=title;b.author=$('ba').value.trim();b.genre=$('bg').value.trim();b.status=$('bs').value;b.pages=Math.max(0,Number($('bp').value)||0);b.pagesRead=Math.max(0,Math.min(b.pages||Infinity,Number($('bpr').value)||0));b.rating=Number($('br').value);b.finished=$('bf').value||(b.status==='lido'&&prev!=='lido'?new Date().toISOString().slice(0,10):b.finished||'');b.review=$('brev').value.trim();b.favorite=$('bfav').checked;b.cover=$('bc').value.trim();if(!id)data.books.push(b);save();closeModal();render();if(!b.cover&&navigator.onLine){try{const q=encodeURIComponent(title+' '+b.author);const r=await fetch('https://openlibrary.org/search.json?q='+q+'&limit=1');const j=await r.json();if(j.docs?.[0]?.cover_i){b.cover='https://covers.openlibrary.org/b/id/'+j.docs[0].cover_i+'-M.jpg';save();render()}}catch(e){}}}
 function deleteBook(id){if(confirm('Excluir este livro e suas anotações?')){data.books=data.books.filter(b=>b.id!==id);save();render()}}function toggleFav(id){const b=data.books.find(b=>b.id===id);if(b){b.favorite=!b.favorite;save();render()}}function changeGoal(){const n=prompt('Quantos livros você quer concluir por mês?',data.goal);if(n===null)return;const v=Number(n);if(!Number.isInteger(v)||v<1||v>100){alert('Escolha um número de 1 a 100.');return}data.goal=v;save();render()}
 function openComment(id){const c=data.comments.find(c=>c.id===id)||{id:'',topic:'',text:''};openModal(id?'Editar comentário':'Registrar comentário do TEBYS',`<div class="fields"><label class="field full">Tema da conversa<input id="ct" value="${esc(c.topic)}" maxlength="100"></label><label class="field full">Seu comentário<textarea id="cx" maxlength="1000">${esc(c.text)}</textarea></label><p class="notice field full">Registro demonstrativo. Comentários reais do TEBYS só serão exibidos automaticamente após a integração entre as páginas.</p></div>`,`<button class="btn secondary" onclick="closeModal()">Cancelar</button><button class="btn" onclick="saveComment('${id||''}')">Salvar comentário</button>`)}function saveComment(id){const topic=$('ct').value.trim(),text=$('cx').value.trim();if(!topic||!text){alert('Preencha o tema e o comentário.');return}let c=data.comments.find(x=>x.id===id);if(!c){c={id:'c'+Date.now(),date:new Date().toLocaleDateString('pt-BR')};data.comments.push(c)}c.topic=topic;c.text=text;save();closeModal();render()}function removeComment(id){if(confirm('Excluir este comentário?')){data.comments=data.comments.filter(c=>c.id!==id);save();render()}}render();
+document.getElementById("voltar-pagina")?.addEventListener("click", () => {
+    const origem = document.referrer;
+
+    if (origem && new URL(origem).origin === window.location.origin) {
+        window.history.back();
+    } else {
+        window.location.href = "perfil-aluno.html";
+    }
+});
 </script></body></html>

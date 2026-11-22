@@ -397,6 +397,24 @@ footer {
        font-size: 25px;
    }
 }
+/* BOTÃO VOLTAR - ESTATÍSTICAS */
+.botao-voltar {
+    background: #762F3B;
+    color: white;
+    padding: 12px 18px;
+    border: 1px solid #D6AE70;
+    border-radius: 9px;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: .2s;
+}
+
+.botao-voltar:hover {
+    background: #D6AE70;
+    color: #481B27;
+}
+
 </style>
 </head>
 
@@ -409,7 +427,9 @@ footer {
        <div class="logo">Tech<span>Book</span></div>
        <p>Sua biblioteca, seu conhecimento.</p>
    </div>
-   <a href="index.html">← Voltar ao TechBook</a>
+<button type="button" class="botao-voltar" id="voltar-pagina">
+    ← Voltar
+</button>
 </header>
 
 
@@ -668,6 +688,18 @@ footer {
    © 2026 TechBook — Incentivando a leitura por meio da tecnologia.
 </footer>
 
+<script>
+// Retornar à página anterior
+document.getElementById("voltar-pagina")?.addEventListener("click", () => {
+    const origem = document.referrer;
+
+    if (origem && new URL(origem).origin === window.location.origin) {
+        window.history.back();
+    } else {
+        window.location.href = "bibliotecario.html";
+    }
+});
+</script>
 
 </body>
 </html>

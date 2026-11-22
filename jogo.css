@@ -909,3 +909,116 @@ button:focus-visible {
         font-size: 6px;
     }
 }
+
+/* BOTÃO PARA VOLTAR À ÁREA DE JOGOS */
+.back-games {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 14px;
+    border: 2px solid var(--gold);
+    border-radius: 4px;
+    color: var(--text);
+    background: rgba(217,180,119,.12);
+    text-decoration: none;
+    font-size: 11px;
+    font-weight: 800;
+    transition: .2s;
+}
+
+.back-games:hover {
+    background: var(--gold);
+    color: var(--background);
+}
+
+/* CONTROLES DE MOVIMENTO PARA CELULAR */
+.mobile-controls {
+    display: none;
+}
+
+@media (max-width: 700px) {
+    .top-status {
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+    .back-games {
+        order: 3;
+        width: 100%;
+    }
+
+    .mobile-controls {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 15px;
+        margin-top: 20px;
+        padding: 18px 10px;
+        border: 2px solid rgba(217,180,119,.35);
+        border-radius: 5px;
+        background: rgba(27,10,18,.35);
+    }
+
+    .direction-pad {
+        display: grid;
+        grid-template-columns: repeat(3, 58px);
+        grid-template-rows: repeat(2, 54px);
+        gap: 6px;
+    }
+
+    .move-btn {
+        border: 2px solid var(--gold);
+        border-radius: 6px;
+        color: white;
+        background: #754052;
+        box-shadow: 0 4px 0 #28111b;
+        font-size: 21px;
+        font-weight: 900;
+        touch-action: none;
+        user-select: none;
+        -webkit-user-select: none;
+    }
+
+    .move-btn:active {
+        transform: translateY(3px);
+        box-shadow: 0 1px 0 #28111b;
+        background: #a45c76;
+    }
+
+    .move-btn.up {
+        grid-column: 2;
+        grid-row: 1;
+    }
+
+    .move-btn.left {
+        grid-column: 1;
+        grid-row: 2;
+    }
+
+    .move-btn.down {
+        grid-column: 2;
+        grid-row: 2;
+    }
+
+    .move-btn.right {
+        grid-column: 3;
+        grid-row: 2;
+    }
+
+    .interact-mobile {
+        width: min(230px, 90%);
+        padding: 14px;
+        border: 2px solid var(--gold);
+        border-radius: 5px;
+        color: #fff0df;
+        background: #754052;
+        box-shadow: 0 4px 0 #28111b;
+        font-weight: 900;
+        touch-action: manipulation;
+    }
+
+    .interact-mobile:active {
+        transform: translateY(3px);
+        box-shadow: 0 1px 0 #28111b;
+    }
+}
