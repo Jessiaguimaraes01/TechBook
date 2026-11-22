@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="TechBook: uma biblioteca inteligente para descobrir livros e acompanhar sua leitura.">
   <title>TechBook — Biblioteca Inteligente</title>
-  <link rel="stylesheet" href="style.css">
-  <script src="script.js" defer></script>
+  <link rel="stylesheet" href="assets/css/style.css">
+  <script src="assets/js/script.js" defer></script>
 </head>
 
 <body>
@@ -19,14 +19,21 @@
     </a>
     <button id="menu-btn" class="menu-btn" aria-label="Abrir menu" aria-expanded="false">☰</button>
     <nav id="menu" aria-label="Navegação principal">
-      <a href="#inicio">Início</a>
       <a href="#catalogo">Catálogo</a>
-      <a href="#recomendador">Recomendações</a>
-      <a href="#emprestimos">Empréstimos</a>
-      <a href="#estatisticas">Estatísticas</a>
-      <a href="#desafios">Desafios</a>
-      <a href="quiz.html">Quiz Literário</a>
+      <a href="emprestimos-aluno.html">Empréstimos</a>
+      <a href="minha_estante_virtual_cabecalho_vinho.html">Minha Estante</a>
+      <a href="amigos_de_leitura_completo.html">Amigos</a>
+      <a href="ranking.html">Ranking</a>
+      <a href="jogos.html">Joguinhos</a>
+      <a href="quiz.html">Quiz</a>
+      <a href="estatisticas.html">Estatísticas</a>
     </nav>
+
+    <div class="acesso-aluno" id="acesso-aluno-area">
+      <a href="login.html" class="botao-entrar">Entrar</a>
+      <a href="cadastro.html" class="botao-cadastrar">Cadastrar-se</a>
+    </div>
+
     <button id="acessibilidade-btn" class="botao botao-claro">Acessibilidade</button>
   </header>
 
@@ -40,14 +47,31 @@
           <a class="botao botao-dourado" href="#catalogo">Explorar catálogo <span aria-hidden="true">↗</span></a>
           <a class="link-claro" href="#recomendador">Encontrar meu próximo livro</a>
         </div>
-        <!-- NOVO BOTÃO DO QUIZ -->
+        
         <div class="hero-acoes">
+          <a class="botao botao-vinho" href="jogos.html">
+            🎮 Área de Joguinhos →
+          </a>
+
           <a class="botao botao-vinho" href="quiz.html">
             ✨ Fazer Quiz Literário →
-           </a>
+          </a>
+
+          <a class="botao botao-dourado" href="estatisticas.html">
+            📊 Ver estatísticas →
+          </a>
+
+          <a href="ranking.html" class="botao botao-ranking">
+            🏆 Acessar Ranking →
+          </a>
         </div>
-        <div class="hero-nota"><span aria-hidden="true">✦</span> Conhecimento, criatividade e descobertas.</div>
+
+        <div class="hero-nota">
+          <span aria-hidden="true">✦</span>
+          Conhecimento, criatividade e descobertas.
+        </div>
       </div>
+
       <div class="hero-arte" aria-label="Ilustração decorativa de livros">
         <div class="halo halo-um"></div><div class="halo halo-dois"></div>
         <div class="livros-arte" aria-hidden="true">
@@ -99,33 +123,86 @@
       </div>
     </section>
 
-    <section class="secao" id="emprestimos">
-      <div class="cabecalho-secao"><span class="etiqueta">ORGANIZE SUA LEITURA</span><h2>Empréstimos e <em>devoluções</em></h2><p>Registre operações de demonstração e acompanhe os exemplares.</p></div>
-      <div class="painel">
-        <form id="form-emprestimo">
-          <div class="campos-form">
-            <div><label for="leitor">Nome de demonstração</label><input id="leitor" required maxlength="80" placeholder="Ex.: Leitor 01"></div>
-            <div><label for="livro-emprestimo">Livro</label><select id="livro-emprestimo" required></select></div>
-            <div><label for="data-devolucao">Data prevista para devolução</label><input id="data-devolucao" type="date" required></div>
-          </div>
-          <button class="botao botao-vinho" type="submit">Registrar empréstimo</button>
-        </form>
-        <p class="aviso">Protótipo escolar: use apenas nomes fictícios. Os registros ficam neste navegador; ainda não é um sistema oficial de biblioteca.</p>
+    <section class="secao" id="area-joguinhos">
+      <div class="cabecalho-secao">
+        <span class="etiqueta">APRENDA BRINCANDO</span>
+        <h2>Área de <em>Joguinhos</em></h2>
+        <p>Teste seus conhecimentos literários, divirta-se com desafios interativos e ganhe pontos na sua jornada!</p>
       </div>
-      <h3 class="subtitulo">Registros de empréstimos</h3>
-      <div id="lista-emprestimos" class="lista-registros"></div>
+
+      <div class="painel" style="display:flex; align-items:center; justify-content:space-between; gap:24px; flex-wrap:wrap;">
+        <div style="flex:1; min-width:250px;">
+          <h3>🎮 Desafios & Minigames TechBook</h3>
+          <p style="margin-top:8px; line-height:1.6;">
+            Acesse a central de joguinhos da biblioteca para explorar minigames literários,
+            testar sua memória sobre clássicos e desbloquear conquistas especiais.
+          </p>
+          <div style="margin-top:18px; display:flex; gap:12px; flex-wrap:wrap;">
+            <a href="jogos.html" class="botao botao-vinho">Abrir área de joguinhos →</a>
+            <a href="quiz.html" class="botao botao-claro">Jogar Quiz Literário</a>
+          </div>
+        </div>
+
+        <div aria-hidden="true" style="width:120px; height:120px; border-radius:22px; background:linear-gradient(135deg, #481B27, #762F3B); display:grid; place-items:center; border:2px solid #D6AE70; flex-shrink:0;">
+          <svg width="64" height="64" viewBox="0 0 64 64" fill="none">
+            <rect x="8" y="20" width="48" height="26" rx="13" stroke="#D6AE70" stroke-width="3" fill="#5E2131"/>
+            <path d="M22 28V38M17 33H27" stroke="#FFF6EC" stroke-width="3" stroke-linecap="round"/>
+            <circle cx="43" cy="30" r="2.5" fill="#D6AE70"/>
+            <circle cx="48" cy="35" r="2.5" fill="#FFF6EC"/>
+          </svg>
+        </div>
+      </div>
     </section>
 
-    <section class="secao secao-creme" id="estatisticas">
-      <div class="cabecalho-secao"><span class="etiqueta">A BIBLIOTECA EM NÚMEROS</span><h2>Conhecimento em <em>dados</em></h2><p>Indicadores atualizados a partir dos registros deste protótipo.</p></div>
+    <section class="secao secao-creme" id="como-funciona">
+      <div class="cabecalho-secao">
+        <span class="etiqueta">ORGANIZE SUA LEITURA</span>
+        <h2>Empréstimos e <em>devoluções</em></h2>
+        <p>
+          No TechBook, você tem uma página dedicada para solicitar novos livros,
+          escolher seu prazo de leitura e acompanhar suas devoluções.
+        </p>
+      </div>
+
+      <div class="painel">
+        <div class="grade-estatisticas">
+          <article class="painel">
+            <h3>📚 Página de Empréstimos</h3>
+            <p>
+              Escolha o livro disponível no catálogo, defina o prazo de devolução
+              e registre seu empréstimo em segundos.
+            </p>
+          </article>
+
+          <article class="painel">
+            <h3>↩️ Acompanhe e Devolva</h3>
+            <p>
+              Veja seus prazos ativos e solicite a devolução com um clique
+              diretamente na aba de empréstimos.
+            </p>
+          </article>
+        </div>
+
+        <div style="text-align:center; margin-top:25px; display:flex; gap:12px; justify-content:center; flex-wrap:wrap;">
+          <a href="emprestimos-aluno.html" class="botao botao-vinho">
+            Ir para página de empréstimos →
+          </a>
+          <a href="perfil-aluno.html" class="botao botao-claro">
+            Minha área do aluno
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section class="secao" id="estatisticas">
+      <div class="cabecalho-secao"><span class="etiqueta">A BIBLIOTECA EM NÚMEROS</span><h2>Conhecimento em <em>dados</em></h2><p>Indicadores atualizados em tempo real a partir do acervo do TechBook.</p></div>
       <div class="grade-estatisticas">
         <article class="painel painel-grafico"><h3>Livros por gênero</h3><div id="grafico-generos" class="grafico"></div></article>
         <article class="painel painel-grafico"><h3>Disponibilidade do acervo</h3><div id="grafico-disponibilidade" class="grafico"></div></article>
       </div>
-      <p class="texto-suave">Os números são dados de demonstração, não estatísticas de uma biblioteca real.</p>
     </section>
 
-    <section class="secao" id="desafios">
+    <section class="secao secao-creme" id="desafios">
       <div class="cabecalho-secao"><span class="etiqueta">CADA PÁGINA É UMA CONQUISTA</span><h2>Metas e desafios de <em>leitura</em></h2><p>Complete atividades e acompanhe seu progresso.</p></div>
       <div id="lista-desafios" class="grade-desafios"></div>
       <div class="progresso-painel"><div class="linha-progresso"><strong>Sua jornada literária</strong><span id="texto-progresso">0 de 4 concluídos</span></div><div class="barra"><div id="barra-progresso"></div></div></div>
@@ -133,16 +210,16 @@
 
     <section class="secao secao-vinho" id="medidor">
       <div class="medidor-card">
-        <div><span class="etiqueta">NOSSA EXPERIÊNCIA ARTÍSTICA</span><h2>Medidor de Descobertas Literárias</h2><p>Cada desafio concluído acende uma nova etapa da jornada. O medidor representa o progresso nas atividades — não mede a inteligência de ninguém.</p><strong id="valor-medidor" class="valor-medidor">0%</strong><div class="barra barra-escura"><div id="barra-medidor"></div></div><small id="legenda-medidor">Toda grande descoberta começa pela primeira página.</small></div>
+        <div><span class="etiqueta">NOSSA EXPERIÊNCIA ARTÍSTICA</span><h2>Medidor de Descobertas Literárias</h2><p>Cada desafio concluído acende uma nova etapa da jornada.</p><strong id="valor-medidor" class="valor-medidor">0%</strong><div class="barra barra-escura"><div id="barra-medidor"></div></div><small id="legenda-medidor">Toda grande descoberta começa pela primeira página.</small></div>
         <div class="cerebro-arte" aria-hidden="true"><span class="brilho brilho-um">✦</span><span class="brilho brilho-dois">✧</span><span class="cerebro">🧠</span><span class="brilho brilho-tres">✦</span><div class="anel-cerebro"></div></div>
       </div>
     </section>
 
     <section class="secao secao-creme" id="acessibilidade">
-      <div class="cabecalho-secao"><span class="etiqueta">LEITURA PARA TODOS</span><h2>Acessibilidade <em>digital</em></h2><p>Personalize a página para uma leitura mais confortável.</p></div>
+      <div class="cabecalho-secao"><span class="etiqueta">LEITURA PARA TODOS</span><h2>Acessibilidade <em>digital</em></h2><p>Personalize a página para uma leitura mais confortável para os olhos.</p></div>
       <div class="painel acessibilidade-painel">
         <div><strong>Tamanho do texto</strong><div class="grupo-botoes"><button class="botao botao-claro" id="fonte-diminuir" aria-label="Diminuir tamanho da fonte">A−</button><button class="botao botao-claro" id="fonte-normal">A normal</button><button class="botao botao-claro" id="fonte-aumentar" aria-label="Aumentar tamanho da fonte">A+</button></div></div>
-        <div><strong>Contraste</strong><p class="texto-suave">Ative uma combinação de alto contraste.</p><button id="contraste-btn" class="botao botao-vinho" aria-pressed="false">Alternar alto contraste</button></div>
+        <div><strong>Modo Noturno / Alto Contraste</strong><p class="texto-suave">Ative o modo escuro suave para descansar a vista e aumentar a legibilidade.</p><button id="contraste-btn" class="botao botao-vinho" aria-pressed="false">Alternar alto contraste</button></div>
       </div>
     </section>
 
@@ -152,15 +229,20 @@
     </section>
   </main>
 
-  <footer><a class="marca marca-rodape" href="#inicio"><span class="marca-simbolo">TB</span><span class="marca-texto">TechBook<small>BIBLIOTECA INTELIGENTE</small></span></a><p>Projeto desenvolvido para a feira de ciências.</p><span class="rodape-detalhe">Ler · Descobrir · Imaginar</span></footer>
+  <footer>
+    <a class="marca marca-rodape" href="#inicio"><span class="marca-simbolo">TB</span><span class="marca-texto">TechBook<small>BIBLIOTECA INTELIGENTE</small></span></a>
+    <p>Projeto desenvolvido para a feira de ciências · <a href="login-bibliotecario.html" style="color:inherit;text-decoration:underline;">Área do Bibliotecário</a></p>
+    <span class="rodape-detalhe">Ler · Descobrir · Imaginar</span>
+  </footer>
+
   <script>
-  if ("serviceWorker" in navigator) {
-    window.addEventListener("load", () => {
-      navigator.serviceWorker.register("/service-worker.js")
-        .then(() => console.log("TecBook preparado para modo offline!"))
-        .catch((erro) => console.error("Erro no modo offline:", erro));
-    });
-  }
-</script>
+    if ("serviceWorker" in navigator) {
+      window.addEventListener("load", () => {
+        navigator.serviceWorker.register("/service-worker.js")
+          .then(() => console.log("TechBook preparado para modo offline!"))
+          .catch((erro) => console.error("Erro no modo offline:", erro));
+      });
+    }
+  </script>
 </body>
 </html>

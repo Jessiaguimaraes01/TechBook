@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Amigos de Leitura — TechBook</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;0,800;1,600&display=swap');
+:root{--wine:#481B27;--wine2:#762F3B;--cream:#F5EBDD;--paper:#FFFCF7;--ink:#38272C;--gold:#D6AE70;--border:#E6D8CB;--suave:#78666B}
+*{box-sizing:border-box}
+body{margin:0;font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--ink)}
+
+.topo{
+  position:sticky;top:0;z-index:20;
+  display:flex;align-items:center;justify-content:space-between;
+  gap:14px;padding:14px 5%;
+  background:var(--paper);border-bottom:1px solid var(--border);
+  flex-wrap:wrap;
+}
+.marca{display:flex;align-items:center;gap:11px;font-weight:700;text-decoration:none;color:inherit}
+.marca-simbolo{
+  width:42px;height:42px;display:grid;place-items:center;
+  border-radius:50%;background:#3B151E;color:var(--gold);
+  border:2px solid var(--gold);font-family:'Playfair Display',serif;
+  font-size:.95rem;font-weight:700;
+}
+.marca-texto{display:grid;font-family:'Playfair Display',serif;font-size:1.25rem;color:var(--wine);line-height:1.05}
+.marca-texto small{font-family:'DM Sans',sans-serif;font-size:.56rem;letter-spacing:.16em;color:var(--suave);margin-top:2px}
+.nav-links{display:flex;gap:10px;flex-wrap:wrap}
+.nav-links a{text-decoration:none;color:var(--suave);font-size:.86rem;font-weight:700;padding:7px 13px;border-radius:10px;transition:.2s}
+.nav-links a:hover,.nav-links a.ativo{background:rgba(197,140,165,.22);color:var(--wine)}
+
+.hero{
+  padding:46px 6% 52px;text-align:center;color:#FFF7EE;
+  background:#431A24;border-bottom:3px solid var(--gold);
+}
+.hero .etiqueta{display:inline-block;font-size:.72rem;font-weight:700;letter-spacing:.2em;color:var(--gold);margin-bottom:8px}
+.hero h1{font-family:'Playfair Display',serif;font-size:clamp(2rem,4vw,3.1rem);margin:0 0 8px}
+.hero h1 em{color:#C58CA5;font-style:italic}
+.hero p{margin:0 auto;max-width:54ch;color:rgba(255,247,238,.86);font-size:.96rem}
+
+.container{width:min(1080px,92%);margin:28px auto 52px}
+.tabs{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-bottom:24px}
+.tab{
+  border:1px solid var(--border);background:var(--paper);color:var(--ink);
+  border-radius:99px;padding:10px 20px;font-weight:700;font-size:.88rem;cursor:pointer;transition:.2s;
+}
+.tab.active,.tab:hover{background:var(--wine);color:#FFF7EE;border-color:var(--wine)}
+
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(275px,1fr));gap:18px}
+.card{
+  background:var(--paper);border:1px solid var(--border);border-radius:20px;
+  padding:20px;box-shadow:0 10px 24px rgba(69,26,36,.06);
+  display:flex;flex-direction:column;gap:12px;
+}
+.card-head{display:flex;align-items:center;gap:13px}
+.avatar-iniciais{
+  width:50px;height:50px;border-radius:50%;flex-shrink:0;
+  display:grid;place-items:center;background:var(--wine);color:var(--gold);
+  border:2px solid var(--gold);font-family:'Playfair Display',serif;
+  font-weight:700;font-size:1.05rem;
+}
+.card h3{margin:0;font-family:'Playfair Display',serif;font-size:1.15rem;color:var(--wine)}
+.sub{font-size:.82rem;color:var(--suave)}
+.lendo-box{
+  background:#F6EFE6;border:1px solid var(--border);border-radius:12px;
+  padding:10px 12px;font-size:.85rem;
+}
+.lendo-box span{display:block;font-size:.7rem;letter-spacing:.12em;font-weight:700;color:var(--wine2);margin-bottom:2px}
+.actions{display:flex;gap:8px;margin-top:auto}
+.btn{
+  flex:1;border:0;border-radius:10px;padding:10px 12px;font-weight:700;
+  font-size:.84rem;cursor:pointer;transition:.15s;
+}
+.btn:hover{transform:translateY(-1px)}
+.btn-wine{background:var(--wine);color:#FFF7EE}
+.btn-gold{background:var(--gold);color:#2B1318}
+.btn-outline{background:var(--cream);color:var(--wine);border:1px solid var(--border)}
+
+.search-bar{
+  display:flex;gap:10px;margin-bottom:18px;
+}
+.search-bar input{
+  flex:1;padding:12px 16px;border-radius:12px;border:1px solid var(--border);
+  background:var(--paper);font:inherit;color:var(--ink);
+}
+
+.ranking-list{display:grid;gap:12px}
+.rank-row{
+  background:var(--paper);border:1px solid var(--border);border-radius:16px;
+  padding:15px 20px;display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;
+}
+.rank-left{display:flex;align-items:center;gap:14px}
+.pos-badge{
+  width:38px;height:38px;border-radius:50%;display:grid;place-items:center;
+  font-weight:800;font-size:.92rem;background:#EFE3D2;color:var(--wine);
+}
+.pos-1{background:var(--gold);color:#2B1318}
+.pos-2{background:#D8D2CC;color:#2B1318}
+.pos-3{background:#C89B7B;color:#2B1318}
+.pts-pill{
+  background:var(--wine);color:var(--gold);padding:6px 14px;
+  border-radius:99px;font-weight:700;font-size:.85rem;
+}
+
+.toast{
+  position:fixed;bottom:20px;left:50%;transform:translateX(-50%);
+  background:#2B1318;color:#FFF7EE;padding:11px 18px;border-radius:99px;
+  font-size:.86rem;opacity:0;pointer-events:none;transition:opacity .25s;z-index:40;
+}
+.toast.show{opacity:1}
+
+footer{
+  padding:24px 6%;background:#2C0F18;color:rgba(255,247,238,.82);
+  display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:14px;font-size:.85rem;
+}
+
+/* Ajustes de identidade visual compartilhada do TechBook */
+.hero { background: radial-gradient(circle at 82% 20%, rgba(197,140,165,.22), transparent 36%), linear-gradient(125deg,#321018,var(--wine) 60%,var(--wine2)); }
+.card, .rank-row { box-shadow: 0 12px 28px rgba(72,27,39,.07); }
+.nav-links a { border-radius: 999px; }
+.nav-links a:hover, .nav-links a.ativo { background: rgba(197,140,165,.22); color: var(--wine); }
+:focus-visible { outline: 3px solid var(--gold); outline-offset: 3px; }
+</style>
+</head>
+<body>
+
+<header class="topo">
+  <a class="marca" href="index.html">
+    <span class="marca-simbolo">TB</span>
+    <span class="marca-texto">
+      TechBook
+      <small>BIBLIOTECA INTELIGENTE</small>
+    </span>
+  </a>
+  <nav class="nav-links">
+    <a href="index.html">Início</a>
+    <a href="perfil-aluno.html">Minha Área</a>
+    <a href="minha_estante_virtual_cabecalho_vinho.html">Minha Estante</a>
+    <a class="ativo" href="amigos_de_leitura_completo.html">Amigos de Leitura</a>
+    <a href="ranking.html">Ranking Geral</a>
+  </nav>
+</header>
+
+<section class="hero">
+  <span class="etiqueta">COMUNIDADE LITERÁRIA</span>
+  <h1>Amigos de <em>Leitura</em></h1>
+  <p>Conecte-se com colegas da escola, descubra o que eles estão lendo agora e acompanhe o ranking da turma.</p>
+</section>
+
+<main class="container">
+  <div class="tabs">
+    <button class="tab active" data-tab="amigos">Meus Amigos (<span id="countAmigos">0</span>)</button>
+    <button class="tab" data-tab="encontrar">Encontrar Amigos</button>
+    <button class="tab" data-tab="ranking">Ranking da Turma</button>
+  </div>
+
+  <!-- ABA 1: MEUS AMIGOS -->
+  <section id="sec-amigos">
+    <div class="grid" id="gridAmigos"></div>
+  </section>
+
+  <!-- ABA 2: ENCONTRAR AMIGOS -->
+  <section id="sec-encontrar" hidden>
+    <div class="search-bar">
+      <input type="search" id="buscaLeitor" placeholder="Pesquisar colega por nome ou turma...">
+    </div>
+    <div class="grid" id="gridEncontrar"></div>
+  </section>
+
+  <!-- ABA 3: RANKING DA TURMA -->
+  <section id="sec-ranking" hidden>
+    <div class="ranking-list" id="listaRanking"></div>
+  </section>
+</main>
+
+<div class="toast" id="toast"></div>
+
+<footer>
+  <span>TechBook · Biblioteca Inteligente</span>
+  <span style="color:var(--gold)">Ler · Descobrir · Imaginar</span>
+</footer>
+
+<script>
+const CHAVE_AMIGOS = "techbook_amigos_salvos_v2";
+
+const amigosBase = [
+  { id: "demo-1", nome: "Ana Clara Martins", turma: "2º Ano B", lendo: "O Pequeno Príncipe", livrosLidos: 8 },
+  { id: "demo-2", nome: "Lucas Henrique Silva", turma: "3º Ano A", lendo: "Dom Casmurro", livrosLidos: 6 },
+  { id: "demo-3", nome: "Mariana Costa", turma: "1º Ano C", lendo: "O Hobbit", livrosLidos: 10 }
+];
+
+let amigos = [];
+let todosAlunos = [];
+let rankingReal = [];
+
+function toast(msg) {
+  const t = document.getElementById("toast");
+  t.textContent = msg;
+  t.classList.add("show");
+  setTimeout(() => t.classList.remove("show"), 2400);
+}
+
+function iniciais(nome) {
+  return String(nome || "TB").trim().split(/\s+/).slice(0, 2).map(p => p[0]).join("").toUpperCase();
+}
+
+function escapar(str) {
+  return String(str ?? "").replace(/[&<>"']/g, c => ({ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;" }[c]));
+}
+
+function carregarAmigos() {
+  try {
+    const salvo = JSON.parse(localStorage.getItem(CHAVE_AMIGOS) || "null");
+    amigos = Array.isArray(salvo) && salvo.length ? salvo : [...amigosBase];
+  } catch {
+    amigos = [...amigosBase];
+  }
+}
+
+function salvarAmigos() {
+  localStorage.setItem(CHAVE_AMIGOS, JSON.stringify(amigos));
+}
+
+function renderAmigos() {
+  document.getElementById("countAmigos").textContent = amigos.length;
+  const grid = document.getElementById("gridAmigos");
+
+  if (!amigos.length) {
+    grid.innerHTML = `<div class="card"><p>Você ainda não adicionou amigos. Clique em <strong>Encontrar Amigos</strong> para conhecer outros leitores!</p></div>`;
+    return;
+  }
+
+  grid.innerHTML = amigos.map(a => `
+    <article class="card">
+      <div class="card-head">
+        <div class="avatar-iniciais">${iniciais(a.nome)}</div>
+        <div>
+          <h3>${escapar(a.nome)}</h3>
+          <div class="sub">${escapar(a.turma || "Leitor TechBook")} · ${a.livrosLidos || 1} livro(s) lido(s)</div>
+        </div>
+      </div>
+      <div class="lendo-box">
+        <span>LENDO ATUALMENTE</span>
+        <strong>${escapar(a.lendo || "Explorando o catálogo")}</strong>
+      </div>
+      <div class="actions">
+        <button class="btn btn-gold" type="button" onclick="recomendarPara('${escapar(a.nome)}')">Indicar livro</button>
+        <button class="btn btn-outline" type="button" onclick="removerAmigo('${escapar(a.id)}')">Remover</button>
+      </div>
+    </article>
+  `).join("");
+}
+
+function renderEncontrar() {
+  const termo = (document.getElementById("buscaLeitor").value || "").trim().toLowerCase();
+  const grid = document.getElementById("gridEncontrar");
+
+  const candidatos = todosAlunos.filter(al => {
+    const texto = `${al.nome} ${al.turma || ""}`.toLowerCase();
+    return texto.includes(termo);
+  });
+
+  if (!candidatos.length) {
+    grid.innerHTML = `<div class="card"><p>Nenhum leitor encontrado com esse filtro.</p></div>`;
+    return;
+  }
+
+  grid.innerHTML = candidatos.map(al => {
+    const jaAmigo = amigos.some(am => String(am.id) === String(al.id));
+    return `
+      <article class="card">
+        <div class="card-head">
+          <div class="avatar-iniciais">${iniciais(al.nome)}</div>
+          <div>
+            <h3>${escapar(al.nome)}</h3>
+            <div class="sub">${escapar(al.turma || "Estudante")}</div>
+          </div>
+        </div>
+        <div class="lendo-box">
+          <span>LEITURA ATUAL</span>
+          <strong>${escapar(al.lendo || "Explorando o acervo TechBook")}</strong>
+        </div>
+        <div class="actions">
+          <button
+            class="btn ${jaAmigo ? "btn-outline" : "btn-wine"}"
+            type="button"
+            ${jaAmigo ? "disabled" : ""}
+            onclick="adicionarAmigo('${escapar(al.id)}')"
+          >
+            ${jaAmigo ? "Já é seu amigo" : "+ Adicionar amigo"}
+          </button>
+        </div>
+      </article>
+    `;
+  }).join("");
+}
+
+function renderRanking() {
+  const lista = document.getElementById("listaRanking");
+  const baseRanking = rankingReal.length
+    ? rankingReal
+    : [...amigos].sort((a, b) => (b.livrosLidos || 0) - (a.livrosLidos || 0)).map(a => ({
+        nome: a.nome,
+        turma: a.turma,
+        livros_lidos: a.livrosLidos || 1,
+        pontos: (a.livrosLidos || 1) * 50
+      }));
+
+  if (!baseRanking.length) {
+    lista.innerHTML = `<div class="card"><p>Ainda não há leituras registradas no ranking.</p></div>`;
+    return;
+  }
+
+  lista.innerHTML = baseRanking.map((item, idx) => {
+    const pos = idx + 1;
+    const cls = pos === 1 ? "pos-1" : pos === 2 ? "pos-2" : pos === 3 ? "pos-3" : "";
+    return `
+      <div class="rank-row">
+        <div class="rank-left">
+          <div class="pos-badge ${cls}">${pos}º</div>
+          <div class="avatar-iniciais" style="width:42px;height:42px;font-size:.9rem;">${iniciais(item.nome)}</div>
+          <div>
+            <strong style="color:var(--wine);font-size:1rem;">${escapar(item.nome)}</strong>
+            <div class="sub">${escapar(item.turma || "Estudante")} · ${Number(item.livros_lidos || 0)} livro(s)</div>
+          </div>
+        </div>
+        <span class="pts-pill">${Number(item.pontos || 0)} pts</span>
+      </div>
+    `;
+  }).join("");
+}
+
+window.adicionarAmigo = function(id) {
+  const leitor = todosAlunos.find(a => String(a.id) === String(id));
+  if (!leitor) return;
+  if (amigos.some(a => String(a.id) === String(id))) return;
+
+  amigos.push({
+    id: String(leitor.id),
+    nome: leitor.nome,
+    turma: leitor.turma || "Estudante",
+    lendo: leitor.lendo || "Explorando o acervo",
+    livrosLidos: leitor.livrosLidos || 1
+  });
+  salvarAmigos();
+  renderAmigos();
+  renderEncontrar();
+  toast(`${leitor.nome} adicionado(a) aos seus amigos!`);
+};
+
+window.removerAmigo = function(id) {
+  amigos = amigos.filter(a => String(a.id) !== String(id));
+  salvarAmigos();
+  renderAmigos();
+  renderEncontrar();
+  toast("Amigo removido da lista.");
+};
+
+window.recomendarPara = function(nome) {
+  const livro = prompt(`Qual livro você quer indicar para ${nome}?`);
+  if (livro && livro.trim()) {
+    toast(`Indicação de "${livro.trim()}" enviada para ${nome}!`);
+  }
+};
+
+document.querySelectorAll(".tab").forEach(btn => {
+  btn.addEventListener("click", () => {
+    document.querySelectorAll(".tab").forEach(b => b.classList.remove("active"));
+    btn.classList.add("active");
+    const alvo = btn.dataset.tab;
+    document.getElementById("sec-amigos").hidden = alvo !== "amigos";
+    document.getElementById("sec-encontrar").hidden = alvo !== "encontrar";
+    document.getElementById("sec-ranking").hidden = alvo !== "ranking";
+  });
+});
+
+document.getElementById("buscaLeitor").addEventListener("input", renderEncontrar);
+
+async function carregarDadosServidor() {
+  carregarAmigos();
+  renderAmigos();
+
+  // Carrega alunos reais do banco + sugestões
+  const sugestoes = [
+    ...amigosBase,
+    { id: "demo-4", nome: "Gabriel Almeida", turma: "2º Ano A", lendo: "1984", livrosLidos: 7 },
+    { id: "demo-5", nome: "Sofia Ribeiro", turma: "3º Ano B", lendo: "A Revolução dos Bichos", livrosLidos: 9 }
+  ];
+
+  try {
+    const respAlunos = await fetch("/api/alunos", { cache: "no-store" });
+    if (respAlunos.ok) {
+      const listaBanco = await respAlunos.json();
+      const reais = (Array.isArray(listaBanco) ? listaBanco : []).map(a => ({
+        id: `db-${a.id_aluno}`,
+        nome: a.nome,
+        turma: a.turma || `Matrícula ${a.matricula}`,
+        lendo: "Explorando o catálogo TechBook",
+        livrosLidos: 1
+      }));
+      todosAlunos = [...reais, ...sugestoes];
+    } else {
+      todosAlunos = sugestoes;
+    }
+  } catch {
+    todosAlunos = sugestoes;
+  }
+
+  renderEncontrar();
+
+  // Carrega ranking real
+  try {
+    const respRank = await fetch("/api/ranking", { cache: "no-store" });
+    if (respRank.ok) {
+      const dadosRank = await respRank.json();
+      if (Array.isArray(dadosRank) && dadosRank.length) {
+        rankingReal = dadosRank;
+      }
+    }
+  } catch {}
+
+  renderRanking();
+}
+
+carregarDadosServidor();
+</script>
+</body>
+</html>

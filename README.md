@@ -194,4 +194,3 @@ Projeto desenvolvido pelos estudantes do **2º Ano TEC — Desenvolvimento de Si
 *Feira de Ciências • SENAI • 2026*
 
 
-</div>
