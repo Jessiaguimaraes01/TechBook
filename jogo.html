@@ -215,9 +215,9 @@
         INVESTIGAÇÃO ATIVA
     </div>
 
-    <a href="jogos.html" class="back-games">
-        ← Voltar aos Jogos
-    </a>
+<button type="button" id="back-games" class="back-games">
+    ← Voltar aos Jogos
+</button>
 
     <button id="restartButton" class="restart-button" title="Reiniciar jogo">
         ↻ Reiniciar
@@ -389,7 +389,21 @@
             <div id="dialogOptions" class="dialog-options"></div>
         </div>
     </div>
+<script>
+document.getElementById("back-games")?.addEventListener("click", () => {
+    const origem = document.referrer;
 
+    if (
+        origem &&
+        new URL(origem).origin === window.location.origin &&
+        new URL(origem).pathname.endsWith("/jogos.html")
+    ) {
+        window.history.back();
+    } else {
+        window.location.href = "jogos.html";
+    }
+});
+</script>
 </body>
 </html>
 
