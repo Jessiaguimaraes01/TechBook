@@ -6,40 +6,6 @@
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap" rel="stylesheet">
 <style>
 :root{--wine:#512538;--dark:#321622;--rose:#ad7483;--cream:#f8f4ec;--paper:#fffdfa;--gold:#d3b27e;--muted:#8a797c;--line:#e9dfd8;--green:#467665}*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--cream);font:14px 'DM Sans',sans-serif;color:var(--dark)}button,input,textarea,select{font:inherit}button{cursor:pointer}button:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible{outline:3px solid #d3b27e;outline-offset:2px}button:disabled{opacity:.5;cursor:not-allowed}.serif,h1,h2,h3{font-family:'Playfair Display',serif;font-weight:500}.hidden{display:none!important}.mast{height:66px;display:flex;align-items:center;justify-content:space-between;padding:0 max(5%,calc((100vw - 1250px)/2));border-bottom:1px solid var(--line);background:#fffdf9}.brand{font:600 25px 'Playfair Display',serif;color:var(--wine);text-decoration:none}.brand span{font:700 9px 'DM Sans',sans-serif;letter-spacing:.18em;display:block;color:var(--muted)}.mast-right{font-size:11px;color:var(--muted);letter-spacing:.09em;text-transform:uppercase}.layout{max-width:1250px;margin:auto;padding:30px 24px 90px}.intro{display:grid;grid-template-columns:1.15fr .85fr;min-height:340px;background:var(--wine);border-radius:6px 70px 6px 6px;overflow:hidden;color:#fff;position:relative}.intro-copy{padding:52px 56px;position:relative;z-index:1}.eyebrow{font-size:10px;letter-spacing:.25em;text-transform:uppercase;font-weight:800;color:var(--rose)}.intro .eyebrow{color:#e1bb83}.intro h1{font-size:clamp(46px,6vw,76px);line-height:1.07;margin:18px 0}.intro h1 em{font-weight:400;color:#e6c598}.intro p{line-height:1.8;color:#f0dfe3;max-width:430px}.art{position:relative;min-height:300px;background:radial-gradient(circle at 65% 38%,#a5687a 0,#733a50 40%,transparent 72%);display:grid;place-items:center}.art .circle{width:265px;height:265px;border:1px solid #ffffff5c;border-radius:50%;display:grid;place-items:center;position:relative}.art .circle:before{content:'';position:absolute;inset:20px;border:1px dashed #ffffff40;border-radius:50%}.art .book-art{font:italic 120px 'Playfair Display',serif;color:#efd5b4;transform:rotate(-14deg);text-shadow:12px 15px 0 #341a2666}.art .orbit{position:absolute;font:italic 20px 'Playfair Display',serif;color:#f3d4a9;top:30px;right:20px}.intro:after{content:'CURADORIA / 2026';position:absolute;bottom:18px;right:30px;color:#f7e9e988;font-size:10px;letter-spacing:.2em}.section-title{display:flex;align-items:end;justify-content:space-between;gap:14px;margin:35px 0 18px}.section-title h2{font-size:34px;margin:5px 0 0}.sub{font-size:12px;color:var(--muted);line-height:1.7}.btn{border:1px solid var(--wine);background:var(--wine);color:white;padding:12px 17px;border-radius:7px;font-size:12px;font-weight:800;transition:.2s}.btn:hover{filter:brightness(1.16);transform:translateY(-1px)}.btn.outline{background:transparent;color:var(--wine)}.btn.light{background:#fff;color:var(--wine);border-color:#e9dcd7}.btn.danger{background:#fff;color:#a54d58;border-color:#d6a9ae}.btn.tiny{padding:8px 11px;font-size:11px}.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}.stat{padding:21px 22px;background:var(--paper);border:1px solid var(--line);position:relative;overflow:hidden;min-height:133px}.stat:before{content:'';position:absolute;width:60px;height:60px;border-radius:50%;background:#f7eee9;right:-22px;top:-22px}.stat .num{font:500 43px 'Playfair Display',serif;color:var(--wine);margin:12px 0 3px}.stat .lab{color:var(--muted);font-size:11px}.stat .sym{color:var(--rose);font-size:18px}.editorial{display:grid;grid-template-columns:1.5fr 1fr;gap:14px;margin-top:14px}.sheet{background:var(--paper);border:1px solid var(--line);padding:27px}.sheet h3{font-size:26px;margin:5px 0}.chart{height:185px;display:flex;align-items:flex-end;gap:13px;border-bottom:1px solid var(--line);padding:0 8px 0;margin:30px 0 27px}.chartcol{flex:1;height:100%;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;position:relative}.chartbar{width:65%;max-width:54px;min-height:4px;background:linear-gradient(0deg,#663047,#bb8290);border-radius:4px 4px 0 0}.chartcol small{position:absolute;bottom:-23px;color:var(--muted);font-size:10px}.chartcol b{font-size:10px;color:var(--wine);margin-bottom:5px}.donut{height:162px;width:162px;border-radius:50%;margin:22px auto;background:conic-gradient(#b78393 0 40%,#d5b27e 40% 60%,#568473 60% 80%,#d9d0d0 80%);display:grid;place-items:center}.donut:after{content:'doações';width:110px;height:110px;background:var(--paper);border-radius:50%;display:grid;place-items:center;font:italic 22px 'Playfair Display',serif;color:var(--wine)}.legend{display:grid;grid-template-columns:1fr 1fr;gap:10px;font-size:11px;color:var(--muted)}.dot{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:6px}.workspace{margin-top:32px}.toolbar{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}.tabs{display:flex;gap:6px;flex-wrap:wrap;margin:20px 0}.tab{background:#fffdfa;color:#78656b;border:1px solid var(--line);padding:10px 13px;border-radius:6px;font-weight:700;font-size:11px}.tab.active{background:var(--wine);color:#fff;border-color:var(--wine)}.tab b{opacity:.6;margin-left:5px}.searchrow{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:18px}.searchrow input{flex:1;min-width:190px}.searchrow select{min-width:150px}.input{border:1px solid var(--line);padding:12px 13px;border-radius:6px;background:#fffdfa;color:var(--dark);width:100%}.cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.card{background:var(--paper);border:1px solid var(--line);padding:20px;display:grid;grid-template-columns:82px 1fr;gap:18px;transition:box-shadow .2s}.card:hover{box-shadow:0 12px 32px #51253814}.cover{width:82px;height:119px;background:linear-gradient(135deg,#613045,#b27e8c);color:#e6c69a;display:flex;align-items:center;justify-content:center;font:italic 38px 'Playfair Display',serif;border-radius:2px 9px 9px 2px;box-shadow:inset 7px 0 #ffffff14,5px 6px 0 #38202b15}.cover.green{background:linear-gradient(135deg,#456d62,#a3b8a2)}.cover.gold{background:linear-gradient(135deg,#8c674b,#d0ae7e)}.status{font-size:10px;font-weight:800;letter-spacing:.05em;text-transform:uppercase;display:inline-block;padding:6px 9px;border-radius:3px;background:#f4e8dc;color:#946a2c}.status.approved{background:#e7edf5;color:#4e6688}.status.received{background:#e5f0e8;color:#42735a}.status.rejected{background:#f6e5e5;color:#a34b54}.card h3{font-size:23px;margin:10px 0 2px}.card .author{font-size:11px;color:var(--muted)}.card p{font-size:12px;color:#6d5b60;line-height:1.7}.card .meta{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0}.chip{font-size:10px;background:#f6f0e9;border:1px solid var(--line);padding:6px 8px;color:#79666c}.card .actions{display:flex;gap:7px;flex-wrap:wrap;margin-top:14px}.tagline{padding:12px 16px;border-left:3px solid var(--gold);background:#f6efe7;color:#84676a;font-size:11px;line-height:1.6;margin-top:15px}.login-wrap{display:grid;grid-template-columns:1fr 1fr;background:var(--paper);border:1px solid var(--line);margin-top:26px}.login-info{padding:45px;background:#efe4db;position:relative;overflow:hidden}.login-info:after{content:'✳';position:absolute;font-size:250px;right:-55px;bottom:-100px;color:#c6a9a535}.login-info h2{font-size:43px;line-height:1.12;max-width:350px}.login-form{padding:45px;display:flex;flex-direction:column;justify-content:center;gap:13px}.login-form h3{font-size:27px;margin:0}.login-form label{font-size:11px;font-weight:800}.login-form .btn{width:100%}.login-form .divider{text-align:center;color:var(--muted);font-size:11px}.mode{background:#f3e8e6;color:var(--wine);padding:8px 11px;font-size:11px;font-weight:800}.empty{grid-column:1/-1;text-align:center;padding:55px;border:1px dashed #d7c5c2;color:var(--muted)}.overlay{position:fixed;inset:0;background:#1e1116ad;display:grid;place-items:center;padding:18px;z-index:5}.modal{background:var(--paper);width:min(570px,100%);max-height:90vh;overflow:auto;padding:30px;box-shadow:0 24px 100px #0004}.modal h2{font-size:32px;margin:5px 0}.modal .formgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.modal label{display:block;font-size:11px;font-weight:800;margin:12px 0 6px}.modal textarea{min-height:90px;resize:vertical}.modal-footer{display:flex;gap:10px;justify-content:flex-end;margin-top:20px}.notice{font-size:11px;color:#876f76;line-height:1.7;margin-top:14px}.foot{text-align:center;color:var(--muted);font-size:11px;margin:55px 0 0}.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--wine);color:#fff;padding:13px 20px;border-radius:7px;z-index:9;box-shadow:0 10px 30px #0003}.topbar{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}.line{height:1px;background:var(--line);margin:20px 0}@media(max-width:820px){.intro{grid-template-columns:1fr}.intro-copy{padding:36px 30px}.art{min-height:150px}.art .circle{width:125px;height:125px}.art .book-art{font-size:70px}.art .orbit{font-size:13px}.editorial,.login-wrap{grid-template-columns:1fr}.cards{grid-template-columns:1fr}.stats{grid-template-columns:1fr 1fr}.login-info,.login-form{padding:26px}.section-title h2{font-size:28px}}@media(max-width:440px){.layout{padding:16px 12px 60px}.mast{padding:0 15px}.intro h1{font-size:48px}.card{grid-template-columns:64px 1fr;padding:13px;gap:11px}.cover{width:64px;height:94px}.card h3{font-size:20px}.stat{padding:13px}.stat .num{font-size:35px}.modal{padding:20px}.modal .formgrid{grid-template-columns:1fr}.mast-right{display:none}}
-
-/* NAVEGAÇÃO DA GESTÃO DE DOAÇÕES */
-.mast-acoes {
-    display: flex;
-    align-items: center;
-    gap: 18px;
-}
-
-.botao-voltar {
-    padding: 9px 16px;
-    border: 1px solid var(--wine);
-    background: transparent;
-    color: var(--wine);
-    font: inherit;
-    font-size: 12px;
-    font-weight: 800;
-    cursor: pointer;
-    transition: .2s;
-}
-
-.botao-voltar:hover {
-    background: var(--wine);
-    color: white;
-}
-
-@media (max-width: 600px) {
-    .mast-acoes {
-        width: 100%;
-        justify-content: space-between;
-        flex-wrap: wrap;
-        gap: 10px;
-    }
-}
-
 </style>
 <style>
 /* Identidade renovada: azul profundo, azul vibrante, turquesa e amarelo solar */
@@ -190,21 +156,19 @@ body{background:#F8F1E6;color:#280B0F}
 .cover{background:linear-gradient(140deg,#280B0F,#8D3A3C)}.cover.green{background:linear-gradient(140deg,#435C48,#9DAA8C)}.cover.gold{background:linear-gradient(140deg,#7B694E,#C6B39A)}
 .chip{background:#F4EBDD;color:#6F5947}.tagline{background:#EFE3D5;border-left-color:#3B1319;color:#6F5947}
 .mode{background:#EDE0D2;color:#3B1319}.toast{background:#3B1319}.overlay{background:#280B0FC9}
+
+.mast-acoes{display:flex;align-items:center;gap:16px}
+.botao-voltar{background:transparent;border:1px solid var(--wine);color:var(--wine);padding:9px 16px;border-radius:8px;font:700 12px 'DM Sans',sans-serif;white-space:nowrap;transition:.2s}
+.botao-voltar:hover{background:var(--wine);color:#fff}
+@media(max-width:600px){.mast{height:auto;min-height:66px;padding:10px 15px;gap:10px}.mast-acoes{gap:8px}.mast-right{display:none}.botao-voltar{padding:8px 12px}}
 </style>
 </head><body>
 <header class="mast">
-    <a class="brand" href="https://jessiaguimaraes01.github.io/TechBook/">
-        TechBook
-        <span>BIBLIOTECA INTELIGENTE</span>
-    </a>
-
-    <div class="mast-acoes">
-        <span class="mast-right">Curadoria e circulação · Gestão de doações</span>
-
-        <button class="botao-voltar" id="voltar-pagina" type="button">
-            ← Voltar
-        </button>
-    </div>
+<a class="brand" href="https://jessiaguimaraes01.github.io/TechBook/">TechBook<span>BIBLIOTECA INTELIGENTE</span></a>
+<div class="mast-acoes">
+<span class="mast-right">Curadoria e circulação · Gestão de doações</span>
+<button class="botao-voltar" id="voltar-pagina" type="button">← Voltar</button>
+</div>
 </header>
 <main class="layout"><section class="intro"><div class="intro-copy"><div class="eyebrow">Caderno de acervo · Nº 01 / 2026</div><h1>O cuidado<br><em>também se lê.</em></h1><p>Entre páginas, nomes e novas possibilidades, cada doação encontra seu lugar no acervo. Um espaço para cuidar do que chega e acompanhar o que permanece.</p></div><div class="art" aria-hidden="true"><div class="catalog-scene"><div class="catalog-head">FICHA DE CATALOGAÇÃO <span>Nº 026</span></div><div class="catalog-number">025.2</div><div class="catalog-rule"></div><div class="catalog-book"><span class="book-icon">▤</span><span>DOAÇÕES<br><small>ACERVO TECHBOOK</small></span></div><div class="catalog-lines"><i></i><i></i><i></i></div><div class="catalog-stamp">RECEBIDO<br>✳</div></div></div></section>
 <section id="dashboard"><div class="section-title"><div><div class="eyebrow">Visão do acervo</div><h2>Um retrato do acervo.</h2><p class="sub">Uma visão de tudo que foi oferecido à biblioteca.</p></div><div class="topbar"><span class="mode">● Painel demonstrativo</span><button class="btn outline tiny" id="reset">Restaurar exemplos</button></div></div>
@@ -249,14 +213,14 @@ let next=type==='approve'?'approved':'received';openModal(type==='approve'?'Apro
 $('new').onclick=()=>openModal('Um novo livro chegou.','Registro presencial',`<p class="sub">Cadastre um livro entregue diretamente na biblioteca. Tudo ficará apenas nesta demonstração.</p><div class="formgrid"><div><label for="fTitle">Título *</label><input class="input" id="fTitle" maxlength="180"></div><div><label for="fAuthor">Autor *</label><input class="input" id="fAuthor" maxlength="160"></div><div><label for="fDonor">Nome do doador *</label><input class="input" id="fDonor" maxlength="120"></div><div><label for="fQty">Quantidade *</label><input class="input" id="fQty" type="number" min="1" max="100" value="1"></div><div><label for="fCondition">Conservação</label><select class="input" id="fCondition"><option>Novo</option><option selected>Bom</option><option>Regular</option></select></div><div><label for="fStatus">Situação inicial</label><select class="input" id="fStatus"><option value="received">Recebida (já conferida)</option><option value="pending">Pendente (aguarda análise)</option></select></div></div><label for="fDesc">Descrição do livro *</label><textarea class="input" id="fDesc" maxlength="600" placeholder="Edição, capa, páginas, observações..."></textarea>`,'Registrar doação',()=>{let title=$('fTitle').value.trim(),author=$('fAuthor').value.trim(),donor=$('fDonor').value.trim(),description=$('fDesc').value.trim(),qty=Number($('fQty').value);if(!title||!author||!donor||!description||!Number.isInteger(qty)||qty<1||qty>100){notify('Preencha os campos obrigatórios.');return}rows.unshift({id:String(Date.now()),title,author,donor,quantity:qty,condition:$('fCondition').value,description,origin:'Presencial',status:$('fStatus').value,date:new Date().toISOString().slice(0,10),reason:''});filter='all';save();closeModal();render();notify('Doação presencial registrada na demonstração.')});
 $('csv').onclick=()=>{let cols=['title','author','donor','origin','quantity','condition','description','status','reason','date'];let csv=[cols.join(';'),...rows.map(r=>cols.map(k=>'"'+String(r[k]??'').replace(/"/g,'""')+'"').join(';'))].join('\r\n');let url=URL.createObjectURL(new Blob(['\ufeff'+csv],{type:'text/csv;charset=utf-8'}));let a=document.createElement('a');a.href=url;a.download='techbook_doacoes_demonstracao.csv';a.click();setTimeout(()=>URL.revokeObjectURL(url),1500)};
 render();
-// Retornar à página anterior do TechBook
-document.getElementById("voltar-pagina")?.addEventListener("click", () => {
-    const origem = document.referrer;
 
+// Retorna à página anterior do TechBook; se aberto diretamente, volta ao painel.
+document.getElementById('voltar-pagina')?.addEventListener('click', () => {
+    const origem = document.referrer;
     if (origem && new URL(origem).origin === window.location.origin) {
         window.history.back();
     } else {
-        window.location.href = "bibliotecario.html";
+        window.location.href = 'bibliotecario.html';
     }
 });
 </script></body></html>
