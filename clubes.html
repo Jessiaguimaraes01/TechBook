@@ -149,35 +149,813 @@
   <script src="assets/js/clubes.js"></script>
 </body>
 </html> -->
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Clubes Literários | TechBook</title>
-  <link rel="stylesheet" href="assets/css/clubes.css">
+  <style>* {
+  box-sizing: border-box;
+}
+
+:root {
+  --wine: #481B27;
+  --wine2: #762F3B;
+  --cream: #F5EBDD;
+  --gold: #D6AE70;
+  --ink: #38272C;
+  --muted: #78666B;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background: var(--cream);
+  color: var(--ink);
+  font-family: "DM Sans", sans-serif;
+}
+
+.topbar {
+  height: 76px;
+  padding: 0 max(6vw, 24px);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #fffaf5;
+  border-bottom: 1px solid #eadfd5;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--wine);
+  font-weight: 700;
+  text-decoration: none;
+  font-size: 20px;
+}
+
+.brand-mark {
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  background: var(--wine);
+  color: #f5d59d;
+  display: grid;
+  place-items: center;
+  font-family: "Playfair Display", serif;
+  font-size: 22px;
+}
+
+nav {
+  display: flex;
+  gap: 28px;
+}
+
+nav a {
+  font-size: 14px;
+  text-decoration: none;
+  color: #5d4d4d;
+  font-weight: 600;
+}
+
+nav a:hover {
+  color: var(--wine);
+}
+
+main {
+  max-width: 1180px;
+  margin: auto;
+  padding: 34px 28px 70px;
+}
+
+.hero {
+  min-height: 365px;
+  border-radius: 22px;
+  overflow: hidden;
+  background: linear-gradient(110deg, #451522 0%, #5a1d31 58%, #32151c 100%);
+  display: grid;
+  grid-template-columns: 1.05fr .95fr;
+  color: #fff;
+  box-shadow: 0 16px 38px #4b18281c;
+}
+
+.hero-copy {
+  padding: 52px 30px 48px 54px;
+  position: relative;
+  z-index: 1;
+}
+
+.eyebrow {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1.7px;
+  color: #e5bd78;
+}
+
+.eyebrow.dark {
+  color: #9b7041;
+}
+
+h1, h2 {
+  font-family: "Playfair Display", Georgia, serif;
+}
+
+h1 {
+  font-size: clamp(38px, 5vw, 58px);
+  line-height: 1.05;
+  font-weight: 500;
+  margin: 18px 0 16px;
+  letter-spacing: -1px;
+}
+
+h1 em {
+  color: #e2b9c2;
+  font-weight: 500;
+}
+
+.hero-copy p {
+  max-width: 470px;
+  color: #f0dfe0;
+  font-size: 14px;
+  line-height: 1.75;
+  margin: 0 0 25px;
+}
+
+.hero-actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.btn {
+  border: 0;
+  border-radius: 9px;
+  padding: 13px 18px;
+  font: 700 13px "DM Sans", sans-serif;
+  text-decoration: none;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: .2s;
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+  filter: brightness(1.04);
+}
+
+.btn-gold {
+  background: #e1b86f;
+  color: #3d2024;
+}
+
+.btn-outline {
+  border: 1px solid #c99c82;
+  color: #fff;
+  background: transparent;
+}
+
+.hero-art {
+  position: relative;
+  min-height: 300px;
+  overflow: hidden;
+  background: radial-gradient(ellipse at 70% 45%, #9c6240 0%, #563027 38%, #28171b 78%);
+}
+
+.hero-art:before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, #4b1828 0%, transparent 48%),
+    repeating-linear-gradient(90deg, transparent 0 85px, #ffffff08 86px 88px);
+}
+
+.art-glow {
+  position: absolute;
+  width: 230px;
+  height: 230px;
+  border-radius: 50%;
+  background: #d49a4b30;
+  filter: blur(25px);
+  right: 15%;
+  top: 12%;
+}
+
+.book-stack {
+  position: absolute;
+  right: 10%;
+  bottom: 68px;
+  width: 300px;
+  height: 155px;
+  transform: rotate(-4deg);
+}
+
+.book {
+  position: absolute;
+  width: 290px;
+  height: 42px;
+  border-radius: 5px 9px 9px 5px;
+  box-shadow: 0 9px 12px #160b0b70;
+  border: 1px solid #d9b98a;
+}
+
+.book-one {
+  bottom: 0;
+  background: linear-gradient(#8a4c34, #542b25);
+  transform: rotate(3deg);
+}
+
+.book-two {
+  bottom: 42px;
+  background: linear-gradient(#b17b45, #71452c);
+  transform: rotate(-2deg);
+  width: 270px;
+  left: 12px;
+}
+
+.book-three {
+  bottom: 84px;
+  background: linear-gradient(#513044, #2d1b2c);
+  width: 240px;
+  left: 30px;
+  transform: rotate(2deg);
+}
+
+.cup {
+  position: absolute;
+  right: 25px;
+  bottom: 117px;
+  width: 57px;
+  height: 48px;
+  border-radius: 7px 7px 18px 18px;
+  background: linear-gradient(90deg, #d9c5a5, #fff0d4, #c7a980);
+  box-shadow: 0 7px 10px #1a0e0e66;
+}
+
+.cup:after {
+  content: "";
+  position: absolute;
+  right: -15px;
+  top: 9px;
+  width: 20px;
+  height: 23px;
+  border: 5px solid #d7c3a4;
+  border-left: 0;
+  border-radius: 0 15px 15px 0;
+}
+
+.cup span {
+  position: absolute;
+  top: -5px;
+  left: 4px;
+  width: 48px;
+  height: 9px;
+  border-radius: 50%;
+  background: #4a2924;
+}
+
+.art-caption {
+  position: absolute;
+  right: 25px;
+  bottom: 20px;
+  color: #f1d8b5;
+  font: italic 14px "Playfair Display", serif;
+  text-align: right;
+}
+
+.section {
+  padding: 54px 0 48px;
+}
+
+.section-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+  margin-bottom: 22px;
+}
+
+h2 {
+  font-size: 32px;
+  font-weight: 600;
+  margin: 7px 0 0;
+  color: var(--wine);
+}
+
+.small-note {
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.toolbar {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 22px;
+}
+
+.search {
+  height: 44px;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  background: #fff;
+  border: 1px solid #eadfd5;
+  border-radius: 10px;
+  padding: 0 13px;
+  flex: 1;
+  color: #987b70;
+}
+
+.search input {
+  border: 0;
+  outline: 0;
+  width: 100%;
+  font: 14px "DM Sans", sans-serif;
+  background: transparent;
+  color: var(--ink);
+}
+
+.toolbar select {
+  border: 1px solid #eadfd5;
+  background: #fff;
+  border-radius: 10px;
+  padding: 0 14px;
+  color: #5e4a4a;
+  font: 13px "DM Sans", sans-serif;
+  min-width: 175px;
+}
+
+.club-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 17px;
+}
+
+.club-card {
+  background: #fffdfa;
+  border: 1px solid #eee2d8;
+  border-radius: 15px;
+  padding: 14px;
+  display: flex;
+  gap: 14px;
+  min-height: 190px;
+  box-shadow: 0 5px 18px #4b18280a;
+}
+
+.club-art {
+  width: 104px;
+  min-width: 104px;
+  border-radius: 10px;
+  display: grid;
+  place-items: center;
+  font-size: 42px;
+  position: relative;
+  overflow: hidden;
+}
+
+.club-art:after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(145deg, #ffffff20, transparent 60%);
+}
+
+.art-classics {
+  background: linear-gradient(145deg, #b66c42, #40251e);
+}
+
+.art-fantasy {
+  background: linear-gradient(145deg, #d58b74, #443e69);
+}
+
+.art-mystery {
+  background: linear-gradient(145deg, #c29a62, #29313b);
+}
+
+.art-romance {
+  background: linear-gradient(145deg, #d78b9b, #74364e);
+}
+
+.art-fiction {
+  background: linear-gradient(145deg, #6c9b91, #244c54);
+}
+
+.art-poetry {
+  background: linear-gradient(145deg, #b6a1ce, #55436e);
+}
+
+.club-info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  min-width: 0;
+  flex: 1;
+}
+
+.club-info h3 {
+  font: 700 16px "Playfair Display", serif;
+  color: #512334;
+  margin: 3px 0 7px;
+}
+
+.members {
+  font-size: 11px;
+  color: #8b7b73;
+  margin-bottom: 8px;
+}
+.club-info p {
+  font-size: 11px;
+  line-height: 1.45;
+  color: #766a66;
+  margin: 0 0 9px;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.tags {
+  display: flex;
+  gap: 5px;
+  flex-wrap: wrap;
+  margin-top: auto;
+  margin-bottom: 10px;
+}
+
+.tag {
+  font-size: 10px;
+  background: #f4e8dc;
+  color: #795b50;
+  padding: 4px 8px;
+  border-radius: 20px;
+}
+
+.join-btn {
+  background: var(--wine);
+  color: #fff;
+  padding: 8px 15px;
+  font-size: 11px;
+}
+
+.join-btn.joined {
+  background: #e8dfd6;
+  color: #5e493e;
+}
+
+.empty-state, .empty-my {
+  color: #81736d;
+  font-size: 13px;
+  padding: 20px 0;
+}
+
+.my-clubs {
+  background: #efe4d9;
+  border-radius: 18px;
+  padding: 30px 34px;
+  display: grid;
+  grid-template-columns: .8fr 1.2fr;
+  gap: 25px;
+  align-items: center;
+}
+
+.my-clubs h2 {
+  margin-bottom: 7px;
+}
+
+.my-clubs p {
+  font-size: 13px;
+  color: #776963;
+  margin: 0;
+}
+
+.my-club-list {
+  display: flex;
+  gap: 9px;
+  flex-wrap: wrap;
+}
+
+.my-chip {
+  background: #fffaf5;
+  border: 1px solid #e6d5c8;
+  color: #5a2b38;
+  padding: 10px 13px;
+  border-radius: 10px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 22px max(6vw, 24px);
+  background: #351722;
+  color: #e6d8d1;
+  font-size: 12px;
+}
+
+.footer-brand {
+  color: #fff;
+}
+
+dialog {
+  border: 0;
+  border-radius: 18px;
+  padding: 0;
+  width: min(470px, calc(100% - 28px));
+  box-shadow: 0 25px 80px #1b0b0b55;
+}
+
+dialog::backdrop {
+  background: #1b1015a8;
+}
+
+dialog form {
+  padding: 30px;
+  position: relative;
+}
+
+dialog h2 {
+  margin: 8px 0;
+}
+
+.dialog-intro {
+  font-size: 13px;
+  color: #766a66;
+  margin: 0 0 20px;
+}
+
+dialog label {
+  display: block;
+  font-size: 12px;
+  font-weight: 700;
+  color: #59464a;
+  margin: 13px 0;
+}
+
+dialog input, dialog select, dialog textarea {
+  display: block;
+  width: 100%;
+  margin-top: 7px;
+  border: 1px solid #e5d8ce;
+  border-radius: 8px;
+  padding: 11px;
+  font: 13px "DM Sans", sans-serif;
+  background: #fffdfa;
+  color: var(--ink);
+}
+
+dialog textarea {
+  min-height: 82px;
+  resize: vertical;
+}
+
+.close {
+  position: absolute;
+  right: 20px;
+  top: 16px;
+  border: 0;
+  background: none;
+  font-size: 27px;
+  color: #806d68;
+  cursor: pointer;
+}
+
+.submit-btn {
+  width: 100%;
+  margin-top: 8px;
+}
+
+.btn-burgundy {
+  background: var(--wine);
+  color: #fff;
+}
+
+.toast {
+  position: fixed;
+  bottom: 22px;
+  left: 50%;
+  transform: translate(-50%, 20px);
+  background: #2f2025;
+  color: #fff;
+  padding: 12px 18px;
+  border-radius: 9px;
+  font-size: 13px;
+  opacity: 0;
+  pointer-events: none;
+  transition: .25s;
+  z-index: 5;
+}
+
+.toast.show {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+
+@media(max-width: 850px) {
+  .club-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .hero-copy {
+    padding-left: 32px;
+  }
+
+  .my-clubs {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media(max-width: 600px) {
+  .topbar {
+    height: auto;
+    padding: 16px 20px;
+    align-items: flex-start;
+    gap: 14px;
+    flex-direction: column;
+  }
+
+  nav {
+    gap: 17px;
+    flex-wrap: wrap;
+  }
+
+  main {
+    padding: 20px 16px 45px;
+  }
+
+  .hero {
+    grid-template-columns: 1fr;
+  }
+
+  .hero-copy {
+    padding: 34px 24px;
+  }
+
+  .hero-art {
+    min-height: 210px;
+  }
+
+  .book-stack {
+    transform: scale(.78) rotate(-4deg);
+    transform-origin: right bottom;
+    right: 8%;
+    bottom: 48px;
+  }
+
+  .club-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .club-card {
+    min-height: 170px;
+  }
+
+  .club-art {
+    width: 92px;
+    min-width: 92px;
+  }
+
+  .toolbar {
+    flex-direction: column;
+  }
+
+  .toolbar select {
+    height: 44px;
+  }
+
+  .section {
+    padding: 40px 0;
+  }
+
+  .section-heading {
+    align-items: center;
+  }
+
+  h2 {
+    font-size: 28px;
+  }
+
+  .my-clubs {
+    padding: 25px 20px;
+  }
+
+  footer {
+    gap: 12px;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+/* Cabeçalho e superfícies alinhados à identidade principal do TechBook */
+.topbar { min-height: 76px; height: auto; padding: 12px 5%; gap: 14px; flex-wrap: wrap; background: #FFFCF7; border-bottom-color: #E6D8CB; }
+.brand { font-family: "Playfair Display", Georgia, serif; color: #481B27; }
+.brand-mark { width: 42px; height: 42px; border-radius: 50%; border: 2px solid #D6AE70; background: #481B27; color: #D6AE70; }
+nav { gap: 8px; flex-wrap: wrap; }
+nav a { padding: 8px 12px; border-radius: 999px; color: #78666B; }
+nav a:hover { color: #481B27; background: rgba(197,140,165,.22); }
+.club-card { border-color: #E6D8CB; box-shadow: 0 12px 28px rgba(72,27,39,.07); }
+:focus-visible { outline: 3px solid #D6AE70; outline-offset: 3px; }
+@media (max-width: 720px) { .topbar { justify-content: center; } nav { justify-content: center; } }
+
+
+/* Aperfeiçoamentos da página, sem alterar o banner */
+.club-art svg {
+  width: 46px;
+  height: 46px;
+  color: #f8e3b7;
+  position: relative;
+  z-index: 1;
+  filter: drop-shadow(0 2px 2px #1c11112b);
+}
+
+.club-info .join-btn {
+  margin-top: auto;
+}
+
+.club-info p {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}.my-chip{display:inline-flex;align-items:center;gap:9px;cursor:pointer;font-family:inherit;text-align:left}.my-chip svg{width:20px;height:20px;flex:none}.my-chip:hover{background:#f4e4d5}
+.editor-dialog{width:min(650px,calc(100% - 24px));max-height:min(90vh,850px);overflow:auto}.editor-dialog form{padding:clamp(22px,4vw,38px)}
+.symbol-field{border:0;padding:0;margin:18px 0}.symbol-field legend{font-size:12px;font-weight:700;color:#59464a;margin-bottom:10px}.symbol-choices{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:9px}.symbol-option{display:flex;align-items:center;justify-content:center;flex-direction:column;gap:4px;border:1px solid #e2d2c5;border-radius:10px;background:#fffaf5;padding:10px 3px;color:#6a3745;cursor:pointer}.symbol-option svg{width:27px;height:27px}.symbol-option small{font-size:10px;text-transform:capitalize}.symbol-option.active{border:2px solid #762f3b;background:#f5e6dc}.form-pair{display:grid;grid-template-columns:1fr 1fr;gap:12px}.form-pair label{min-width:0}
+.detail-dialog{width:min(580px,calc(100% - 24px));max-height:88vh;overflow:auto}.detail-content{padding:clamp(22px,4vw,36px);position:relative}.detail-heading{display:flex;align-items:center;gap:20px;margin:5px 28px 24px 0}.detail-heading .club-art{width:100px;height:110px;min-width:100px}.detail-heading h2{font-size:clamp(24px,4vw,34px);line-height:1.2;margin:6px 0}.detail-heading p{font-size:13px;color:#78666b;margin:0}.detail-section{border-top:1px solid #eaded2;padding:14px 0}.detail-section h3{font-size:13px;color:#572c37;margin:0 0 6px}.detail-section p{font-size:14px;color:#57494a;line-height:1.65;white-space:pre-wrap;margin:0}.detail-actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:12px}.btn-outline-dark{border:1px solid #8b6570;color:#481b27;background:transparent}.btn-danger{background:#8a2637;color:white}
+@media(max-width:600px){.symbol-choices{grid-template-columns:repeat(5,minmax(0,1fr));gap:5px}.symbol-option small{font-size:9px}.form-pair{grid-template-columns:1fr}.detail-heading .club-art{min-width:76px;width:76px;height:90px}.topbar{flex-direction:row;align-items:center;justify-content:space-between}.topbar nav{justify-content:flex-end}}
+@media(max-width:370px){.symbol-choices{grid-template-columns:repeat(4,1fr)}}
+
+/* Clube de leitura: edição para a feira */
+.my-clubs{padding:18px 24px!important;grid-template-columns:190px minmax(0,1fr)!important;gap:18px!important;margin-bottom:20px}
+.my-clubs h2{font-size:24px!important}.my-clubs p{font-size:12px!important}
+.my-club-list{gap:8px}.my-chip{padding:9px 11px!important}
+.club-art svg{stroke-width:1.3;filter:drop-shadow(0 3px 2px #0003)}
+.club-art:before{content:'';position:absolute;inset:12px;border:1px solid #f5dbac88;border-radius:50%;pointer-events:none}
+.club-art svg{position:relative;z-index:1}
+#roomDialog{width:min(880px,calc(100% - 22px));max-height:90vh;overflow:auto;background:#fffbf5;color:#3e2530}
+.room-shell{padding:26px 30px 32px;position:relative}
+.room-header{display:flex;align-items:center;gap:16px;padding-right:35px;border-bottom:1px solid #e6d8cb;padding-bottom:20px}
+.room-header .club-art{width:76px;min-width:76px;height:82px}.room-header h2{font-size:clamp(23px,3vw,34px);margin:3px 0 4px}
+.room-label{font-size:11px;color:#98734b;letter-spacing:1.5px;font-weight:800}
+.room-summary{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:18px 0}
+.room-summary>div{padding:15px;background:#f4e9dd;border:1px solid #ead9c9;border-radius:13px}
+.room-summary small{display:block;color:#856d64;margin-bottom:7px;font-weight:700}
+.room-summary strong{font-size:15px}
+.room-tabs{display:flex;flex-wrap:wrap;gap:7px;border-bottom:1px solid #e6d8cb;padding-bottom:12px;margin:15px 0}
+.room-tab{border:1px solid #e6d8cb;background:#fff;color:#5a3540;padding:10px 14px;border-radius:10px;font-weight:700;cursor:pointer}
+.room-tab.active{background:#481b27;color:white}
+.room-pane[hidden]{display:none!important}
+.room-note{font-size:12px;color:#79686b;margin:8px 0 18px}
+.topic-form{display:grid;gap:9px;padding:16px;background:#f5ebdf;border-radius:13px;margin-bottom:18px}
+.topic-form input,.topic-form textarea,.topic-form select,.reply-form input,.poll-form input{width:100%;padding:11px;border:1px solid #decfc3;border-radius:8px;background:white;color:#38272c;font:inherit}
+.topic-form textarea{min-height:70px;resize:vertical}
+.topic-list{display:grid;gap:11px}
+.topic{background:white;border:1px solid #eaded3;border-radius:13px;padding:16px}
+.topic h3{margin:8px 0;font:700 18px 'Playfair Display',Georgia,serif;color:#481b27}
+.topic p{margin:6px 0 12px;white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.5}
+.topic-meta{font-size:11px;color:#846d6d}.topic-type{display:inline-block;padding:4px 9px;background:#efe2d3;color:#633945;border-radius:20px;font-size:11px;font-weight:800}
+.replies{padding-left:12px;border-left:2px solid #d8b581;margin:12px 0}.reply{padding:7px 0;font-size:13px}
+.reply-form{display:flex;gap:7px}.reply-form button,.poll-form button{white-space:nowrap}
+.poll-form{display:grid;gap:8px;padding:16px;background:#f5ebdf;border-radius:13px}
+.poll-option{display:block;margin:8px 0;padding:10px;border:1px solid #e4d5c8;border-radius:9px;background:#fff}
+.room-empty{padding:18px;border:1px dashed #d8c6b8;border-radius:10px;color:#74666a}
+.room-info{padding:14px;background:#f4e9dd;border-radius:12px;line-height:1.65}
+.room-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px}
+@media(max-width:650px){.my-clubs{grid-template-columns:1fr!important}.room-shell{padding:20px 15px}.room-summary{grid-template-columns:1fr}.reply-form{flex-wrap:wrap}.room-header{align-items:flex-start}}
+
+/* Identidade dos clubes: pequenos ex-líbris ilustrados, não emojis */
+.club-art{position:relative;isolation:isolate;border:1px solid #c89a68;box-shadow:inset 0 0 0 5px #fff3d20e, inset 0 0 0 7px #f0c99155;overflow:hidden}
+.club-art::before{content:"";position:absolute;inset:12px;border:1px solid #f7dbad88;border-radius:48% 48% 10px 10px;pointer-events:none;z-index:1}
+.club-art svg{width:49px!important;height:49px!important;stroke:#f7dca9;stroke-width:1.35;filter:drop-shadow(0 2px 2px #17091077);z-index:2;position:relative}
+.club-art::after{content:"✦";position:absolute;left:50%;bottom:13px;transform:translateX(-50%);font-size:13px;color:#f2c887;opacity:.85;pointer-events:none}
+.symbol-option{background:linear-gradient(145deg,#fff8e9,#f1e3ce);border:1px solid #c9a77c;min-height:91px;border-radius:9px;position:relative}
+.symbol-option::before{content:"";position:absolute;inset:5px;border:1px solid #c7a77b66;border-radius:6px;pointer-events:none}
+.symbol-option svg{width:36px!important;height:36px!important;stroke:#6c263b;stroke-width:1.4}
+.symbol-option.active{background:#f4dfbe;border:2px solid #672137;box-shadow:0 3px 12px #4a15221a}
+.site-footer{background:#351722;color:#eee5df;min-height:66px;display:flex;justify-content:center;align-items:center;text-align:center;padding:20px 16px;font:500 12px 'DM Sans',sans-serif;letter-spacing:.07em;border-top:1px solid #b98a5b}
+.site-footer span{color:#f3e8e4}
+</style>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/css/tema-global.css">
-  <script src="assets/js/tema-global.js" defer></script>
+
+
 </head>
 <body>
 
   <header class="topbar">
-    <a class="brand" href="index.html">
+    <a class="brand" href="https://jessiaguimaraes01.github.io/TechBook/index.html">
       <span class="brand-mark">T</span>
       <span>TechBook</span>
     </a>
-    <nav>
-      <a href="index.html">Início</a>
-      <a href="emprestimo-aluno.html">Empréstimos</a>
-      <a href="minha_estante_virtual_cabecalho_vinho.html">Minha estante</a>
-      <a href="amigos_de_leitura_completo.html">Amigos</a>
-      <a href="#explorar">Explorar clubes</a>
-      <a href="#meus-clubes">Meus clubes</a>
-    </nav>
+    <nav><a href="https://jessiaguimaraes01.github.io/TechBook/index.html">Início</a></nav>
   </header>
 
   <main>
@@ -243,9 +1021,9 @@
 
     <section class="my-clubs" id="meus-clubes">
       <div>
-        <span class="eyebrow">SUA JORNADA DE LEITURA</span>
+        <span class="eyebrow">SEUS CLUBES</span>
         <h2>Meus clubes</h2>
-        <p>Os clubes dos quais você participa aparecem aqui.</p>
+        <p>Abra um clube para acompanhar leituras e conversas.</p>
       </div>
 
       <div class="my-club-list" id="myClubList">
@@ -254,52 +1032,94 @@
     </section>
   </main>
 
-  <footer>
-    <a class="brand footer-brand" href="index.html">
-      <span class="brand-mark">T</span>
-      <span>TechBook</span>
-    </a>
-    <span>Compartilhando histórias e conhecimento.</span>
-  </footer>
+  <footer class="site-footer" aria-label="Rodapé"><span>TechBook · Histórias que nos aproximam.</span></footer>
 
-  <dialog id="createDialog">
-    <form id="createForm" method="dialog">
-      <button type="button" class="close" id="closeCreate" aria-label="Fechar">×</button>
-
-      <span class="eyebrow dark">COMECE UMA NOVA LEITURA</span>
-      <h2>Criar um clube</h2>
-      <p class="dialog-intro">Dê um nome ao seu grupo e convide outras pessoas para ler com você.</p>
-
-      <label>
-        Nome do clube
-        <input id="clubName" maxlength="45" required placeholder="Ex.: Clube dos leitores">
-      </label>
-
-      <label>
-        Gênero literário
-        <select id="clubGenre" required>
-          <option value="">Escolha um gênero</option>
-          <option>Clássicos</option>
-          <option>Fantasia</option>
-          <option>Mistério</option>
-          <option>Romance</option>
-          <option>Ficção</option>
-          <option>Poesia</option>
-          <option>Variados</option>
-        </select>
-      </label>
-
-      <label>
-        Descrição
-        <textarea id="clubDescription" maxlength="180" required placeholder="Conte um pouco sobre o seu clube..."></textarea>
-      </label>
-
-      <button class="btn btn-burgundy submit-btn" type="submit">Criar clube</button>
+  <dialog id="createDialog" class="editor-dialog" aria-labelledby="editorTitle">
+    <form id="createForm">
+      <button type="button" class="close" data-close="createDialog" aria-label="Fechar">×</button>
+      <span class="eyebrow dark">SUA COMUNIDADE LITERÁRIA</span>
+      <h2 id="editorTitle">Criar um clube</h2>
+      <p class="dialog-intro">Escolha a identidade do clube e conte como serão as leituras.</p>
+      <label>Nome do clube<input id="clubName" maxlength="45" required placeholder="Ex.: Sociedade dos Leitores"></label>
+      <label>Gênero literário<select id="clubGenre" required><option value="">Escolha um gênero</option><option>Clássicos</option><option>Fantasia</option><option>Mistério</option><option>Romance</option><option>Ficção</option><option>Poesia</option><option>Variados</option></select></label>
+      <fieldset class="symbol-field"><legend>Escolha o símbolo do clube</legend><div id="symbolChoices" class="symbol-choices" role="radiogroup" aria-label="Símbolo do clube"></div></fieldset>
+      <label>Descrição<textarea id="clubDescription" maxlength="500" required placeholder="Qual é a proposta do clube? Que histórias vocês querem descobrir?"></textarea></label>
+      <div class="form-pair"><label>Livro da vez<input id="clubBook" maxlength="90" placeholder="Opcional"></label><label>Encontros<select id="clubFrequency"><option value="A combinar">A combinar</option><option>Semanais</option><option>Quinzenais</option><option>Mensais</option><option>Leitura livre</option></select></label></div>
+      <label>Como funciona o clube?<textarea id="clubRules" maxlength="400" placeholder="Regras, combinados e como participar (opcional)"></textarea></label>
+      <button class="btn btn-burgundy submit-btn" id="saveClubButton" type="submit">Criar clube</button>
     </form>
   </dialog>
+  <dialog id="detailDialog" class="detail-dialog" aria-labelledby="detailTitle"><div class="detail-content"><button type="button" class="close" data-close="detailDialog" aria-label="Fechar">×</button><div id="detailBody"></div><div id="detailActions" class="detail-actions"></div></div></dialog>
+  
+<dialog id="roomDialog" aria-labelledby="roomTitle"><div class="room-shell">
+<button type="button" class="close" data-close="roomDialog" aria-label="Fechar">×</button>
+<div class="room-header" id="roomHeader"></div>
+<div class="room-summary" id="roomSummary"></div>
+<nav class="room-tabs" aria-label="Áreas do clube"><button class="room-tab active" data-room-tab="mural">Mural de discussões</button><button class="room-tab" data-room-tab="votacao">Votação</button><button class="room-tab" data-room-tab="informacoes">Informações</button></nav>
+<section class="room-pane" data-room-pane="mural"><p class="room-note">Um espaço para conversar sobre a leitura. Demonstração salva apenas neste navegador.</p>
+<form id="topicForm" class="topic-form"><strong>Iniciar uma conversa</strong><input id="topicAuthor" maxlength="35" placeholder="Seu nome (ex.: Esther)" required><input id="topicTitle" maxlength="90" placeholder="Assunto da conversa" required><select id="topicType"><option>Discussão</option><option>Sugestão de leitura</option><option>Aviso</option></select><textarea id="topicText" maxlength="700" placeholder="Escreva sua ideia, dúvida ou comentário..." required></textarea><button class="btn btn-burgundy" type="submit">Publicar no mural</button></form>
+<div class="topic-list" id="topicList"></div></section>
+<section class="room-pane" data-room-pane="votacao" hidden><p class="room-note">Escolham juntos o próximo livro. Cada navegador registra um voto por enquete.</p><div id="pollArea"></div><form class="poll-form" id="pollForm"><strong>Criar votação</strong><input id="pollQuestion" maxlength="100" placeholder="Pergunta (ex.: Qual será o próximo livro?)" required><input id="pollOptions" maxlength="300" placeholder="Opções separadas por ponto e vírgula" required><button class="btn btn-burgundy" type="submit">Abrir votação</button></form></section>
+<section class="room-pane" data-room-pane="informacoes" hidden><div id="roomInfo" class="room-info"></div><div id="roomActions" class="room-actions"></div></section>
+</div></dialog>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script>(() => {
+"use strict";
+const STORAGE_KEY="techbook_clubes_v1", JOIN_KEY="techbook_clubes_participando";
+const defaults=[
+{id:"classicos",name:"Clube de Clássicos",genre:"Clássicos",members:24,description:"Grandes obras que atravessam gerações.",art:"classics",symbol:"livro",tags:["Literatura","Clássicos"],owner:false},
+{id:"fantasia",name:"Mundos Fantásticos",genre:"Fantasia",members:37,description:"Explore histórias de magia e aventuras épicas.",art:"fantasy",symbol:"castelo",tags:["Fantasia","Aventura"],owner:false},
+{id:"misterio",name:"Mistérios & Investigação",genre:"Mistério",members:29,description:"Livros que desafiam sua mente e revelam grandes enigmas.",art:"mystery",symbol:"lupa",tags:["Suspense","Mistério"],owner:false},
+{id:"romance",name:"Entre Páginas e Emoções",genre:"Romance",members:18,description:"Histórias para conversar sobre sentimentos e relações.",art:"romance",symbol:"rosa",tags:["Romance","Leitura"],owner:false}
+];
+const icons={"livro": "<path d=\"M12 6c-3-2-6-2-9-1v14c3-1 6-1 9 1 3-2 6-2 9-1V5c-3-1-6-1-9 1Zm0 0v14\"/>", "lupa": "<circle cx=\"10.5\" cy=\"10.5\" r=\"6\"/><path d=\"m15 15 6 6\"/>", "castelo": "<path d=\"M3 21V9h3V5h3v4h6V5h3v4h3v12H3Zm7 0v-6h4v6M3 12h18\"/>", "pena": "<path d=\"M4 20c3-9 8-15 17-17 0 9-6 15-15 17Zm2-1 11-11\"/>", "rosa": "<path d=\"M12 13c-5-1-6-5-3-7 1-4 6-4 7-1 4 0 5 5 1 8-2 2-4 2-5 0Zm0 0v9m0-5c-3 0-5-1-6-3m6 5c3 0 5-1 6-3\"/>", "estrela": "<path d=\"m12 2 2.8 6.7L22 9.4l-5.5 4.8 1.7 7L12 17.5l-6.2 3.7 1.7-7L2 9.4l7.2-.7Z\"/>", "ampulheta": "<path d=\"M5 3h14M5 21h14M7 3c0 5 3 6 5 9-2 3-5 4-5 9m10-18c0 5-3 6-5 9 2 3 5 4 5 9M8 18h8\"/>", "planeta": "<circle cx=\"12\" cy=\"12\" r=\"5\"/><ellipse cx=\"12\" cy=\"12\" rx=\"11\" ry=\"4\" transform=\"rotate(-25 12 12)\"/>", "coroa": "<path d=\"m2 8 5 4 5-8 5 8 5-4-2 12H4L2 8Zm3 9h14\"/>", "flor": "<circle cx=\"12\" cy=\"12\" r=\"2\"/><path d=\"M12 10c-6-9 6-11 2-1m0 3c9-6 11 6 1 2m-3 0c6 9-6 11-2 1m0-3c-9 6-11-6-1-2\"/>"};
+const icon=(name)=>`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${icons[name]||icons.livro}</svg>`;
+const esc=v=>String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const get=(k)=>{try{return JSON.parse(localStorage.getItem(k))}catch{return null}};
+let clubs=Array.isArray(get(STORAGE_KEY))?get(STORAGE_KEY):defaults.map(c=>({...c}));
+let joined=Array.isArray(get(JOIN_KEY))?get(JOIN_KEY):[];
+let selectedSymbol="livro",editing=null,detailId=null;
+const el=id=>document.getElementById(id);
+const symbolFor=c=>c.symbol||({classics:"livro",fantasy:"castelo",mystery:"lupa",romance:"rosa",fiction:"planeta",poetry:"pena"}[c.art]||"livro");
+const artFor=g=>({Clássicos:"classics",Fantasia:"fantasy",Mistério:"mystery",Romance:"romance",Ficção:"fiction",Poesia:"poetry",Variados:"classics"}[g]||"classics");
+const save=()=>{localStorage.setItem(STORAGE_KEY,JSON.stringify(clubs));localStorage.setItem(JOIN_KEY,JSON.stringify(joined))};
+const art=c=>`<span class="club-art art-${esc(c.art||"classics")}">${icon(symbolFor(c))}</span>`;
+function toast(s){el("toast").textContent=s;el("toast").classList.add("show");clearTimeout(toast.t);toast.t=setTimeout(()=>el("toast").classList.remove("show"),2600)}
+function render(){const q=el("searchInput").value.toLocaleLowerCase().trim(),g=el("genreFilter").value;const list=clubs.filter(c=>([c.name,c.genre,c.description].join(" ").toLocaleLowerCase().includes(q))&&(!g||g===c.genre));el("clubCount").textContent=`${clubs.length} ${clubs.length===1?"clube":"clubes"}`;
+el("clubGrid").innerHTML=list.map(c=>`<article class="club-card">${art(c)}<div class="club-info"><h3>${esc(c.name)}</h3><span class="members">${Number(c.members)||0} membros</span><p>${esc(c.description)}</p><div class="tags">${(c.tags||[c.genre]).map(t=>`<span class="tag">${esc(t)}</span>`).join("")}</div><button class="btn join-btn" data-details="${esc(c.id)}">Conhecer clube</button></div></article>`).join("");el("emptyState").hidden=!!list.length;
+const mine=clubs.filter(c=>joined.includes(c.id));el("myClubList").innerHTML=mine.length?mine.map(c=>`<button class="my-chip" data-details="${esc(c.id)}">${icon(symbolFor(c))}<span>${esc(c.name)}</span><span aria-hidden="true">›</span></button>`).join(""):'<span class="empty-my">Você ainda não participa de nenhum clube.</span>'}
+function choices(){el("symbolChoices").innerHTML=Object.keys(icons).map(s=>`<button type="button" class="symbol-option ${selectedSymbol===s?"active":""}" data-symbol="${s}" aria-label="Símbolo ${s}" aria-pressed="${selectedSymbol===s}">${icon(s)}<small>${s}</small></button>`).join("")}
+function openEditor(c){editing=c?.id||null;el("createForm").reset();el("editorTitle").textContent=c?"Editar clube":"Criar um clube";el("saveClubButton").textContent=c?"Salvar alterações":"Criar clube";el("clubName").value=c?.name||"";el("clubGenre").value=c?.genre||"";el("clubDescription").value=c?.description||"";el("clubBook").value=c?.book||"";el("clubFrequency").value=c?.frequency||"A combinar";el("clubRules").value=c?.rules||"";selectedSymbol=c?symbolFor(c):"livro";choices();el("createDialog").showModal()}
+function showDetails(id){const c=clubs.find(x=>x.id===id);if(!c)return;detailId=id;el("detailBody").innerHTML=`<div class="detail-heading">${art(c)}<div><span class="eyebrow dark">CLUBE LITERÁRIO</span><h2 id="detailTitle">${esc(c.name)}</h2><p>${esc(c.genre)} · ${Number(c.members)||0} membros</p></div></div><div class="detail-section"><h3>Sobre o clube</h3><p>${esc(c.description)}</p></div><div class="detail-section"><h3>Livro da vez</h3><p>${esc(c.book||"Ainda não escolhido")}</p></div><div class="detail-section"><h3>Encontros</h3><p>${esc(c.frequency||"A combinar")}</p></div><div class="detail-section"><h3>Combinados</h3><p>${esc(c.rules||"O clube ainda não definiu regras específicas.")}</p></div>`;
+const member=joined.includes(id);el("detailActions").innerHTML=`${member?`<button class="btn btn-burgundy" data-action="room">Entrar no clube</button>`:""}${c.owner?`<button class="btn btn-outline-dark" data-action="edit">Editar</button><button class="btn btn-danger" data-action="delete">Excluir clube</button>`:`<button class="btn ${member?"btn-outline-dark":"btn-burgundy"}" data-action="join">${member?"Sair do clube":"Participar do clube"}</button>`}`;el("detailDialog").showModal()}
+function toggle(c){if(joined.includes(c.id)){joined=joined.filter(x=>x!==c.id);c.members=Math.max(0,(Number(c.members)||0)-1);toast("Você saiu do clube.")}else{joined.push(c.id);c.members=(Number(c.members)||0)+1;toast("Você agora participa deste clube!")}save();render()}
+el("openCreate").addEventListener("click",()=>openEditor());el("searchInput").addEventListener("input",render);el("genreFilter").addEventListener("change",render);
+el("symbolChoices").addEventListener("click",e=>{const b=e.target.closest("[data-symbol]");if(!b)return;selectedSymbol=b.dataset.symbol;choices()});
+document.addEventListener("click",e=>{const b=e.target.closest("[data-details]");if(b)showDetails(b.dataset.details);const close=e.target.closest("[data-close]");if(close)el(close.dataset.close).close()});
+for(const d of [el("createDialog"),el("detailDialog"),el("roomDialog")])d.addEventListener("click",e=>{if(e.target===d)d.close()});
+el("createForm").addEventListener("submit",e=>{e.preventDefault();const name=el("clubName").value.trim(),genre=el("clubGenre").value,description=el("clubDescription").value.trim();if(!name||!genre||!description)return;const fields={name,genre,description,symbol:selectedSymbol,art:artFor(genre),book:el("clubBook").value.trim(),frequency:el("clubFrequency").value,rules:el("clubRules").value.trim(),tags:[genre]};if(editing){const c=clubs.find(x=>x.id===editing);if(!c||!c.owner)return;Object.assign(c,fields);toast("Clube atualizado!")}else{const id="club-"+Date.now()+"-"+Math.random().toString(36).slice(2,7);clubs.unshift({id,...fields,members:1,owner:true});joined.push(id);toast("Clube criado com sucesso!")}save();render();el("createDialog").close()});
+el("detailActions").addEventListener("click",e=>{const b=e.target.closest("[data-action]");if(!b)return;const c=clubs.find(x=>x.id===detailId);if(!c)return;switch(b.dataset.action){case"room":el("detailDialog").close();openRoom(c.id);break;case"edit":if(!c.owner)return;el("detailDialog").close();openEditor(c);break;case"delete":if(!c.owner)return;if(!confirm(`Excluir o clube "${c.name}"? Essa ação não pode ser desfeita.`))return;clubs=clubs.filter(x=>x.id!==c.id);localStorage.removeItem("techbook_mural_"+c.id);localStorage.removeItem("techbook_enquete_"+c.id);joined=joined.filter(id=>id!==c.id);save();render();el("detailDialog").close();toast("Clube excluído.");break;case"join":toggle(c);el("detailDialog").close();break}});
 
-  <script src="assets/js/clubes.js"></script>
+let roomId=null;
+const roomGet=(kind,id)=>get("techbook_"+kind+"_"+id);
+const roomSave=(kind,id,data)=>localStorage.setItem("techbook_"+kind+"_"+id,JSON.stringify(data));
+function openRoom(id){const c=clubs.find(x=>x.id===id);if(!c||!joined.includes(id))return;roomId=id;
+el("roomHeader").innerHTML=`${art(c)}<div><span class="room-label">COMUNIDADE LITERÁRIA</span><h2 id="roomTitle">${esc(c.name)}</h2><span class="members">${esc(c.genre)} · ${Number(c.members)||0} membros</span></div>`;
+el("roomSummary").innerHTML=`<div><small>LIVRO DA VEZ</small><strong>${esc(c.book||"A escolher com o clube")}</strong></div><div><small>ENCONTROS</small><strong>${esc(c.frequency||"A combinar")}</strong></div>`;
+el("roomInfo").innerHTML=`<strong>Sobre o clube</strong><p>${esc(c.description)}</p><strong>Combinados</strong><p>${esc(c.rules||"Respeitar os leitores e evitar spoilers sem aviso.")}</p><strong>Participantes</strong><p>${Number(c.members)||0} membros registrados. Nesta demonstração, os perfis dos demais participantes ainda não estão disponíveis.</p>`;
+el("roomActions").innerHTML=c.owner?`<button class="btn btn-outline-dark" data-room-action="edit">Editar informações do clube</button>`:`<button class="btn btn-outline-dark" data-room-action="leave">Sair do clube</button>`;
+roomTab("mural");renderTopics();renderPoll();el("roomDialog").showModal()}
+function roomTab(tab){document.querySelectorAll("[data-room-tab]").forEach(b=>{b.classList.toggle("active",b.dataset.roomTab===tab);b.setAttribute("aria-pressed",b.dataset.roomTab===tab)});document.querySelectorAll("[data-room-pane]").forEach(p=>p.hidden=p.dataset.roomPane!==tab)}
+el("roomDialog").addEventListener("click",e=>{const tab=e.target.closest("[data-room-tab]");if(tab)roomTab(tab.dataset.roomTab);const action=e.target.closest("[data-room-action]");if(action){const c=clubs.find(x=>x.id===roomId);if(!c)return;if(action.dataset.roomAction==="edit"&&c.owner){el("roomDialog").close();openEditor(c)}if(action.dataset.roomAction==="leave"&&!c.owner&&confirm("Deseja sair deste clube?")){toggle(c);el("roomDialog").close()}}});
+function renderTopics(){const posts=roomGet("mural",roomId)||[];el("topicList").innerHTML=posts.length?posts.map(p=>`<article class="topic"><span class="topic-type">${esc(p.type)}</span><h3>${esc(p.title)}</h3><div class="topic-meta">${esc(p.author)} · ${esc(p.date)}</div><p>${esc(p.text)}</p><div class="replies">${(p.replies||[]).map(r=>`<div class="reply"><strong>${esc(r.author)}:</strong> ${esc(r.text)}</div>`).join("")}</div><form class="reply-form" data-reply="${esc(p.id)}"><input maxlength="300" name="reply" required aria-label="Responder" placeholder="Escreva uma resposta..."><button class="btn btn-burgundy" type="submit">Responder</button></form></article>`).join(""):'<p class="room-empty">Ainda não há conversas. Que tal começar a primeira?</p>'}
+el("topicForm").addEventListener("submit",e=>{e.preventDefault();if(!roomId)return;const posts=roomGet("mural",roomId)||[];posts.unshift({id:"p"+Date.now(),author:el("topicAuthor").value.trim(),title:el("topicTitle").value.trim(),type:el("topicType").value,text:el("topicText").value.trim(),date:new Date().toLocaleDateString("pt-BR"),replies:[]});roomSave("mural",roomId,posts);el("topicTitle").value="";el("topicText").value="";renderTopics();toast("Conversa publicada!")});
+el("topicList").addEventListener("submit",e=>{const f=e.target.closest("[data-reply]");if(!f)return;e.preventDefault();const posts=roomGet("mural",roomId)||[];const post=posts.find(p=>p.id===f.dataset.reply);if(!post)return;const author=el("topicAuthor").value.trim()||"Leitor(a)";post.replies=post.replies||[];post.replies.push({author,text:f.elements.reply.value.trim()});roomSave("mural",roomId,posts);renderTopics()});
+function renderPoll(){const poll=roomGet("enquete",roomId);el("pollArea").innerHTML=poll?`<div class="topic"><span class="topic-type">VOTAÇÃO DO CLUBE</span><h3>${esc(poll.question)}</h3>${poll.options.map((o,i)=>`<label class="poll-option"><input type="radio" name="voteOption" value="${i}" ${poll.voted!==null?"disabled":""}> ${esc(o)} <small>(${poll.votes[i]} voto${poll.votes[i]===1?"":"s"})</small></label>`).join("")}<button type="button" class="btn btn-burgundy" id="voteButton" ${poll.voted!==null?"disabled":""}>${poll.voted!==null?"Voto registrado":"Votar"}</button></div>`:'<p class="room-empty">Ainda não há votação aberta neste clube.</p>';
+const b=el("voteButton");if(b)b.addEventListener("click",()=>{const checked=el("pollArea").querySelector('input[name="voteOption"]:checked');if(!checked)return toast("Escolha uma opção.");const p=roomGet("enquete",roomId);if(p.voted!==null)return;p.voted=Number(checked.value);p.votes[p.voted]++;roomSave("enquete",roomId,p);renderPoll();toast("Voto registrado!")})}
+el("pollForm").addEventListener("submit",e=>{e.preventDefault();if(!roomId)return;const question=el("pollQuestion").value.trim(),options=el("pollOptions").value.split(";").map(x=>x.trim()).filter(Boolean);if(options.length<2)return toast("Coloque pelo menos duas opções separadas por ponto e vírgula.");if(roomGet("enquete",roomId)&&!confirm("Substituir a votação atual?"))return;roomSave("enquete",roomId,{question,options,votes:options.map(()=>0),voted:null});el("pollForm").reset();renderPoll();toast("Votação criada!")});
+
+render();
+})();</script>
 </body>
 </html>
