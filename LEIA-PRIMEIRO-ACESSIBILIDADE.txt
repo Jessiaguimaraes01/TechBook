@@ -1,0 +1,17 @@
+TECHBOOK — ACESSIBILIDADE GLOBAL
+
+O que foi atualizado:
+- O botão Acessibilidade agora está disponível em todas as páginas HTML.
+- O modo noturno usa uma paleta consistente: fundos escuros e textos claros.
+- O tamanho do texto e o modo noturno ficam salvos no navegador e continuam ativos ao navegar entre páginas.
+- Os controles da seção Acessibilidade da página inicial usam a mesma configuração global.
+- O cache do Service Worker foi atualizado para carregar os arquivos novos.
+
+PARA APLICAR NO GITHUB:
+1. Extraia o ZIP.
+2. Copie os arquivos mantendo as mesmas pastas.
+3. Substitua os arquivos correspondentes no repositório.
+4. Faça commit e aguarde a publicação do GitHub Pages.
+5. Depois de publicar, atualize o site com Ctrl + Shift + R (ou limpe o cache do navegador, se necessário).
+
+O pacote completo contém o projeto inteiro. O pacote "arquivos-alterados" contém apenas as páginas HTML e arquivos de acessibilidade/tema que foram modificados.

@@ -1310,147 +1310,37 @@
         .linha-atividade { display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap; padding:13px 15px; background:var(--papel); border:1px solid var(--borda); border-radius:13px; }
         .linha-atividade p { margin:3px 0 0; color:var(--suave); font-size:.85rem; }
         @media(max-width:600px){ .item-livro-conteudo{min-width:100%;} }
-        
-
-/* AJUSTE DO MENU NO COMPUTADOR */
-@media (min-width: 901px) {
-    .topo {
-        flex-wrap: nowrap;
-        padding: 15px 5%;
-        gap: 16px;
-    }
-
-    .marca {
-        flex-shrink: 0;
-        gap: 10px;
-    }
-
-    .marca-simbolo {
-        width: 38px;
-        height: 38px;
-    }
-
-    .marca-texto {
-        font-size: 1.2rem;
-    }
-
-    .admin-nav {
-        flex: 1;
-        justify-content: flex-end;
-        flex-wrap: nowrap;
-        gap: 5px;
-        min-width: 0;
-    }
-
-    .admin-nav a {
-        padding: 8px 10px;
-        font-size: 0.85rem;
-        white-space: nowrap;
-    }
-
-    .sair-btn {
-        padding: 8px 15px;
-        font-size: 0.88rem;
-        flex-shrink: 0;
-    }
-}
-
-/* MENU RESPONSIVO DO BIBLIOTECÁRIO */
-
-.menu-btn {
-    display: none;
-    border: 1px solid var(--borda);
-    background: var(--vinho);
-    color: var(--creme);
-    border-radius: 9px;
-    padding: 7px 12px;
-    font-size: 1.35rem;
-    line-height: 1;
-    cursor: pointer;
-}
-
-@media (max-width: 900px) {
-    .topo {
-        display: flex;
-        flex-direction: row;
-        flex-wrap: wrap;
-        justify-content: space-between;
-        align-items: center;
-        gap: 10px;
-        padding: 12px 5%;
-    }
-
-    .marca {
-        margin-right: auto;
-    }
-
-    .menu-btn {
-        display: block;
-        flex-shrink: 0;
-    }
-
-    .admin-nav {
-        display: none;
-        width: 100%;
-        flex: 0 0 100%;
-        flex-direction: column;
-        align-items: stretch;
-        gap: 5px;
-        padding-top: 8px;
-    }
-
-    .admin-nav.aberto {
-        display: flex;
-    }
-
-    .admin-nav a,
-    .admin-nav .sair-btn {
-        width: 100%;
-        text-align: left;
-        box-sizing: border-box;
-    }
-}
-
     </style>
 </head>
 <body>
     <header class="topo">
-    <a class="marca" href="index.html">
-        <span class="marca-simbolo" aria-hidden="true">TB</span>
-        <span class="marca-texto">
-            TechBook
-            <small>BIBLIOTECA INTELIGENTE</small>
-        </span>
-    </a>
-
-    <button
-        class="menu-btn"
-        id="menu-admin-btn"
-        type="button"
-        aria-label="Abrir menu do bibliotecário"
-        aria-expanded="false"
-    >
-        ☰
-    </button>
-
-    <nav class="admin-nav" aria-label="Navegação administrativa">
-        <a class="ativo" href="bibliotecario.html">Acervo</a>
-
-        <a class="destaque-scanner" href="techbook.html">
-            📷 Abrir TechScanner
+        <a class="marca" href="index.html">
+            <span class="marca-simbolo" aria-hidden="true">TB</span>
+            <span class="marca-texto">
+                TechBook
+                <small>BIBLIOTECA INTELIGENTE</small>
+            </span>
         </a>
 
-        <a href="emprestimos.html">Empréstimos &amp; Devoluções</a>
-        <a href="bibliotecario_doacoes.html">Caderno de Doações</a>
-        <a href="estatisticas.html">Estatísticas</a>
-        <a href="Ranking.html">Ranking</a>
-        <a href="index.html">Catálogo Público</a>
+<nav class="admin-nav" aria-label="Navegação administrativa">
+    <a class="ativo" href="bibliotecario.html">Acervo</a>
 
-        <button class="sair-btn" id="sair-btn" type="button">
-            Sair
-        </button>
-    </nav>
-</header>
+    <a class="destaque-scanner" href="techbook.html">
+        📷 Abrir TechScanner
+    </a>
+
+    <a href="emprestimos.html">Empréstimos &amp; Devoluções</a>
+    <a href="doacoes.html">Caderno de Doações</a>
+    <a href="estatisticas.html">Estatísticas</a>
+    <a href="Ranking.html">Ranking</a>
+    <a href="index.html">Catálogo Público</a>
+
+    <button class="sair-btn" id="sair-btn" type="button">
+        Sair
+    </button>
+</nav>
+
+    </header>
 
     <section class="cabecalho-admin">
         <div class="cabecalho-conteudo">
@@ -1631,34 +1521,10 @@
         renderizarAtividades();
         $("busca-acervo")?.addEventListener("input", renderizarLivros);
         $("form-livro")?.addEventListener("submit", evento => evento.preventDefault());
-
-        // Botão para sair da área do bibliotecário
-$("sair-btn")?.addEventListener("click", () => {
-    localStorage.removeItem("techbook-acesso-visitante");
-    window.location.href = "index.html";
-});
-
-// Menu responsivo do bibliotecário
-const menuAdminBtn = document.getElementById("menu-admin-btn");
-const menuAdmin = document.querySelector(".admin-nav");
-
-if (menuAdminBtn && menuAdmin) {
-    menuAdminBtn.addEventListener("click", () => {
-        const aberto = menuAdmin.classList.toggle("aberto");
-
-        menuAdminBtn.setAttribute(
-            "aria-expanded",
-            String(aberto)
-        );
-    });
-
-    menuAdmin.querySelectorAll("a").forEach(link => {
-        link.addEventListener("click", () => {
-            menuAdmin.classList.remove("aberto");
-            menuAdminBtn.setAttribute("aria-expanded", "false");
+        $("sair-btn")?.addEventListener("click", () => {
+          localStorage.removeItem("techbook-acesso-visitante");
+          window.location.href = "index.html";
         });
-    });
-}
       })();
     </script>
 </body>

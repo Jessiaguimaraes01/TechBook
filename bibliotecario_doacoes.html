@@ -156,20 +156,12 @@ body{background:#F8F1E6;color:#280B0F}
 .cover{background:linear-gradient(140deg,#280B0F,#8D3A3C)}.cover.green{background:linear-gradient(140deg,#435C48,#9DAA8C)}.cover.gold{background:linear-gradient(140deg,#7B694E,#C6B39A)}
 .chip{background:#F4EBDD;color:#6F5947}.tagline{background:#EFE3D5;border-left-color:#3B1319;color:#6F5947}
 .mode{background:#EDE0D2;color:#3B1319}.toast{background:#3B1319}.overlay{background:#280B0FC9}
-
-.mast-acoes{display:flex;align-items:center;gap:16px}
-.botao-voltar{background:transparent;border:1px solid var(--wine);color:var(--wine);padding:9px 16px;border-radius:8px;font:700 12px 'DM Sans',sans-serif;white-space:nowrap;transition:.2s}
-.botao-voltar:hover{background:var(--wine);color:#fff}
-@media(max-width:600px){.mast{height:auto;min-height:66px;padding:10px 15px;gap:10px}.mast-acoes{gap:8px}.mast-right{display:none}.botao-voltar{padding:8px 12px}}
 </style>
+
+  <link rel="stylesheet" href="assets/css/tema-global.css">
+  <script src="assets/js/tema-global.js" defer></script>
 </head><body>
-<header class="mast">
-<a class="brand" href="https://jessiaguimaraes01.github.io/TechBook/">TechBook<span>BIBLIOTECA INTELIGENTE</span></a>
-<div class="mast-acoes">
-<span class="mast-right">Curadoria e circulação · Gestão de doações</span>
-<button class="botao-voltar" id="voltar-pagina" type="button">← Voltar</button>
-</div>
-</header>
+<header class="mast"><a class="brand" href="https://jessiaguimaraes01.github.io/TechBook/">TechBook<span>BIBLIOTECA INTELIGENTE</span></a><span class="mast-right">Curadoria e circulação · Gestão de doações</span></header>
 <main class="layout"><section class="intro"><div class="intro-copy"><div class="eyebrow">Caderno de acervo · Nº 01 / 2026</div><h1>O cuidado<br><em>também se lê.</em></h1><p>Entre páginas, nomes e novas possibilidades, cada doação encontra seu lugar no acervo. Um espaço para cuidar do que chega e acompanhar o que permanece.</p></div><div class="art" aria-hidden="true"><div class="catalog-scene"><div class="catalog-head">FICHA DE CATALOGAÇÃO <span>Nº 026</span></div><div class="catalog-number">025.2</div><div class="catalog-rule"></div><div class="catalog-book"><span class="book-icon">▤</span><span>DOAÇÕES<br><small>ACERVO TECHBOOK</small></span></div><div class="catalog-lines"><i></i><i></i><i></i></div><div class="catalog-stamp">RECEBIDO<br>✳</div></div></div></section>
 <section id="dashboard"><div class="section-title"><div><div class="eyebrow">Visão do acervo</div><h2>Um retrato do acervo.</h2><p class="sub">Uma visão de tudo que foi oferecido à biblioteca.</p></div><div class="topbar"><span class="mode">● Painel demonstrativo</span><button class="btn outline tiny" id="reset">Restaurar exemplos</button></div></div>
 <div class="stats"><div class="stat"><div class="sym">✦</div><div class="num" id="total">0</div><div class="lab">Solicitações registradas</div></div><div class="stat"><div class="sym">◷</div><div class="num" id="pending">0</div><div class="lab">Aguardando análise</div></div><div class="stat"><div class="sym">✓</div><div class="num" id="approved">0</div><div class="lab">Doações aprovadas</div></div><div class="stat"><div class="sym">♡</div><div class="num" id="received">0</div><div class="lab">Exemplares recebidos</div></div></div>
@@ -213,14 +205,4 @@ let next=type==='approve'?'approved':'received';openModal(type==='approve'?'Apro
 $('new').onclick=()=>openModal('Um novo livro chegou.','Registro presencial',`<p class="sub">Cadastre um livro entregue diretamente na biblioteca. Tudo ficará apenas nesta demonstração.</p><div class="formgrid"><div><label for="fTitle">Título *</label><input class="input" id="fTitle" maxlength="180"></div><div><label for="fAuthor">Autor *</label><input class="input" id="fAuthor" maxlength="160"></div><div><label for="fDonor">Nome do doador *</label><input class="input" id="fDonor" maxlength="120"></div><div><label for="fQty">Quantidade *</label><input class="input" id="fQty" type="number" min="1" max="100" value="1"></div><div><label for="fCondition">Conservação</label><select class="input" id="fCondition"><option>Novo</option><option selected>Bom</option><option>Regular</option></select></div><div><label for="fStatus">Situação inicial</label><select class="input" id="fStatus"><option value="received">Recebida (já conferida)</option><option value="pending">Pendente (aguarda análise)</option></select></div></div><label for="fDesc">Descrição do livro *</label><textarea class="input" id="fDesc" maxlength="600" placeholder="Edição, capa, páginas, observações..."></textarea>`,'Registrar doação',()=>{let title=$('fTitle').value.trim(),author=$('fAuthor').value.trim(),donor=$('fDonor').value.trim(),description=$('fDesc').value.trim(),qty=Number($('fQty').value);if(!title||!author||!donor||!description||!Number.isInteger(qty)||qty<1||qty>100){notify('Preencha os campos obrigatórios.');return}rows.unshift({id:String(Date.now()),title,author,donor,quantity:qty,condition:$('fCondition').value,description,origin:'Presencial',status:$('fStatus').value,date:new Date().toISOString().slice(0,10),reason:''});filter='all';save();closeModal();render();notify('Doação presencial registrada na demonstração.')});
 $('csv').onclick=()=>{let cols=['title','author','donor','origin','quantity','condition','description','status','reason','date'];let csv=[cols.join(';'),...rows.map(r=>cols.map(k=>'"'+String(r[k]??'').replace(/"/g,'""')+'"').join(';'))].join('\r\n');let url=URL.createObjectURL(new Blob(['\ufeff'+csv],{type:'text/csv;charset=utf-8'}));let a=document.createElement('a');a.href=url;a.download='techbook_doacoes_demonstracao.csv';a.click();setTimeout(()=>URL.revokeObjectURL(url),1500)};
 render();
-
-// Retorna à página anterior do TechBook; se aberto diretamente, volta ao painel.
-document.getElementById('voltar-pagina')?.addEventListener('click', () => {
-    const origem = document.referrer;
-    if (origem && new URL(origem).origin === window.location.origin) {
-        window.history.back();
-    } else {
-        window.location.href = 'bibliotecario.html';
-    }
-});
 </script></body></html>

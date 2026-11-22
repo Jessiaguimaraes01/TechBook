@@ -461,8 +461,6 @@
   gap: 8px;
   margin-bottom: 20px;
   padding: 10px 16px;
-  cursor: pointer;
-  font-family: Arial, Helvetica, sans-serif;
 
   background: #762F3B;
   color: #FFFCF7;
@@ -492,9 +490,9 @@
 </head>
 <body>
   <main class="app">
-   <button type="button" class="botao-voltar" id="voltar-pagina">
-    ← Voltar
-</button>
+    <a href="index.html" class="botao-voltar">
+  ← Voltar ao TecBook
+</a>
     <header>
       <div class="logo" aria-hidden="true">📚</div>
       <h1>Quiz Literário</h1>
@@ -746,16 +744,6 @@
       showSection("quiz");
       renderQuestion();
     });
-    // Voltar para a página de origem do Quiz
-document.getElementById("voltar-pagina")?.addEventListener("click", () => {
-    const origem = document.referrer;
-
-    if (origem && new URL(origem).origin === window.location.origin) {
-        window.history.back();
-    } else {
-        window.location.href = "perfil-aluno.html";
-    }
-});
   </script>
 </body>
 </html>

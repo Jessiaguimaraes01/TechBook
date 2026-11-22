@@ -1,210 +1,2150 @@
-<!DOCTYPE html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Meu perfil literário | TechBook</title><style>
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500;1,600&display=swap');
-:root{--w:#521328;--deep:#300a1b;--gold:#d8aa63;--cream:#fff8ed;--paper:#fffdfa;--line:#e9d8c3;--ink:#3e2229;--muted:#806a6c}*{box-sizing:border-box}body{margin:0;background:linear-gradient(120deg,#f9ebda,#fffaf2 35%,#f8eada);color:var(--ink);font-family:'DM Sans',Arial,sans-serif}button,input,select,textarea{font:inherit}button{cursor:pointer}a{color:inherit;text-decoration:none}.wrap{width:min(1220px,calc(100% - 32px));margin:auto}.top{background:var(--deep);color:#fff8ef;border-bottom:1px solid #b28a57;position:sticky;top:0;z-index:20}.topin{display:flex;align-items:center;justify-content:space-between;min-height:69px;gap:12px}.brand{font-family:Georgia,serif;font-size:27px;display:flex;align-items:center;gap:10px}.brand b{font-size:19px;border:1px solid var(--gold);padding:9px;border-radius:9px;color:var(--gold)}.brand small{display:block;font:600 9px 'DM Sans',sans-serif;letter-spacing:2px}.nav{display:flex;gap:20px;align-items:center;font-size:13px}.nav a:hover{color:var(--gold)}.hero{height:255px;position:relative;overflow:hidden;background:linear-gradient(90deg,#310c1d 0%,#55162b 52%,#37101e 100%);color:white;border-radius:0 0 28px 28px;box-shadow:0 14px 30px #3c15201c}.hero:before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 80% 80%,#b783383b,transparent 40%),repeating-linear-gradient(90deg,transparent 0 73px,#ffffff06 74px 76px);pointer-events:none}.scene{position:absolute;right:4%;bottom:0;display:flex;align-items:end;gap:13px;opacity:.8}.scene .spine{width:42px;height:135px;background:linear-gradient(90deg,#310c1d,#98532d,#411125);border:2px solid #c79556;border-radius:4px 7px 0 0;box-shadow:inset 6px 0 #ffffff0c}.scene .spine:nth-child(2){height:175px;background:linear-gradient(90deg,#392138,#845f40,#3d1524)}.scene .spine:nth-child(3){height:117px}.scene .spine:nth-child(4){height:160px}.hero-copy{position:relative;padding:48px 5%;max-width:760px}.eyebrow{letter-spacing:3px;color:#f0c989;font-size:11px;font-weight:800}.hero h1{font:italic 600 clamp(33px,4.8vw,62px) 'Playfair Display',Georgia,serif;margin:12px 0}.hero p{max-width:540px;color:#f2ded2;font-size:14px;line-height:1.7}.profile{position:relative;margin-top:-55px;display:flex;align-items:end;justify-content:space-between;gap:20px;z-index:2;padding:0 20px 15px}.profile-main{display:flex;align-items:end;gap:22px}.avatar-ring{width:154px;height:154px;border:7px solid #fff7e9;border-radius:50%;background:#f1d6ae;box-shadow:0 6px 24px #4d17283b;overflow:hidden;flex:none}.avatar-ring svg{width:100%;height:100%}.who{padding-bottom:6px}.who h2{font:700 clamp(23px,3vw,37px) 'Playfair Display',Georgia,serif;margin:0 0 6px}.who .handle{font-size:12px;color:#9a6971;font-weight:700}.who p{font-size:13px;margin:8px 0;max-width:550px}.btn{background:var(--w);color:white;border:1px solid var(--w);padding:11px 18px;border-radius:12px;font-weight:700;font-size:13px}.btn:hover{background:#72243a}.btn.secondary{background:#fff9f0;color:var(--w);border-color:#d7b994}.btn.tiny{padding:7px 11px;font-size:12px}.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:17px 0 23px}.stat{background:#fffbf5;border:1px solid var(--line);border-radius:16px;padding:15px;text-align:center;box-shadow:0 5px 12px #4a172408}.stat b{display:block;color:var(--w);font:700 27px 'Playfair Display',Georgia,serif}.stat small{font-size:11px;color:var(--muted)}.tabs{display:flex;gap:7px;flex-wrap:wrap;padding:9px;background:#fff8ed;border:1px solid var(--line);border-radius:16px;margin-bottom:20px}.tab{border:0;background:transparent;color:var(--w);border-radius:11px;padding:12px 17px;font-weight:700;flex:1;min-width:125px}.tab.active{background:var(--w);color:#fff7e9;box-shadow:0 3px 8px #400d2230}.panel{background:#fffbf5;border:1px solid var(--line);border-radius:20px;padding:23px;box-shadow:0 10px 24px #5321360b;margin-bottom:20px}.heading{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:17px}.heading h3{font:700 27px 'Playfair Display',Georgia,serif;margin:0;color:var(--w)}.heading p{color:var(--muted);font-size:12px;margin:6px 0}.controls{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px}.controls input,.controls select,.field input,.field select,.field textarea{padding:11px;border:1px solid #dbc4b5;border-radius:10px;background:#fffdfa;color:var(--ink);outline-color:var(--gold)}.controls input{flex:1;min-width:180px}.controls select{min-width:120px}.books{display:grid;grid-template-columns:repeat(auto-fill,minmax(158px,1fr));gap:17px}.book{border:1px solid #ead6c0;border-radius:15px;padding:11px;background:#fff8ee;position:relative;min-width:0}.cover{width:100%;aspect-ratio:3/4;display:flex;align-items:center;justify-content:center;text-align:center;overflow:hidden;border-radius:8px;position:relative;background:linear-gradient(145deg,#49132c,#7c3442);color:#fbe8bd;box-shadow:5px 6px 10px #4b17252e;border:3px double #d6a55c;padding:14px;font:700 18px 'Playfair Display',Georgia,serif}.cover:before{content:'✦';position:absolute;top:9px;left:12px;color:#f4c67c}.cover img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}.book h4{font:700 15px 'Playfair Display',Georgia,serif;margin:12px 0 4px;min-height:36px}.book p{font-size:11px;color:var(--muted);margin:0 0 9px}.book-bottom{display:flex;justify-content:space-between;align-items:center;gap:5px}.tag{background:#f0dfc5;color:#6d3c25;border-radius:30px;padding:5px 8px;font-size:10px;font-weight:700}.stars{color:#b97920;font-size:12px}.book-actions{display:flex;gap:5px;margin-top:10px}.book-actions button{flex:1;border:1px solid #d9bba2;background:#fffdf8;border-radius:7px;color:var(--w);padding:7px 5px;font-size:11px}.book-actions button:hover{background:#f5e6d5}.empty{padding:40px;text-align:center;color:var(--muted);border:1px dashed #d9bca7;border-radius:13px}.two{display:grid;grid-template-columns:1.4fr 1fr;gap:16px}.reading{display:flex;gap:17px;align-items:center}.reading .cover{width:100px;flex:none}.bar{height:11px;border-radius:20px;background:#e7cfb7;overflow:hidden;margin:13px 0 5px}.bar span{display:block;height:100%;background:linear-gradient(90deg,#9d4b45,#5b152c);border-radius:20px}.quote{font:italic 20px 'Playfair Display',Georgia,serif;line-height:1.5;color:var(--w)}.diary{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:14px}.note{padding:17px;border:1px solid #ead5bf;border-radius:13px;background:#fff8ec}.note p{font-size:13px;line-height:1.6}.note small{color:var(--muted)}.badge-row{display:flex;gap:10px;flex-wrap:wrap}.achievement{padding:16px;background:#fff5e6;border:1px solid #e5c9a8;border-radius:13px;min-width:145px;text-align:center;flex:1}.achievement strong{display:block;margin:6px 0;color:var(--w)}.achievement.locked{opacity:.5}.foot{padding:22px;text-align:center;background:var(--deep);color:#e8c9b0;font-size:12px;margin-top:30px}.modal{position:fixed;inset:0;background:#18060dc7;display:none;align-items:center;justify-content:center;padding:16px;z-index:50}.modal.open{display:flex}.dialog{width:min(640px,100%);max-height:92vh;overflow:auto;background:#fff9ef;border:2px solid #d4ad7a;border-radius:19px;padding:24px;box-shadow:0 24px 70px #0005}.dialog h3{font:700 26px 'Playfair Display',Georgia,serif;color:var(--w);margin:0 0 18px}.fields{display:grid;grid-template-columns:1fr 1fr;gap:12px}.field{display:grid;gap:5px;font-size:12px;font-weight:700}.field.full{grid-column:1/-1}.field input,.field select,.field textarea{width:100%;font-weight:400}.field textarea{min-height:90px;resize:vertical}.actions{display:flex;justify-content:flex-end;gap:9px;flex-wrap:wrap;margin-top:20px}.avatar-options{display:flex;gap:8px;flex-wrap:wrap}.swatch{width:32px;height:32px;border-radius:50%;border:3px solid white;box-shadow:0 0 0 1px #bfa58f;cursor:pointer}.swatch.chosen{box-shadow:0 0 0 3px var(--w)}.banner-options{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.banner-choice{height:65px;border-radius:9px;border:3px solid transparent;cursor:pointer}.banner-choice.chosen{border-color:#e6b15d;outline:2px solid var(--w)}.notice{font-size:11px;color:var(--muted);line-height:1.6}.hidden{display:none!important}@media(max-width:760px){.hero{height:225px}.hero-copy{padding:32px 20px}.scene{opacity:.25}.profile{align-items:start;flex-direction:column;margin-top:-42px}.avatar-ring{width:115px;height:115px}.profile-main{align-items:end;gap:10px}.who h2{font-size:23px}.stats{grid-template-columns:repeat(2,1fr)}.two{grid-template-columns:1fr}.panel{padding:16px}.nav{gap:10px}.nav a:nth-child(2){display:none}.fields{grid-template-columns:1fr}.field.full{grid-column:auto}.banner-options{grid-template-columns:repeat(2,1fr)}}
+<!--<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Minha Estante Virtual — TechBook</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;0,800;1,600&display=swap');
 
-/* Perfil literário: fundo escuro, conteúdo claro e cabeçalho legível */
-body{background:radial-gradient(ellipse at 50% 10%,#762b42 0%,#3a1025 48%,#240a18 100%)!important}
-.hero{height:290px;background:linear-gradient(115deg,#2b0b1c 0%,#54162c 52%,#321022 100%)!important}
-.hero:before{background:radial-gradient(circle at 85% 28%,#c9995140,transparent 27%),radial-gradient(circle at 15% 90%,#c9995125,transparent 35%)!important}
-.hero-copy{padding-top:55px!important}
-.profile{margin-top:-34px!important;padding:22px 26px 20px!important;background:#fff8ed!important;border-radius:22px!important;box-shadow:0 14px 32px #1b091b40;align-items:center!important}
-.profile-main{align-items:center!important}
-.avatar-ring{width:172px!important;height:172px!important;margin-top:-63px!important;border:7px solid #fff8ed!important}
-.who{padding:0!important}.who h2{line-height:1.2!important;margin:0 0 9px!important;font-size:clamp(24px,3vw,38px)!important}
-.who .handle{font-size:13px!important;color:#8b4c5c!important}
-.stats{margin-top:20px!important}
-.panel,.stat,.tabs{box-shadow:0 9px 26px #200a1b20!important}
-.foot{background:#2a091b!important;color:#f8e9d6!important}
-@media(max-width:700px){.hero{height:260px!important}.profile{margin-top:-18px!important;padding:18px!important}.avatar-ring{width:118px!important;height:118px!important;margin-top:-48px!important}.profile-main{gap:10px!important}.who h2{font-size:22px!important}}
-
-body{background:linear-gradient(145deg,#320b1d,#561b30 55%,#310c1c)!important}.wrap{max-width:1220px}main.wrap{background:#fff8ed;border-radius:0 0 26px 26px;padding:0 22px 20px;box-shadow:0 16px 48px #1d0716a6}.hero{background:linear-gradient(90deg,#310c1d,#55162b 52%,#37101e 100%)}.hero-copy h1{font-size:clamp(33px,4.6vw,58px)}.scene{display:none!important}.avatar-ring{border-radius:48% 48% 44% 44%!important;background:#f7e9d4}.avatar-ring svg{height:100%;object-fit:contain}.who .handle{font-size:14px!important}.avatar-live{display:flex;align-items:center;gap:18px;background:#f3e3cd;border:1px solid #e3c6a6;border-radius:16px;padding:10px}.avatar-live #avatarPreview{width:130px;height:156px;flex:none}.avatar-live svg{height:100%;width:100%}.avatar-live p{font-size:12px;color:#725b5b}.banner-preview{height:86px;border-radius:12px;margin:8px 0 12px;border:2px solid #dfb77e}.banner-choice{position:relative}.banner-choice:after{content:attr(title);position:absolute;bottom:3px;left:4px;font-size:9px;color:white;text-shadow:0 1px 4px #000;background:#1a07195c;padding:2px 4px;border-radius:3px}.foot{margin-top:0!important}@media(max-width:700px){main.wrap{padding:0 12px 15px}.avatar-live{flex-direction:column;text-align:center}.hero-copy{padding-top:48px!important}}
-
-/* MiniLeitores: linguagem 2D geométrica, sem sombreamento ou realismo */
-.avatar-ring{border-radius:50%!important;display:grid;place-items:center;overflow:hidden!important}
-.avatar-ring svg{width:100%!important;height:100%!important;object-fit:contain}
-.avatar-live #avatarPreview{width:160px!important;height:210px!important;flex:none}
-.avatar-live #avatarPreview svg{width:100%;height:100%}
-.hero{transition:background .2s ease!important}
-.banner-choice{position:relative}
-.banner-choice.chosen:after{content:'✓';position:absolute;right:6px;top:3px;color:white;font-size:18px;text-shadow:0 1px 3px #000}
-@media(max-width:700px){.avatar-live{flex-direction:column;align-items:center;text-align:center}}
-.avatar-live{position:sticky;top:0;background:#fff7e9;border:1px solid #e8d4bd;border-radius:14px;padding:12px;z-index:2}.avatar-live #avatarPreview{width:145px;max-width:100%;height:180px}.avatar-live #avatarPreview svg{height:100%;width:100%}.avatar-options{padding:6px 2px}.swatch{min-width:35px;min-height:35px}#bannerPreview{min-height:72px} 
-/* Botão de voltar */
-.botao-voltar {
-    background: transparent;
-    color: #fff8ef;
-    border: 1px solid var(--gold);
-    padding: 9px 16px;
-    border-radius: 9px;
-    font-size: 13px;
-    font-weight: 700;
-    white-space: nowrap;
-    transition: .2s;
+:root {
+  --vinho: #481B27;
+  --vinho-escuro: #321018;
+  --bordo: #762F3B;
+  --creme: #F5EBDD;
+  --creme-borda: #E6D8CB;
+  --papel: #FFFCF7;
+  --rosa: #C58CA5;
+  --dourado: #D6AE70;
+  --texto: #38272C;
+  --suave: #78666B;
+  --borda: #E6D8CB;
+  --madeira-escura: #3C1812;
+  --madeira-media: #643322;
+  --madeira-clara: #9B6242;
 }
 
-.botao-voltar:hover {
-    background: var(--gold);
-    color: var(--deep);
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  color: var(--texto);
+  font-family: 'DM Sans', sans-serif;
+  background: linear-gradient(90deg, var(--creme-borda) 0%, var(--creme) 18%, var(--creme) 82%, var(--creme-borda) 100%);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
-@media (max-width: 600px) {
-    .topin {
-        flex-wrap: wrap;
-        padding: 10px 0;
-    }
-
-    .nav {
-        display: flex;
-        flex-wrap: wrap;
-    }
+/* TOPO CLARO IDÊNTICO AO INDEX */
+.topo {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 13px 5%;
+  background: var(--papel);
+  border-bottom: 1px solid var(--borda);
+  flex-wrap: wrap;
 }
-</style><style id="wizardStyle">.wizard-panel[hidden]{display:none!important}.avatar-wizard{display:block}.wizard-steps{display:flex;justify-content:space-between;gap:12px;background:#f9eddd;padding:13px 16px;border-radius:12px;margin-bottom:20px;color:#5b2032;font-weight:700}.wizard-panel h3{font-family:Georgia,serif;font-size:25px;margin:6px 0}.wizard-panel>p{color:#806a6c;margin:0 0 22px}.wizard-cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:16px 0}.wizard-cards button{background:#fff9ef;border:2px solid #e8d7c1;color:#4d1d2c;border-radius:17px;padding:22px 12px;display:flex;flex-direction:column;align-items:center;gap:9px;font-size:26px}.wizard-cards button strong{font-size:18px}.wizard-cards button small{font-size:12px}.wizard-cards button:hover,.wizard-cards button:focus-visible{border-color:#8e3652;background:#f9e9e5}.body-cards{grid-template-columns:repeat(4,minmax(0,1fr))}.body-cards button{font-size:15px;padding:18px 5px}@media(max-width:540px){.body-cards{grid-template-columns:repeat(2,minmax(0,1fr))}}</style></head><body>
-<header class="top">
-    <div class="wrap topin">
-        <a class="brand" href="index.html">
-            <b>TB</b>
-            <span>
-                TechBook
-                <small>BIBLIOTECA INTELIGENTE</small>
-            </span>
-        </a>
 
-        <nav class="nav" aria-label="Navegação da página">
-            <button class="botao-voltar" id="voltar-pagina" type="button">
-                ← Voltar
-            </button>
-            <a href="#perfil">Meu perfil literário</a>
-        </nav>
-    </div>
+.marca {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  font-weight: 700;
+  text-decoration: none;
+  color: inherit;
+}
+
+.marca-simbolo {
+  width: 42px;
+  height: 42px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: #3B151E;
+  color: var(--dourado);
+  border: 2px solid var(--dourado);
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 0.95rem;
+  font-weight: 700;
+}
+
+.marca-texto {
+  display: grid;
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 1.25rem;
+  color: var(--vinho);
+  line-height: 1.05;
+}
+
+.marca-texto small {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.56rem;
+  letter-spacing: 0.16em;
+  color: var(--suave);
+  margin-top: 2px;
+}
+
+.topbar-nav {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.topbar-nav a {
+  color: var(--suave);
+  text-decoration: none;
+  font-size: 0.86rem;
+  font-weight: 700;
+  padding: 7px 13px;
+  border-radius: 10px;
+  transition: 0.2s;
+}
+
+.topbar-nav a:hover,
+.topbar-nav a.ativo {
+  background: rgba(197, 140, 165, 0.22);
+  color: var(--vinho);
+}
+
+/* BANNER VINHO FOSCO COM ILUSTRAÇÕES VETORIAIS */
+.banner {
+  min-height: 168px;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 24px 7%;
+  gap: 24px;
+  background: #431A24;
+  border-bottom: 3px solid var(--dourado);
+}
+
+.banner-center {
+  text-align: center;
+  flex: 1;
+  position: relative;
+  z-index: 1;
+}
+
+.banner-etiqueta {
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  color: var(--dourado);
+  margin-bottom: 6px;
+}
+
+.banner h1 {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: clamp(28px, 4vw, 42px);
+  margin: 0 0 6px;
+  color: #FFF7EE;
+}
+
+.banner h1 em {
+  color: var(--rosa);
+  font-style: italic;
+}
+
+.banner p {
+  margin: 0;
+  font-size: 0.92rem;
+  line-height: 1.45;
+  color: rgba(255, 247, 238, 0.86);
+}
+
+.banner-art {
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+}
+
+/* CONTEÚDO PRINCIPAL */
+.page {
+  width: min(1240px, 100%);
+  margin: 0 auto;
+  padding: 24px 20px 44px;
+  flex: 1;
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: 215px minmax(0, 1fr) 215px;
+  gap: 18px;
+  align-items: start;
+}
+
+.panel {
+  background: var(--papel);
+  border: 1px solid var(--borda);
+  border-radius: 18px;
+  box-shadow: 0 10px 26px rgba(69, 26, 36, 0.06);
+}
+
+.goal {
+  padding: 16px 15px;
+  margin-bottom: 16px;
+}
+
+.goal-title {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--vinho);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+}
+
+.goal-title-left {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.goal-edit {
+  border: 0;
+  background: transparent;
+  color: var(--bordo);
+  cursor: pointer;
+  font-size: 0.78rem;
+  text-decoration: underline;
+  font-weight: 700;
+}
+
+.goal-number {
+  font-size: 0.84rem;
+  font-weight: 600;
+  color: var(--texto);
+  margin: 9px 0 8px;
+}
+
+.progress {
+  height: 11px;
+  background: var(--creme-borda);
+  border-radius: 99px;
+  overflow: hidden;
+}
+
+.progress span {
+  display: block;
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, var(--vinho), var(--dourado));
+  border-radius: 99px;
+  transition: width 0.3s;
+}
+
+.percent {
+  text-align: right;
+  font-size: 0.76rem;
+  font-weight: 700;
+  color: var(--vinho);
+  margin-top: 5px;
+}
+
+.menu {
+  padding: 12px 10px;
+  display: grid;
+  gap: 4px;
+}
+
+.nav-btn {
+  border: 0;
+  background: transparent;
+  text-align: left;
+  padding: 9px 11px;
+  border-radius: 12px;
+  color: var(--texto);
+  font: 600 0.84rem 'DM Sans', sans-serif;
+  cursor: pointer;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  transition: 0.18s;
+}
+
+.nav-btn svg {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+  stroke: currentColor;
+}
+
+.nav-btn:hover,
+.nav-btn.active {
+  background: var(--vinho);
+  color: #FFF7EE;
+}
+
+.nav-btn.add {
+  margin-top: 8px;
+  border-top: 1px solid var(--borda);
+  border-radius: 0 0 12px 12px;
+  padding-top: 12px;
+  color: var(--vinho);
+}
+
+.nav-btn.add:hover {
+  color: #FFF7EE;
+}
+
+/* CENTRO E ESTANTE */
+.center {
+  min-width: 0;
+}
+
+.filters {
+  min-height: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding: 7px 10px;
+  background: var(--papel);
+  border: 1px solid var(--borda);
+  border-radius: 16px;
+  margin: 0 0 14px;
+  box-shadow: 0 6px 18px rgba(69, 26, 36, 0.05);
+}
+
+.filter {
+  border: 0;
+  background: transparent;
+  color: var(--suave);
+  border-radius: 10px;
+  padding: 7px 12px;
+  font: 700 0.8rem 'DM Sans', sans-serif;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: 0.2s;
+}
+
+.filter:hover,
+.filter.active {
+  background: var(--vinho);
+  color: #FFF7EE;
+}
+
+.shelf-wrap {
+  background: linear-gradient(90deg, var(--madeira-escura), var(--madeira-media) 14%, var(--madeira-escura) 50%, var(--madeira-media) 86%, var(--madeira-escura));
+  padding: 18px;
+  border: 7px solid #7E482D;
+  border-radius: 14px;
+  box-shadow: inset 0 0 22px rgba(24, 9, 6, 0.7), 0 12px 26px rgba(69, 26, 36, 0.16);
+  min-height: 330px;
+}
+
+.shelf {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px 12px;
+  padding: 6px 4px 18px;
+  border-bottom: 10px solid var(--madeira-clara);
+  box-shadow: 0 8px 6px -5px rgba(20, 8, 5, 0.8);
+}
+
+.book {
+  position: relative;
+  min-width: 0;
+  height: 152px;
+  border-radius: 4px 8px 8px 4px;
+  overflow: hidden;
+  box-shadow: 4px 5px 10px rgba(20, 8, 5, 0.45);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 11px 8px 9px;
+  text-align: center;
+  color: #FFF7EE;
+  border-left: 5px solid rgba(255, 255, 255, 0.24);
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.book:hover {
+  transform: translateY(-4px);
+}
+
+.book-title {
+  font-family: 'Playfair Display', serif;
+  font-weight: 700;
+  font-size: clamp(11px, 1.15vw, 13.5px);
+  line-height: 1.15;
+  padding-right: 18px;
+}
+
+.book-author {
+  font-size: 0.65rem;
+  opacity: 0.92;
+}
+
+.book-mark {
+  position: absolute;
+  right: 5px;
+  top: 5px;
+  border: 0;
+  background: rgba(24, 9, 6, 0.28);
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  color: #FFF7EE;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+}
+
+.book-mark.liked {
+  color: var(--dourado);
+  background: rgba(59, 21, 30, 0.72);
+}
+
+.book-monogram {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.25rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  opacity: 0.85;
+}
+
+.book-badge {
+  font-size: 0.64rem;
+  font-weight: 700;
+  background: rgba(24, 9, 6, 0.36);
+  padding: 2px 8px;
+  border-radius: 99px;
+  align-self: center;
+}
+
+/* CAPAS NA PALETA VINHO / CREME / DOURADO / TERROSO */
+.cover-1 { background: linear-gradient(145deg, #531F2C, #3B151E); border-color: var(--dourado); }
+.cover-2 { background: linear-gradient(145deg, #E8D5BE, #C4A482); color: #35181C; }
+.cover-3 { background: linear-gradient(145deg, #8B4A58, #5C2834); }
+.cover-4 { background: linear-gradient(145deg, #9C725B, #694737); }
+.cover-5 { background: linear-gradient(145deg, #4B6358, #2F4239); }
+.cover-6 { background: linear-gradient(145deg, #D9B47C, #A67E46); color: #2E1418; }
+.cover-7 { background: linear-gradient(145deg, #6E2B38, #451A24); }
+.cover-8 { background: linear-gradient(145deg, #B58396, #7A4B5E); }
+
+.empty {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 40px 14px;
+  color: #F6EFE6;
+  font-size: 0.92rem;
+}
+
+/* COLUNA DIREITA */
+.profile {
+  padding: 18px 12px;
+  text-align: center;
+  margin-bottom: 16px;
+}
+
+.avatar {
+  width: 74px;
+  height: 74px;
+  border-radius: 50%;
+  margin: 0 auto 10px;
+  display: grid;
+  place-items: center;
+  background: #3B151E;
+  color: var(--dourado);
+  font-family: 'Playfair Display', serif;
+  font-size: 1.5rem;
+  font-weight: 700;
+  border: 2.5px solid var(--dourado);
+}
+
+.profile h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.1rem;
+  color: var(--vinho);
+  margin: 4px 0;
+}
+
+.profile p {
+  font-size: 0.78rem;
+  margin: 0;
+  color: var(--suave);
+}
+
+.achievements {
+  padding: 16px 12px;
+}
+
+.achievements h3 {
+  font-family: 'Playfair Display', serif;
+  margin: 0 0 12px;
+  font-size: 1.08rem;
+  color: var(--vinho);
+  text-align: center;
+}
+
+.badges {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6px;
+  text-align: center;
+}
+
+.badge-item {
+  font-size: 0.68rem;
+  line-height: 1.25;
+  color: var(--texto);
+  font-weight: 600;
+}
+
+.badge-icon {
+  width: 40px;
+  height: 40px;
+  margin: 0 auto 6px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: var(--vinho);
+  color: var(--dourado);
+  border: 1.5px solid var(--dourado);
+  font-family: 'Playfair Display', serif;
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+.badge-item.locked {
+  opacity: 0.42;
+}
+
+.see-all {
+  border: 0;
+  background: var(--vinho);
+  color: #FFF7EE;
+  border-radius: 10px;
+  padding: 9px 12px;
+  font-weight: 700;
+  font-size: 0.78rem;
+  margin-top: 14px;
+  width: 100%;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.see-all:hover {
+  background: var(--bordo);
+}
+
+/* MODAIS E TOAST */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(35, 13, 19, 0.72);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 18px;
+  z-index: 30;
+}
+
+.modal-backdrop.show {
+  display: flex;
+}
+
+.modal {
+  background: var(--papel);
+  border: 1px solid var(--borda);
+  border-radius: 20px;
+  padding: 24px;
+  width: min(440px, 100%);
+  box-shadow: 0 18px 48px rgba(35, 13, 19, 0.35);
+}
+
+.modal h2 {
+  font-family: 'Playfair Display', serif;
+  color: var(--vinho);
+  margin: 0 0 12px;
+}
+
+.modal label {
+  display: block;
+  font-size: 0.84rem;
+  font-weight: 700;
+  color: var(--vinho);
+  margin: 10px 0 5px;
+}
+
+.modal input,
+.modal select {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid var(--borda);
+  border-radius: 10px;
+  background: #fff;
+  color: var(--texto);
+  font: 0.9rem 'DM Sans', sans-serif;
+}
+
+.modal-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 18px;
+}
+
+.modal-actions button {
+  flex: 1;
+  border: 0;
+  padding: 11px;
+  border-radius: 10px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.save {
+  background: var(--vinho);
+  color: #FFF7EE;
+}
+
+.cancel {
+  background: var(--creme-borda);
+  color: var(--vinho);
+}
+
+.toast {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #3B151E;
+  color: #FFF7EE;
+  border: 1px solid var(--dourado);
+  padding: 10px 18px;
+  border-radius: 99px;
+  font-size: 0.85rem;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s;
+  z-index: 40;
+}
+
+.toast.show {
+  opacity: 1;
+}
+
+footer {
+  padding: 22px 5%;
+  background: #2C0F18;
+  color: rgba(255, 247, 238, 0.82);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  font-size: 0.85rem;
+}
+
+@media (max-width: 900px) {
+  .layout { grid-template-columns: 1fr; }
+  .right { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .shelf { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .banner-art { display: none; }
+}
+
+/* Ajustes de identidade visual compartilhada do TechBook */
+body { background: var(--creme); }
+.topo { background: var(--papel); border-bottom-color: var(--borda); }
+.topbar-nav a { border-radius: 999px; }
+.topbar-nav a:hover, .topbar-nav a.ativo { background: rgba(197,140,165,.22); color: var(--vinho); }
+.painel, .book, .card, .stat-card { box-shadow: 0 12px 28px rgba(72,27,39,.07); }
+button, .botao, .nav-btn { transition: background-color .2s, color .2s, transform .2s; }
+:focus-visible { outline: 3px solid var(--dourado); outline-offset: 3px; }
+</style>
+</head>
+<body>
+
+<header class="topo">
+  <a class="marca" href="index.html">
+    <span class="marca-simbolo">TB</span>
+    <span class="marca-texto">
+      TechBook
+      <small>BIBLIOTECA INTELIGENTE</small>
+    </span>
+  </a>
+
+  <nav class="topbar-nav" aria-label="Navegação principal">
+    <a href="index.html">Início</a>
+    <a href="perfil-aluno.html">Minha Área</a>
+    <a href="emprestimo-aluno.html">Empréstimos</a>
+    <a class="ativo" href="minha_estante_virtual_cabecalho_vinho.html">Minha Estante</a>
+    <a href="amigos_de_leitura_completo.html">Amigos</a>
+    <a href="Ranking.html">Ranking</a>
+  </nav>
 </header>
-<section class="hero" id="banner"><div class="wrap hero-copy"><div class="eyebrow">TECHBOOK · MEU UNIVERSO LITERÁRIO</div><h1>Seu universo literário</h1><p>Um perfil com a sua cara, suas leituras e suas descobertas.</p></div></section>
-<main class="wrap" id="perfil"><section class="profile"><div class="profile-main"><div class="avatar-ring" id="avatar"></div><div class="who"><h2 id="profileName"></h2><div class="handle" id="profileHandle"></div><p id="profileBio"></p></div></div><button class="btn" onclick="openProfile()">✎ Editar perfil</button></section>
-<section class="stats"><div class="stat"><b id="sRead">0</b><small>Livros lidos</small></div><div class="stat"><b id="sComments">0</b><small>Comentários no TEBYS</small></div><div class="stat"><b id="sFav">0</b><small>Favoritos</small></div><div class="stat"><b id="sGoal">0%</b><small>Meta mensal</small></div></section>
-<section class="two"><div class="panel"><div class="heading"><div><h3>📖 Livro do momento</h3><p>Sua leitura em andamento</p></div><button class="btn tiny secondary" onclick="openBook()">+ Adicionar livro</button></div><div id="currentRead"></div></div><div class="panel"><div class="heading"><div><h3>✦ Minha meta do mês</h3><p>Conte suas leituras concluídas neste mês</p></div><button class="btn tiny secondary" onclick="changeGoal()">Editar meta</button></div><div id="goalArea"></div></div></section>
-<div class="tabs" role="tablist" aria-label="Seções do perfil"><button class="tab active" data-tab="lidos" onclick="setTab('lidos')">📚 Livros lidos</button><button class="tab" data-tab="tebys" onclick="setTab('tebys')">☏ Comentários no TEBYS</button><button class="tab" data-tab="favoritos" onclick="setTab('favoritos')">♡ Favoritos</button><button class="tab" data-tab="diario" onclick="setTab('diario')">✎ Diário literário</button></div>
-<section class="panel" id="content"></section><section class="panel"><div class="heading"><div><h3>✧ Minhas conquistas</h3><p>Selos conquistados com suas leituras</p></div></div><div class="badge-row" id="achievements"></div></section></main><footer class="foot">TechBook · Cada leitura faz parte da sua história.</footer>
-<div class="modal" id="modal" onclick="if(event.target===this)closeModal()"><div class="dialog"><h3 id="modalTitle"></h3><div id="modalBody"></div><div class="actions" id="modalActions"></div></div></div>
+
+<section class="banner">
+  <!- Ilustração SVG de livros empilhados (estilo capa TechBook) --
+  <div class="banner-art" aria-hidden="true">
+    <svg width="108" height="96" viewBox="0 0 108 96" fill="none">
+      <circle cx="54" cy="48" r="42" stroke="#D6AE70" stroke-opacity="0.28" stroke-width="1.2"/>
+      <rect x="22" y="24" width="60" height="15" rx="3" fill="#531F2C" stroke="#D6AE70" stroke-width="1.4"/>
+      <rect x="26" y="42" width="60" height="15" rx="3" fill="#9E7363" stroke="#FFF7EE" stroke-opacity="0.5" stroke-width="1.2"/>
+      <rect x="18" y="60" width="64" height="15" rx="3" fill="#7C4454" stroke="#D6AE70" stroke-width="1.4"/>
+      <path d="M88 18L90 23L95 25L90 27L88 32L86 27L81 25L86 23L88 18Z" fill="#D6AE70"/>
+    </svg>
+  </div>
+
+  <div class="banner-center">
+    <span class="banner-etiqueta">COLEÇÃO PESSOAL</span>
+    <h1>Minha Estante <em>Virtual</em></h1>
+    <p>Organize seus livros, acompanhe suas metas de leitura e monte uma coleção do seu jeito.</p>
+  </div>
+
+  <!--Ilustração SVG botânica na paleta dourado/vinho/creme --
+  <div class="banner-art" aria-hidden="true">
+    <svg width="108" height="96" viewBox="0 0 108 96" fill="none">
+      <circle cx="54" cy="48" r="42" stroke="#D6AE70" stroke-opacity="0.28" stroke-width="1.2"/>
+      <path d="M54 55C54 39 41 29 31 32C34 43 42 51 54 55Z" fill="#7B9B89" stroke="#D6AE70" stroke-width="1.3"/>
+      <path d="M54 53C54 35 67 26 77 29C74 40 65 49 54 53Z" fill="#52776B" stroke="#D6AE70" stroke-width="1.3"/>
+      <path d="M54 55C51 39 52 24 54 18C57 26 58 40 54 55Z" fill="#9CB8A6" stroke="#D6AE70" stroke-width="1.3"/>
+      <path d="M39 56H69L64 78H44L39 56Z" fill="#D6AE70" stroke="#351018" stroke-width="1.5"/>
+      <rect x="36" y="52" width="36" height="5" rx="2.5" fill="#F6EFE6"/>
+    </svg>
+  </div>
+</section>
+
+<div class="page">
+  <div class="layout">
+    <aside class="left">
+      <section class="panel goal">
+        <div class="goal-title">
+          <span class="goal-title-left">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4"/></svg>
+            Meta de Leitura
+          </span>
+          <button class="goal-edit" id="editGoalBtn" type="button">Editar</button>
+        </div>
+        <div class="goal-number"><strong id="readCount">0</strong> de <strong id="goalCount">20</strong> livros</div>
+        <div class="progress"><span id="progressBar"></span></div>
+        <div class="percent" id="progressText">0%</div>
+      </section>
+
+      <nav class="panel menu" id="navigation" aria-label="Filtros da estante">
+        <button class="nav-btn active" data-filter="Todos">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>
+          Minha Estante
+        </button>
+        <button class="nav-btn" data-filter="Favoritos">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M12 20.5s-7-4.5-9-9a5.2 5.2 0 0 1 9-4.5 5.2 5.2 0 0 1 9 4.5c-2 4.5-9 9-9 9Z"/></svg>
+          Favoritos
+        </button>
+        <button class="nav-btn" data-filter="Lendo Agora">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M4 5h6a3 3 0 0 1 3 3v12a2 2 0 0 0-2-2H4V5Z"/><path d="M20 5h-6a3 3 0 0 0-3 3v12a2 2 0 0 1 2-2h7V5Z"/></svg>
+          Lendo Agora
+        </button>
+        <button class="nav-btn" data-filter="Quero Ler">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M6 3h12v18l-6-4-6 4V3Z"/></svg>
+          Quero Ler
+        </button>
+        <button class="nav-btn" data-filter="Lidos">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="m8.5 12.5 2.5 2.5 4.5-5"/></svg>
+          Lidos
+        </button>
+        <button class="nav-btn add" id="addOpen">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2.2"><path d="M12 5v14M5 12h14"/></svg>
+          Adicionar Livro
+        </button>
+        <button class="nav-btn" id="importCatalogOpen">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2Z"/></svg>
+          Do Catálogo Oficial
+        </button>
+      </nav>
+    </aside>
+
+    <main class="center">
+      <div class="filters" id="filters">
+        <button class="filter active" data-filter="Todos">Todos (<span id="allCount">0</span>)</button>
+        <button class="filter" data-filter="Lidos">Lidos (<span id="doneCount">0</span>)</button>
+        <button class="filter" data-filter="Lendo Agora">Lendo Agora (<span id="readingCount">0</span>)</button>
+        <button class="filter" data-filter="Quero Ler">Quero Ler (<span id="wantCount">0</span>)</button>
+        <button class="filter" data-filter="Favoritos">Favoritos (<span id="favCount">0</span>)</button>
+      </div>
+      <div class="shelf-wrap"><div class="shelf" id="shelf"></div></div>
+    </main>
+
+    <aside class="right">
+      <section class="panel profile">
+        <div class="avatar" id="profileAvatar">TB</div>
+        <h2 id="profileName">Leitor TechBook</h2>
+        <p id="profileClass">Biblioteca Inteligente</p>
+      </section>
+
+      <section class="panel achievements">
+        <h3>Conquistas</h3>
+        <div class="badges">
+          <div class="badge-item" id="badge1"><div class="badge-icon">1º</div>Primeiro<br>Livro</div>
+          <div class="badge-item" id="badge5"><div class="badge-icon">5x</div>5 Livros<br>Lidos</div>
+          <div class="badge-item" id="badgeFav"><div class="badge-icon">III</div>Curador<br>Favoritos</div>
+        </div>
+        <button class="see-all" id="achievements">Ver status das conquistas</button>
+      </section>
+    </aside>
+  </div>
+</div>
+
+<!-- Modal Adicionar Livro --
+<div class="modal-backdrop" id="modal">
+  <form class="modal" id="bookForm">
+    <h2>Adicionar livro à estante</h2>
+    <label for="title">Título do livro</label>
+    <input id="title" required placeholder="Ex.: O Pequeno Príncipe">
+    <label for="author">Autor</label>
+    <input id="author" required placeholder="Nome do autor">
+    <label for="status">Situação da leitura</label>
+    <select id="status">
+      <option>Quero Ler</option>
+      <option>Lendo Agora</option>
+      <option>Lidos</option>
+    </select>
+    <div class="modal-actions">
+      <button type="button" class="cancel" id="cancel">Cancelar</button>
+      <button class="save" type="submit">Salvar livro</button>
+    </div>
+  </form>
+</div>
+
+<!-- Modal Importar do Catálogo Oficial --
+<div class="modal-backdrop" id="catalogModal">
+  <form class="modal" id="catalogForm">
+    <h2>Importar do Catálogo Oficial</h2>
+    <p style="font-size:0.84rem;color:#6e4f47;margin:0 0 10px;">Escolha um livro cadastrado no acervo do TechBook para colocar na sua estante:</p>
+    <label for="catalogSelect">Livro do acervo</label>
+    <select id="catalogSelect" required>
+      <option value="">Carregando acervo...</option>
+    </select>
+    <label for="catalogStatus">Situação na sua estante</label>
+    <select id="catalogStatus">
+      <option>Quero Ler</option>
+      <option>Lendo Agora</option>
+      <option>Lidos</option>
+    </select>
+    <div class="modal-actions">
+      <button type="button" class="cancel" id="cancelCatalog">Cancelar</button>
+      <button class="save" type="submit">Adicionar à estante</button>
+    </div>
+  </form>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<footer>
+  <span>TechBook · Biblioteca Inteligente</span>
+  <span style="color:var(--dourado)">Ler · Descobrir · Imaginar</span>
+</footer>
+
 <script>
-const KEY='techbook_perfil_literario_v1';const initial={profile:{name:'Meu perfil literário',handle:'leitor.de.historias',bio:'Minha história também é feita de livros. ♡',skin:'#b87d55',hair:'#342126',shirt:'#7c2943',hairStyle:'shortcurls',eyes:'happy',banner:0,face:'round',body:'standard',nose:'small',mouth:'smile',accessory:'none',hairLength:'medium',presentation:'feminino',top:'hoodie',pants:'#344d6d'},goal:5,books:[],comments:[]};let data;try{data=JSON.parse(localStorage.getItem(KEY))||structuredClone(initial)}catch(e){data=JSON.parse(JSON.stringify(initial))}data.profile={...initial.profile,...(data.profile||{})};data.profile.handle=String(data.profile.handle||'leitor.de.historias').replace(/^@+/, '');data.books=Array.isArray(data.books)?data.books:[];data.comments=Array.isArray(data.comments)?data.comments:[];let tab='lidos',filter='todos',search='';const $=id=>document.getElementById(id),esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));function save(){localStorage.setItem(KEY,JSON.stringify(data))}function avatarSVG(profile=data.profile){
- const p=profile,skin=p.skin||'#b87d55',hair=p.hair||'#342126',shirt=p.shirt||'#7c2943',pants=p.pants||'#344d6d';
- const face=p.face||'round',body=p.body||'standard',top=p.top||'hoodie';
- const aliases={crop:'fade',braids:'cornrows',curly:'coils',coily:'coils',afro:'coils',wavy:'waves',straight:'crop',bun:'waves',bangs:'waves',pigtails:'waves',braids:'braids',twists:'braids',cap:'crop'};
- const style=['shortcurls','fade','cornrows','coils','straightlong','waves'].includes(p.hairStyle)?p.hairStyle:(aliases[p.hairStyle]||'shortcurls');
- const wide={slim:62,standard:76,broad:92,petite:68}[body]||76;
- const fw={round:105,oval:97,square:103,heart:102}[face]||105;
- const left=110-fw/2,right=110+fw/2,L=110-wide/2,R=110+wide/2;
- const uid='tb'+Math.random().toString(36).slice(2,10);
- const light=`<defs><linearGradient id="${uid}" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#161018" stop-opacity=".08"/><stop offset=".48" stop-color="#fff" stop-opacity=".13"/><stop offset="1" stop-color="#161018" stop-opacity=".06"/></linearGradient></defs>`;
- const legs=`<rect x="${110-wide*.23-11}" y="218" width="22" height="42" rx="5" fill="${pants}"/><rect x="${110+wide*.23-11}" y="218" width="22" height="42" rx="5" fill="${pants}"/><rect x="${110-wide*.23-16}" y="253" width="32" height="14" rx="7" fill="#603047"/><rect x="${110+wide*.23-16}" y="253" width="32" height="14" rx="7" fill="#603047"/>`;
- const arms=`<path d="M${L+8} 169 Q${L-7} 183 ${L-3} 211" stroke="${skin}" stroke-width="17" fill="none" stroke-linecap="round"/><path d="M${R-8} 169 Q${R+7} 183 ${R+3} 211" stroke="${skin}" stroke-width="17" fill="none" stroke-linecap="round"/>`;
- let clothing=`<path d="M${L+13} 157 Q110 149 ${R-13} 157 Q${R+3} 167 ${R} 194 L${R-2} 228 H${L+2} L${L} 194 Q${L-3} 167 ${L+13} 157Z" fill="${shirt}"/>`;
- if(top==='dress')clothing+=`<path d="M${L+7} 205 L${L-11} 246 H${R+11} L${R-7} 205Z" fill="${shirt}"/>`;
- if(top==='hoodie')clothing+='<path d="M93 157 Q110 172 127 157" fill="none" stroke="#f8e5c9" stroke-width="3"/><path d="M106 177 V189 M114 177 V189" stroke="#f8e5c9" stroke-width="2"/>';
- if(top==='striped')clothing+=`<path d="M${L+4} 185 H${R-4} M${L+4} 205 H${R-4}" stroke="#f9e6d0" stroke-width="7"/>`;
- if(top==='collar'||top==='vest')clothing+='<path d="M94 158 L110 173 L126 158" fill="#fff4e5"/>';
- if(top==='vest')clothing+=`<path d="M${L+10} 162 L101 179 L102 225 H${L+3}Z M${R-10} 162 L119 179 L118 225 H${R-3}Z" fill="#532b40"/>`;
- if(top==='jacket')clothing+='<path d="M110 161 V225 M96 161 L110 179 L124 161" fill="none" stroke="#fff0d9" stroke-width="3"/>';
- if(top==='star')clothing+='<path d="M110 181 l6 11 12 2 -9 9 2 12 -11 -6 -11 6 2 -12 -9 -9 12 -2Z" fill="#ffd166"/>';
- if(top==='book')clothing+='<path d="M94 190 Q103 187 110 193 Q117 187 126 190 V208 Q117 204 110 210 Q103 204 94 208Z" fill="none" stroke="#fff1d7" stroke-width="3"/>';
- const neck=`<rect x="103" y="138" width="14" height="20" rx="6" fill="${skin}"/>`;
- const head=face==='heart'?`<path d="M${left} 85 Q${left-1} 43 110 43 Q${right+1} 43 ${right} 85 Q${right} 123 110 149 Q${left} 123 ${left} 85Z" fill="${skin}"/>`:`<rect x="${left}" y="43" width="${fw}" height="${face==='oval'?104:100}" rx="${face==='square'?25:fw/2}" fill="${skin}"/>`;
- const ears=`<circle cx="${left+2}" cy="105" r="7" fill="${skin}"/><circle cx="${right-2}" cy="105" r="7" fill="${skin}"/>`;
- // Only long hairstyles have a back layer. It is BEHIND the head and body,
- // and is never inherited by another hairstyle.
- let back='',front='',details='';
- if(style==='cornrows'){
-  front=`<path d="M${left+1} 83 Q${left+3} 39 110 35 Q${right-3} 39 ${right-1} 83 Q132 70 110 72 Q88 70 ${left+1} 83Z" fill="${hair}"/>`;
-  details=Array.from({length:7},(_,i)=>{let x=76+i*11;return `<path d="M${x} 74 Q${x-7} 55 ${x+3} 41" stroke="#f2d6b8" stroke-opacity=".34" stroke-width="2.5" fill="none" stroke-linecap="round"/>`}).join('');
- }
- if(style==='straightlong'){
-  // Single connected silhouette, behind the face; no isolated side strips.
-  back=`<path d="M${left-10} 89 Q${left-16} 30 110 27 Q${right+16} 30 ${right+10} 89 L${right+10} 184 Q${right+7} 195 ${right-5} 191 L${left+5} 191 Q${left-7} 195 ${left-10} 184Z" fill="${hair}"/>`;
-  front=`<path d="M${left-4} 86 Q${left-8} 37 108 30 Q${right+8} 37 ${right+4} 86 Q145 75 136 63 Q123 74 110 63 Q93 80 ${left-4} 86Z" fill="${hair}"/>`;
-  details=`<path d="M${left-7} 105 Q${left-8} 145 ${left-6} 177 M${right+7} 105 Q${right+8} 145 ${right+6} 177" fill="none" stroke="#fff" stroke-opacity=".09" stroke-width="3"/>`;
- }
- if(style==='fade'){
-  front=`<path d="M${left+2} 71 Q${left+10} 38 104 35 Q142 29 ${right-1} 62 Q140 55 126 58 Q111 44 95 60 Q81 54 ${left+2} 71Z" fill="${hair}"/>`;
-  details=`<path d="M${left+5} 73 Q${left+1} 91 ${left+5} 99 M${right-5} 73 Q${right-1} 91 ${right-5} 99" stroke="${hair}" stroke-width="6" stroke-linecap="round" fill="none" opacity=".65"/>`;
- }
- if(style==='shortcurls'){
-  const curls=[[70,65,14],[82,49,16],[101,42,17],[121,41,17],[140,49,16],[152,65,14],[86,65,13],[109,60,14],[134,65,13]];
-  front=curls.map(([x,y,r])=>`<circle cx="${x}" cy="${y}" r="${r}" fill="${hair}"/>`).join('');
-  details=curls.filter((_,i)=>i%2===0).map(([x,y,r])=>`<path d="M${x-5} ${y-4} Q${x} ${y-9} ${x+5} ${y-3}" stroke="#fff" stroke-opacity=".12" stroke-width="2" fill="none"/>`).join('');
- }
- if(style==='waves'){
-  back=`<path d="M${left-13} 89 Q${left-21} 31 110 25 Q${right+21} 31 ${right+13} 89 Q${right+20} 108 ${right+12} 128 Q${right+23} 145 ${right+12} 165 Q${right+22} 185 ${right+4} 195 L${left-4} 195 Q${left-22} 185 ${left-12} 165 Q${left-23} 145 ${left-12} 128 Q${left-20} 108 ${left-13} 89Z" fill="${hair}"/>`;
-  front=`<path d="M${left-5} 84 Q${left-8} 36 106 28 Q${right+9} 34 ${right+5} 84 Q145 87 134 69 Q122 85 108 68 Q93 89 ${left-5} 84Z" fill="${hair}"/>`;
-  details=`<path d="M${left-10} 113 Q${left-22} 129 ${left-10} 148 Q${left-19} 165 ${left-9} 180 M${right+10} 113 Q${right+22} 129 ${right+10} 148 Q${right+19} 165 ${right+9} 180" stroke="#fff" stroke-opacity=".17" stroke-width="4" fill="none" stroke-linecap="round"/>`;
- }
- if(style==='coils'){
-  // Defined afro curls: dozens of connected rounded locks, not one ellipse.
-  const ring=[];
-  for(let i=0;i<20;i++){let a=(Math.PI*2*i/20),x=110+Math.cos(a)*64,y=87+Math.sin(a)*61;ring.push(`<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${(12+i%3*1.7).toFixed(1)}" fill="${hair}"/>`)}
-  back=ring.join('')+`<ellipse cx="110" cy="87" rx="61" ry="59" fill="${hair}"/>`;
-  const bangs=[[65,77],[72,61],[84,48],[99,43],[116,42],[132,47],[145,58],[153,76],[84,70],[104,63],[126,70]];
-  front=bangs.map(([x,y],i)=>`<circle cx="${x}" cy="${y}" r="${i%2?14:13}" fill="${hair}"/>`).join('');
-  details=bangs.filter((_,i)=>i%2===0).map(([x,y])=>`<path d="M${x-4} ${y-4} Q${x} ${y-8} ${x+5} ${y-3}" stroke="#fff" stroke-opacity=".16" stroke-width="2.2" fill="none"/>`).join('');
- }
- if(style==='braids'){
-  back=`<path d="M${left-8} 75 Q${left-12} 33 110 27 Q${right+12} 33 ${right+8} 75 L${right+5} 119 Q110 134 ${left-5} 119Z" fill="${hair}"/>`;
-  // Braids are integrated behind the ears, without stray parallel strands.
-  const braid=(x)=>Array.from({length:6},(_,i)=>`<ellipse cx="${x+(i%2?2:-2)}" cy="${99+i*14}" rx="${10-i*.35}" ry="10" fill="${hair}" stroke="#fff" stroke-opacity=".09" stroke-width="1"/>`).join('');
-  back+=braid(left-5)+braid(right+5);
-  front=`<path d="M${left-2} 79 Q${left-3} 37 110 31 Q${right+3} 37 ${right+2} 79 Q131 70 110 58 Q89 70 ${left-2} 79Z" fill="${hair}"/>`;
-  details=`<path d="M110 34 Q100 48 89 63 M110 34 Q120 48 131 63" stroke="#fff" stroke-opacity=".16" stroke-width="2" fill="none"/>`;
- }
- const eyeY=105;
- const eyes={
- happy:`<path d="M82 ${eyeY} Q90 96 98 ${eyeY} M122 ${eyeY} Q130 96 138 ${eyeY}" stroke="#30252a" stroke-width="3" fill="none" stroke-linecap="round"/>`,
- open:`<circle cx="90" cy="${eyeY}" r="3.5" fill="#30252a"/><circle cx="130" cy="${eyeY}" r="3.5" fill="#30252a"/>`,
- sparkle:`<circle cx="90" cy="${eyeY}" r="5" fill="#30252a"/><circle cx="130" cy="${eyeY}" r="5" fill="#30252a"/><circle cx="92" cy="${eyeY-2}" r="1.5" fill="white"/><circle cx="132" cy="${eyeY-2}" r="1.5" fill="white"/>`,
- wink:`<circle cx="90" cy="${eyeY}" r="3.5" fill="#30252a"/><path d="M122 ${eyeY} Q130 96 138 ${eyeY}" stroke="#30252a" stroke-width="3" fill="none"/>`,
- sleepy:`<path d="M82 103 Q90 108 98 103 M122 103 Q130 108 138 103" stroke="#30252a" stroke-width="3" fill="none" stroke-linecap="round"/>`,
- curious:`<circle cx="90" cy="105" r="3.5" fill="#30252a"/><circle cx="130" cy="105" r="3.5" fill="#30252a"/><path d="M82 95 L97 93 M123 92 L138 95" stroke="#30252a" stroke-width="2.5" fill="none"/>`,
- excited:`<path d="M82 104 Q90 94 98 104 M122 104 Q130 94 138 104" stroke="#30252a" stroke-width="3.5" fill="none"/>`,
- thoughtful:`<circle cx="90" cy="103" r="3.5" fill="#30252a"/><circle cx="130" cy="107" r="3.5" fill="#30252a"/><path d="M81 94 Q88 91 96 95" stroke="#30252a" stroke-width="2" fill="none"/>`
- };
- const mouths={smile:'<path d="M103 124 Q110 132 117 124" stroke="#672b3a" stroke-width="2.6" fill="none" stroke-linecap="round"/>',grin:'<path d="M102 122 Q110 138 118 122Z" fill="#672b3a"/>',neutral:'<path d="M106 126 H114" stroke="#672b3a" stroke-width="2.5" stroke-linecap="round"/>',surprised:'<ellipse cx="110" cy="125" rx="4" ry="5" fill="#672b3a"/>',laugh:'<path d="M99 121 Q110 139 121 121Z" fill="#672b3a"/><path d="M104 127 H116" stroke="white" stroke-width="2"/>'};
- let extra='';
- if(p.accessory==='glasses')extra='<g stroke="#553848" stroke-width="3" fill="none"><circle cx="90" cy="105" r="12"/><circle cx="130" cy="105" r="12"/><path d="M102 105 H118"/></g>';
- if(p.accessory==='earrings')extra=`<circle cx="${left}" cy="115" r="4" fill="#efbd4e"/><circle cx="${right}" cy="115" r="4" fill="#efbd4e"/>`;
- if(p.accessory==='headphones')extra=`<path d="M${left-5} 105 Q${left-5} 25 110 25 Q${right+5} 25 ${right+5} 105" stroke="#f1be60" stroke-width="7" fill="none"/><rect x="${left-9}" y="96" width="12" height="22" rx="5" fill="#f1be60"/><rect x="${right-3}" y="96" width="12" height="22" rx="5" fill="#f1be60"/>`;
- if(p.accessory==='bow')extra='<path d="M139 48 Q119 34 124 53 Q127 62 139 53 Q153 64 155 50 Q156 35 139 48" fill="#f1bd52"/>';
- if(p.accessory==='headband')extra=`<path d="M${left+8} 62 Q110 23 ${right-8} 62" stroke="#f1bd52" stroke-width="8" fill="none"/>`;
- if(p.accessory==='backpack')extra=`<rect x="${R-1}" y="171" width="18" height="43" rx="7" fill="#e3a63c"/>`;
- if(p.accessory==='scarf')extra='<path d="M90 158 Q110 172 130 158" stroke="#e4b85c" stroke-width="9" fill="none"/><path d="M123 164 L130 190" stroke="#e4b85c" stroke-width="9"/>';
- return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 285" role="img" aria-label="MiniLeitor personalizável">${light}<ellipse cx="110" cy="275" rx="50" ry="4" fill="#8b6c6420"/>${back}${legs}${arms}${neck}${clothing}${ears}${head}${front}${details}${eyes[p.eyes]||eyes.happy}${p.nose==='none'?'':`<circle cx="110" cy="116" r="${p.nose==='round'?3:1.8}" fill="#8b5547"/>`}${mouths[p.mouth]||mouths.smile}${extra}</svg>`;
+const padraoLivros = [
+  { title: "Dom Casmurro", author: "Machado de Assis", status: "Lidos", sigla: "DC", cover: 1, fav: true },
+  { title: "O Pequeno Príncipe", author: "Antoine de Saint-Exupéry", status: "Lidos", sigla: "PP", cover: 2, fav: true },
+  { title: "O Hobbit", author: "J. R. R. Tolkien", status: "Lendo Agora", sigla: "OH", cover: 3, fav: false },
+  { title: "A Guerra dos Tronos", author: "George R. R. Martin", status: "Quero Ler", sigla: "GT", cover: 4, fav: false }
+];
+
+let storageKey = "techbook_estante_visitante";
+let goalKey = "techbook_meta_visitante";
+let books = [];
+let goalTarget = 20;
+let currentFilter = "Todos";
+let catalogoOficial = [];
+
+const shelf = document.getElementById("shelf");
+
+function toast(m) {
+  const t = document.getElementById("toast");
+  t.textContent = m;
+  t.classList.add("show");
+  setTimeout(() => t.classList.remove("show"), 2300);
 }
-function profileDraft(){const p={...data.profile};if(!$('pn'))return p;for(const [id,key] of [['skins','skin'],['hairs','hair'],['shirts','shirt']])p[key]=$(id)?.querySelector('.chosen')?.dataset.color||p[key];for(const [id,key] of [['pstyle','hairStyle'],['peyes','eyes'],['pface','face'],['pbody','body'],['plength','hairLength'],['pmouth','mouth'],['pnose','nose'],['paccessory','accessory'],['ptop','top']])p[key]=$(id)?.value||p[key];p.pants=$('pants')?.querySelector('.chosen')?.dataset.color||p.pants;p.presentation=$('ppresentation')?.value||p.presentation;p.banner=Number($('banners')?.querySelector('.chosen')?.dataset.banner??p.banner);return p}
-function previewProfile(){const draft=profileDraft();if($('avatarPreview'))$('avatarPreview').innerHTML=avatarSVG(draft);if($('bannerPreview'))$('bannerPreview').style.setProperty('background',banners[draft.banner]?.[1]||banners[0][1],'important');$('banner').style.setProperty('background',banners[draft.banner]?.[1]||banners[0][1],'important')}
 
-const banners=[['Biblioteca clássica','linear-gradient(100deg,#300a1a,#59172b 55%,#3e1524)'],['Jardim literário','linear-gradient(110deg,#344b3a,#637a55 55%,#233a37)'],['Noite estrelada','linear-gradient(110deg,#1b234b,#473867 55%,#202143)'],['Pôr do sol','linear-gradient(110deg,#713e3c,#b87963 55%,#5d2b3f)'],['Café e livros','linear-gradient(110deg,#53362b,#8e5943 55%,#42282a)'],['Mar de histórias','linear-gradient(110deg,#1c4152,#3f8190 55%,#173947)']];
-function updateHero(){const p=data.profile;$('banner').style.setProperty('background',banners[p.banner]?.[1]||banners[0][1],'important');$('avatar').innerHTML=avatarSVG();$('profileName').textContent=p.name;$('profileHandle').textContent='@'+String(p.handle||'leitor.de.historias').replace(/^@+/, '');$('profileBio').textContent=p.bio}function monthRead(){const month=new Date().toISOString().slice(0,7);return data.books.filter(b=>b.status==='lido'&&b.finished?.slice(0,7)===month).length}function render(){updateHero();$('sRead').textContent=data.books.filter(b=>b.status==='lido').length;$('sComments').textContent=data.comments.length;$('sFav').textContent=data.books.filter(b=>b.favorite).length;$('sGoal').textContent=Math.round(Math.min(1,monthRead()/Math.max(1,data.goal))*100)+'%';const cur=data.books.find(b=>b.status==='lendo');$('currentRead').innerHTML=cur?`<div class="reading">${cover(cur)}<div><h3>${esc(cur.title)}</h3><p>${esc(cur.author)}</p><div class="bar"><span style="width:${progress(cur)}%"></span></div><small>${progress(cur)}% concluído · ${Number(cur.pagesRead)||0} de ${Number(cur.pages)||0} páginas</small><p><button class="btn tiny" onclick="openBook('${cur.id}')">Continuar leitura</button></p></div></div>`:'<div class="empty">Nenhuma leitura em andamento. Que tal começar um livro?</div>';const n=monthRead();$('goalArea').innerHTML=`<h3>${n} de ${data.goal} livros concluídos</h3><div class="bar"><span style="width:${Math.min(100,n/Math.max(1,data.goal)*100)}%"></span></div><small>${Math.round(Math.min(1,n/Math.max(1,data.goal))*100)}% da meta mensal</small>`;renderTab();renderAchievements()}
-function progress(b){return b.pages>0?Math.min(100,Math.round((Number(b.pagesRead)||0)/Number(b.pages)*100)):0}function cover(b){const title=esc(b.title);return `<div class="cover"><span>${title}</span>${b.cover?`<img src="${esc(b.cover)}" alt="Capa de ${title}" onerror="this.remove()">`:''}</div>`}function setTab(t){tab=t;filter='todos';search='';document.querySelectorAll('.tab').forEach(x=>x.classList.toggle('active',x.dataset.tab===t));renderTab()}
-function renderTab(){let title={lidos:'Minha coleção',tebys:'Comentários no TEBYS',favoritos:'Meus favoritos',diario:'Diário literário'}[tab];let html=`<div class="heading"><div><h3>${title}</h3><p>${tab==='diario'?'Resenhas e reflexões sobre suas leituras':tab==='tebys'?'Seus comentários em conversas literárias': 'Sua coleção, organizada do seu jeito'}</p></div>${tab==='tebys'?'<button class="btn" onclick="openComment()">+ Registrar comentário</button>':tab==='diario'?'<button class="btn" onclick="openBook()">+ Registrar leitura</button>':'<button class="btn" onclick="openBook()">+ Adicionar livro</button>'}</div>`;
-if(tab==='tebys'){html+=data.comments.length?'<div class="diary">'+data.comments.map(c=>`<article class="note"><strong>${esc(c.topic)}</strong><p>${esc(c.text)}</p><small>${esc(c.date)}</small><p><button class="btn tiny secondary" onclick="openComment('${c.id}')">Editar</button> <button class="btn tiny secondary" onclick="removeComment('${c.id}')">Excluir</button></p></article>`).join('')+'</div>':'<div class="empty">Seus comentários do TEBYS aparecerão aqui quando as páginas forem integradas. Por enquanto, você pode registrar comentários de demonstração.</div>';$('content').innerHTML=html;return}
-if(tab==='diario'){const reviewed=data.books.filter(b=>b.review?.trim());html+=reviewed.length?'<div class="diary">'+reviewed.map(b=>`<article class="note"><strong>${esc(b.title)}</strong><div class="stars">${'★'.repeat(Number(b.rating)||0)}${'☆'.repeat(5-(Number(b.rating)||0))}</div><p>${esc(b.review)}</p><small>Resenha pública após integração ao sistema</small><p><button class="btn tiny secondary" onclick="openBook('${b.id}')">Editar diário</button></p></article>`).join('')+'</div>':'<div class="empty">Seu diário começa com uma leitura. Abra um livro e escreva sua primeira resenha.</div>';$('content').innerHTML=html;return}
-let books=data.books.filter(b=>tab==='favoritos'?b.favorite:true);html+=`<div class="controls"><input id="searchBooks" placeholder="Buscar por título, autor ou gênero" value="${esc(search)}" oninput="search=this.value;renderBookGrid()"><select id="filterBooks" onchange="filter=this.value;renderBookGrid()"><option value="todos">Todos os livros</option><option value="lido">Lidos</option><option value="lendo">Lendo</option><option value="quero">Quero ler</option></select></div><div id="bookGrid"></div>`;$('content').innerHTML=html;$('filterBooks').value=filter;renderBookGrid()}
-function renderBookGrid(){const list=data.books.filter(b=>(tab==='favoritos'?b.favorite:true)&&(filter==='todos'||b.status===filter)&&(`${b.title} ${b.author} ${b.genre||''}`.toLowerCase().includes(search.toLowerCase())));$('bookGrid').innerHTML=list.length?`<div class="books">${list.map(b=>`<article class="book">${cover(b)}<h4>${esc(b.title)}</h4><p>${esc(b.author)}</p><div class="book-bottom"><span class="tag">${{lido:'✓ Lido',lendo:'◷ Lendo',quero:'♡ Quero ler'}[b.status]||'Quero ler'}</span><span class="stars">${b.rating?'★ '+b.rating:'☆'}</span></div><div class="book-actions"><button onclick="toggleFav('${b.id}')">${b.favorite?'♥ Favorito':'♡ Favoritar'}</button><button onclick="openBook('${b.id}')">Editar</button><button onclick="deleteBook('${b.id}')">Excluir</button></div></article>`).join('')}</div>`:'<div class="empty">Nenhum livro encontrado. Adicione sua primeira leitura!</div>'}
-function renderAchievements(){const read=data.books.filter(b=>b.status==='lido').length,reviewed=data.books.filter(b=>b.review?.trim()).length;const badges=[['✦','Primeira página',read>=1],['❖','Leitor constante',monthRead()>=3],['✎','Crítico literário',reviewed>=5],['♛','Colecionador',read>=20]];$('achievements').innerHTML=badges.map(([icon,title,done])=>`<div class="achievement ${done?'':'locked'}"><div style="font-size:29px;color:#ad793a">${icon}</div><strong>${title}</strong><small>${done?'Conquistado':'Ainda não desbloqueado'}</small></div>`).join('')}
-function openModal(title,body,actions){$('modalTitle').textContent=title;$('modalBody').innerHTML=body;$('modalActions').innerHTML=actions;$('modal').classList.add('open')}function closeModal(){$('modal').classList.remove('open');updateHero()}
-function openProfile(){const p=data.profile;openModal('Personalizar meu perfil',`<div class="avatar-wizard"><div class="wizard-steps"><span id="stepLabel">Etapa 1 de 3 · Estilo</span><span>MiniLeitores TechBook</span></div><div id="wizard1" class="wizard-panel"><h3>Como você quer começar?</h3><p>Escolha um estilo inicial. Você poderá combinar qualquer cabelo, roupa e acessório depois.</p><div class="wizard-cards"><button type="button" class="wizard-choice" onclick="selectPresentation('feminino')">✿<strong>Feminino</strong><small>Combinações iniciais</small></button><button type="button" class="wizard-choice" onclick="selectPresentation('masculino')">✦<strong>Masculino</strong><small>Combinações iniciais</small></button></div></div><div id="wizard2" class="wizard-panel" hidden><h3>Como você quer seu corpo?</h3><p>Escolha a silhueta que mais combina com seu personagem.</p><div class="wizard-cards body-cards"><button type="button" onclick="selectBody('slim')">Estreito</button><button type="button" onclick="selectBody('standard')">Médio</button><button type="button" onclick="selectBody('broad')">Largo</button><button type="button" onclick="selectBody('petite')">Pequeno</button></div><button type="button" class="btn secondary" onclick="wizardStep(1)">Voltar</button></div><div id="wizard3" class="wizard-panel" hidden><button type="button" class="btn secondary" onclick="wizardStep(2)">← Voltar ao corpo</button><div class="fields"><label class="field">Nome<input id="pn" maxlength="60" value="${esc(p.name)}"></label><label class="field">Nome de usuário (@)<input id="ph" maxlength="24" value="${esc(p.handle)}"></label><label class="field full">Biografia<textarea id="pb" maxlength="180">${esc(p.bio)}</textarea></label><div class="field full"><div class="avatar-live"><div id="avatarPreview"></div><div><strong>Seu personagem</strong><p>MiniLeitor geométrico: personalize rosto, penteado, corpo, roupas e acessórios. A prévia muda na hora.</p></div></div></div><div class="field full"><button type="button" class="btn secondary" onclick="randomAvatar()">✦ Surpreenda-me!</button></div><div class="field full">Tom de pele<div class="avatar-options" id="skins"></div></div><div class="field full">Cabelo<div class="avatar-options" id="hairs"></div></div><label class="field">Penteado<select id="pstyle"><optgroup label="Masculinos"><option value="shortcurls">Crespo masculino</option><option value="fade">Degradê</option><option value="cornrows">Nagô</option></optgroup><optgroup label="Femininos"><option value="coils">Crespo feminino</option><option value="straightlong">Liso solto</option><option value="waves">Ondulado cheio</option></optgroup></select></label><label class="field">Expressão<select id="peyes"><option value="happy">Sorridente</option><option value="open">Olhos abertos</option><option value="sparkle">Olhos brilhantes</option><option value="wink">Piscadinha</option><option value="sleepy">Sonolento</option><option value="curious">Curioso</option><option value="excited">Empolgado</option><option value="thoughtful">Pensativo</option></select></label><div class="field full">Cor da roupa<div class="avatar-options" id="shirts"></div></div><label class="field">Modelo da roupa<select id="ptop"><option value="hoodie">Moletom</option><option value="basic">Camiseta</option><option value="star">Camiseta estrela</option><option value="book">Camiseta TechBook</option><option value="striped">Listrada</option><option value="collar">Polo</option><option value="jacket">Jaqueta</option><option value="vest">Colete</option><option value="dress">Vestido</option></select></label><div class="field full">Cor da calça / saia<div class="avatar-options" id="pants"></div></div><label class="field">Formato do rosto<select id="pface"><option value="round">Redondo</option><option value="oval">Oval</option><option value="square">Quadrado</option><option value="heart">Coração</option></select></label><label class="field">Corpo / silhueta<select id="pbody"><option value="standard">Médio</option><option value="slim">Estreito</option><option value="broad">Largo</option><option value="petite">Pequeno</option></select></label><label class="field">Comprimento do cabelo<select id="plength"><option value="short">Curto</option><option value="medium">Médio</option><option value="long">Longo</option></select></label><label class="field">Boca<select id="pmouth"><option value="smile">Sorriso</option><option value="grin">Sorriso aberto</option><option value="neutral">Neutra</option><option value="surprised">Surpreso</option><option value="laugh">Gargalhada</option></select></label><label class="field">Nariz<select id="pnose"><option value="small">Pequeno</option><option value="round">Arredondado</option><option value="none">Discreto</option></select></label><label class="field">Acessórios<select id="paccessory"><option value="none">Nenhum</option><option value="glasses">Óculos</option><option value="earrings">Brincos</option><option value="scarf">Lenço</option><option value="bow">Laço</option><option value="headphones">Fones de ouvido</option><option value="headband">Tiara</option><option value="backpack">Mochila</option></select></label><div class="field full">Escolha um banner oficial (prévia imediata)<div class="banner-options" id="banners"></div></div><p class="notice field full">O avatar é ilustrado e não exige foto pessoal. Os seis banners são oficiais do TechBook.</p><input type="hidden" id="ppresentation" value="${esc(p.presentation||'feminino')}"></div></div></div>`,`<button class="btn secondary" onclick="closeModal()">Cancelar</button><button class="btn" onclick="saveProfile()">Salvar perfil</button>`);function swatches(id,values,key){$(id).innerHTML=values.map(c=>`<button class="swatch ${p[key]===c?'chosen':''}" style="background:${c}" title="Selecionar cor" onclick="document.querySelectorAll('#${id} .swatch').forEach(x=>x.classList.remove('chosen'));this.classList.add('chosen')" data-color="${c}"></button>`).join('')}swatches('skins',['#f0c9a0','#d69a72','#b87d55','#8b523c','#5a342a'],'skin');swatches('hairs',['#342126','#7b412e','#b77b44','#e2ba74','#222831','#477ca0'],'hair');swatches('shirts',['#7c2943','#3c7185','#bc8252','#566f4e','#8b6095','#e0a72f','#f1e4cf','#26334d'],'shirt');swatches('pants',['#344d6d','#67283f','#d2ad77','#27343a','#6793ad','#9c6448'],'pants');$('pstyle').value=p.hairStyle;$('peyes').value=p.eyes;$('banners').innerHTML=banners.map((b,i)=>`<button class="banner-choice ${p.banner===i?'chosen':''}" style="background:${b[1]}" title="${b[0]}" onclick="document.querySelectorAll('.banner-choice').forEach(x=>x.classList.remove('chosen'));this.classList.add('chosen')" data-banner="${i}"></button>`).join('');for(const [id,key] of [['pface','face'],['pbody','body'],['plength','hairLength'],['pmouth','mouth'],['pnose','nose'],['paccessory','accessory'],['ptop','top']])if($(id))$(id).value=p[key]||$(id).value;const bannerBox=$('banners');bannerBox.insertAdjacentHTML('beforebegin','<div id="bannerPreview" class="banner-preview"></div>');$('modalBody').addEventListener('click',()=>requestAnimationFrame(previewProfile));$('modalBody').addEventListener('change',previewProfile);$('modalBody').addEventListener('input',previewProfile);previewProfile();wizardStep(1);}
-function wizardStep(n){for(let i=1;i<=3;i++){const el=$('wizard'+i);if(el)el.hidden=i!==n;}if($('stepLabel'))$('stepLabel').textContent='Etapa '+n+' de 3 · '+['Estilo','Corpo','Personalização'][n-1];}
-function selectPresentation(v){$('ppresentation').value=v;const masculine=v==='masculino';$('pstyle').value=masculine?'shortcurls':'coils';$('plength').value=masculine?'short':'medium';$('ptop').value=masculine?'basic':'hoodie';previewProfile();wizardStep(2);}
-function selectBody(v){$('pbody').value=v;previewProfile();wizardStep(3);}
-function randomAvatar(){const choices=(arr)=>arr[Math.floor(Math.random()*arr.length)];for(const id of ['skins','hairs','shirts','pants']){const opts=[...$(id).querySelectorAll('.swatch')];opts.forEach(x=>x.classList.remove('chosen'));choices(opts).classList.add('chosen')}const masc=$('ppresentation')?.value==='masculino';for(const id of ['pstyle','peyes','pface','pbody','pmouth','pnose','paccessory','ptop']){const el=$(id);if(el)el.value=choices([...el.options]).value}const hairChoices=masc?['shortcurls','fade','cornrows']:['coils','straightlong','waves'];$('pstyle').value=choices(hairChoices);$('plength').value=masc?'short':'long';$('ptop').value=choices(masc?['hoodie','basic','star','book','striped','collar','jacket','vest']:['hoodie','basic','star','book','striped','collar','jacket','vest','dress']);previewProfile()}
-function saveProfile(){const p=data.profile;p.name=$('pn').value.trim()||'Leitor do TechBook';p.handle=($('ph').value.trim().replace(/^@+/, '').replace(/[^\p{L}\p{N}._-]/gu,'').slice(0,24))||'leitor.de.historias';p.bio=$('pb').value.trim();for(const [id,key] of [['skins','skin'],['hairs','hair'],['shirts','shirt']])p[key]=$(id).querySelector('.chosen')?.dataset.color||p[key];p.presentation=$('ppresentation')?.value||'feminino';p.hairStyle=$('pstyle').value;p.eyes=$('peyes').value;for(const [id,key] of [['pface','face'],['pbody','body'],['plength','hairLength'],['pmouth','mouth'],['pnose','nose'],['paccessory','accessory'],['ptop','top']])p[key]=$(id).value;p.pants=$('pants').querySelector('.chosen')?.dataset.color||p.pants;p.banner=Number($('banners').querySelector('.chosen')?.dataset.banner||0);save();closeModal();render()}
-function openBook(id){const b=data.books.find(x=>x.id===id)||{id:'',title:'',author:'',genre:'',status:'quero',pages:0,pagesRead:0,rating:0,review:'',cover:'',favorite:false,finished:''};openModal(id?'Editar livro e diário':'Adicionar livro',`<div class="fields"><label class="field">Título<input id="bt" value="${esc(b.title)}" maxlength="120"></label><label class="field">Autor<input id="ba" value="${esc(b.author)}" maxlength="90"></label><label class="field">Gênero<input id="bg" value="${esc(b.genre)}" maxlength="60"></label><label class="field">Situação<select id="bs"><option value="quero">Quero ler</option><option value="lendo">Lendo</option><option value="lido">Lido</option></select></label><label class="field">Total de páginas<input id="bp" type="number" min="0" value="${Number(b.pages)||0}"></label><label class="field">Páginas lidas<input id="bpr" type="number" min="0" value="${Number(b.pagesRead)||0}"></label><label class="field">Avaliação<select id="br">${[0,1,2,3,4,5].map(n=>`<option value="${n}">${n?n+' estrela(s)':'Sem avaliação'}</option>`).join('')}</select></label><label class="field">Data de conclusão<input id="bf" type="date" value="${esc(b.finished||'')}"></label><label class="field full">URL de capa personalizada (opcional)<input id="bc" placeholder="https://..." value="${esc(b.cover)}"></label><label class="field full">Meu diário / resenha<textarea id="brev" placeholder="O que essa história despertou em você?">${esc(b.review)}</textarea></label><label class="field full"><span><input type="checkbox" id="bfav" ${b.favorite?'checked':''}> Adicionar aos favoritos</span></label><p class="notice field full">Se não houver capa personalizada, o TechBook tenta buscar uma capa online pelo título. Sem internet, usa uma capa ilustrativa. Resenhas públicas dependem da integração com o banco de dados.</p></div>`,`<button class="btn secondary" onclick="closeModal()">Cancelar</button><button class="btn" onclick="saveBook('${id||''}')">Salvar livro</button>`);$('bs').value=b.status;$('br').value=b.rating||0}
-async function saveBook(id){const title=$('bt').value.trim();if(!title){alert('Informe o título do livro.');return}const b=data.books.find(x=>x.id===id)||{id:'b'+Date.now()};const prev=b.status;b.title=title;b.author=$('ba').value.trim();b.genre=$('bg').value.trim();b.status=$('bs').value;b.pages=Math.max(0,Number($('bp').value)||0);b.pagesRead=Math.max(0,Math.min(b.pages||Infinity,Number($('bpr').value)||0));b.rating=Number($('br').value);b.finished=$('bf').value||(b.status==='lido'&&prev!=='lido'?new Date().toISOString().slice(0,10):b.finished||'');b.review=$('brev').value.trim();b.favorite=$('bfav').checked;b.cover=$('bc').value.trim();if(!id)data.books.push(b);save();closeModal();render();if(!b.cover&&navigator.onLine){try{const q=encodeURIComponent(title+' '+b.author);const r=await fetch('https://openlibrary.org/search.json?q='+q+'&limit=1');const j=await r.json();if(j.docs?.[0]?.cover_i){b.cover='https://covers.openlibrary.org/b/id/'+j.docs[0].cover_i+'-M.jpg';save();render()}}catch(e){}}}
-function deleteBook(id){if(confirm('Excluir este livro e suas anotações?')){data.books=data.books.filter(b=>b.id!==id);save();render()}}function toggleFav(id){const b=data.books.find(b=>b.id===id);if(b){b.favorite=!b.favorite;save();render()}}function changeGoal(){const n=prompt('Quantos livros você quer concluir por mês?',data.goal);if(n===null)return;const v=Number(n);if(!Number.isInteger(v)||v<1||v>100){alert('Escolha um número de 1 a 100.');return}data.goal=v;save();render()}
-function openComment(id){const c=data.comments.find(c=>c.id===id)||{id:'',topic:'',text:''};openModal(id?'Editar comentário':'Registrar comentário do TEBYS',`<div class="fields"><label class="field full">Tema da conversa<input id="ct" value="${esc(c.topic)}" maxlength="100"></label><label class="field full">Seu comentário<textarea id="cx" maxlength="1000">${esc(c.text)}</textarea></label><p class="notice field full">Registro demonstrativo. Comentários reais do TEBYS só serão exibidos automaticamente após a integração entre as páginas.</p></div>`,`<button class="btn secondary" onclick="closeModal()">Cancelar</button><button class="btn" onclick="saveComment('${id||''}')">Salvar comentário</button>`)}function saveComment(id){const topic=$('ct').value.trim(),text=$('cx').value.trim();if(!topic||!text){alert('Preencha o tema e o comentário.');return}let c=data.comments.find(x=>x.id===id);if(!c){c={id:'c'+Date.now(),date:new Date().toLocaleDateString('pt-BR')};data.comments.push(c)}c.topic=topic;c.text=text;save();closeModal();render()}function removeComment(id){if(confirm('Excluir este comentário?')){data.comments=data.comments.filter(c=>c.id!==id);save();render()}}render();
-document.getElementById("voltar-pagina")?.addEventListener("click", () => {
-    const origem = document.referrer;
+function siglaLivro(titulo) {
+  return String(titulo || "TB").trim().split(/\s+/).slice(0, 2).map(p => p[0]).join("").toUpperCase();
+}
 
-    if (origem && new URL(origem).origin === window.location.origin) {
-        window.history.back();
-    } else {
-        window.location.href = "perfil-aluno.html";
+function carregarDadosLocais() {
+  try {
+    const salvo = JSON.parse(localStorage.getItem(storageKey) || "null");
+    books = Array.isArray(salvo) ? salvo : [...padraoLivros];
+    goalTarget = Number(localStorage.getItem(goalKey)) || 20;
+  } catch {
+    books = [...padraoLivros];
+    goalTarget = 20;
+  }
+}
+
+function salvarDadosLocais() {
+  localStorage.setItem(storageKey, JSON.stringify(books));
+  localStorage.setItem(goalKey, String(goalTarget));
+}
+
+function render() {
+  const shown = books.filter(b => currentFilter === "Todos" || (currentFilter === "Favoritos" ? b.fav : b.status === currentFilter));
+  shelf.innerHTML = "";
+
+  if (!shown.length) {
+    shelf.innerHTML = '<div class="empty">Nenhum livro nesta categoria ainda.</div>';
+  }
+
+  shown.forEach(b => {
+    const card = document.createElement("article");
+    card.className = "book cover-" + ((Number(b.cover) - 1) % 8 + 1);
+    card.innerHTML = `
+      <button class="book-mark ${b.fav ? "liked" : ""}" title="Favoritar" aria-label="Favoritar">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="${b.fav ? 'currentColor' : 'none'}" stroke="currentColor" stroke-width="2.2">
+          <path d="M12 20.5s-7-4.5-9-9a5.2 5.2 0 0 1 9-4.5 5.2 5.2 0 0 1 9 4.5c-2 4.5-9 9-9 9Z"/>
+        </svg>
+      </button>
+      <div class="book-title"></div>
+      <div class="book-monogram"></div>
+      <span class="book-badge">${b.status}</span>
+      <div class="book-author"></div>
+    `;
+    card.querySelector(".book-title").textContent = b.title;
+    card.querySelector(".book-monogram").textContent = b.sigla || siglaLivro(b.title);
+    card.querySelector(".book-author").textContent = b.author;
+
+    card.querySelector(".book-mark").onclick = e => {
+      e.stopPropagation();
+      b.fav = !b.fav;
+      salvarDadosLocais();
+      render();
+      toast(b.fav ? "Adicionado aos favoritos!" : "Removido dos favoritos.");
+    };
+
+    card.onclick = () => {
+      const next = b.status === "Quero Ler" ? "Lendo Agora" : b.status === "Lendo Agora" ? "Lidos" : "Quero Ler";
+      const acao = prompt(`"${b.title}" (${b.status})\n\nDigite:\n1 - Mudar para "${next}"\n2 - Remover da estante`, "1");
+      if (acao === "1") {
+        b.status = next;
+        salvarDadosLocais();
+        render();
+        toast("Situação atualizada!");
+      } else if (acao === "2") {
+        const idx = books.indexOf(b);
+        if (idx > -1) books.splice(idx, 1);
+        salvarDadosLocais();
+        render();
+        toast("Livro removido da estante.");
+      }
+    };
+
+    shelf.appendChild(card);
+  });
+
+  const c = {
+    Todos: books.length,
+    Lidos: books.filter(b => b.status === "Lidos").length,
+    "Lendo Agora": books.filter(b => b.status === "Lendo Agora").length,
+    "Quero Ler": books.filter(b => b.status === "Quero Ler").length,
+    Favoritos: books.filter(b => b.fav).length
+  };
+
+  document.getElementById("allCount").textContent = c.Todos;
+  document.getElementById("doneCount").textContent = c.Lidos;
+  document.getElementById("readingCount").textContent = c["Lendo Agora"];
+  document.getElementById("wantCount").textContent = c["Quero Ler"];
+  document.getElementById("favCount").textContent = c.Favoritos;
+
+  const pct = Math.min(100, Math.round((c.Lidos / Math.max(1, goalTarget)) * 100));
+  document.getElementById("readCount").textContent = c.Lidos;
+  document.getElementById("goalCount").textContent = goalTarget;
+  document.getElementById("progressBar").style.width = pct + "%";
+  document.getElementById("progressText").textContent = pct + "%";
+
+  document.getElementById("badge1").classList.toggle("locked", c.Lidos < 1);
+  document.getElementById("badge5").classList.toggle("locked", c.Lidos < 5);
+  document.getElementById("badgeFav").classList.toggle("locked", c.Favoritos < 3);
+}
+
+function setFilter(f) {
+  currentFilter = f;
+  document.querySelectorAll("[data-filter]").forEach(e => e.classList.toggle("active", e.dataset.filter === f));
+  render();
+}
+
+document.querySelectorAll("[data-filter]").forEach(e => e.addEventListener("click", () => setFilter(e.dataset.filter)));
+
+document.getElementById("editGoalBtn").onclick = () => {
+  const nova = Number(prompt("Qual é a sua meta de livros lidos?", goalTarget));
+  if (nova > 0 && nova <= 500) {
+    goalTarget = nova;
+    salvarDadosLocais();
+    render();
+    toast("Meta de leitura atualizada!");
+  }
+};
+
+const modal = document.getElementById("modal");
+document.getElementById("addOpen").onclick = () => modal.classList.add("show");
+document.getElementById("cancel").onclick = () => modal.classList.remove("show");
+modal.onclick = e => { if (e.target === modal) modal.classList.remove("show"); };
+
+document.getElementById("bookForm").onsubmit = e => {
+  e.preventDefault();
+  const titulo = document.getElementById("title").value.trim();
+  books.push({
+    title: titulo,
+    author: document.getElementById("author").value.trim(),
+    status: document.getElementById("status").value,
+    sigla: siglaLivro(titulo),
+    cover: Math.floor(Math.random() * 8) + 1,
+    fav: false
+  });
+  salvarDadosLocais();
+  e.target.reset();
+  modal.classList.remove("show");
+  setFilter("Todos");
+  toast("Livro adicionado à estante!");
+};
+
+const catalogModal = document.getElementById("catalogModal");
+document.getElementById("importCatalogOpen").onclick = () => catalogModal.classList.add("show");
+document.getElementById("cancelCatalog").onclick = () => catalogModal.classList.remove("show");
+catalogModal.onclick = e => { if (e.target === catalogModal) catalogModal.classList.remove("show"); };
+
+document.getElementById("catalogForm").onsubmit = e => {
+  e.preventDefault();
+  const id = Number(document.getElementById("catalogSelect").value);
+  const escolhido = catalogoOficial.find(l => Number(l.id_livro) === id);
+  if (!escolhido) return;
+
+  books.push({
+    title: escolhido.titulo,
+    author: escolhido.autor || "Autor não informado",
+    status: document.getElementById("catalogStatus").value,
+    sigla: siglaLivro(escolhido.titulo),
+    cover: Math.floor(Math.random() * 8) + 1,
+    fav: false
+  });
+  salvarDadosLocais();
+  catalogModal.classList.remove("show");
+  setFilter("Todos");
+  toast(`"${escolhido.titulo}" importado do acervo!`);
+};
+
+document.getElementById("achievements").onclick = () => {
+  const lidos = books.filter(b => b.status === "Lidos").length;
+  const favs = books.filter(b => b.fav).length;
+  alert(`Suas Conquistas na Estante:\n\n• Primeiro Livro Lido: ${lidos >= 1 ? "Desbloqueada" : "Falta 1 livro"}\n• 5 Livros Lidos: ${lidos >= 5 ? "Desbloqueada" : `${lidos}/5 livros`}\n• Curador de Favoritos: ${favs >= 3 ? "Desbloqueada" : `${favs}/3 favoritos`}`);
+};
+
+async function iniciarEstante() {
+  try {
+    const resp = await fetch("/api/sessao-aluno", { credentials: "same-origin" });
+    if (resp.ok) {
+      const dados = await resp.json();
+      const aluno = dados.aluno || dados;
+      storageKey = `techbook_estante_${aluno.id}`;
+      goalKey = `techbook_meta_${aluno.id}`;
+      document.getElementById("profileName").textContent = aluno.nome;
+      document.getElementById("profileClass").textContent = aluno.turma ? `Turma: ${aluno.turma}` : `Matrícula ${aluno.matricula}`;
+      document.getElementById("profileAvatar").textContent = aluno.nome.trim().split(/\s+/).slice(0,2).map(p=>p[0]).join("").toUpperCase();
     }
-});
-</script></body></html>
+  } catch (_) {}
+
+  carregarDadosLocais();
+  render();
+
+  try {
+    const catResp = await fetch("/api/livros", { cache: "no-store" });
+    if (catResp.ok) {
+      catalogoOficial = await catResp.json();
+      const sel = document.getElementById("catalogSelect");
+      sel.innerHTML = catalogoOficial.length
+        ? catalogoOficial.map(l => `<option value="${l.id_livro}">${l.titulo} — ${l.autor}</option>`).join("")
+        : '<option value="">Nenhum livro cadastrado no acervo</option>';
+    }
+  } catch (_) {}
+}
+
+iniciarEstante();
+</script>
+</body>
+</html> -->
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Minha Estante Virtual — TechBook</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;0,800;1,600&display=swap');
+
+:root {
+  --vinho: #481B27;
+  --vinho-escuro: #321018;
+  --bordo: #762F3B;
+  --creme: #F5EBDD;
+  --creme-borda: #E6D8CB;
+  --papel: #FFFCF7;
+  --rosa: #C58CA5;
+  --dourado: #D6AE70;
+  --texto: #38272C;
+  --suave: #78666B;
+  --borda: #E6D8CB;
+  --madeira-escura: #3C1812;
+  --madeira-media: #643322;
+  --madeira-clara: #9B6242;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  color: var(--texto);
+  font-family: 'DM Sans', sans-serif;
+  background: linear-gradient(90deg, var(--creme-borda) 0%, var(--creme) 18%, var(--creme) 82%, var(--creme-borda) 100%);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* TOPO CLARO IDÊNTICO AO INDEX */
+.topo {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 13px 5%;
+  background: var(--papel);
+  border-bottom: 1px solid var(--borda);
+  flex-wrap: wrap;
+}
+
+.marca {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  font-weight: 700;
+  text-decoration: none;
+  color: inherit;
+}
+
+.marca-simbolo {
+  width: 42px;
+  height: 42px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: #3B151E;
+  color: var(--dourado);
+  border: 2px solid var(--dourado);
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 0.95rem;
+  font-weight: 700;
+}
+
+.marca-texto {
+  display: grid;
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 1.25rem;
+  color: var(--vinho);
+  line-height: 1.05;
+}
+
+.marca-texto small {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.56rem;
+  letter-spacing: 0.16em;
+  color: var(--suave);
+  margin-top: 2px;
+}
+
+.topbar-nav {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.topbar-nav a {
+  color: var(--suave);
+  text-decoration: none;
+  font-size: 0.86rem;
+  font-weight: 700;
+  padding: 7px 13px;
+  border-radius: 10px;
+  transition: 0.2s;
+}
+
+.topbar-nav a:hover,
+.topbar-nav a.ativo {
+  background: rgba(197, 140, 165, 0.22);
+  color: var(--vinho);
+}
+
+/* BANNER VINHO FOSCO COM ILUSTRAÇÕES VETORIAIS */
+.banner {
+  min-height: 168px;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 24px 7%;
+  gap: 24px;
+  background: #431A24;
+  border-bottom: 3px solid var(--dourado);
+}
+
+.banner-center {
+  text-align: center;
+  flex: 1;
+  position: relative;
+  z-index: 1;
+}
+
+.banner-etiqueta {
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  color: var(--dourado);
+  margin-bottom: 6px;
+}
+
+.banner h1 {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: clamp(28px, 4vw, 42px);
+  margin: 0 0 6px;
+  color: #FFF7EE;
+}
+
+.banner h1 em {
+  color: var(--rosa);
+  font-style: italic;
+}
+
+.banner p {
+  margin: 0;
+  font-size: 0.92rem;
+  line-height: 1.45;
+  color: rgba(255, 247, 238, 0.86);
+}
+
+.banner-art {
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+}
+
+/* CONTEÚDO PRINCIPAL */
+.page {
+  width: min(1240px, 100%);
+  margin: 0 auto;
+  padding: 24px 20px 44px;
+  flex: 1;
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: 215px minmax(0, 1fr) 215px;
+  gap: 18px;
+  align-items: start;
+}
+
+.panel {
+  background: var(--papel);
+  border: 1px solid var(--borda);
+  border-radius: 18px;
+  box-shadow: 0 10px 26px rgba(69, 26, 36, 0.06);
+}
+
+.goal {
+  padding: 16px 15px;
+  margin-bottom: 16px;
+}
+
+.goal-title {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--vinho);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+}
+
+.goal-title-left {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.goal-edit {
+  border: 0;
+  background: transparent;
+  color: var(--bordo);
+  cursor: pointer;
+  font-size: 0.78rem;
+  text-decoration: underline;
+  font-weight: 700;
+}
+
+.goal-number {
+  font-size: 0.84rem;
+  font-weight: 600;
+  color: var(--texto);
+  margin: 9px 0 8px;
+}
+
+.progress {
+  height: 11px;
+  background: var(--creme-borda);
+  border-radius: 99px;
+  overflow: hidden;
+}
+
+.progress span {
+  display: block;
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, var(--vinho), var(--dourado));
+  border-radius: 99px;
+  transition: width 0.3s;
+}
+
+.percent {
+  text-align: right;
+  font-size: 0.76rem;
+  font-weight: 700;
+  color: var(--vinho);
+  margin-top: 5px;
+}
+
+.menu {
+  padding: 12px 10px;
+  display: grid;
+  gap: 4px;
+}
+
+.nav-btn {
+  border: 0;
+  background: transparent;
+  text-align: left;
+  padding: 9px 11px;
+  border-radius: 12px;
+  color: var(--texto);
+  font: 600 0.84rem 'DM Sans', sans-serif;
+  cursor: pointer;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  transition: 0.18s;
+}
+
+.nav-btn svg {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+  stroke: currentColor;
+}
+
+.nav-btn:hover,
+.nav-btn.active {
+  background: var(--vinho);
+  color: #FFF7EE;
+}
+
+.nav-btn.add {
+  margin-top: 8px;
+  border-top: 1px solid var(--borda);
+  border-radius: 0 0 12px 12px;
+  padding-top: 12px;
+  color: var(--vinho);
+}
+
+.nav-btn.add:hover {
+  color: #FFF7EE;
+}
+
+/* CENTRO E ESTANTE */
+.center {
+  min-width: 0;
+}
+
+.filters {
+  min-height: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding: 7px 10px;
+  background: var(--papel);
+  border: 1px solid var(--borda);
+  border-radius: 16px;
+  margin: 0 0 14px;
+  box-shadow: 0 6px 18px rgba(69, 26, 36, 0.05);
+}
+
+.filter {
+  border: 0;
+  background: transparent;
+  color: var(--suave);
+  border-radius: 10px;
+  padding: 7px 12px;
+  font: 700 0.8rem 'DM Sans', sans-serif;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: 0.2s;
+}
+
+.filter:hover,
+.filter.active {
+  background: var(--vinho);
+  color: #FFF7EE;
+}
+
+.shelf-wrap {
+  background: linear-gradient(90deg, var(--madeira-escura), var(--madeira-media) 14%, var(--madeira-escura) 50%, var(--madeira-media) 86%, var(--madeira-escura));
+  padding: 18px;
+  border: 7px solid #7E482D;
+  border-radius: 14px;
+  box-shadow: inset 0 0 22px rgba(24, 9, 6, 0.7), 0 12px 26px rgba(69, 26, 36, 0.16);
+  min-height: 330px;
+}
+
+.shelf {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px 12px;
+  padding: 6px 4px 18px;
+  border-bottom: 10px solid var(--madeira-clara);
+  box-shadow: 0 8px 6px -5px rgba(20, 8, 5, 0.8);
+}
+
+.book {
+  position: relative;
+  min-width: 0;
+  height: 152px;
+  border-radius: 4px 8px 8px 4px;
+  overflow: hidden;
+  box-shadow: 4px 5px 10px rgba(20, 8, 5, 0.45);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 11px 8px 9px;
+  text-align: center;
+  color: #FFF7EE;
+  border-left: 5px solid rgba(255, 255, 255, 0.24);
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.book:hover {
+  transform: translateY(-4px);
+}
+
+.book-title {
+  font-family: 'Playfair Display', serif;
+  font-weight: 700;
+  font-size: clamp(11px, 1.15vw, 13.5px);
+  line-height: 1.15;
+  padding-right: 18px;
+}
+
+.book-author {
+  font-size: 0.65rem;
+  opacity: 0.92;
+}
+
+.book-mark {
+  position: absolute;
+  right: 5px;
+  top: 5px;
+  border: 0;
+  background: rgba(24, 9, 6, 0.28);
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  color: #FFF7EE;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+}
+
+.book-mark.liked {
+  color: var(--dourado);
+  background: rgba(59, 21, 30, 0.72);
+}
+
+.book-monogram {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.25rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  opacity: 0.85;
+}
+
+.book-badge {
+  font-size: 0.64rem;
+  font-weight: 700;
+  background: rgba(24, 9, 6, 0.36);
+  padding: 2px 8px;
+  border-radius: 99px;
+  align-self: center;
+}
+
+/* CAPAS NA PALETA VINHO / CREME / DOURADO / TERROSO */
+.cover-1 { background: linear-gradient(145deg, #531F2C, #3B151E); border-color: var(--dourado); }
+.cover-2 { background: linear-gradient(145deg, #E8D5BE, #C4A482); color: #35181C; }
+.cover-3 { background: linear-gradient(145deg, #8B4A58, #5C2834); }
+.cover-4 { background: linear-gradient(145deg, #9C725B, #694737); }
+.cover-5 { background: linear-gradient(145deg, #4B6358, #2F4239); }
+.cover-6 { background: linear-gradient(145deg, #D9B47C, #A67E46); color: #2E1418; }
+.cover-7 { background: linear-gradient(145deg, #6E2B38, #451A24); }
+.cover-8 { background: linear-gradient(145deg, #B58396, #7A4B5E); }
+
+.empty {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 40px 14px;
+  color: #F6EFE6;
+  font-size: 0.92rem;
+}
+
+/* COLUNA DIREITA */
+.profile {
+  padding: 18px 12px;
+  text-align: center;
+  margin-bottom: 16px;
+}
+
+.avatar {
+  width: 74px;
+  height: 74px;
+  border-radius: 50%;
+  margin: 0 auto 10px;
+  display: grid;
+  place-items: center;
+  background: #3B151E;
+  color: var(--dourado);
+  font-family: 'Playfair Display', serif;
+  font-size: 1.5rem;
+  font-weight: 700;
+  border: 2.5px solid var(--dourado);
+}
+
+.profile h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.1rem;
+  color: var(--vinho);
+  margin: 4px 0;
+}
+
+.profile p {
+  font-size: 0.78rem;
+  margin: 0;
+  color: var(--suave);
+}
+
+.achievements {
+  padding: 16px 12px;
+}
+
+.achievements h3 {
+  font-family: 'Playfair Display', serif;
+  margin: 0 0 12px;
+  font-size: 1.08rem;
+  color: var(--vinho);
+  text-align: center;
+}
+
+.badges {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6px;
+  text-align: center;
+}
+
+.badge-item {
+  font-size: 0.68rem;
+  line-height: 1.25;
+  color: var(--texto);
+  font-weight: 600;
+}
+
+.badge-icon {
+  width: 40px;
+  height: 40px;
+  margin: 0 auto 6px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: var(--vinho);
+  color: var(--dourado);
+  border: 1.5px solid var(--dourado);
+  font-family: 'Playfair Display', serif;
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+.badge-item.locked {
+  opacity: 0.42;
+}
+
+.see-all {
+  border: 0;
+  background: var(--vinho);
+  color: #FFF7EE;
+  border-radius: 10px;
+  padding: 9px 12px;
+  font-weight: 700;
+  font-size: 0.78rem;
+  margin-top: 14px;
+  width: 100%;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.see-all:hover {
+  background: var(--bordo);
+}
+
+/* MODAIS E TOAST */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(35, 13, 19, 0.72);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 18px;
+  z-index: 30;
+}
+
+.modal-backdrop.show {
+  display: flex;
+}
+
+.modal {
+  background: var(--papel);
+  border: 1px solid var(--borda);
+  border-radius: 20px;
+  padding: 24px;
+  width: min(440px, 100%);
+  box-shadow: 0 18px 48px rgba(35, 13, 19, 0.35);
+}
+
+.modal h2 {
+  font-family: 'Playfair Display', serif;
+  color: var(--vinho);
+  margin: 0 0 12px;
+}
+
+.modal label {
+  display: block;
+  font-size: 0.84rem;
+  font-weight: 700;
+  color: var(--vinho);
+  margin: 10px 0 5px;
+}
+
+.modal input,
+.modal select {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid var(--borda);
+  border-radius: 10px;
+  background: #fff;
+  color: var(--texto);
+  font: 0.9rem 'DM Sans', sans-serif;
+}
+
+.modal-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 18px;
+}
+
+.modal-actions button {
+  flex: 1;
+  border: 0;
+  padding: 11px;
+  border-radius: 10px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.save {
+  background: var(--vinho);
+  color: #FFF7EE;
+}
+
+.cancel {
+  background: var(--creme-borda);
+  color: var(--vinho);
+}
+
+.toast {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #3B151E;
+  color: #FFF7EE;
+  border: 1px solid var(--dourado);
+  padding: 10px 18px;
+  border-radius: 99px;
+  font-size: 0.85rem;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s;
+  z-index: 40;
+}
+
+.toast.show {
+  opacity: 1;
+}
+
+footer {
+  padding: 22px 5%;
+  background: #2C0F18;
+  color: rgba(255, 247, 238, 0.82);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  font-size: 0.85rem;
+}
+
+@media (max-width: 900px) {
+  .layout { grid-template-columns: 1fr; }
+  .right { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .shelf { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .banner-art { display: none; }
+}
+
+/* Ajustes de identidade visual compartilhada do TechBook */
+body { background: var(--creme); }
+.topo { background: var(--papel); border-bottom-color: var(--borda); }
+.topbar-nav a { border-radius: 999px; }
+.topbar-nav a:hover, .topbar-nav a.ativo { background: rgba(197,140,165,.22); color: var(--vinho); }
+.painel, .book, .card, .stat-card { box-shadow: 0 12px 28px rgba(72,27,39,.07); }
+button, .botao, .nav-btn { transition: background-color .2s, color .2s, transform .2s; }
+:focus-visible { outline: 3px solid var(--dourado); outline-offset: 3px; }
+</style>
+  <link rel="stylesheet" href="assets/css/tema-global.css">
+  <script src="assets/js/tema-global.js" defer></script>
+</head>
+<body>
+
+<header class="topo">
+  <a class="marca" href="index.html">
+    <span class="marca-simbolo">TB</span>
+    <span class="marca-texto">
+      TechBook
+      <small>BIBLIOTECA INTELIGENTE</small>
+    </span>
+  </a>
+
+  <nav class="topbar-nav" aria-label="Navegação principal">
+    <a href="index.html">Início</a>
+    <a href="perfil-aluno.html">Minha Área</a>
+    <a href="emprestimo-aluno-atalho.html">Empréstimos</a>
+    <a class="ativo" href="minha_estante_virtual_cabecalho_vinho.html">Minha Estante</a>
+    <a href="amigos_de_leitura_completo.html">Amigos</a>
+    <a href="Ranking.html">Ranking</a>
+  </nav>
+</header>
+
+<section class="banner">
+  <!-- Ilustração SVG de livros empilhados (estilo capa TechBook) -->
+  <div class="banner-art" aria-hidden="true">
+    <svg width="108" height="96" viewBox="0 0 108 96" fill="none">
+      <circle cx="54" cy="48" r="42" stroke="#D6AE70" stroke-opacity="0.28" stroke-width="1.2"/>
+      <rect x="22" y="24" width="60" height="15" rx="3" fill="#531F2C" stroke="#D6AE70" stroke-width="1.4"/>
+      <rect x="26" y="42" width="60" height="15" rx="3" fill="#9E7363" stroke="#FFF7EE" stroke-opacity="0.5" stroke-width="1.2"/>
+      <rect x="18" y="60" width="64" height="15" rx="3" fill="#7C4454" stroke="#D6AE70" stroke-width="1.4"/>
+      <path d="M88 18L90 23L95 25L90 27L88 32L86 27L81 25L86 23L88 18Z" fill="#D6AE70"/>
+    </svg>
+  </div>
+
+  <div class="banner-center">
+    <span class="banner-etiqueta">COLEÇÃO PESSOAL</span>
+    <h1>Minha Estante <em>Virtual</em></h1>
+    <p>Organize seus livros, acompanhe suas metas de leitura e monte uma coleção do seu jeito.</p>
+  </div>
+
+  <!-- Ilustração SVG botânica na paleta dourado/vinho/creme -->
+  <div class="banner-art" aria-hidden="true">
+    <svg width="108" height="96" viewBox="0 0 108 96" fill="none">
+      <circle cx="54" cy="48" r="42" stroke="#D6AE70" stroke-opacity="0.28" stroke-width="1.2"/>
+      <path d="M54 55C54 39 41 29 31 32C34 43 42 51 54 55Z" fill="#7B9B89" stroke="#D6AE70" stroke-width="1.3"/>
+      <path d="M54 53C54 35 67 26 77 29C74 40 65 49 54 53Z" fill="#52776B" stroke="#D6AE70" stroke-width="1.3"/>
+      <path d="M54 55C51 39 52 24 54 18C57 26 58 40 54 55Z" fill="#9CB8A6" stroke="#D6AE70" stroke-width="1.3"/>
+      <path d="M39 56H69L64 78H44L39 56Z" fill="#D6AE70" stroke="#351018" stroke-width="1.5"/>
+      <rect x="36" y="52" width="36" height="5" rx="2.5" fill="#F6EFE6"/>
+    </svg>
+  </div>
+</section>
+
+<div class="page">
+  <div class="layout">
+    <aside class="left">
+      <section class="panel goal">
+        <div class="goal-title">
+          <span class="goal-title-left">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4"/></svg>
+            Meta de Leitura
+          </span>
+          <button class="goal-edit" id="editGoalBtn" type="button">Editar</button>
+        </div>
+        <div class="goal-number"><strong id="readCount">0</strong> de <strong id="goalCount">20</strong> livros</div>
+        <div class="progress"><span id="progressBar"></span></div>
+        <div class="percent" id="progressText">0%</div>
+      </section>
+
+      <nav class="panel menu" id="navigation" aria-label="Filtros da estante">
+        <button class="nav-btn active" data-filter="Todos">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>
+          Minha Estante
+        </button>
+        <button class="nav-btn" data-filter="Favoritos">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M12 20.5s-7-4.5-9-9a5.2 5.2 0 0 1 9-4.5 5.2 5.2 0 0 1 9 4.5c-2 4.5-9 9-9 9Z"/></svg>
+          Favoritos
+        </button>
+        <button class="nav-btn" data-filter="Lendo Agora">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M4 5h6a3 3 0 0 1 3 3v12a2 2 0 0 0-2-2H4V5Z"/><path d="M20 5h-6a3 3 0 0 0-3 3v12a2 2 0 0 1 2-2h7V5Z"/></svg>
+          Lendo Agora
+        </button>
+        <button class="nav-btn" data-filter="Quero Ler">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M6 3h12v18l-6-4-6 4V3Z"/></svg>
+          Quero Ler
+        </button>
+        <button class="nav-btn" data-filter="Lidos">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="m8.5 12.5 2.5 2.5 4.5-5"/></svg>
+          Lidos
+        </button>
+        <button class="nav-btn add" id="addOpen">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2.2"><path d="M12 5v14M5 12h14"/></svg>
+          Adicionar Livro
+        </button>
+        <button class="nav-btn" id="importCatalogOpen">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2Z"/></svg>
+          Do Catálogo Oficial
+        </button>
+      </nav>
+    </aside>
+
+    <main class="center">
+      <div class="filters" id="filters">
+        <button class="filter active" data-filter="Todos">Todos (<span id="allCount">0</span>)</button>
+        <button class="filter" data-filter="Lidos">Lidos (<span id="doneCount">0</span>)</button>
+        <button class="filter" data-filter="Lendo Agora">Lendo Agora (<span id="readingCount">0</span>)</button>
+        <button class="filter" data-filter="Quero Ler">Quero Ler (<span id="wantCount">0</span>)</button>
+        <button class="filter" data-filter="Favoritos">Favoritos (<span id="favCount">0</span>)</button>
+      </div>
+      <div class="shelf-wrap"><div class="shelf" id="shelf"></div></div>
+    </main>
+
+    <aside class="right">
+      <section class="panel profile">
+        <div class="avatar" id="profileAvatar">TB</div>
+        <h2 id="profileName">Leitor TechBook</h2>
+        <p id="profileClass">Biblioteca Inteligente</p>
+      </section>
+
+      <section class="panel achievements">
+        <h3>Conquistas</h3>
+        <div class="badges">
+          <div class="badge-item" id="badge1"><div class="badge-icon">1º</div>Primeiro<br>Livro</div>
+          <div class="badge-item" id="badge5"><div class="badge-icon">5x</div>5 Livros<br>Lidos</div>
+          <div class="badge-item" id="badgeFav"><div class="badge-icon">III</div>Curador<br>Favoritos</div>
+        </div>
+        <button class="see-all" id="achievements">Ver status das conquistas</button>
+      </section>
+    </aside>
+  </div>
+</div>
+
+<!-- Modal Adicionar Livro -->
+<div class="modal-backdrop" id="modal">
+  <form class="modal" id="bookForm">
+    <h2>Adicionar livro à estante</h2>
+    <label for="title">Título do livro</label>
+    <input id="title" required placeholder="Ex.: O Pequeno Príncipe">
+    <label for="author">Autor</label>
+    <input id="author" required placeholder="Nome do autor">
+    <label for="status">Situação da leitura</label>
+    <select id="status">
+      <option>Quero Ler</option>
+      <option>Lendo Agora</option>
+      <option>Lidos</option>
+    </select>
+    <div class="modal-actions">
+      <button type="button" class="cancel" id="cancel">Cancelar</button>
+      <button class="save" type="submit">Salvar livro</button>
+    </div>
+  </form>
+</div>
+
+<!-- Modal Importar do Catálogo Oficial -->
+<div class="modal-backdrop" id="catalogModal">
+  <form class="modal" id="catalogForm">
+    <h2>Importar do Catálogo Oficial</h2>
+    <p style="font-size:0.84rem;color:#6e4f47;margin:0 0 10px;">Escolha um livro cadastrado no acervo do TechBook para colocar na sua estante:</p>
+    <label for="catalogSelect">Livro do acervo</label>
+    <select id="catalogSelect" required>
+      <option value="">Carregando acervo...</option>
+    </select>
+    <label for="catalogStatus">Situação na sua estante</label>
+    <select id="catalogStatus">
+      <option>Quero Ler</option>
+      <option>Lendo Agora</option>
+      <option>Lidos</option>
+    </select>
+    <div class="modal-actions">
+      <button type="button" class="cancel" id="cancelCatalog">Cancelar</button>
+      <button class="save" type="submit">Adicionar à estante</button>
+    </div>
+  </form>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<footer>
+  <span>TechBook · Biblioteca Inteligente</span>
+  <span style="color:var(--dourado)">Ler · Descobrir · Imaginar</span>
+</footer>
+
+<script>
+const padraoLivros = [
+  { title: "Dom Casmurro", author: "Machado de Assis", status: "Lidos", sigla: "DC", cover: 1, fav: true },
+  { title: "O Pequeno Príncipe", author: "Antoine de Saint-Exupéry", status: "Lidos", sigla: "PP", cover: 2, fav: true },
+  { title: "O Hobbit", author: "J. R. R. Tolkien", status: "Lendo Agora", sigla: "OH", cover: 3, fav: false },
+  { title: "A Guerra dos Tronos", author: "George R. R. Martin", status: "Quero Ler", sigla: "GT", cover: 4, fav: false }
+];
+
+let storageKey = "techbook_estante_visitante";
+let goalKey = "techbook_meta_visitante";
+let books = [];
+let goalTarget = 20;
+let currentFilter = "Todos";
+let catalogoOficial = [];
+
+const shelf = document.getElementById("shelf");
+
+function toast(m) {
+  const t = document.getElementById("toast");
+  t.textContent = m;
+  t.classList.add("show");
+  setTimeout(() => t.classList.remove("show"), 2300);
+}
+
+function siglaLivro(titulo) {
+  return String(titulo || "TB").trim().split(/\s+/).slice(0, 2).map(p => p[0]).join("").toUpperCase();
+}
+
+function carregarDadosLocais() {
+  try {
+    const salvo = JSON.parse(localStorage.getItem(storageKey) || "null");
+    books = Array.isArray(salvo) ? salvo : [...padraoLivros];
+    goalTarget = Number(localStorage.getItem(goalKey)) || 20;
+  } catch {
+    books = [...padraoLivros];
+    goalTarget = 20;
+  }
+}
+
+function salvarDadosLocais() {
+  localStorage.setItem(storageKey, JSON.stringify(books));
+  localStorage.setItem(goalKey, String(goalTarget));
+}
+
+function render() {
+  const shown = books.filter(b => currentFilter === "Todos" || (currentFilter === "Favoritos" ? b.fav : b.status === currentFilter));
+  shelf.innerHTML = "";
+
+  if (!shown.length) {
+    shelf.innerHTML = '<div class="empty">Nenhum livro nesta categoria ainda.</div>';
+  }
+
+  shown.forEach(b => {
+    const card = document.createElement("article");
+    card.className = "book cover-" + ((Number(b.cover) - 1) % 8 + 1);
+    card.innerHTML = `
+      <button class="book-mark ${b.fav ? "liked" : ""}" title="Favoritar" aria-label="Favoritar">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="${b.fav ? 'currentColor' : 'none'}" stroke="currentColor" stroke-width="2.2">
+          <path d="M12 20.5s-7-4.5-9-9a5.2 5.2 0 0 1 9-4.5 5.2 5.2 0 0 1 9 4.5c-2 4.5-9 9-9 9Z"/>
+        </svg>
+      </button>
+      <div class="book-title"></div>
+      <div class="book-monogram"></div>
+      <span class="book-badge">${b.status}</span>
+      <div class="book-author"></div>
+    `;
+    card.querySelector(".book-title").textContent = b.title;
+    card.querySelector(".book-monogram").textContent = b.sigla || siglaLivro(b.title);
+    card.querySelector(".book-author").textContent = b.author;
+
+    card.querySelector(".book-mark").onclick = e => {
+      e.stopPropagation();
+      b.fav = !b.fav;
+      salvarDadosLocais();
+      render();
+      toast(b.fav ? "Adicionado aos favoritos!" : "Removido dos favoritos.");
+    };
+
+    card.onclick = () => {
+      const next = b.status === "Quero Ler" ? "Lendo Agora" : b.status === "Lendo Agora" ? "Lidos" : "Quero Ler";
+      const acao = prompt(`"${b.title}" (${b.status})\n\nDigite:\n1 - Mudar para "${next}"\n2 - Remover da estante`, "1");
+      if (acao === "1") {
+        b.status = next;
+        salvarDadosLocais();
+        render();
+        toast("Situação atualizada!");
+      } else if (acao === "2") {
+        const idx = books.indexOf(b);
+        if (idx > -1) books.splice(idx, 1);
+        salvarDadosLocais();
+        render();
+        toast("Livro removido da estante.");
+      }
+    };
+
+    shelf.appendChild(card);
+  });
+
+  const c = {
+    Todos: books.length,
+    Lidos: books.filter(b => b.status === "Lidos").length,
+    "Lendo Agora": books.filter(b => b.status === "Lendo Agora").length,
+    "Quero Ler": books.filter(b => b.status === "Quero Ler").length,
+    Favoritos: books.filter(b => b.fav).length
+  };
+
+  document.getElementById("allCount").textContent = c.Todos;
+  document.getElementById("doneCount").textContent = c.Lidos;
+  document.getElementById("readingCount").textContent = c["Lendo Agora"];
+  document.getElementById("wantCount").textContent = c["Quero Ler"];
+  document.getElementById("favCount").textContent = c.Favoritos;
+
+  const pct = Math.min(100, Math.round((c.Lidos / Math.max(1, goalTarget)) * 100));
+  document.getElementById("readCount").textContent = c.Lidos;
+  document.getElementById("goalCount").textContent = goalTarget;
+  document.getElementById("progressBar").style.width = pct + "%";
+  document.getElementById("progressText").textContent = pct + "%";
+
+  document.getElementById("badge1").classList.toggle("locked", c.Lidos < 1);
+  document.getElementById("badge5").classList.toggle("locked", c.Lidos < 5);
+  document.getElementById("badgeFav").classList.toggle("locked", c.Favoritos < 3);
+}
+
+function setFilter(f) {
+  currentFilter = f;
+  document.querySelectorAll("[data-filter]").forEach(e => e.classList.toggle("active", e.dataset.filter === f));
+  render();
+}
+
+document.querySelectorAll("[data-filter]").forEach(e => e.addEventListener("click", () => setFilter(e.dataset.filter)));
+
+document.getElementById("editGoalBtn").onclick = () => {
+  const nova = Number(prompt("Qual é a sua meta de livros lidos?", goalTarget));
+  if (nova > 0 && nova <= 500) {
+    goalTarget = nova;
+    salvarDadosLocais();
+    render();
+    toast("Meta de leitura atualizada!");
+  }
+};
+
+const modal = document.getElementById("modal");
+document.getElementById("addOpen").onclick = () => modal.classList.add("show");
+document.getElementById("cancel").onclick = () => modal.classList.remove("show");
+modal.onclick = e => { if (e.target === modal) modal.classList.remove("show"); };
+
+document.getElementById("bookForm").onsubmit = e => {
+  e.preventDefault();
+  const titulo = document.getElementById("title").value.trim();
+  books.push({
+    title: titulo,
+    author: document.getElementById("author").value.trim(),
+    status: document.getElementById("status").value,
+    sigla: siglaLivro(titulo),
+    cover: Math.floor(Math.random() * 8) + 1,
+    fav: false
+  });
+  salvarDadosLocais();
+  e.target.reset();
+  modal.classList.remove("show");
+  setFilter("Todos");
+  toast("Livro adicionado à estante!");
+};
+
+const catalogModal = document.getElementById("catalogModal");
+document.getElementById("importCatalogOpen").onclick = () => catalogModal.classList.add("show");
+document.getElementById("cancelCatalog").onclick = () => catalogModal.classList.remove("show");
+catalogModal.onclick = e => { if (e.target === catalogModal) catalogModal.classList.remove("show"); };
+
+document.getElementById("catalogForm").onsubmit = e => {
+  e.preventDefault();
+  const id = Number(document.getElementById("catalogSelect").value);
+  const escolhido = catalogoOficial.find(l => Number(l.id_livro) === id);
+  if (!escolhido) return;
+
+  books.push({
+    title: escolhido.titulo,
+    author: escolhido.autor || "Autor não informado",
+    status: document.getElementById("catalogStatus").value,
+    sigla: siglaLivro(escolhido.titulo),
+    cover: Math.floor(Math.random() * 8) + 1,
+    fav: false
+  });
+  salvarDadosLocais();
+  catalogModal.classList.remove("show");
+  setFilter("Todos");
+  toast(`"${escolhido.titulo}" importado do acervo!`);
+};
+
+document.getElementById("achievements").onclick = () => {
+  const lidos = books.filter(b => b.status === "Lidos").length;
+  const favs = books.filter(b => b.fav).length;
+  alert(`Suas Conquistas na Estante:\n\n• Primeiro Livro Lido: ${lidos >= 1 ? "Desbloqueada" : "Falta 1 livro"}\n• 5 Livros Lidos: ${lidos >= 5 ? "Desbloqueada" : `${lidos}/5 livros`}\n• Curador de Favoritos: ${favs >= 3 ? "Desbloqueada" : `${favs}/3 favoritos`}`);
+};
+
+function iniciarEstante() {
+  // A Estante permanece pessoal e local; o catálogo oficial depende da futura integração.
+  document.getElementById("profileName").textContent = "Visitante";
+  document.getElementById("profileClass").textContent = "Leitor TechBook";
+  document.getElementById("profileAvatar").textContent = "TB";
+
+  carregarDadosLocais();
+  render();
+
+  const sel = document.getElementById("catalogSelect");
+  sel.innerHTML = '<option value="">Acervo escolar indisponível temporariamente</option>';
+  sel.disabled = true;
+  const submit = document.querySelector('#catalogForm button[type="submit"]');
+  if (submit) submit.disabled = true;
+  const intro = document.querySelector("#catalogModal .modal p");
+  if (intro) intro.textContent = "A importação do acervo escolar será liberada quando a integração com o banco de dados estiver disponível. Sua estante pessoal e seus livros continuam funcionando normalmente.";
+}
+
+iniciarEstante();
+</script>
+</body>
+</html>

@@ -29,63 +29,16 @@ h1,h2,h3,p{margin-top:0}h1,h2,h3{font-family:'Playfair Display',Georgia,serif}h1
 @media(max-width:900px){.hero{grid-template-columns:1fr;padding:45px 35px}.constellation{height:230px}.ring{transform:scale(.7)}.book{transform:scale(.75) rotate(-8deg)}.story,.photo-layout{grid-template-columns:1fr}.team{grid-template-columns:repeat(2,1fr)}.milestones{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:560px){.wrap{width:calc(100% - 28px)}.topin{padding:14px 0;align-items:flex-start;flex-direction:column}.nav{gap:13px}.hero{margin-top:14px;padding:34px 24px}.hero p{font-size:14px}.section{padding:54px 0}.photo-section{padding:50px 0}.team{gap:10px}.person{padding:18px 8px}.person h3{font-size:19px}.milestones{grid-template-columns:1fr}.closing{margin:42px auto;padding:38px 23px}.story-card{padding:25px}}
 @media print{.photo-controls,.hint{display:none}.hero{print-color-adjust:exact;-webkit-print-color-adjust:exact}}
-
-/* BOTÃO VOLTAR - PÁGINAS SECUNDÁRIAS */
-.botao-voltar {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    padding: 8px 14px;
-    border: 1px solid var(--line);
-    border-radius: 30px;
-    background: var(--paper);
-    color: var(--wine);
-    font-size: 12px;
-    font-weight: 700;
-    cursor: pointer;
-    transition: .2s;
-}
-
-.botao-voltar:hover {
-    background: var(--wine);
-    color: white;
-}
-
-@media (max-width: 560px) {
-    .nav {
-        flex-direction: row;
-        align-items: center;
-        flex-wrap: wrap;
-    }
-}
-
 </style>
+
+  <link rel="stylesheet" href="assets/css/tema-global.css">
+  <script src="assets/js/tema-global.js" defer></script>
 </head>
 <body>
-<header class="top">
-    <div class="wrap topin">
-        <a class="brand"
-           href="https://jessiaguimaraes01.github.io/TechBook/index.html"
-           aria-label="Voltar ao TechBook">
-            <div class="logo">TB</div>
-            <div>
-                <div class="brandname">TechBook</div>
-                <small>BIBLIOTECA INTELIGENTE</small>
-            </div>
-        </a>
-
-        <nav class="nav" aria-label="Navegação da página">
-            <button class="botao-voltar" id="voltar-pagina" type="button">
-                ← Voltar
-            </button>
-
-            <a href="#origem">Nossa origem</a>
-            <a href="#equipe">Criadores</a>
-            <a href="#memorias">Memórias</a>
-            <a class="active" href="#legado">Nosso legado</a>
-        </nav>
-    </div>
-</header>
+<header class="top"><div class="wrap topin">
+<a class="brand" href="https://jessiaguimaraes01.github.io/TechBook/index.html" aria-label="Voltar ao TechBook"><div class="logo">TB</div><div><div class="brandname">TechBook</div><small>BIBLIOTECA INTELIGENTE</small></div></a>
+<nav class="nav"><a href="https://jessiaguimaraes01.github.io/TechBook/index.html">Início do TechBook</a><a href="#origem">Nossa origem</a><a href="#equipe">Criadores</a><a href="#memorias">Memórias</a><a class="active" href="#legado">Nosso legado</a></nav>
+</div></header>
 <main>
 <div class="wrap"><section class="hero" aria-labelledby="hero-title"><div>
 <div class="kicker">✦ O primeiro capítulo</div>
@@ -126,17 +79,5 @@ input.addEventListener('change',()=>{
 remove.addEventListener('click',()=>{
  photo.hidden=true;photo.removeAttribute('src');input.value='';remove.hidden=true;document.getElementById('photoFrame').classList.remove('has-photo');if(previewUrl)URL.revokeObjectURL(previewUrl);previewUrl=null;
 });
-
-// Voltar para a página anterior do TechBook
-document.getElementById("voltar-pagina")?.addEventListener("click", () => {
-    const origem = document.referrer;
-
-    if (origem && new URL(origem).origin === window.location.origin) {
-        window.history.back();
-    } else {
-        window.location.href = "index.html";
-    }
-});
-
 </script>
 </body></html>
