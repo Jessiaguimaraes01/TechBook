@@ -1310,35 +1310,49 @@
         .linha-atividade { display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap; padding:13px 15px; background:var(--papel); border:1px solid var(--borda); border-radius:13px; }
         .linha-atividade p { margin:3px 0 0; color:var(--suave); font-size:.85rem; }
         @media(max-width:600px){ .item-livro-conteudo{min-width:100%;} }
-        /* MENU RESPONSIVO DO BIBLIOTECÁRIO */
+        
+/* MENU RESPONSIVO DO BIBLIOTECÁRIO */
+
 .menu-btn {
     display: none;
     border: 1px solid var(--borda);
     background: var(--vinho);
     color: var(--creme);
     border-radius: 9px;
-    padding: 8px 13px;
-    font-size: 1.3rem;
+    padding: 7px 12px;
+    font-size: 1.35rem;
+    line-height: 1;
     cursor: pointer;
 }
 
 @media (max-width: 900px) {
     .topo {
-        position: sticky;
+        display: flex;
+        flex-direction: row;
         flex-wrap: wrap;
+        justify-content: space-between;
+        align-items: center;
+        gap: 10px;
+        padding: 12px 5%;
+    }
+
+    .marca {
+        margin-right: auto;
     }
 
     .menu-btn {
         display: block;
+        flex-shrink: 0;
     }
 
     .admin-nav {
         display: none;
         width: 100%;
+        flex: 0 0 100%;
         flex-direction: column;
         align-items: stretch;
-        gap: 6px;
-        padding-top: 12px;
+        gap: 5px;
+        padding-top: 8px;
     }
 
     .admin-nav.aberto {
@@ -1352,6 +1366,7 @@
         box-sizing: border-box;
     }
 }
+
     </style>
 </head>
 <body>
@@ -1573,10 +1588,13 @@
         $("busca-acervo")?.addEventListener("input", renderizarLivros);
         $("form-livro")?.addEventListener("submit", evento => evento.preventDefault());
 
-        $("sair-btn")?.addEventListener("click", () => {
-          localStorage.removeItem("techbook-acesso-visitante");
-          window.location.href = "index.html";
-          // Menu responsivo do bibliotecário
+        // Botão para sair da área do bibliotecário
+$("sair-btn")?.addEventListener("click", () => {
+    localStorage.removeItem("techbook-acesso-visitante");
+    window.location.href = "index.html";
+});
+
+// Menu responsivo do bibliotecário
 const menuAdminBtn = document.getElementById("menu-admin-btn");
 const menuAdmin = document.querySelector(".admin-nav");
 
@@ -1597,7 +1615,6 @@ if (menuAdminBtn && menuAdmin) {
         });
     });
 }
-        });
       })();
     </script>
 </body>
