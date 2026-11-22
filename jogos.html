@@ -104,7 +104,9 @@
 .play-button:hover {
   background: var(--bordo);
 }
-  </style>
+  
+    .back{border:0;cursor:pointer;font:inherit}
+</style>
   <link rel="stylesheet" href="assets/css/tema-global.css">
   <script src="assets/js/tema-global.js" defer></script>
 </head>
@@ -120,7 +122,26 @@
 </div>
 
 <br>
-<a class="back" href="perfil-aluno.html">Voltar para minha área</a>
+<button class="back" id="voltar-pagina" type="button">← Voltar para minha área</button>
 </main>  <footer>TechBook · Ler, descobrir, imaginar e aprender.</footer>
+
+<script>
+(() => {
+  const botao = document.getElementById("voltar-pagina");
+  if (!botao) return;
+  botao.addEventListener("click", () => {
+    try {
+      const origem = new URL(document.referrer);
+      if (document.referrer && origem.origin === window.location.origin) {
+        window.history.back();
+      } else {
+        window.location.href = "index.html";
+      }
+    } catch {
+      window.location.href = "index.html";
+    }
+  });
+})();
+</script>
 </body>
 </html>

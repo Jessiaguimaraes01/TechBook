@@ -1301,7 +1301,40 @@
     }
 }
 
-    </style>
+    
+
+        /* Menu responsivo da área do aluno */
+        .menu-area-btn {
+            display: none;
+            border: 1px solid var(--borda);
+            border-radius: 12px;
+            padding: 8px 12px;
+            background: var(--papel);
+            color: var(--vinho);
+            font-size: 1.25rem;
+            cursor: pointer;
+        }
+
+        @media (max-width: 960px) {
+            .menu-area-btn { display: inline-flex; align-items: center; justify-content: center; }
+            .topo { position: sticky; }
+            .perfil-nav {
+                display: none;
+                flex: 1 0 100%;
+                width: 100%;
+                flex-direction: column;
+                align-items: stretch;
+                gap: 5px;
+                padding: 12px;
+                background: var(--papel);
+                border: 1px solid var(--borda);
+                border-radius: 16px;
+                box-shadow: 0 12px 28px rgba(56, 39, 44, .12);
+            }
+            .perfil-nav.aberto { display: flex; }
+            .perfil-nav a, .perfil-nav .sair-btn { width: 100%; text-align: left; }
+        }
+</style>
 </head>
 <body>
     <header class="topo">
@@ -1313,8 +1346,9 @@
             </span>
         </a>
 
+        <button class="menu-area-btn" id="menu-area-btn" type="button" aria-label="Abrir menu do aluno" aria-expanded="false" aria-controls="menu-area-aluno">☰</button>
 
-<nav class="perfil-nav" aria-label="Navegação principal">
+<nav class="perfil-nav" id="menu-area-aluno" aria-label="Navegação principal">
     <a href="index.html">Início</a>
     <a href="emprestimos-aluno.html">Empréstimos</a>
     <a href="minha_estante_virtual_cabecalho_vinho.html">Minha Estante</a>
@@ -1615,6 +1649,28 @@
           localStorage.removeItem("techbook-acesso-visitante");
           window.location.href = "index.html";
         });
+      })();
+    </script>
+
+    <script>
+      (() => {
+        const botao = document.getElementById("menu-area-btn");
+        const menu = document.getElementById("menu-area-aluno");
+        if (!botao || !menu) return;
+        const fechar = () => {
+          menu.classList.remove("aberto");
+          botao.setAttribute("aria-expanded", "false");
+          botao.setAttribute("aria-label", "Abrir menu do aluno");
+          botao.textContent = "☰";
+        };
+        botao.addEventListener("click", () => {
+          const aberto = menu.classList.toggle("aberto");
+          botao.setAttribute("aria-expanded", String(aberto));
+          botao.setAttribute("aria-label", aberto ? "Fechar menu do aluno" : "Abrir menu do aluno");
+          botao.textContent = aberto ? "✕" : "☰";
+        });
+        menu.querySelectorAll("a").forEach(link => link.addEventListener("click", fechar));
+        document.addEventListener("keydown", evento => { if (evento.key === "Escape") fechar(); });
       })();
     </script>
 </body>

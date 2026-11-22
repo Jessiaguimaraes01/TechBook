@@ -200,7 +200,9 @@
 <body>
     <div class="game-shell">
 
-        <header class="topbar">
+        
+        <button type="button" id="back-games" class="back-games">← Voltar aos Jogos</button>
+<header class="topbar">
             <div class="brand">
                 <div class="brand-icon">📚</div>
                 <div>
@@ -371,6 +373,29 @@
         </div>
     </div>
 
+
+<script>
+(() => {
+  const botao = document.getElementById("back-games");
+  if (!botao) return;
+  botao.addEventListener("click", () => {
+    try {
+      const origem = new URL(document.referrer);
+      if (
+        document.referrer &&
+        origem.origin === window.location.origin &&
+        origem.pathname.endsWith("/jogos.html")
+      ) {
+        window.history.back();
+      } else {
+        window.location.href = "jogos.html";
+      }
+    } catch {
+      window.location.href = "jogos.html";
+    }
+  });
+})();
+</script>
 </body>
 </html>
 

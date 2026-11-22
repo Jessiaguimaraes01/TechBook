@@ -1310,7 +1310,39 @@
         .linha-atividade { display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap; padding:13px 15px; background:var(--papel); border:1px solid var(--borda); border-radius:13px; }
         .linha-atividade p { margin:3px 0 0; color:var(--suave); font-size:.85rem; }
         @media(max-width:600px){ .item-livro-conteudo{min-width:100%;} }
-    </style>
+    
+
+        /* Menu responsivo da área do bibliotecário */
+        .menu-area-btn {
+            display: none;
+            border: 1px solid var(--borda);
+            border-radius: 12px;
+            padding: 8px 12px;
+            background: var(--papel);
+            color: var(--vinho);
+            font-size: 1.25rem;
+            cursor: pointer;
+        }
+
+        @media (max-width: 960px) {
+            .menu-area-btn { display: inline-flex; align-items: center; justify-content: center; }
+            .admin-nav {
+                display: none;
+                flex: 1 0 100%;
+                width: 100%;
+                flex-direction: column;
+                align-items: stretch;
+                gap: 5px;
+                padding: 12px;
+                background: var(--papel);
+                border: 1px solid var(--borda);
+                border-radius: 16px;
+                box-shadow: 0 12px 28px rgba(56, 39, 44, .12);
+            }
+            .admin-nav.aberto { display: flex; }
+            .admin-nav a, .admin-nav .sair-btn { width: 100%; text-align: left; }
+        }
+</style>
 </head>
 <body>
     <header class="topo">
@@ -1322,7 +1354,9 @@
             </span>
         </a>
 
-<nav class="admin-nav" aria-label="Navegação administrativa">
+        <button class="menu-area-btn" id="menu-area-btn" type="button" aria-label="Abrir menu do bibliotecário" aria-expanded="false" aria-controls="menu-area-bibliotecario">☰</button>
+
+<nav class="admin-nav" id="menu-area-bibliotecario" aria-label="Navegação administrativa">
     <a class="ativo" href="bibliotecario.html">Acervo</a>
 
     <a class="destaque-scanner" href="techbook.html">
@@ -1330,7 +1364,7 @@
     </a>
 
     <a href="emprestimos.html">Empréstimos &amp; Devoluções</a>
-    <a href="doacoes.html">Caderno de Doações</a>
+    <a href="bibliotecario_doacoes.html">Caderno de Doações</a>
     <a href="estatisticas.html">Estatísticas</a>
     <a href="Ranking.html">Ranking</a>
     <a href="index.html">Catálogo Público</a>
@@ -1402,7 +1436,7 @@
     </div>
 
     <a
-        href="doacoes.html"
+        href="bibliotecario_doacoes.html"
         target="_blank"
         rel="noopener noreferrer"
         class="botao botao-vinho">
@@ -1525,6 +1559,28 @@
           localStorage.removeItem("techbook-acesso-visitante");
           window.location.href = "index.html";
         });
+      })();
+    </script>
+
+    <script>
+      (() => {
+        const botao = document.getElementById("menu-area-btn");
+        const menu = document.getElementById("menu-area-bibliotecario");
+        if (!botao || !menu) return;
+        const fechar = () => {
+          menu.classList.remove("aberto");
+          botao.setAttribute("aria-expanded", "false");
+          botao.setAttribute("aria-label", "Abrir menu do bibliotecário");
+          botao.textContent = "☰";
+        };
+        botao.addEventListener("click", () => {
+          const aberto = menu.classList.toggle("aberto");
+          botao.setAttribute("aria-expanded", String(aberto));
+          botao.setAttribute("aria-label", aberto ? "Fechar menu do bibliotecário" : "Abrir menu do bibliotecário");
+          botao.textContent = aberto ? "✕" : "☰";
+        });
+        menu.querySelectorAll("a").forEach(link => link.addEventListener("click", fechar));
+        document.addEventListener("keydown", evento => { if (evento.key === "Escape") fechar(); });
       })();
     </script>
 </body>

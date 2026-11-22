@@ -161,3 +161,50 @@ body.alto-contraste .tb-acessibilidade-tema > button { background: #f1ca83 !impo
   .tb-acessibilidade-abrir { min-height: 43px; padding: 9px 13px; }
   .tb-acessibilidade-painel { width: min(330px, calc(100vw - 24px)); }
 }
+
+
+/* CORREÇÃO DE CONTRASTE DOS BOTÕES E LINKS DESTACADOS DA PÁGINA INICIAL.
+   O seletor geral de links do modo noturno pintava de dourado também os textos
+   que ficam sobre botões dourados/claros. Estas regras preservam contraste
+   nos dois temas sem alterar o desenho dos botões. */
+
+/* Tema claro: texto escuro nos fundos dourados e claro nos fundos vinho. */
+body:not(.alto-contraste) a.botao-dourado {
+  color: #2B1318 !important;
+}
+body:not(.alto-contraste) a.botao-vinho,
+body:not(.alto-contraste) a.botao-Ranking {
+  color: #FFF7EE !important;
+}
+body:not(.alto-contraste) a.btn-expansao {
+  color: #4B102C !important;
+}
+body:not(.alto-contraste) a.btn-expansao .texto-expansao strong {
+  color: #4B102C !important;
+}
+body:not(.alto-contraste) a.btn-expansao .texto-expansao small {
+  color: #704354 !important;
+}
+body:not(.alto-contraste) a.botao-clubes {
+  color: #F5EBDD !important;
+}
+
+/* Tema noturno: botões claros recebem texto escuro; botões vinho mantêm texto claro. */
+body.alto-contraste a.botao-dourado,
+body.alto-contraste a.botao-vinho,
+body.alto-contraste a.botao-cadastrar {
+  color: #1A0B0F !important;
+}
+body.alto-contraste a.btn-expansao {
+  color: #4B102C !important;
+}
+body.alto-contraste a.btn-expansao .texto-expansao strong {
+  color: #4B102C !important;
+}
+body.alto-contraste a.btn-expansao .texto-expansao small {
+  color: #704354 !important;
+}
+body.alto-contraste a.botao-Ranking,
+body.alto-contraste a.botao-clubes {
+  color: #F5D69D !important;
+}

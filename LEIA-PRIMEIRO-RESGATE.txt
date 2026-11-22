@@ -1,0 +1,24 @@
+TECHBOOK — PACOTE DE RESGATE DE NAVEGAÇÃO + ACESSIBILIDADE
+
+Este pacote recompõe os ajustes de navegação conhecidos e mantém o sistema global de acessibilidade e o CSS de contraste corrigido.
+
+ARQUIVOS ATUALIZADOS NESTE PACOTE:
+- bibliotecario.html — restaura menu responsivo e corrige Caderno de Doações para bibliotecario_doacoes.html.
+- perfil-aluno.html — restaura menu responsivo do aluno.
+- jogos.html — restaura botão de retorno com fallback seguro.
+- jogo.html e jogo.css — restaura botão Voltar aos Jogos.
+- TechEXPANDIR.html — oferece retorno para index.html.
+- techbook.html — oferece retorno ao painel do bibliotecário no TechScanner.
+- bibliotecario_doacoes.html — oferece retorno ao painel administrativo.
+- service-worker.js — atualiza o cache para carregar a versão corrigida.
+- assets/css/tema-global.css — mantém a versão de contraste corrigido.
+
+COMO APLICAR:
+1. Extraia este ZIP.
+2. Abra a pasta TechBook-integrar-github.
+3. No repositório GitHub, substitua SOMENTE os arquivos listados acima, mantendo as mesmas pastas.
+4. Não apague outros arquivos do repositório.
+5. Faça o commit e aguarde a publicação.
+6. No navegador, atualize com Ctrl + Shift + R.
+
+Este pacote não altera diretamente o GitHub. Ele contém os arquivos para você enviar pelo site.
