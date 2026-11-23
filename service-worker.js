@@ -217,7 +217,7 @@ self.addEventListener("fetch", (evento) => {
 }); */ 
 
 // Service worker compatível com GitHub Pages (inclusive publicação em /TechBook/).
-const CACHE_NAME = "techbook-offline-v7";
+const CACHE_NAME = "techbook-offline-v8-acessibilidade";
 const BASE = self.registration.scope;
 const URLS = [
   "./", "./index.html", "./login.html", "./cadastro.html",
@@ -297,4 +297,3 @@ self.addEventListener("fetch", evento => {
     }
   })());
 });
-
