@@ -1,517 +1,64 @@
-
 /* =========================================
-   PREFERÊNCIAS GLOBAIS DE ACESSIBILIDADE
-   TECHBOOK
+   CONTRASTE FINAL — MODO NOTURNO
+   SEM SOMBRA E SEM CONTORNO
 ========================================= */
 
-.tb-acessibilidade-global,
-.tb-acessibilidade-global * {
-  box-sizing: border-box;
-}
-
-.tb-acessibilidade-global {
-  position: fixed;
-  right: 18px;
-  bottom: 18px;
-  z-index: 99999;
-  font-family: Arial, sans-serif;
-  color: #38272c;
-}
-
-.tb-acessibilidade-abrir {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 9px;
-  min-height: 46px;
-  padding: 10px 16px;
-  border: 1px solid #d6ae70;
-  border-radius: 999px;
-  background: #481b27;
-  color: #fffaf4;
-  box-shadow: 0 5px 20px #1c0c1433;
-  font: 700 13px/1.2 Arial, sans-serif;
-  cursor: pointer;
-}
-
-.tb-acessibilidade-icone {
-  display: grid;
-  place-items: center;
-  width: 25px;
-  height: 25px;
-  border: 1px solid #f1d6a6;
-  border-radius: 50%;
-  color: #f8dca9;
-  font-size: 11px;
-  font-weight: 800;
-}
-
-.tb-acessibilidade-abrir:hover,
-.tb-acessibilidade-abrir:focus-visible {
-  background: #762f3b;
-}
-
-.tb-acessibilidade-painel {
-  position: absolute;
-  right: 0;
-  bottom: calc(100% + 10px);
-  width: min(350px, calc(100vw - 28px));
-  padding: 17px;
-  border: 1px solid #e1d1c6;
-  border-radius: 16px;
-  background: #fffaf4;
-  color: #38272c;
-  box-shadow: 0 14px 42px #1c0c142b;
-}
-
-.tb-acessibilidade-painel[hidden] {
-  display: none !important;
-}
-
-.tb-acessibilidade-cabecalho {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 14px;
-  margin-bottom: 15px;
-}
-
-.tb-acessibilidade-cabecalho strong {
-  display: block;
-  color: #481b27;
-  font-size: 16px;
-}
-
-.tb-acessibilidade-cabecalho p {
-  margin: 4px 0 0;
-  color: #78666b;
-  font-size: 12px;
-}
-
-.tb-acessibilidade-fechar {
-  width: 30px;
-  height: 30px;
-  border: 1px solid #e1d1c6;
-  border-radius: 50%;
-  background: #f5ebdd;
-  color: #481b27;
-  font-size: 20px;
-  line-height: 1;
-  cursor: pointer;
-}
-
-.tb-acessibilidade-linha {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  padding: 12px 0;
-  border-top: 1px solid #eaded5;
-  color: #38272c;
-  font-size: 13px;
-  font-weight: 700;
-}
-
-.tb-acessibilidade-fontes {
-  display: flex;
-  gap: 5px;
-}
-
-.tb-acessibilidade-fontes button {
-  min-width: 38px;
-  min-height: 36px;
-  padding: 6px;
-  border: 1px solid #d7c5ba;
-  border-radius: 8px;
-  background: #f5ebdd;
-  color: #481b27;
-  font-weight: 800;
-  cursor: pointer;
-}
-
-.tb-acessibilidade-fontes button:disabled {
-  opacity: .45;
-  cursor: not-allowed;
-}
-
-.tb-acessibilidade-tema {
-  align-items: flex-start;
-}
-
-.tb-acessibilidade-tema strong {
-  display: block;
-  color: #481b27;
-}
-
-.tb-acessibilidade-tema small {
-  display: block;
-  max-width: 170px;
-  margin-top: 4px;
-  color: #78666b;
-  font-size: 11px;
-  font-weight: 400;
-  line-height: 1.45;
-}
-
-.tb-acessibilidade-tema > button {
-  max-width: 142px;
-  padding: 8px 10px;
-  border: 1px solid #762f3b;
-  border-radius: 9px;
-  background: #762f3b;
-  color: #fffaf4;
-  font-size: 11px;
-  font-weight: 700;
-  line-height: 1.3;
-  cursor: pointer;
-}
-
-.tb-acessibilidade-aviso {
-  margin: 12px 0 0;
-  color: #78666b;
-  font-size: 10px;
-  line-height: 1.5;
-}
-
-.tb-acessibilidade-global button:focus-visible {
-  outline: 3px solid #d6ae70;
-  outline-offset: 3px;
-}
-
-
-/* =========================================
-   MODO NOTURNO / ALTO CONTRASTE
-========================================= */
-
-html:has(body.alto-contraste) {
-  color-scheme: dark !important;
-  background: #140e12 !important;
-}
-
+/* Textos gerais continuam claros */
 body.alto-contraste {
-  --vinho: #f0c77e;
-  --bordo: #e3adbd;
-  --creme: #1b1419;
-  --rosa: #e3adbd;
-  --dourado: #f4d18d;
-  --papel: #21191e;
-  --texto: #f8f0ed;
-  --suave: #ddceca;
-  --borda: #57434b;
-  --verde: #a9dfc2;
-
-  background: #140e12 !important;
-  color: #f8f0ed !important;
-  color-scheme: dark !important;
+  color: #F8F0ED !important;
 }
 
-body.alto-contraste :where(h1, h2, h3, h4, h5, h6) {
-  color: #f4ce8a !important;
-}
-
-body.alto-contraste :where(
-  p, span, li, label, legend, summary, dt, dd, td, th,
-  small, strong, em, b, i, blockquote, figcaption, caption,
-  output, div, section, article, aside, main, header, footer,
-  nav, form
-) {
-  color: #f4ece9 !important;
-}
-
-body.alto-contraste :where(
-  .texto-suave, .texto-secundario, .sub, .subtitle,
-  .description, .descricao, .muted, .suave, .meta,
-  .author, .notice, .aviso, .legenda, .empty, .vazio,
-  .texto-menor
-) {
-  color: #d9c9c5 !important;
-}
-
-body.alto-contraste a:not(.tb-acessibilidade-abrir) {
-  color: #f4ce8a !important;
-}
-
-body.alto-contraste :where(
-  header, nav, main, section, article, aside, footer,
-  form, fieldset, details, dialog, table, .painel, .panel,
-  .card, .cartao, .box, .modal, .modal-content,
-  .login-cartao, .cadastro-cartao, .login-form, .login-info,
-  .stat, .stat-card, .loan, .item-livro, .item-emprestimo,
-  .resumo, .participante, .classificacao, .linha-leitor,
-  .rank-row, .rank-card, .desafio, .conquista,
-  .painel-dado-leitura, .painel-grafico, .indicador,
-  .indicador-dados, .book-card, .amigo-card, .card-amigo,
-  .catalog, .sidebar, .sheet, .workspace, .content-card,
-  .form-card, [class*="cartao"], [class*="painel"],
-  [class*="modal"], [class*="card"], [class*="panel"],
-  [class*="box"], [class*="sheet"]
-) {
-  background-color: #21191e !important;
-  border-color: #57434b !important;
-}
-
-body.alto-contraste :where(input, select, textarea) {
-  background: #2b2026 !important;
-  color: #fff7f2 !important;
-  border-color: #806875 !important;
-  caret-color: #f4ce8a;
-}
-
-body.alto-contraste :where(input, select, textarea)::placeholder {
-  color: #cbb9b5 !important;
-  opacity: 1;
-}
-
-body.alto-contraste select option {
-  background: #21191e !important;
-  color: #fff7f2 !important;
-}
-
-body.alto-contraste :where(
-  button, [role="button"], input[type="button"],
-  input[type="submit"], input[type="reset"],
-  .btn, .botao, .button, [class*="btn-"]
-) {
-  background-color: #49313c !important;
-  border-color: #967582 !important;
-  color: #fff7f2 !important;
-}
-
-body.alto-contraste :where(
-  .btn-primary, .btn-wine, .btn-yellow, .botao-vinho,
-  .botao-dourado, .botao-cadastrar, .botao-ranking,
-  .tab.active, .filtro.ativo, .primary, .login-botao,
-  .cadastro-botao, .acao-principal
-) {
-  background-color: #f1ca83 !important;
-  border-color: #f1ca83 !important;
-  color: #24151b !important;
-}
-
-body.alto-contraste :where(
-  .tab, .filtro, .badge, .tag, .chip, .status, .selo,
-  .genero-livro, .mode, .posicao, .regras-pill,
-  .numero-posicao, .pts-pill
-) {
-  background-color: #392832 !important;
-  border-color: #806271 !important;
-  color: #f5d69d !important;
-}
-
-body.alto-contraste :where(table, thead, tbody, tr, td, th) {
-  border-color: #57434b !important;
-}
-
-body.alto-contraste :where(tr:nth-child(even), .linha-alternada) {
-  background-color: #291f25 !important;
-}
-
-body.alto-contraste :focus-visible {
-  outline: 3px solid #f4ce8a !important;
-  outline-offset: 3px;
-}
-
-body.alto-contraste :where(
-  button:disabled, input:disabled,
-  select:disabled, textarea:disabled
-) {
-  opacity: .65;
-}
-
-
-/* =========================================
-   PAINEL DE ACESSIBILIDADE NO MODO NOTURNO
-========================================= */
-
-body.alto-contraste .tb-acessibilidade-global {
-  color: #f8f0ed !important;
-}
-
-body.alto-contraste .tb-acessibilidade-painel {
-  background: #21191e !important;
-  border-color: #806875 !important;
-  color: #f8f0ed !important;
-}
-
-body.alto-contraste .tb-acessibilidade-cabecalho strong,
-body.alto-contraste .tb-acessibilidade-linha,
-body.alto-contraste .tb-acessibilidade-tema strong {
-  color: #f4ce8a !important;
-}
-
-body.alto-contraste .tb-acessibilidade-cabecalho p,
-body.alto-contraste .tb-acessibilidade-tema small,
-body.alto-contraste .tb-acessibilidade-aviso {
-  color: #ddceca !important;
-}
-
-body.alto-contraste .tb-acessibilidade-fechar,
-body.alto-contraste .tb-acessibilidade-fontes button {
-  background: #392832 !important;
-  border-color: #806875 !important;
-  color: #fff7f2 !important;
-}
-
-body.alto-contraste .tb-acessibilidade-tema > button {
-  background: #f1ca83 !important;
-  border-color: #f1ca83 !important;
-  color: #24151b !important;
-}
-
-
-/* =========================================
-   AJUSTES PARA TELAS PEQUENAS
-========================================= */
-
-@media (max-width: 480px) {
-  .tb-acessibilidade-global {
-    right: 12px;
-    bottom: 12px;
-  }
-
-  .tb-acessibilidade-abrir {
-    min-height: 43px;
-    padding: 9px 13px;
-  }
-
-  .tb-acessibilidade-painel {
-    width: min(330px, calc(100vw - 24px));
-  }
-}
-
-
-/* =========================================
-   CORREÇÃO DE CONTRASTE DOS BOTÕES
-   PÁGINA INICIAL - TEMA CLARO
-========================================= */
-
-body:not(.alto-contraste) a.botao-dourado {
-  color: #2B1318 !important;
-}
-
-body:not(.alto-contraste) a.botao-vinho,
-body:not(.alto-contraste) a.botao-Ranking {
-  color: #FFF7EE !important;
-}
-
-body:not(.alto-contraste) a.btn-expansao {
-  color: #4B102C !important;
-}
-
-body:not(.alto-contraste) a.btn-expansao .texto-expansao strong {
-  color: #4B102C !important;
-}
-
-body:not(.alto-contraste) a.btn-expansao .texto-expansao small {
-  color: #704354 !important;
-}
-
-body:not(.alto-contraste) a.botao-clubes {
-  color: #F5EBDD !important;
-}
-
-
-/* =========================================
-   AJUSTES FINAIS DE LEGIBILIDADE
-========================================= */
-
-/* Tema claro */
-
-body:not(.alto-contraste) :is(
-  a.botao-dourado, .btn-expansao, .botao-cadastrar
-) {
-  color: #2B1318 !important;
-}
-
-body:not(.alto-contraste) :is(
-  a.botao-vinho, a.botao-Ranking, .botao-ranking,
-  .play-button, .primary
-) {
-  color: #FFF7EE !important;
-}
-
-body:not(.alto-contraste) :is(
-  a.botao-claro, .botao-entrar, .secondary
-) {
-  color: #481B27 !important;
-}
-
-body:not(.alto-contraste) .btn-expansao .texto-expansao strong {
-  color: #4B102C !important;
-}
-
-body:not(.alto-contraste) .btn-expansao .texto-expansao small {
-  color: #704354 !important;
-}
-
-body:not(.alto-contraste) .botao-clubes {
-  color: #F5EBDD !important;
-}
-
-body:not(.alto-contraste) :is(
-  .featured h3, .featured p, .carousel h3, .carousel p,
-  .carousel-card h3, .carousel-card p, #bookTitle, #bookDesc
-) {
-  color: #38272C !important;
-}
-
-body:not(.alto-contraste) :is(
-  .featured .arrow, .carousel .arrow, .carousel-card .arrow
-) {
-  color: #481B27 !important;
-  border-color: #762F3B !important;
-}
-
-
-/* Tema noturno: botões dourados com texto escuro */
-
+/* Botões dourados: letras escuras */
 body.alto-contraste :is(
-  a.botao-dourado, .btn-expansao, .botao-cadastrar
+  a.botao-dourado,
+  .botao-dourado,
+  .botao-cadastrar,
+  .btn-expansao
 ) {
   background: #F2C97D !important;
   color: #24151B !important;
   border-color: #F2C97D !important;
-
+  text-shadow: none !important;
+  -webkit-text-stroke: 0 !important;
 }
 
+/* Botões vinho: letras claras */
 body.alto-contraste :is(
-  a.botao-vinho, a.botao-Ranking, .botao-ranking,
-  .play-button, .primary
+  a.botao-vinho,
+  a.botao-Ranking,
+  .botao-ranking,
+  .play-button,
+  .primary
 ) {
   background: #3A1D26 !important;
   color: #FFF6EC !important;
   border-color: #F2C97D !important;
-
+  text-shadow: none !important;
+  -webkit-text-stroke: 0 !important;
 }
 
+/* Botões escuros: letras claras */
 body.alto-contraste :is(
-  a.botao-claro, .botao-entrar, .secondary
+  a.botao-claro,
+  .botao-entrar,
+  .secondary
 ) {
   background: #2B171E !important;
   color: #FFF6EC !important;
   border-color: #805260 !important;
-
+  text-shadow: none !important;
+  -webkit-text-stroke: 0 !important;
 }
 
-body.alto-contraste :is(
-  .featured, .carousel, .carousel-card
+/* Links comuns continuam dourados */
+body.alto-contraste a:not(
+  .botao-dourado,
+  .botao-vinho,
+  .botao-cadastrar,
+  .botao-claro,
+  .botao-entrar
 ) {
-  background: #21191E !important;
-  border-color: #57434B !important;
-  color: #FFF6EC !important;
-}
-
-body.alto-contraste :is(
-  .featured h3, .featured p, .carousel h3, .carousel p,
-  .carousel-card h3, .carousel-card p, #bookTitle, #bookDesc
-) {
-  color: #FFF6EC !important;
-}
-
-body.alto-contraste :is(
-  .featured .arrow, .carousel .arrow, .carousel-card .arrow
-) {
-  background: #392832 !important;
-  color: #F2C97D !important;
-  border-color: #F2C97D !important;
+  color: #F4CE8A !important;
+  text-shadow: none !important;
+  -webkit-text-stroke: 0 !important;
 }
