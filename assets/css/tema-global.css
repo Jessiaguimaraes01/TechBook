@@ -58,7 +58,7 @@ body.alto-contraste a:not(
   .botao-claro,
   .botao-entrar
 ) {
-  color: #F4CE8A !important;
+  color: #e7a739 !important;
   text-shadow: none !important;
   -webkit-text-stroke: 0 !important;
 }
