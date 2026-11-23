@@ -5,11 +5,13 @@
   const fallbacks = {
     "jogo.html":"jogos.html", "jogos.html":"perfil-aluno.html",
     "emprestimos-aluno.html":"perfil-aluno.html",
+    "emprestimo-aluno-atalho.html":"perfil-aluno.html",
     "minha_estante_virtual_cabecalho_vinho.html":"perfil-aluno.html",
     "amigos_de_leitura_completo.html":"perfil-aluno.html", "clubes.html":"perfil-aluno.html",
     "tebys.html":"perfil-aluno.html", "emprestimos.html":"bibliotecario.html",
+    "emprestimo-atalho.html":"bibliotecario.html",
     "doacoes.html":"bibliotecario.html", "bibliotecario_doacoes.html":"bibliotecario.html",
-    "techbook.html":"bibliotecario.html", "scanner.html":"bibliotecario.html",
+    "techbook.html":"bibliotecario.html", "scanner.html":"techbook.html",
     "ranking.html":"index.html", "ranking-antigo.html":"index.html", "quiz.html":"index.html",
     "nossa-historia.html":"index.html", "techexpandir.html":"index.html",
     "estatisticas.html":"index.html", "login.html":"index.html", "cadastro.html":"index.html",
@@ -31,7 +33,10 @@
     document.body.prepend(bar);
     area = bar;
   }
-  if (!area || area.querySelector(".tb-voltar")) return;
+  // Preserve page-specific return controls (game and donation detail page).
+  const hasOwnBack = document.querySelector(".back-games, .back-to-panel, .back, [data-tb-own-back]") ||
+    (header && [...header.querySelectorAll('a[href="bibliotecario.html"]')].some(a => /voltar/i.test(a.textContent)));
+  if (!area || area.querySelector(".tb-voltar") || hasOwnBack) return;
   const back = document.createElement("button");
   back.type = "button";
   back.className = "tb-voltar";
