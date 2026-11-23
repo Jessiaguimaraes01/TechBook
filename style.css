@@ -2689,3 +2689,24 @@ body.alto-contraste footer {
   line-height: 1;
 }
 
+
+
+/* PADRAO DOS BOTOES DE ENTRAR E CADASTRAR */
+.botao-cadastrar {
+  background: var(--bordo, #762F3B) !important;
+  color: #FFF7EE !important;
+  border: 1px solid rgba(214, 174, 112, .45) !important;
+}
+.botao-cadastrar:hover {
+  background: #521E2A !important;
+  color: #FFF7EE !important;
+}
+.botao-entrar {
+  background: var(--dourado, #D6AE70) !important;
+  color: #2B1318 !important;
+  border: 1px solid var(--dourado, #D6AE70) !important;
+}
+.botao-entrar:hover {
+  background: #C99A56 !important;
+  color: #2B1318 !important;
+}

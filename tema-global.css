@@ -225,3 +225,18 @@ body.alto-contraste :is(a.botao-claro, .botao-entrar, .secondary) { background:#
 body.alto-contraste :is(.featured, .carousel, .carousel-card) { background:#21191E !important; border-color:#57434B !important; color:#FFF6EC !important; }
 body.alto-contraste :is(.featured h3, .featured p, .carousel h3, .carousel p, .carousel-card h3, .carousel-card p, #bookTitle, #bookDesc) { color:#FFF6EC !important; }
 body.alto-contraste :is(.featured .arrow, .carousel .arrow, .carousel-card .arrow) { background:#392832 !important; color:#F2C97D !important; border-color:#F2C97D !important; }
+
+
+/* CONTRASTE CONSISTENTE DOS BOTOES DE ACESSO NOS DOIS TEMAS */
+body:not(.alto-contraste) :is(a.botao-cadastrar, .botao-cadastrar) {
+  background: #762F3B !important; color: #FFF7EE !important; border-color: #D6AE70 !important;
+}
+body:not(.alto-contraste) :is(a.botao-entrar, .botao-entrar) {
+  background: #D6AE70 !important; color: #2B1318 !important; border-color: #D6AE70 !important;
+}
+body.alto-contraste :is(a.botao-cadastrar, .botao-cadastrar) {
+  background: #3A1D26 !important; color: #FFF6EC !important; border: 2px solid #F2C97D !important;
+}
+body.alto-contraste :is(a.botao-entrar, .botao-entrar) {
+  background: #F2C97D !important; color: #1A0B0F !important; border: 2px solid #F2C97D !important;
+}
