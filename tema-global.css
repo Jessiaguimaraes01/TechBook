@@ -226,43 +226,21 @@ body.alto-contraste :is(.featured, .carousel, .carousel-card) { background:#2119
 body.alto-contraste :is(.featured h3, .featured p, .carousel h3, .carousel p, .carousel-card h3, .carousel-card p, #bookTitle, #bookDesc) { color:#FFF6EC !important; }
 body.alto-contraste :is(.featured .arrow, .carousel .arrow, .carousel-card .arrow) { background:#392832 !important; color:#F2C97D !important; border-color:#F2C97D !important; }
 
-/* CORRECOES PONTUAIS DE CONTRASTE — revisao de novembro/2026.
-   Mantem os fundos e a identidade visual; corrige somente a cor do texto. */
-
-/* Pagina inicial: Cadastrar-se tem fundo vinho no tema claro. */
-body:not(.alto-contraste) a.botao-cadastrar,
-body:not(.alto-contraste) a.botao-cadastrar * {
-  color: #FFF7EE !important;
+/* AJUSTE PONTUAL: fundos mais escuros para manter os rótulos legíveis no modo noturno. */
+body.alto-contraste nav a.destaque-scanner,
+body.alto-contraste .admin-nav a.destaque-scanner {
+  background: #49313c !important;
+  background-color: #49313c !important;
+  border: 1px solid #967582 !important;
+  color: #fff7f2 !important;
+  -webkit-text-fill-color: #fff7f2 !important;
 }
 
-/* No tema escuro, o botao Cadastrar-se usa fundo dourado. */
-body.alto-contraste a.botao-cadastrar,
-body.alto-contraste a.botao-cadastrar * {
-  background-color: #F2C97D !important;
-  color: #1A0B0F !important;
-  border-color: #F2C97D !important;
-}
-
-/* Entrar: texto escuro no fundo claro e texto claro no fundo escuro. */
-body:not(.alto-contraste) a.botao-entrar,
-body:not(.alto-contraste) a.botao-entrar * {
-  color: #481B27 !important;
-}
-body.alto-contraste a.botao-entrar,
-body.alto-contraste a.botao-entrar * {
-  color: #FFF7F2 !important;
-}
-
-/* Menu do bibliotecario: TechScanner tem fundo dourado nos dois temas.
-   Evita que o texto dourado do tema escuro desapareca nesse fundo. */
-body:not(.alto-contraste) .admin-nav a.destaque-scanner,
-body:not(.alto-contraste) .admin-nav a.destaque-scanner * {
-  background-color: #D6AE70 !important;
-  color: #291318 !important;
-}
-body.alto-contraste .admin-nav a.destaque-scanner,
-body.alto-contraste .admin-nav a.destaque-scanner * {
-  background-color: #F4D18D !important;
-  color: #24151B !important;
-  border-color: #F4D18D !important;
+body.alto-contraste a.botao-visitante,
+body.alto-contraste .cadastro-cartao a.botao-visitante {
+  background: #49313c !important;
+  background-color: #49313c !important;
+  border: 1px solid #967582 !important;
+  color: #fff7f2 !important;
+  -webkit-text-fill-color: #fff7f2 !important;
 }
