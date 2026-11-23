@@ -226,17 +226,43 @@ body.alto-contraste :is(.featured, .carousel, .carousel-card) { background:#2119
 body.alto-contraste :is(.featured h3, .featured p, .carousel h3, .carousel p, .carousel-card h3, .carousel-card p, #bookTitle, #bookDesc) { color:#FFF6EC !important; }
 body.alto-contraste :is(.featured .arrow, .carousel .arrow, .carousel-card .arrow) { background:#392832 !important; color:#F2C97D !important; border-color:#F2C97D !important; }
 
+/* CORRECOES PONTUAIS DE CONTRASTE — revisao de novembro/2026.
+   Mantem os fundos e a identidade visual; corrige somente a cor do texto. */
 
-/* CONTRASTE CONSISTENTE DOS BOTOES DE ACESSO NOS DOIS TEMAS */
-body:not(.alto-contraste) :is(a.botao-cadastrar, .botao-cadastrar) {
-  background: #762F3B !important; color: #FFF7EE !important; border-color: #D6AE70 !important;
+/* Pagina inicial: Cadastrar-se tem fundo vinho no tema claro. */
+body:not(.alto-contraste) a.botao-cadastrar,
+body:not(.alto-contraste) a.botao-cadastrar * {
+  color: #FFF7EE !important;
 }
-body:not(.alto-contraste) :is(a.botao-entrar, .botao-entrar) {
-  background: #D6AE70 !important; color: #2B1318 !important; border-color: #D6AE70 !important;
+
+/* No tema escuro, o botao Cadastrar-se usa fundo dourado. */
+body.alto-contraste a.botao-cadastrar,
+body.alto-contraste a.botao-cadastrar * {
+  background-color: #F2C97D !important;
+  color: #1A0B0F !important;
+  border-color: #F2C97D !important;
 }
-body.alto-contraste :is(a.botao-cadastrar, .botao-cadastrar) {
-  background: #3A1D26 !important; color: #FFF6EC !important; border: 2px solid #F2C97D !important;
+
+/* Entrar: texto escuro no fundo claro e texto claro no fundo escuro. */
+body:not(.alto-contraste) a.botao-entrar,
+body:not(.alto-contraste) a.botao-entrar * {
+  color: #481B27 !important;
 }
-body.alto-contraste :is(a.botao-entrar, .botao-entrar) {
-  background: #F2C97D !important; color: #1A0B0F !important; border: 2px solid #F2C97D !important;
+body.alto-contraste a.botao-entrar,
+body.alto-contraste a.botao-entrar * {
+  color: #FFF7F2 !important;
+}
+
+/* Menu do bibliotecario: TechScanner tem fundo dourado nos dois temas.
+   Evita que o texto dourado do tema escuro desapareca nesse fundo. */
+body:not(.alto-contraste) .admin-nav a.destaque-scanner,
+body:not(.alto-contraste) .admin-nav a.destaque-scanner * {
+  background-color: #D6AE70 !important;
+  color: #291318 !important;
+}
+body.alto-contraste .admin-nav a.destaque-scanner,
+body.alto-contraste .admin-nav a.destaque-scanner * {
+  background-color: #F4D18D !important;
+  color: #24151B !important;
+  border-color: #F4D18D !important;
 }
