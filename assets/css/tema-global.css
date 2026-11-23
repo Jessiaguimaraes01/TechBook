@@ -211,11 +211,8 @@ body.alto-contraste a.botao-clubes {
 /* Sombra para destacar textos no modo de acessibilidade */
 body.alto-contraste button,
 body.alto-contraste a {
-  text-shadow: 0 2px 5px rgba(0, 0, 0, 0.95)
-    0 0 2px #000,
-    0 0 5px #000,
-    0 2px 8px #000,
-    1px 1px 2px #000;
+   -webkit-text-stroke: 0.7px #000000;
+text-shadow: 1px 1px 2px #000000;
 }
 
 
