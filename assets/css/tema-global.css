@@ -1,3 +1,59 @@
+body.alto-contraste a.botao-dourado,
+body.alto-contraste a.botao-vinho,
+body.alto-contraste a.botao-cadastrar {
+  color: #1A0B0F !important;
+}
+body.alto-contraste a.btn-expansao {
+  color: #4B102C !important;
+}
+body.alto-contraste a.btn-expansao .texto-expansao strong {
+  color: #4B102C !important;
+}
+body.alto-contraste a.btn-expansao .texto-expansao small {
+  color: #704354 !important;
+}
+body.alto-contraste a.botao-Ranking,
+body.alto-contraste a.botao-clubes {
+  color: #F5D69D !important;
+}
+
+
+/* AJUSTES FINAIS DE LEGIBILIDADE PARA BOTÃ•ES, CARROSSEL E CARTÃ•ES. */
+body:not(.alto-contraste) :is(a.botao-dourado, .btn-expansao, .botao-cadastrar) { color:#2B1318 !important; }
+body:not(.alto-contraste) :is(a.botao-vinho, a.botao-Ranking, .botao-ranking, .play-button, .primary) { color:#FFF7EE !important; }
+body:not(.alto-contraste) :is(a.botao-claro, .botao-entrar, .secondary) { color:#481B27 !important; }
+body:not(.alto-contraste) .btn-expansao .texto-expansao strong { color:#4B102C !important; }
+body:not(.alto-contraste) .btn-expansao .texto-expansao small { color:#704354 !important; }
+body:not(.alto-contraste) .botao-clubes { color:#F5EBDD !important; }
+body:not(.alto-contraste) :is(.featured h3, .featured p, .carousel h3, .carousel p, .carousel-card h3, .carousel-card p, #bookTitle, #bookDesc) { color:#38272C !important; }
+body:not(.alto-contraste) :is(.featured .arrow, .carousel .arrow, .carousel-card .arrow) { color:#481B27 !important; border-color:#762F3B !important; }
+body.alto-contraste :is(a.botao-dourado, .btn-expansao, .botao-cadastrar) { background:#F2C97D !important; color:#1A0B0F !important; border-color:#F2C97D !important; }
+body.alto-contraste :is(a.botao-vinho, a.botao-Ranking, .botao-ranking, .play-button, .primary) { background:#3A1D26 !important; color:#FFF6EC !important; border-color:#F2C97D !important; }
+body.alto-contraste :is(a.botao-claro, .botao-entrar, .secondary) { background:#2B171E !important; color:#FFF6EC !important; border-color:#805260 !important; }
+body.alto-contraste :is(.featured, .carousel, .carousel-card) { background:#21191E !important; border-color:#57434B !important; color:#FFF6EC !important; }
+body.alto-contraste :is(.featured h3, .featured p, .carousel h3, .carousel p, .carousel-card h3, .carousel-card p, #bookTitle, #bookDesc) { color:#FFF6EC !important; }
+body.alto-contraste :is(.featured .arrow, .carousel .arrow, .carousel-card .arrow) { background:#392832 !important; color:#F2C97D !important; border-color:#F2C97D !important; }
+
+/* AJUSTE PONTUAL: fundos mais escuros para manter os rÃ³tulos legÃ­veis no modo noturno. */
+body.alto-contraste nav a.destaque-scanner,
+body.alto-contraste .admin-nav a.destaque-scanner {
+  background: #49313c !important;
+  background-color: #49313c !important;
+  border: 1px solid #967582 !important;
+  color: #fff7f2 !important;
+  -webkit-text-fill-color: #fff7f2 !important;
+}
+
+body.alto-contraste a.botao-visitante,
+body.alto-contraste .cadastro-cartao a.botao-visitante {
+  background: #49313c !important;
+  background-color: #49313c !important;
+  border: 1px solid #967582 !important;
+  color: #fff7f2 !important;
+  -webkit-text-fill-color: #fff7f2 !important;
+}
+
+/* AJUSTES MAIS RECENTES: contraste dos botoes e efeito espumado */
 /* =========================================
    CONTRASTE FINAL — MODO NOTURNO
    SEM SOMBRA E SEM CONTORNO
