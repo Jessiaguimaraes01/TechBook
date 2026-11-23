@@ -471,8 +471,7 @@ body.alto-contraste :is(
   background: #F2C97D !important;
   color: #24151B !important;
   border-color: #F2C97D !important;
-  -webkit-text-stroke: 0;
-  text-shadow: none;
+
 }
 
 body.alto-contraste :is(
@@ -482,8 +481,7 @@ body.alto-contraste :is(
   background: #3A1D26 !important;
   color: #FFF6EC !important;
   border-color: #F2C97D !important;
-  -webkit-text-stroke: 0;
-  text-shadow: none;
+
 }
 
 body.alto-contraste :is(
@@ -492,8 +490,7 @@ body.alto-contraste :is(
   background: #2B171E !important;
   color: #FFF6EC !important;
   border-color: #805260 !important;
-  -webkit-text-stroke: 0;
-  text-shadow: none;
+
 }
 
 body.alto-contraste :is(
