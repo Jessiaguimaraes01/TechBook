@@ -208,6 +208,11 @@ body.alto-contraste a.botao-Ranking,
 body.alto-contraste a.botao-clubes {
   color: #F5D69D !important;
 }
+/* Sombra para destacar textos no modo de acessibilidade */
+body.alto-contraste button,
+body.alto-contraste a {
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.65);
+}
 
 
 /* AJUSTES FINAIS DE LEGIBILIDADE PARA BOTÕES, CARROSSEL E CARTÕES. */
@@ -225,3 +230,8 @@ body.alto-contraste :is(a.botao-claro, .botao-entrar, .secondary) { background:#
 body.alto-contraste :is(.featured, .carousel, .carousel-card) { background:#21191E !important; border-color:#57434B !important; color:#FFF6EC !important; }
 body.alto-contraste :is(.featured h3, .featured p, .carousel h3, .carousel p, .carousel-card h3, .carousel-card p, #bookTitle, #bookDesc) { color:#FFF6EC !important; }
 body.alto-contraste :is(.featured .arrow, .carousel .arrow, .carousel-card .arrow) { background:#392832 !important; color:#F2C97D !important; border-color:#F2C97D !important; }
+
+body.alto-contraste button,
+body.alto-contraste a {
+    color: #38272C;
+}
