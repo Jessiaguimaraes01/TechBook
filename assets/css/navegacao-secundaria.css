@@ -1,0 +1,19 @@
+/* Navegação discreta das páginas secundárias do TechBook. */
+.tb-secondary-header { position: relative; }
+.tb-secondary-header .tb-voltar {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  margin-left: auto; padding: 9px 15px; min-height: 38px;
+  border: 1px solid rgba(214,174,112,.65); border-radius: 999px;
+  background: rgba(72,27,39,.08); color: #481B27 !important;
+  font: 700 .84rem/1.2 'DM Sans', sans-serif; text-decoration: none;
+  white-space: nowrap; cursor: pointer; transition: background .18s, transform .18s;
+}
+.tb-secondary-header .tb-voltar:hover { background: rgba(214,174,112,.22); transform: translateY(-1px); }
+.tb-secondary-header .tb-voltar:focus-visible { outline: 3px solid #D6AE70; outline-offset: 3px; }
+.tb-secondary-header nav[data-tb-secondary-hidden="true"] { display: none !important; }
+.tb-secondary-fallback-header { display:flex; align-items:center; gap:14px; padding:12px 6%; background:#F5EBDD; border-bottom:1px solid #E6D8CB; }
+.tb-secondary-brand { color:#481B27; font:700 1rem 'Playfair Display',Georgia,serif; text-decoration:none; }
+body.alto-contraste .tb-secondary-header .tb-voltar { background:#2B171E !important; color:#F2C97D !important; border-color:#F2C97D !important; }
+body.alto-contraste .tb-secondary-fallback-header { background:#1E0E14 !important; border-color:#57323D !important; }
+body.alto-contraste .tb-secondary-brand { color:#F2C97D !important; }
+@media(max-width:640px){.tb-secondary-header .tb-voltar{padding:8px 12px;font-size:.78rem}}
