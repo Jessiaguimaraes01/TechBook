@@ -5,7 +5,7 @@
 # TECHBOOK
 ### BIBLIOTECA INTELIGENTE
 
-**Link do TeckBook:** <link> https://jessiaguimaraes01.github.io/TechBook/ 
+**[Acesse o TechBook](https://jessiaguimaraes01.github.io/TechBook/)**
 
 ---
 
@@ -21,17 +21,17 @@
 
 ---
 
-> 🚧 **Projeto em desenvolvimento:** novas funcionalidades, integrações e melhorias estão sendo implementadas.
+> 🚧 **Projeto em desenvolvimento:** novas funcionalidades, integrações e melhorias continuam sendo implementadas.
 
 ## 📖 Sobre o projeto
 
-O **TechBook** é uma plataforma de biblioteca inteligente desenvolvida para facilitar a organização do acervo literário, incentivar o hábito da leitura e tornar a experiência dos leitores mais interativa e acessível.
+O **TechBook** é uma plataforma de biblioteca inteligente desenvolvida para facilitar a organização do acervo literário, incentivar o hábito da leitura e proporcionar uma experiência mais interativa e acessível aos leitores.
 
-O sistema reúne funcionalidades para explorar livros, acompanhar o progresso de leitura, participar de desafios literários e descobrir novas obras por meio de recomendações.
+O sistema reúne recursos para explorar livros, acompanhar o progresso de leitura, participar de desafios literários, testar conhecimentos e descobrir novas obras por meio de recomendações.
 
 ### 🎯 Objetivo
 
-Desenvolver uma plataforma digital intuitiva e interativa para auxiliar na gestão de uma biblioteca escolar e incentivar a leitura entre os estudantes.
+Desenvolver uma plataforma digital intuitiva e interativa que auxilie na gestão de uma biblioteca escolar, incentive a leitura e aproxime os estudantes da tecnologia.
 
 ### 🏫 Contexto do projeto
 
@@ -45,7 +45,7 @@ A proposta é demonstrar como a programação pode ser aplicada à realidade esc
 
 ### 🏠 Página inicial
 
-A página inicial apresenta a identidade visual do TechBook e reúne os principais acessos e recursos da plataforma.
+Apresenta a identidade visual do TechBook e reúne os principais acessos e recursos da plataforma.
 
 <div align="center">
 
@@ -55,7 +55,7 @@ A página inicial apresenta a identidade visual do TechBook e reúne os principa
 
 ### 📚 Catálogo de livros
 
-O catálogo permite explorar os livros disponíveis na biblioteca, com apresentação visual das obras.
+Permite explorar os livros disponíveis na biblioteca, visualizar suas capas e conhecer diferentes obras.
 
 <div align="center">
 
@@ -65,7 +65,7 @@ O catálogo permite explorar os livros disponíveis na biblioteca, com apresenta
 
 ### 🏆 Ranking de leitores
 
-A classificação apresenta os leitores participantes e suas pontuações, incentivando a participação e o hábito da leitura.
+Apresenta a classificação dos leitores participantes e suas pontuações, incentivando a participação e o hábito da leitura.
 
 <table>
 <tr>
@@ -80,7 +80,7 @@ A classificação apresenta os leitores participantes e suas pontuações, incen
 
 ### 📊 Estatísticas
 
-O painel apresenta informações sobre a leitura e os dados da biblioteca por meio de recursos visuais.
+Reúne informações sobre a biblioteca e o progresso dos leitores por meio de indicadores e recursos visuais.
 
 <table>
 <tr>
@@ -95,7 +95,7 @@ O painel apresenta informações sobre a leitura e os dados da biblioteca por me
 
 ### 🧩 Quiz literário
 
-O quiz oferece uma experiência interativa com perguntas relacionadas à literatura.
+Oferece uma experiência interativa com perguntas relacionadas à literatura, permitindo testar conhecimentos de maneira divertida.
 
 <table>
 <tr>
@@ -108,6 +108,14 @@ O quiz oferece uma experiência interativa com perguntas relacionadas à literat
 </tr>
 </table>
 
+### ♿ Acessibilidade digital
+
+O TechBook conta com recursos de acessibilidade que permitem personalizar a experiência de navegação, incluindo:
+
+- 🌙 **Modo noturno:** altera a aparência da interface para tons escuros.
+- 🔠 **Ajuste do tamanho da fonte:** permite aumentar, diminuir ou restaurar o tamanho do texto.
+- 💾 **Preferências salvas:** mantém as escolhas de acessibilidade no navegador.
+
 ---
 
 ## ✨ Funcionalidades
@@ -118,11 +126,11 @@ O quiz oferece uma experiência interativa com perguntas relacionadas à literat
 | 🔄 **Empréstimos e devoluções** | Apoio à organização da circulação dos livros. |
 | 💡 **Recomendador de leituras** | Sugestões para descobrir novas obras. |
 | 📊 **Estatísticas** | Acompanhamento de dados e progresso de leitura. |
-| 🏆 **Ranking semanal** | Classificação dos leitores. |
-| 🎯 **Desafios literários** | Atividades para incentivar a leitura. |
+| 🏆 **Ranking semanal** | Classificação dos leitores participantes. |
+| 🎯 **Desafios literários** | Atividades para incentivar o hábito da leitura. |
 | 🧩 **Quiz literário** | Perguntas interativas relacionadas à literatura. |
-| ♿ **Acessibilidade digital** | Recursos para tornar a navegação mais acessível. |
-| 🧠 **Medidor de leitura** | Recurso visual relacionado à leitura, aprendizagem e desenvolvimento cognitivo. |
+| ♿ **Acessibilidade digital** | Modo noturno e ajuste do tamanho da fonte. |
+| 🧠 **Medidor de leitura** | Recurso visual relacionado à leitura e à aprendizagem. |
 | 🖼️ **Catálogo com imagens** | Apresentação visual das capas dos livros. |
 
 ## 🛠️ Tecnologias utilizadas
@@ -133,14 +141,14 @@ O quiz oferece uma experiência interativa com perguntas relacionadas à literat
 
 </div>
 
-- **HTML5:** estrutura das páginas.
-- **CSS3:** aparência e organização visual.
-- **JavaScript:** interatividade e funcionalidades.
+- **HTML5:** estrutura e organização das páginas.
+- **CSS3:** estilos, identidade visual e responsividade.
+- **JavaScript:** interatividade e funcionalidades do sistema.
 - **Python:** servidor utilizado no projeto.
-- **SQLite:** armazenamento de dados.
+- **SQLite:** armazenamento e gerenciamento de dados.
 - **Git e GitHub:** controle de versões e colaboração.
 - **GitHub Codespaces:** ambiente de desenvolvimento.
-- **Visual Studio Code:** editor de código.
+- **Visual Studio Code:** editor de código utilizado.
 
 ---
 
@@ -153,8 +161,8 @@ Para executar o projeto no ambiente de desenvolvimento:
 1. Acesse o repositório do TechBook no GitHub.
 2. Abra o projeto no GitHub Codespaces.
 3. Inicie o servidor configurado para o projeto.
-4. Acesse o endereço disponibilizado pelo Codespaces.
-5. Utilize as funcionalidades disponíveis na interface.
+4. Acesse o endereço disponibilizado pelo ambiente.
+5. Explore as funcionalidades disponíveis.
 
 A execução local e o funcionamento sem conexão com a internet dependem da configuração do servidor, do armazenamento de dados e do cache das páginas.
 
@@ -193,4 +201,4 @@ Projeto desenvolvido pelos estudantes do **2º Ano TEC — Desenvolvimento de Si
 
 *Feira de Ciências • SENAI • 2026*
 
-
+</div>
